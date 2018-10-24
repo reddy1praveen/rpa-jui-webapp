@@ -1,5 +1,7 @@
 const express = require('express');
 const moment = require('moment');
+const getEventTemplate = require('./templates');
+const valueProcessor = require('../lib/processors/value-processor');
 
 const { getCCDEvents } = require('../services/ccd-store-api/ccd-store');
 const { getHearingIdOrCreateHearing, getOnlineHearingConversation } = require('../services/coh-cor-api/coh-cor-api');
@@ -25,28 +27,36 @@ function convertDateTime(dateObj) {
 /// CCD EVENT Data
 //////////////////////////
 
-function reduceCcdEvents(events) {
+function reduceCcdEvents(events, caseId, jurisdiction, caseType) {
     return events.map(event => {
         const dateObj = convertDateTime(event.created_date);
         const dateUtc = dateObj.dateUtc;
         const date = dateObj.date;
         const time = dateObj.time;
 
-        const documents = [];
+        valueProcessor(getEventTemplate(jurisdiction, caseType), event);
+
+        const documents = event.documents.map(doc => {
+            return ({
+                name: `${doc.document_filename}`,
+                href: `/case/${jurisdiction}/${caseType}/${caseId}/casefile/${doc.id}`
+            });
+        });
+
 
         return {
             title: event.event_name,
             by: `${event.user_first_name} ${event.user_last_name}`,
             dateUtc,
             date,
-            time,
-            documents
+            time
+            // ,documents // renable when we want to actuall show documents
         };
     });
 }
 
 function getCcdEvents(caseId, userId, jurisdiction, caseType, options) {
-    return getCCDEvents(caseId, userId, jurisdiction, caseType, options).then(reduceCcdEvents);
+    return getCCDEvents(caseId, userId, jurisdiction, caseType, options).then(events => reduceCcdEvents(events, caseId, jurisdiction, caseType));
 }
 
 //////////////////////////
@@ -126,9 +136,9 @@ function getOptions(req) {
 
 module.exports = app => {
     const router = express.Router({ mergeParams: true });
-    app.use('/cases', router);
+    app.use('/case', router);
 
-    router.get('/jurisdiction/:jur/casetype/:casetype/:case_id/events', (req, res, next) => {
+    router.get('/:jur/:casetype/:case_id/events', (req, res, next) => {
         const userId = req.auth.userId;
         const caseId = req.params.case_id;
         const jurisdiction = req.params.jur;
@@ -142,7 +152,7 @@ module.exports = app => {
             });
     });
 
-    router.get('/jurisdiction/:jur/casetype/:casetype/:case_id/events/raw', (req, res, next) => {
+    router.get('/:jur/:casetype/:case_id/events/raw', (req, res, next) => {
         const userId = req.auth.userId;
         const caseId = req.params.case_id;
         const jurisdiction = req.params.jur;

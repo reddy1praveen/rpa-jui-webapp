@@ -20,6 +20,9 @@ import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { StatusComponent } from './components/status/status.component';
 import { CaseActionAlertComponent } from './components/case-action-alert/case-action-alert.component';
 import {CaseActionsComponent} from './components/case-actions/case-actions.component';
+import { RadiobuttonComponent } from './components/radiobutton/radiobutton.component';
+import { TextareasComponent } from './components/textareas/textareas.component';
+import { LabelComponent } from './components/label/label.component';
 
 @NgModule({
     imports: [
@@ -47,6 +50,9 @@ import {CaseActionsComponent} from './components/case-actions/case-actions.compo
         StatusComponent,
         CaseActionsComponent,
         CaseActionAlertComponent,
+        RadiobuttonComponent,
+        TextareasComponent,
+        LabelComponent,
     ],
     exports: [
         TableComponent,
@@ -58,6 +64,9 @@ import {CaseActionsComponent} from './components/case-actions/case-actions.compo
         ReversePipe,
         TabsComponent,
         CheckboxComponent,
+        RadiobuttonComponent,
+        TextareasComponent,
+        LabelComponent,
         CaseStatusGoto,
         TabsComponent,
         StatusComponent,
