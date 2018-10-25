@@ -23,6 +23,10 @@ import {CaseActionsComponent} from './components/case-actions/case-actions.compo
 import { RadiobuttonComponent } from './components/radiobutton/radiobutton.component';
 import { TextareasComponent } from './components/textareas/textareas.component';
 import { LabelComponent } from './components/label/label.component';
+import { FieldsetComponent } from './components/fieldset/fieldset.component';
+import { ButtonsComponent } from './components/buttons/buttons.component';
+import { LegendComponent } from './components/legend/legend.component';
+import { HintComponent } from './components/hint/hint.component';
 
 @NgModule({
     imports: [
@@ -53,6 +57,10 @@ import { LabelComponent } from './components/label/label.component';
         RadiobuttonComponent,
         TextareasComponent,
         LabelComponent,
+        FieldsetComponent,
+        ButtonsComponent,
+        LegendComponent,
+        HintComponent,
     ],
     exports: [
         TableComponent,
@@ -63,10 +71,14 @@ import { LabelComponent } from './components/label/label.component';
         QuestionComponent,
         ReversePipe,
         TabsComponent,
+        FieldsetComponent,
         CheckboxComponent,
         RadiobuttonComponent,
         TextareasComponent,
         LabelComponent,
+        LegendComponent,
+        HintComponent,
+        ButtonsComponent,
         CaseStatusGoto,
         TabsComponent,
         StatusComponent,
