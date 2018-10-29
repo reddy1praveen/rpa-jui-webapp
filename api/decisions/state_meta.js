@@ -55,8 +55,7 @@ module.exports = {
                             {
                                 control: 'partiesNeedAttend',
                                 value: false,
-                                text: 'The parties need to attend a hearing',
-                                validation: ['required']
+                                text: 'The parties need to attend a hearing'
                             },
                             {
                                 control: 'NotEnoughInformation',
@@ -105,7 +104,7 @@ module.exports = {
                                                     {
                                                         control: 'informationNeeded',
                                                         value: '',
-                                                        validators: ['required']
+                                                        validators: ['required', 'email']
                                                     }
                                                 ]
                                             }
@@ -184,7 +183,8 @@ module.exports = {
                                     hiddenAccessibilityText:
                                         ', I don’t want to send an annotated version of the draft consent order to the parties'
                                 }
-                            ]
+                            ],
+                            validators: ['required']
                         }
                     }
                 }
