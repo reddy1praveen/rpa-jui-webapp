@@ -108,7 +108,7 @@ module.exports = {
                                                     {
                                                         control: 'informationNeeded',
                                                         value: '',
-                                                        validators: ['required', 'email']
+                                                        validators: ['required']
                                                     }
                                                 ]
                                             }
@@ -172,7 +172,13 @@ module.exports = {
                             isPageHeading: false,
                             classes: 'govuk-fieldset__legend--m'
                         },
-                        hint: {text: 'You can use this to illustrate any detailed points or feedback for the parties.'},
+                        hint: {
+                            text: 'You can use this to illustrate any detailed points or feedback for the parties.'
+                        },
+                        validationError: {
+                            value: 'Select yes if you want to include an annotated version of the draft consent order',
+                            linkToControl: 'includeAnnotatedVersionDraftConsOrder'
+                        },
                         radios: {
                             control: 'includeAnnotatedVersionDraftConsOrder',
                             radioGroup: [

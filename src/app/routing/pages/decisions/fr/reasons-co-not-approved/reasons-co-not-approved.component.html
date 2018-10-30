@@ -69,15 +69,11 @@
                                                                             </app-label>
                                                                         </div>
 
-                                                                        <!-- so this should show, when the user clicks submit -->
-                                                                        <!-- so this should show, if the textfield is not valid -->
-                                                                        <!-- should this part of the component? It makes sense if it's -->
-                                                                        <!-- abstracted, otherwise you'll be adding it to all components-->
-                                                                        <!-- So we need to show the error message, when the control is invalid -->
+                                                                        <!-- Error Validation Component example -->
+                                                                        <ng-container *ngIf="subitem.sub.validationError">
+                                                                            <app-validation-error-label *ngIf="showValidation" [group]="rejectReasonsForm" [linkToControl]="subitem.sub.validationError.linkToControl">{{subitem.sub.validationError.value}}</app-validation-error-label>
+                                                                        </ng-container>
 
-                                                                        <app-validation-error-label *ngIf="showValidation" [group]="rejectReasonsForm" [linkToControl]="'informationNeeded'">Enter what information is needed</app-validation-error-label>
-                                                                        <!-- Should we conditionally apply a style -->
-                                                                        <!-- Should we pass in the class to apply -->
                                                                         <app-textareas *ngIf="subitem.sub.textareas"
                                                                                       [showValidation]="showValidation"
                                                                                       [classes]="'govuk-textarea govuk-textarea--error'"
@@ -104,8 +100,10 @@
                             </ng-container>
                         </div>
 
-
-                        <app-validation-error-label *ngIf="showValidation" [group]="rejectReasonsForm" [linkToControl]="'includeAnnotatedVersionDraftConsOrder'">Select yes if you want to include an annotated version of the draft consent order</app-validation-error-label>
+                        <!-- Error Validation Component example -->
+                        <ng-container *ngIf="group.fieldset.validationError">
+                            <app-validation-error-label *ngIf="showValidation" [group]="rejectReasonsForm" [linkToControl]="group.fieldset.validationError.linkToControl">{{group.fieldset.validationError.value}}</app-validation-error-label>
+                        </ng-container>
 
                         <app-radiobutton *ngIf="group.fieldset.radios"
                                          [classes]="'govuk-radios govuk-radios--inline'"
