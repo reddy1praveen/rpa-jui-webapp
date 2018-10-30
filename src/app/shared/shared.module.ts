@@ -28,6 +28,7 @@ import { ButtonsComponent } from './components/buttons/buttons.component';
 import { LegendComponent } from './components/legend/legend.component';
 import { HintComponent } from './components/hint/hint.component';
 import { ValidationErrorLabelComponent } from './components/validation-error-label/validation-error-label.component';
+import { ValidationHeaderComponent } from './components/validation-header/validation-header.component';
 
 @NgModule({
     imports: [
@@ -63,6 +64,7 @@ import { ValidationErrorLabelComponent } from './components/validation-error-lab
         LegendComponent,
         HintComponent,
         ValidationErrorLabelComponent,
+        ValidationHeaderComponent,
     ],
     exports: [
         TableComponent,
@@ -88,6 +90,7 @@ import { ValidationErrorLabelComponent } from './components/validation-error-lab
         CaseActionAlertComponent,
         DocumentViewerModule,
         ValidationErrorLabelComponent,
+        ValidationHeaderComponent,
     ]
 })
 
