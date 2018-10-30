@@ -4,21 +4,23 @@
         <div class="govuk-grid-column-two-thirds">
             <h1 *ngIf="pageitems" class="govuk-heading-xl">{{pageitems.header}}</h1>
             <form *ngIf="pageitems" [formGroup]="rejectReasonsForm" (ngSubmit)="onSubmit()">
-                <div class="govuk-form-group"  *ngFor="let group of pageitems.groups; let gIndex = index">
-                    <app-jui-form-elements [group]="rejectReasonsForm" [data]="group"></app-jui-form-elements>
-                    <app-fieldset *ngIf="group.fieldset" [classes]="'govuk-fieldset'">
-                        <app-jui-form-elements [group]="rejectReasonsForm" [data]="group.fieldset"></app-jui-form-elements>
+                <div class="govuk-form-group" *ngFor="let group of pageitems.groups">
+                    <app-fieldset *ngIf="group.fieldset"
+                                  [classes]="'govuk-fieldset'"
+                                  [group]="rejectReasonsForm"
+                                  [data]="group.fieldset">
                     </app-fieldset>
+                    <app-jui-form-elements [group]="rejectReasonsForm" [data]="group"></app-jui-form-elements>
                 </div>
-                <!--<ng-container *ngIf="pageitems.buttons">-->
-                    <!--<ng-container *ngFor="let button of pageitems.buttons; let bi = index;">-->
-                        <!--<app-buttons [classes]="'govuk-button'"-->
-                                     <!--[typeBtn]="'submit'"-->
-                                     <!--[group]="rejectReasonsForm"-->
-                                     <!--[control]="button.control">-->
-                        <!--</app-buttons>-->
-                    <!--</ng-container>-->
-                <!--</ng-container>-->
+                <ng-container *ngIf="pageitems.buttons">
+                    <ng-container *ngFor="let button of pageitems.buttons; let bi = index;">
+                        <app-buttons [classes]="'govuk-button'"
+                                     [typeBtn]="'submit'"
+                                     [group]="rejectReasonsForm"
+                                     [control]="button.control">
+                        </app-buttons>
+                    </ng-container>
+                </ng-container>
             </form>
         </div>
     </div>
