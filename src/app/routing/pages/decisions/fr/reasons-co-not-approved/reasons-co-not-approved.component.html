@@ -76,7 +76,7 @@
                                                                         <!-- So we need to show the error message, when the control is invalid -->
 
                                                                         <app-validation-error-label [group]="rejectReasonsForm" [linkToControl]="'informationNeeded'">Enter what information is needed</app-validation-error-label>
-
+                                                                        <!-- Should we conditionally apply a style -->
                                                                         <!-- Should we pass in the class to apply -->
                                                                         <app-textareas *ngIf="subitem.sub.textareas"
                                                                                       [classes]="'govuk-textarea govuk-textarea--error'"
@@ -103,6 +103,8 @@
                             </ng-container>
                         </div>
 
+
+                        <app-validation-error-label [group]="rejectReasonsForm" [linkToControl]="'includeAnnotatedVersionDraftConsOrder'">Select yes if you want to include an annotated version of the draft consent order</app-validation-error-label>
 
                         <app-radiobutton *ngIf="group.fieldset.radios"
                                          [classes]="'govuk-radios govuk-radios--inline'"
