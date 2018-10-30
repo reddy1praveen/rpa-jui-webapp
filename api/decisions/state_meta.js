@@ -48,9 +48,50 @@ module.exports = {
                         legend: {
                             text: 'Reasons the consent order was not approved',
                             isPageHeading: true,
-                            classes: 'govuk-fieldset__legend--xl'
+                            classes: 'govuk-fieldset__legend--m'
                         },
                         hint: { text: 'Select all that apply.' },
+                        checkbox: {
+                            control: 'partiesNeedAttend',
+                            value: false,
+                            text: 'The parties need to attend a hearing'
+                        },
+                        checkbox: {
+                            control: 'partiesNeedAttend',
+                            value: false,
+                            text: 'The parties need to attend a hearing',
+                            groups: [
+                                {
+                                    control: 'partiesNeedAttend1',
+                                    value: false,
+                                    text: 'The parties need to attend a hearing1'
+                                }
+                            ]
+                        },
+                        radios: {
+                            control: 'includeAnnotatedVersionDraftConsOrder',
+                            radioGroup: [
+                                {
+                                    value: 'yes',
+                                    text: 'Yes',
+                                    hiddenAccessibilityText: ', send an annotated version of the draft consent order to the parties'
+                                },
+                                {
+                                    value: 'no',
+                                    text: 'No',
+                                    hiddenAccessibilityText:
+                                        ', I don’t want to send an annotated version of the draft consent order to the parties'
+                                }
+                            ]
+                        },
+                        textarea: {
+                            label: {
+                                text: 'Directions',
+                                classes: 'govuk-label--m'
+                            },
+                            control: 'Directions',
+                            value: 'Direction text'
+                        },
                         checkboxes: [
                             {
                                 control: 'partiesNeedAttend',
@@ -63,7 +104,11 @@ module.exports = {
                                 text: 'Not enough information was supplied to decide if the order is fair',
                                 sub: {
                                     fieldset: {
-                                        legend: 'Information required',
+                                        legend: {
+                                            text: 'Information required',
+                                            isPageHeading: false,
+                                            classes: 'govuk-fieldset__legend--m'
+                                        },
                                         checkboxes: [
                                             {
                                                 control: 'capitalPositions',
@@ -100,11 +145,14 @@ module.exports = {
                                                 value: false,
                                                 text: 'Other',
                                                 sub: {
-                                                    legend: 'What information is needed?',
                                                     textareas: [
                                                         {
+                                                            label: {
+                                                                text: 'What information is needed?',
+                                                                classes: 'govuk-label--m'
+                                                            },
                                                             control: 'informationNeeded',
-                                                            value: 'Infrmation text'
+                                                            value: 'Information text'
                                                         }
                                                     ]
                                                 }
@@ -143,9 +191,12 @@ module.exports = {
                                 value: false,
                                 text: 'Other',
                                 sub: {
-                                    legend: 'Reason',
                                     textareas: [
                                         {
+                                            label: {
+                                                text: 'Reason',
+                                                classes: 'govuk-label--m'
+                                            },
                                             control: 'Reason',
                                             value: 'Reason text'
                                         }
@@ -157,7 +208,10 @@ module.exports = {
                 },
                 {
                     textarea: {
-                        label: 'Directions',
+                        label: {
+                            text: 'Directions2',
+                            classes: 'govuk-label--m'
+                        },
                         control: 'Directions',
                         value: 'Direction text'
                     }

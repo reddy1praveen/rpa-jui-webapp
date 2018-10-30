@@ -7,6 +7,15 @@
     <!--</div>-->
     <!--<ng-content></ng-content>-->
 <!--</div>-->
+
 <ng-container [formGroup]="group">
-    <textarea [class]="classes" [rows]="rows" [formControlName]="control"></textarea>
+    <app-label *ngIf="label"
+               [label]="label"
+               [class]="'govuk-label ' + label.classes"
+               [forElement]="labelFor">{{label.text}}
+    </app-label>
+    <textarea [class]="classes"
+              [rows]="rows"
+              [id]="labelFor"
+              [formControlName]="control"></textarea>
 </ng-container>

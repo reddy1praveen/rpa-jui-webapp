@@ -27,6 +27,7 @@ import { FieldsetComponent } from './components/fieldset/fieldset.component';
 import { ButtonsComponent } from './components/buttons/buttons.component';
 import { LegendComponent } from './components/legend/legend.component';
 import { HintComponent } from './components/hint/hint.component';
+import { JuiFormElementsComponent } from './components/jui-form-elements/jui-form-elements.component';
 
 @NgModule({
     imports: [
@@ -61,8 +62,10 @@ import { HintComponent } from './components/hint/hint.component';
         ButtonsComponent,
         LegendComponent,
         HintComponent,
+        JuiFormElementsComponent,
     ],
     exports: [
+        JuiFormElementsComponent,
         TableComponent,
         DataListComponent,
         FooterComponent,
