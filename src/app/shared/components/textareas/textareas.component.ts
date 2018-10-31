@@ -43,9 +43,7 @@ export class TextareasComponent {
     /**
      * Checks if this control is valid.
      *
-     * @param formGroup
-     * @param control
-     * @return {boolean}
+     * @see ValidationService
      */
     isControlValid(formGroup: FormGroup, control: string): boolean {
         return this.validationService.isControlValid(formGroup, control);
