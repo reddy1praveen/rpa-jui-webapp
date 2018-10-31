@@ -41,6 +41,18 @@ module.exports = {
         'reject-reasons': {
             idPrefix: 'reject-reasons',
             name: 'reject-reasons',
+            validationHeaderControls: [
+                {
+                    value: 'Enter what information is needed',
+                    linkToControl: 'informationNeeded',
+                    pageLinkToControl: 'informationNeeded'
+                },
+                {
+                    value: 'Select yes if you want to include an annotated version of the draft consent order',
+                    linkToControl: 'includeAnnotatedVersionDraftConsOrder',
+                    pageLinkToControl: 'includeAnnotatedVersionDraftConsOrder'
+                }
+            ],
             header: 'What should appear in the directions order?',
             groups: [
                 {
@@ -132,7 +144,8 @@ module.exports = {
                                                                     classes: 'govuk-label--m'
                                                                 },
                                                                 control: 'informationNeeded',
-                                                                value: 'Information text'
+                                                                value: 'Information text',
+                                                                validation: ['required']
                                                             }
                                                         }
                                                     ]
