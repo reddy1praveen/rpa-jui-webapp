@@ -6,7 +6,7 @@ import {FormGroup} from '@angular/forms';
   templateUrl: './jui-form-elements.component.html',
   styleUrls: ['./jui-form-elements.component.scss']
 })
-export class JuiFormElementsComponent implements OnInit {
+export class JuiFormElementsComponent {
     // @Input() legendClasses: String;
     // @Input() hintClasses: String;
     // @Input() radiobuttonClasses: String;
@@ -21,11 +21,8 @@ export class JuiFormElementsComponent implements OnInit {
     // @Input() rows: String;
     @Input() data: Object;
 
+    // Ok so this is fine, going in from here.
+    @Input() useValidation = true;
+
     constructor() {}
-    ngOnInit() {
-        // console.log("DATA=>>>>>>>>>>", this.data);
-        // if (this.data.textarea) {
-        //     this.textareaControl = this.data.textarea.control;
-        // }
-    }
 }

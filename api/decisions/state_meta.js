@@ -143,9 +143,13 @@ module.exports = {
                                                                     text: 'What information is needed?',
                                                                     classes: 'govuk-label--m'
                                                                 },
+                                                                validationError: {
+                                                                    value: 'Enter what information is needed',
+                                                                    linkToControl: 'informationNeeded'
+                                                                },
                                                                 control: 'informationNeeded',
-                                                                value: 'Information text',
-                                                                validation: ['required']
+                                                                value: '',
+                                                                validators: ['required']
                                                             }
                                                         }
                                                     ]
