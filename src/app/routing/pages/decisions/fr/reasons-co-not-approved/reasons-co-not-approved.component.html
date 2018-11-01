@@ -8,7 +8,8 @@
                     <app-fieldset *ngIf="group.fieldset"
                                   [classes]="'govuk-fieldset'"
                                   [group]="rejectReasonsForm"
-                                  [data]="group.fieldset">
+                                  [data]="group.fieldset"
+                                  [showChilds]="showChilds">
                     </app-fieldset>
                     <app-jui-form-elements [group]="rejectReasonsForm" [data]="group"></app-jui-form-elements>
                 </div>
@@ -16,4 +17,5 @@
         </div>
     </div>
 </main>
+
 
