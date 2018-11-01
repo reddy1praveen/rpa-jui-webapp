@@ -85,7 +85,6 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
         const annotationId = event.getAttribute('data-pdf-annotate-id');
         this.annotationStoreService.getAnnotationById(annotationId)
             .then((annotation: Annotation) => {
-                console.log(annotation);
                 this.annotationStoreService.setAnnotationFocusSubject(annotation);
                 this.annotationStoreService.setCommentFocusSubject(annotation);
                 this.annotationStoreService.setToolBarUpdate(annotation, true);
