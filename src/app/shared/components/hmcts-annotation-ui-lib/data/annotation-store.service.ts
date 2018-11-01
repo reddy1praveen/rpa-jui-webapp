@@ -75,7 +75,9 @@ export class AnnotationStoreService implements OnDestroy {
         if (annotationData != null) {
             this.pdfAdapter.setStoreData(annotationData);
             PDFAnnotate.setStoreAdapter(this.pdfAdapter.getStoreAdapter());
+            this.pdfService.setHighlightTool();
         } else {
+            this.pdfService.setCursorTool();
             PDFAnnotate.setStoreAdapter(new PDFAnnotate.LocalStoreAdapter());
         }
     }
