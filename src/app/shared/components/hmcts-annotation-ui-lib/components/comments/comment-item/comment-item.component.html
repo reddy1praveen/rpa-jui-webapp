@@ -1,14 +1,13 @@
-<form
+<form class="jui-comment"
   class="comment-list-item" 
   (ngSubmit)="onSubmit()" #commentItem="ngForm" 
   (click)="handleCommentClick()">
-  <div class="comment-meta">
-    <label *ngIf="comment.createdByDetails" class="comment-author">{{comment.createdByDetails.forename}} {{comment.createdByDetails.surname}}</label>
-    <br>
-    <label class="comment-date" ng-controller="datCtrl">{{ comment.createdDate | date: 'd/M/y HH:mm' }}</label>
-    <div *ngIf="isModified()">
-        <label>Last modified By: {{comment.lastModifiedByDetails.forename}} {{comment.lastModifiedByDetails.surname}}</label>
-      <label class="comment-date" ng-controller="datCtrl"><br>{{ comment.lastModifiedDate | date: 'd/M/y HH:mm' }}</label>
+  <div class="jui-comment__header">
+    <span *ngIf="comment.createdByDetails" class="jui-comment__author">{{comment.createdByDetails.forename}} {{comment.createdByDetails.surname}}</span>
+    <time class="jui-comment__meta" ng-controller="datCtrl">{{ comment.createdDate | date: 'd MMMM y h:mm a' }}</time>
+    <div *ngIf="false">
+        <span>modified By: {{comment.lastModifiedByDetails.forename}} {{comment.lastModifiedByDetails.surname}}</span>
+      <time class="jui-comment__meta" ng-controller="datCtrl"><br>{{ comment.lastModifiedDate | date: 'd MMMM y h:mm a' }}</time>
     </div>
   </div>
 
@@ -17,15 +16,15 @@
     (blur)="onBlur()"
     type="text" 
     [class.mimic-focus]="focused"
-    class="form-control mimic-focus"
+    class="jui-comment__content form-control mimic-focus"
     required
     [ngModel]="comment.content" name="content"
     value="comment.content"></textarea>
 
-    <div [hidden]="hideButton" class="comment-btns">
-        <button type="submit" class="govuk-button hmcts-page-heading__button" role="button">Comment</button>
+    <div [hidden]="hideButton" class="jui-comment__footer">
+        <button type="submit" class="govuk-button" role="button">Edit</button>
         <button 
-          class="govuk-button hmcts-page-heading__button hmcts-button--secondary" 
+          class="govuk-button hmcts hmcts-button--secondary" 
           role="button"
           (click)="handleDeleteComment()">Delete</button>
     </div>
