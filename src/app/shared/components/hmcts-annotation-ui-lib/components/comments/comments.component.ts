@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 import {Subscription} from 'rxjs';
 import {PdfService} from '../../data/pdf.service';
 import {AnnotationStoreService} from '../../data/annotation-store.service';

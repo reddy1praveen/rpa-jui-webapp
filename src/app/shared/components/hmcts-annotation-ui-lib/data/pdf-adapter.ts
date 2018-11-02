@@ -3,6 +3,7 @@ import {Injectable, Inject} from '@angular/core';
 import {Subject} from 'rxjs';
 import {Annotation, AnnotationSet, Comment, Rectangle} from './annotation-set.model';
 import {Utils} from './utils';
+import { DOCUMENT } from '@angular/common';
 
 declare const PDFAnnotate: any;
 
@@ -15,7 +16,7 @@ export class PdfAdapter {
     private annotationChangeSubject: Subject<{ type: String, annotation: Annotation }>;
 
     constructor(private utils: Utils,
-        @Inject('windowObject') private window: Window) {
+                @Inject(DOCUMENT) private document: any) {
         this.annotationChangeSubject = new Subject<{ type: String, annotation: Annotation }>();
     }
 
@@ -60,7 +61,7 @@ export class PdfAdapter {
 
 
     clearSelection() {
-        const sel = this.window.getSelection();
+        const sel = this.document.getSelection();
         if (sel) {
             if (sel.removeAllRanges) {
                 sel.removeAllRanges();

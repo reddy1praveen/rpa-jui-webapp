@@ -2,23 +2,23 @@ import { TestBed, inject } from '@angular/core/testing';
 import { Utils } from './utils';
 import { PdfAdapter } from './pdf-adapter';
 import { AnnotationSet, Annotation, Comment } from './annotation-set.model';
+import { DOCUMENT } from '@angular/common';
 
 class MockUtils {}
 declare global { interface Window { PDFAnnotate: any; } }
 class MockPDFAnnotate {
     setStoreAdapater(storeAdapter: any) {}
 
-    StoreAdapter() {
-
-    }
+    StoreAdapter() {}
   }
+class MockDocument {
+    getSelection() {
+        return null;
+    }
+}
 
 describe('PdfAdapter', () => {
-    const windowMock: Window = <any>{
-        getSelection() {
-            return null;
-        }
-    };
+    const mockDocument = new MockDocument();
     const mockPDFAnnotate = new MockPDFAnnotate();
     window.PDFAnnotate = mockPDFAnnotate;
 
@@ -50,7 +50,7 @@ describe('PdfAdapter', () => {
         TestBed.configureTestingModule({
           providers: [
               PdfAdapter,
-              { provide: 'windowObject', useFactory: () => windowMock},
+              { provide: DOCUMENT, useFactory: () => mockDocument},
               { provide: Utils, useFactory: () => mockUtils}
             ]
         });
@@ -152,7 +152,7 @@ describe('PdfAdapter', () => {
 
     describe('clearSelection', () => {
         it('should remove window selections', inject([PdfAdapter], (service: PdfAdapter) => {
-            spyOn(windowMock, 'getSelection').and.callFake(() => {
+            spyOn(mockDocument, 'getSelection').and.callFake(() => {
                 return {
                     removeAllRanges() {
                         return true;
@@ -160,11 +160,11 @@ describe('PdfAdapter', () => {
                 };
             });
             service.clearSelection();
-            expect(windowMock.getSelection).toHaveBeenCalled();
+            expect(mockDocument.getSelection).toHaveBeenCalled();
         }));
 
         it('should remove window selections', inject([PdfAdapter], (service: PdfAdapter) => {
-            spyOn(windowMock, 'getSelection').and.callFake(() => {
+            spyOn(mockDocument, 'getSelection').and.callFake(() => {
                 return {
                     // TODO make this cover sel.empty
                     empty: true,
@@ -174,7 +174,7 @@ describe('PdfAdapter', () => {
                 };
             });
             service.clearSelection();
-            expect(windowMock.getSelection).toHaveBeenCalled();
+            expect(mockDocument.getSelection).toHaveBeenCalled();
         }));
     });
 

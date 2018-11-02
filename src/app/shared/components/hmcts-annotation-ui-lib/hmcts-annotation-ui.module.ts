@@ -31,8 +31,7 @@ import { ContextualToolbarComponent } from './components/contextual-toolbar/cont
     PdfAdapter,
     NpaService,
     ApiHttpService,
-    Utils,
-    { provide: 'windowObject', useValue: window}
+    Utils
   ],
   exports: [
     CommentsComponent,

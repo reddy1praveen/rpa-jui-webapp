@@ -5,7 +5,7 @@ import { ContextualToolbarComponent } from './contextual-toolbar.component';
 import { PdfService } from '../../data/pdf.service';
 import { AnnotationStoreService } from '../../data/annotation-store.service';
 import { Annotation } from '../../data/annotation-set.model';
-import { DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 
 class MockPdfService {
   annotationSub: Subject<string>;

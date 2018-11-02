@@ -10,7 +10,7 @@ import { AnnotationStoreService } from '../../data/annotation-store.service';
 import { NpaService } from '../../data/npa.service';
 import { ApiHttpService } from '../../data/api-http.service';
 import { Utils } from '../../data/utils';
-import { DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 
 class MockPdfService {
   pageNumber: Subject<number>;

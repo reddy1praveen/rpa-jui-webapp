@@ -6,7 +6,7 @@ import { CommentItemComponent } from './comment-item.component';
 import { AnnotationStoreService } from '../../../data/annotation-store.service';
 import { Comment, Annotation } from '../../../data/annotation-set.model';
 import { NO_ERRORS_SCHEMA, Renderer2, Type } from '@angular/core';
-import { DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 
 class MockAnnotationStoreService {
   comment: Comment;
