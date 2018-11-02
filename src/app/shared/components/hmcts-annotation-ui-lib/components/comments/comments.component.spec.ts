@@ -7,12 +7,6 @@ import { AnnotationStoreService } from '../../data/annotation-store.service';
 import { PdfService } from '../../data/pdf.service';
 import { Annotation, Comment, Rectangle } from '../../data/annotation-set.model';
 
-declare global { interface Window { PDFAnnotate: any; } }
-
-class PDFAnnotate {
-  UI;
-}
-
 class MockPdfService {
   pageNumber;
 
@@ -66,9 +60,6 @@ class MockAnnotationStoreService {
 }
 
 describe('CommentsComponent', () => {
-  const mockPDFAnnotate = new PDFAnnotate();
-  window.PDFAnnotate = mockPDFAnnotate;
-
   const mockAnnotationStoreService = new MockAnnotationStoreService();
   const mockPdfService = new MockPdfService();
   let component: CommentsComponent;

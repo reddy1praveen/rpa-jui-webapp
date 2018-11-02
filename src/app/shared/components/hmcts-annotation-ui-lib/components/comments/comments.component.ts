@@ -5,8 +5,6 @@ import {PdfService} from '../../data/pdf.service';
 import {AnnotationStoreService} from '../../data/annotation-store.service';
 import { Annotation } from '../../data/annotation-set.model';
 
-declare const PDFAnnotate: any;
-
 @Component({
     selector: 'app-comments',
     templateUrl: './comments.component.html',
@@ -35,7 +33,6 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngAfterViewInit() {
         this.document.querySelector('#viewer').addEventListener('click', this.handleAnnotationBlur.bind(this));
-        PDFAnnotate.UI.addEventListener('annotation:click', this.handleAnnotationClick.bind(this));
     }
 
     ngOnDestroy() {
@@ -79,16 +76,5 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
     handleAnnotationBlur() {
         this.showAllComments();
         this.annotationStoreService.setToolBarUpdate(null, null);
-    }
-
-    handleAnnotationClick(event) {
-        const annotationId = event.getAttribute('data-pdf-annotate-id');
-        this.annotationStoreService.getAnnotationById(annotationId)
-            .then((annotation: Annotation) => {
-                console.log(annotation);
-                this.annotationStoreService.setAnnotationFocusSubject(annotation);
-                this.annotationStoreService.setCommentFocusSubject(annotation);
-                this.annotationStoreService.setToolBarUpdate(annotation, true);
-            });
     }
 }

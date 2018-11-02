@@ -61,7 +61,7 @@ class MockUtils {
   getClickedPage() {}
 }
 
-describe('AnnotationPdfViewerComponent', () => {
+fdescribe('AnnotationPdfViewerComponent', () => {
   let component: AnnotationPdfViewerComponent;
   let fixture: ComponentFixture<AnnotationPdfViewerComponent>;
 
@@ -104,6 +104,7 @@ describe('AnnotationPdfViewerComponent', () => {
     component.baseUrl = 'localhost:3000';
 
     mockDocument = fixture.componentRef.injector.get(DOCUMENT);
+    spyOn(component, 'ngAfterViewInit').and.stub();
     spyOn(mockDocument, 'querySelector').and.callFake(function() {
       const dummyElement = document.createElement('div');
       return dummyElement;

@@ -1,7 +1,6 @@
 import {Component, OnInit, ChangeDetectorRef, OnDestroy, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { PdfService } from '../../data/pdf.service';
 import { AnnotationStoreService } from '../../data/annotation-store.service';
 import { Annotation, Comment } from '../../data/annotation-set.model';
 
@@ -18,8 +17,7 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
   annotation: Annotation;
   private contextualToolBarOptions: Subscription;
 
-  constructor(private pdfService: PdfService,
-              private annotationStoreService: AnnotationStoreService,
+  constructor(private annotationStoreService: AnnotationStoreService,
               private ref: ChangeDetectorRef,
               @Inject(DOCUMENT) private document: any) {
     this.toolPos = {
@@ -78,13 +76,13 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
   }
 
   hideToolBar() {
-    this.annotation = null;
-    this.isShowToolbar = false;
-    this.showDelete = false;
+      this.annotation = null;
+      this.isShowToolbar = false;
+      this.showDelete = false;
 
-    if (!this.ref['destroyed']) {
-      this.ref.detectChanges();
-    }
+      if (!this.ref['destroyed']) {
+        this.ref.detectChanges();
+      }
   }
 
   handleCommentBtnClick() {
@@ -94,7 +92,7 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
     } else {
       this.annotationStoreService.setCommentFocusSubject(this.annotation, true);
     }
-    this.hideToolBar();
+    setTimeout(() => {this.hideToolBar(); }, 10);
   }
 
   handleHighlightBtnClick() {
@@ -103,7 +101,7 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
 
   handleDeleteBtnClick() {
     this.annotationStoreService.deleteAnnotationById(this.annotation.id);
-    this.hideToolBar();
+    setTimeout(() => {this.hideToolBar(); }, 10);
   }
 
   handleClearAnnotations() {

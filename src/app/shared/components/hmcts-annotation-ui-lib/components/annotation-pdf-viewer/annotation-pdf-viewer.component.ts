@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, ElementRef, Inject, Input, ChangeDetectorRef, Renderer2, OnDestroy} from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef, Inject, Input, ChangeDetectorRef, Renderer2, OnDestroy, AfterViewInit} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {PdfService} from '../../data/pdf.service';
 import { Subscription } from 'rxjs';
@@ -7,6 +7,9 @@ import {IAnnotationSet, Annotation} from '../../data/annotation-set.model';
 import {NpaService} from '../../data/npa.service';
 import {ApiHttpService} from '../../data/api-http.service';
 import { Utils } from '../../data/utils';
+import { ContextualToolbarComponent } from '../contextual-toolbar/contextual-toolbar.component';
+
+declare const PDFAnnotate: any;
 
 @Component({
     selector: 'app-annotation-pdf-viewer',
@@ -14,7 +17,7 @@ import { Utils } from '../../data/utils';
     styleUrls: ['./annotation-pdf-viewer.component.scss'],
     providers: []
 })
-export class AnnotationPdfViewerComponent implements OnInit, OnDestroy {
+export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @Input() annotate: boolean;
     @Input() dmDocumentId: string;
@@ -30,6 +33,8 @@ export class AnnotationPdfViewerComponent implements OnInit, OnDestroy {
 
     @ViewChild('contentWrapper') contentWrapper: ElementRef;
     @ViewChild('viewer') viewerElementRef: ElementRef;
+
+    @ViewChild('contextualToolbar') contextualToolbar: ContextualToolbarComponent;
 
     constructor(private pdfService: PdfService,
                 private npaService: NpaService,
@@ -58,6 +63,10 @@ export class AnnotationPdfViewerComponent implements OnInit, OnDestroy {
             .subscribe(page => this.page = page);
         this.focusedAnnotationSubscription = this.annotationStoreService.getAnnotationFocusSubject()
             .subscribe(focusedAnnotation => this.focusHighlightStyle(focusedAnnotation));
+    }
+
+    ngAfterViewInit() {
+        PDFAnnotate.UI.addEventListener('annotation:click', this.handleAnnotationClick.bind(this));
     }
 
     ngOnDestroy() {
@@ -125,6 +134,18 @@ export class AnnotationPdfViewerComponent implements OnInit, OnDestroy {
             if (!isNaN(visiblePageNum)) {
                 this.pdfService.setPageNumber(visiblePageNum);
             }
+        }
+    }
+
+    handleAnnotationClick(event) {
+        if (!this.contextualToolbar.isShowToolbar) {
+            const annotationId = event.getAttribute('data-pdf-annotate-id');
+            this.annotationStoreService.getAnnotationById(annotationId)
+                .then((annotation: Annotation) => {
+                    this.annotationStoreService.setAnnotationFocusSubject(annotation);
+                    this.annotationStoreService.setCommentFocusSubject(annotation);
+                    this.annotationStoreService.setToolBarUpdate(annotation, true);
+                });
         }
     }
 }
