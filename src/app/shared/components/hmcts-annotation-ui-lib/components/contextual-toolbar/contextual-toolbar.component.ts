@@ -3,6 +3,7 @@ import { DOCUMENT } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { AnnotationStoreService } from '../../data/annotation-store.service';
 import { Annotation, Comment } from '../../data/annotation-set.model';
+import { PdfService } from '../../data/pdf.service';
 
 @Component({
   selector: 'app-contextual-toolbar',
@@ -102,6 +103,7 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
   handleDeleteBtnClick() {
     this.annotationStoreService.deleteAnnotationById(this.annotation.id);
     setTimeout(() => {this.hideToolBar(); }, 10);
+    this.annotationStoreService.setAnnotationFocusSubject(this.annotation);
   }
 
   handleClearAnnotations() {

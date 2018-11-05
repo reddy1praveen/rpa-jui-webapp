@@ -61,7 +61,7 @@ class MockUtils {
   getClickedPage() {}
 }
 
-fdescribe('AnnotationPdfViewerComponent', () => {
+describe('AnnotationPdfViewerComponent', () => {
   let component: AnnotationPdfViewerComponent;
   let fixture: ComponentFixture<AnnotationPdfViewerComponent>;
 
