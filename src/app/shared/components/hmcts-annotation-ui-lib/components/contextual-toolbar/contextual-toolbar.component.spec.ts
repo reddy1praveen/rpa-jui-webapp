@@ -1,11 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { DOCUMENT } from '@angular/common';
 import { Subject, of } from 'rxjs';
 
 import { ContextualToolbarComponent } from './contextual-toolbar.component';
 import { PdfService } from '../../data/pdf.service';
 import { AnnotationStoreService } from '../../data/annotation-store.service';
 import { Annotation } from '../../data/annotation-set.model';
-import { DOCUMENT } from '@angular/common';
 
 class MockPdfService {
   annotationSub: Subject<string>;
@@ -28,6 +28,7 @@ class MockAnnotationStoreService {
     this.contextualOptions.next(null);
   }
   setCommentFocusSubject() {}
+  setAnnotationFocusSubject() {}
   addComment() {}
   getToolbarUpdate() {}
   clearAnnotations() {}
@@ -152,9 +153,12 @@ describe('ContextualToolbarComponent', () => {
         expect(arg).toBe('2ff3514f-1b0d-499a-991a-fb17881ead7c');
       });
 
+      spyOn(mockAnnotationStoreService, 'setAnnotationFocusSubject').and.stub();
       component.annotation = new Annotation('2ff3514f-1b0d-499a-991a-fb17881ead7c',
               null, null, null, null, null, null, null, null, null, null, null);
       component.handleDeleteBtnClick();
+
+      expect(mockAnnotationStoreService.setAnnotationFocusSubject).toHaveBeenCalled();
       expect(mockAnnotationStoreService.deleteAnnotationById).toHaveBeenCalled();
       expect(component.isShowToolbar).toBeFalsy();
     });
