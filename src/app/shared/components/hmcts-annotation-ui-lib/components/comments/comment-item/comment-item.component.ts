@@ -153,16 +153,13 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         const svgSelector = this.document.querySelector(`g[data-pdf-annotate-id="${annotationId}"]`);
         if (svgSelector === null) {
             return null;
-        }
-        else {
+        } else {
             const highlightRect = <DOMRect>svgSelector.getBoundingClientRect();
+            const wrapperRect = <DOMRect>this.document.querySelector('#annotation-wrapper').getBoundingClientRect();
 
-            const wrapper = this.document.querySelector('#annotation-wrapper');
-            const wrapperRect = <DOMRect>wrapper.getBoundingClientRect();
+            const topPosition = (highlightRect.y - wrapperRect.top);
 
-            const top = (highlightRect.y - wrapperRect.top);
-
-            return top;
+            return topPosition;
         }
     }
 }
