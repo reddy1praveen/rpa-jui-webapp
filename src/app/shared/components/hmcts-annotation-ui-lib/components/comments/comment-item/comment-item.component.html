@@ -1,7 +1,7 @@
 <form
   class="comment-list-item" 
-  (ngSubmit)="onSubmit()" #commentItem="ngForm" 
-  (click)="handleCommentClick()"
+  (ngSubmit)="onSubmit()" #commentItem="ngForm"
+  (click)="handleCommentClick($event)"
   [style.top.px]="commentTopPos"
   [style.z-index]="commentZIndex">
   <div class="comment-meta">

@@ -8,6 +8,7 @@ import {NpaService} from '../../data/npa.service';
 import {ApiHttpService} from '../../data/api-http.service';
 import { Utils } from '../../data/utils';
 import { ContextualToolbarComponent } from '../contextual-toolbar/contextual-toolbar.component';
+import { CommentsComponent } from '../comments/comments.component';
 
 declare const PDFAnnotate: any;
 
@@ -33,7 +34,7 @@ export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDe
 
     @ViewChild('contentWrapper') contentWrapper: ElementRef;
     @ViewChild('viewer') viewerElementRef: ElementRef;
-
+    @ViewChild('commentsComponent') commentsComponent: CommentsComponent;
     @ViewChild('contextualToolbar') contextualToolbar: ContextualToolbarComponent;
 
     constructor(private pdfService: PdfService,
@@ -102,11 +103,16 @@ export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDe
         }
     }
 
-    handleClick(event: any) {
+    handleClick(event: any, isPage?: boolean) {
         if (!this.utils.clickIsHighlight(event)) {
             this.unfocusAnnotation();
+            this.annotationStoreService.setToolBarUpdate(null, null);
         }
-        this.pdfService.setPageNumber(this.utils.getClickedPage(event));
+        this.commentsComponent.handleAnnotationBlur();
+
+        if (isPage) {
+            this.pdfService.setPageNumber(this.utils.getClickedPage(event));
+        }
     }
 
     unfocusAnnotation() {
