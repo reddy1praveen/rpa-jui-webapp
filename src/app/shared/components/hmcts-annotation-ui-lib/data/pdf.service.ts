@@ -7,15 +7,13 @@ declare const PDFAnnotate: any;
 @Injectable()
 export class PdfService {
 
-    PAGE_HEIGHT;
     UI;
-    comments;
     private RENDER_OPTIONS: { documentId: string, pdfDocument: any, scale: any, rotate: number };
     private pageNumber: BehaviorSubject<number>;
+<<<<<<< Updated upstream
     private annotationSub: Subject<string>;
     private dataLoadedSubject: Subject<boolean>;
 
-    pdfPages: number;
     viewerElementRef: ElementRef;
 
     constructor() {
@@ -24,13 +22,8 @@ export class PdfService {
     }
 
     preRun() {
-        this.PAGE_HEIGHT = void 0;
         this.UI = PDFAnnotate.UI;
-
         this.pageNumber = new BehaviorSubject(1);
-
-        this.annotationSub = new Subject();
-        this.annotationSub.next(null);
     }
 
     getDataLoadedSub(): Subject<boolean> {
@@ -47,14 +40,6 @@ export class PdfService {
 
     setPageNumber(pageNumber: number) {
         this.pageNumber.next(pageNumber);
-    }
-
-    getAnnotationClicked(): Subject<string> {
-        return this.annotationSub;
-    }
-
-    setAnnotationClicked(annotationId: string) {
-        this.annotationSub.next(annotationId);
     }
 
     getRenderOptions() {
@@ -84,6 +69,7 @@ export class PdfService {
                         this.UI.renderPage(i + 1, this.RENDER_OPTIONS);
                     });
                 }
+<<<<<<< Updated upstream
                 this.pdfPages = NUM_PAGES;
                 this.dataLoadedUpdate(true);
             }).catch(
