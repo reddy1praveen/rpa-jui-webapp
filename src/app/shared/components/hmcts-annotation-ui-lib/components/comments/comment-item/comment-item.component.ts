@@ -151,13 +151,18 @@ export class CommentItemComponent implements OnInit, OnDestroy {
 
     getRelativePosition(annotationId: string): number {
         const svgSelector = this.document.querySelector(`g[data-pdf-annotate-id="${annotationId}"]`);
-        const highlightRect = <DOMRect>svgSelector.getBoundingClientRect();
+        if (svgSelector === null) {
+            return null;
+        }
+        else {
+            const highlightRect = <DOMRect>svgSelector.getBoundingClientRect();
 
-        const wrapper = this.document.querySelector('#annotation-wrapper');
-        const wrapperRect = <DOMRect>wrapper.getBoundingClientRect();
+            const wrapper = this.document.querySelector('#annotation-wrapper');
+            const wrapperRect = <DOMRect>wrapper.getBoundingClientRect();
 
-        const top = (highlightRect.y - wrapperRect.top);
+            const top = (highlightRect.y - wrapperRect.top);
 
-        return top;
+            return top;
+        }
     }
 }
