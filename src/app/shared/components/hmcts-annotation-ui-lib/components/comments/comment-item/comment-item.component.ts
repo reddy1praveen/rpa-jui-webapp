@@ -112,7 +112,9 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         this.annotationStoreService.deleteComment(this.comment.id);
     }
 
-    handleCommentClick() {
+    handleCommentClick(event: any) {
+
+        event.stopPropagation();
         this.annotationStoreService.setCommentBtnSubject(this.comment.id);
         this.annotationStoreService.setAnnotationFocusSubject(this.annotation);
     }

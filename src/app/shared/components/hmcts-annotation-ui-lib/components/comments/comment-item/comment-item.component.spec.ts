@@ -157,7 +157,12 @@ describe('CommentItemComponent', () => {
     it('should update the commentBtn subject with its own comment ID', () => {
       spyOn(mockAnnotationStoreService, 'setCommentBtnSubject');
       spyOn(mockAnnotationStoreService, 'setAnnotationFocusSubject');
-      component.handleCommentClick();
+
+      const mockEvent = {
+        stopPropagation() {}
+      };
+      component.handleCommentClick(mockEvent);
+
       expect(mockAnnotationStoreService.setCommentBtnSubject)
         .toHaveBeenCalledWith(component.comment.id);
     });
@@ -172,7 +177,6 @@ describe('CommentItemComponent', () => {
       expect(actual.content).toEqual(commentForm.value.content);
     }));
   });
-
 
   describe('onSubmit', () => {
     it('should add current date to comment onSubmit', async(() => {

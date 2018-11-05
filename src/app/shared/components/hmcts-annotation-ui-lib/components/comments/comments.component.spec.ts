@@ -89,7 +89,6 @@ describe('CommentsComponent', () => {
     fixture = TestBed.createComponent(CommentsComponent);
     component = fixture.componentInstance;
 
-    spyOn(component, 'ngAfterViewInit').and.stub();
     spyOn(mockPdfService, 'getDataLoadedSub').and.returnValue(of(true));
     spyOn(mockAnnotationStoreService, 'getAnnotationsForPage').and
     .callFake(() => {
@@ -158,12 +157,9 @@ describe('CommentsComponent', () => {
 
   describe('handleAnnotationBlur', () => {
     it('should call setToolBarUpdate to null', () => {
-      spyOn(mockAnnotationStoreService, 'setToolBarUpdate');
       spyOn(component, 'showAllComments');
 
       component.handleAnnotationBlur();
-
-      expect(mockAnnotationStoreService.setToolBarUpdate).toHaveBeenCalled();
       expect(component.showAllComments).toHaveBeenCalled();
     });
   });

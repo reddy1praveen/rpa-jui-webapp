@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { Subject, Observable, of } from 'rxjs';
 
 import { AnnotationPdfViewerComponent } from './annotation-pdf-viewer.component';
@@ -10,7 +11,7 @@ import { AnnotationStoreService } from '../../data/annotation-store.service';
 import { NpaService } from '../../data/npa.service';
 import { ApiHttpService } from '../../data/api-http.service';
 import { Utils } from '../../data/utils';
-import { DOCUMENT } from '@angular/common';
+import { CommentsComponent } from '../comments/comments.component';
 
 class MockPdfService {
   pageNumber: Subject<number>;
@@ -20,6 +21,7 @@ class MockPdfService {
     this.pageNumber.next(1);
   }
 
+  getDataLoadedSub() {}
   setHighlightTool() {}
   setRenderOptions() {}
   setPageNumber(page: number) {}
@@ -37,6 +39,7 @@ class MockAnnotationStoreService {
   getAnnotationFocusSubject() {}
   setCommentFocusSubject() {}
   setToolBarUpdate() {}
+  getAnnotationsForPage() {}
 }
 
 class MockNpaService {
@@ -54,8 +57,6 @@ class MockApiHttpService {
   setBaseUrl(baseUrl) {}
 }
 
-class MockCommentComponent {}
-class MockToolbarComponent {}
 class MockUtils {
   clickIsHighlight() {}
   getClickedPage() {}
@@ -74,7 +75,7 @@ describe('AnnotationPdfViewerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AnnotationPdfViewerComponent ],
+      declarations: [ AnnotationPdfViewerComponent, CommentsComponent ],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         { provide: Utils, useFactory: () => mockUtils },
@@ -102,7 +103,7 @@ describe('AnnotationPdfViewerComponent', () => {
     null, '116b0b0f-65da-41e3-9852-648fe4c30409', []);
 
     component.baseUrl = 'localhost:3000';
-
+    // component.commentsComponent = commentsComponent;
     mockDocument = fixture.componentRef.injector.get(DOCUMENT);
     spyOn(component, 'ngAfterViewInit').and.stub();
     spyOn(mockDocument, 'querySelector').and.callFake(function() {
@@ -112,7 +113,10 @@ describe('AnnotationPdfViewerComponent', () => {
     spyOn(mockAnnotationStoreService, 'getAnnotationFocusSubject')
       .and.returnValue(of(new Annotation));
 
+    spyOn(mockPdfService, 'getDataLoadedSub').and.returnValue(of(true));
     fixture.detectChanges();
+    const mockCommentsComponent = fixture.componentInstance.commentsComponent;
+    spyOn(mockCommentsComponent, 'handleAnnotationBlur').and.stub();
   });
 
   it('should create', () => {
@@ -225,9 +229,23 @@ describe('AnnotationPdfViewerComponent', () => {
 
       spyOn(mockPdfService, 'setPageNumber');
       spyOn(mockUtils, 'clickIsHighlight').and.returnValue(true);
+
+      component.handleClick(event, false);
+      expect(mockPdfService.setPageNumber).not.toHaveBeenCalled();
+    });
+
+    it('should only set the pageNumberSubject if isPage is true', () => {
+      const dom = document.createElement('div');
+      const parentNode = document.createElement('div');
+      parentNode.setAttribute('data-page-number', '1');
+      spyOnProperty(dom, 'parentNode', 'get').and.returnValue(parentNode);
+      const event = {target: dom};
+
+      spyOn(mockPdfService, 'setPageNumber');
+      spyOn(mockUtils, 'clickIsHighlight').and.returnValue(true);
       spyOn(mockUtils, 'getClickedPage').and.returnValue(1);
 
-      component.handleClick(event);
+      component.handleClick(event, true);
       expect(mockUtils.getClickedPage).toHaveBeenCalled();
       expect(mockPdfService.setPageNumber).toHaveBeenCalledWith(1);
     });

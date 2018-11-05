@@ -11,7 +11,7 @@ import { Annotation } from '../../data/annotation-set.model';
     styleUrls: ['./comments.component.scss'],
     providers: []
 })
-export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CommentsComponent implements OnInit, OnDestroy {
 
     private dataLoadedSub: Subscription;
     annotations: Annotation[];
@@ -19,8 +19,7 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
     private pageNumSub: Subscription;
 
     constructor(private annotationStoreService: AnnotationStoreService,
-                private pdfService: PdfService,
-                @Inject(DOCUMENT) private document: any) {
+                private pdfService: PdfService) {
     }
 
     ngOnInit() {
@@ -29,10 +28,6 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.preRun();
             }
         });
-    }
-
-    ngAfterViewInit() {
-        this.document.querySelector('#viewer').addEventListener('click', this.handleAnnotationBlur.bind(this));
     }
 
     ngOnDestroy() {
@@ -75,6 +70,5 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     handleAnnotationBlur() {
         this.showAllComments();
-        this.annotationStoreService.setToolBarUpdate(null, null);
     }
 }
