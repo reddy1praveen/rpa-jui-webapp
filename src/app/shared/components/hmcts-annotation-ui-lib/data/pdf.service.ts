@@ -8,9 +8,9 @@ declare const PDFAnnotate: any;
 export class PdfService {
 
     UI;
+    pdfPages: number;
     private RENDER_OPTIONS: { documentId: string, pdfDocument: any, scale: any, rotate: number };
     private pageNumber: BehaviorSubject<number>;
-<<<<<<< Updated upstream
     private annotationSub: Subject<string>;
     private dataLoadedSubject: BehaviorSubject<boolean>;
 
@@ -72,7 +72,6 @@ export class PdfService {
                         });
                     });
                 }
-<<<<<<< Updated upstream
                 this.pdfPages = NUM_PAGES;
             }).catch(
             (error) => {

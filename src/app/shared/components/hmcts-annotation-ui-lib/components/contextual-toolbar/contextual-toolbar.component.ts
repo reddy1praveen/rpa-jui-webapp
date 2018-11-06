@@ -88,12 +88,13 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
 
   handleCommentBtnClick() {
     if (this.annotation.comments.length === 0 ) {
-      this.annotationStoreService.addComment(new Comment(null, this.annotation.id, null, null, null, null, null, null, null));
-      this.annotationStoreService.setCommentFocusSubject(this.annotation, true);
-    } else {
-      this.annotationStoreService.setCommentFocusSubject(this.annotation, true);
+        this.annotationStoreService.addComment(new Comment(null, this.annotation.id, null, null, null, null, null, null, null));
     }
-    setTimeout(() => {this.hideToolBar(); }, 10);
+    setTimeout(() => {
+        const tempAnnotation = this.annotation;
+        this.hideToolBar();
+        this.annotationStoreService.setCommentFocusSubject(tempAnnotation, true);
+        }, 10);
   }
 
   handleHighlightBtnClick() {
