@@ -45,6 +45,7 @@ Feature: View Case Summary Page
 
 
 
+
     @RIUI_299 @all
     Scenario Outline: I can see case summary and panel members information
         Then I should see case details of that case <type>

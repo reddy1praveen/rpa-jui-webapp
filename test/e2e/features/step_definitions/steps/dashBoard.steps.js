@@ -115,7 +115,9 @@ defineSupportCode(function({ Given, When, Then }) {
 
 
     Then(/^I should see table header columns$/, async function() {
+        browser.sleep(SHORT_DELAY);
         await dashBoardPage.table.isDisplayed();
+        browser.sleep(SHORT_DELAY);
         await expect(dashBoardPage.table_column_header.isDisplayed()).to.eventually.be.true;
 
     });
