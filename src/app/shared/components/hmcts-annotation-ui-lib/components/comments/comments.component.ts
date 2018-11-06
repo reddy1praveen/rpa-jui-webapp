@@ -54,7 +54,6 @@ export class CommentsComponent implements OnInit, OnDestroy {
             this.annotationStoreService.getAnnotationsForPage(i)
                 .then((pageData: any) => {
                     this.annotations = this.annotations.concat(pageData.annotations.slice());
-                    console.log(this.annotations.length);
                 });
         }
     }
