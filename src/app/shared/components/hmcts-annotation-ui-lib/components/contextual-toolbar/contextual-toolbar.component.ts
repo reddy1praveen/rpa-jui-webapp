@@ -66,7 +66,7 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
     const wrapperRect = <DOMRect>wrapper.getBoundingClientRect();
 
     const left = ((highlightRect.x - wrapperRect.left)
-      - 108) + highlightRect.width / 2; // Minus half the toolbar width + half the length of the highlight
+      - 175) + highlightRect.width / 2; // Minus half the toolbar width + half the length of the highlight
     const top = ((highlightRect.y - wrapperRect.top)
       - 59) - 5; // Minus height of toolbar + 5px
 

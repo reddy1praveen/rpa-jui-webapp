@@ -160,7 +160,6 @@ export class CommentItemComponent implements OnInit, OnDestroy {
             const wrapperRect = <DOMRect>this.document.querySelector('#annotation-wrapper').getBoundingClientRect();
 
             const topPosition = (highlightRect.y - wrapperRect.top);
-
             return topPosition;
         }
     }

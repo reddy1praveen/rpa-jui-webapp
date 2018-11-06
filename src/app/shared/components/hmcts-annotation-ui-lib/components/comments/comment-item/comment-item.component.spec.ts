@@ -37,7 +37,6 @@ describe('CommentItemComponent', () => {
   let component: CommentItemComponent;
   let fixture: ComponentFixture<CommentItemComponent>;
   let commentForm: any;
-  let renderer2: Renderer2;
 
   const comment = new Comment(
     '71d5914c-163c-4e91-9788-101e1fd1c171',
@@ -65,7 +64,11 @@ describe('CommentItemComponent', () => {
   );
 
   const mockAnnotationStoreService = new MockAnnotationStoreService();
-  const mockPdfService = new MockPdfService();
+  const mockComment = new Comment(
+    'cfe6bdad-8fc5-4240-adfc-d583bdaee47a',
+    '22a3bde9-18d6-46b2-982b-36e0a631ea4b',
+    '111111', null, new Date(), null, null, null,
+    'comment content');
 
   beforeEach(async(() => {
     commentForm = <NgForm>{
@@ -90,7 +93,6 @@ describe('CommentItemComponent', () => {
 
   beforeEach(async(() => {
     fixture = TestBed.createComponent(CommentItemComponent);
-    renderer2 = fixture.componentRef.injector.get<Renderer2>(Renderer2 as Type<Renderer2>);
     const mockDocument = fixture.componentRef.injector.get(DOCUMENT);
     spyOn(mockDocument, 'querySelectorAll').and
       .returnValue([document.createElement('div')]);
@@ -207,6 +209,42 @@ describe('CommentItemComponent', () => {
       spyOn(mockAnnotationStoreService, 'deleteComment');
       component.handleDeleteComment();
       expect(mockAnnotationStoreService.deleteComment).toHaveBeenCalled();
+    }));
+  });
+
+  describe('isModified', () => {
+    it('should return false if createdDate is null', async(() => {
+      mockComment.createdDate = null;
+      component.comment = mockComment;
+      const modified = component.isModified();
+      expect(modified).toBeFalsy();
+    }));
+
+    it('should return false if lastModifiedBy is null', async(() => {
+      mockComment.createdDate = new Date();
+      mockComment.lastModifiedBy = null;
+      component.comment = mockComment;
+      const modified = component.isModified();
+      expect(modified).toBeFalsy();
+    }));
+
+    it('should return false if lastModifiedDate and createdDate are the same', async(() => {
+      const myDate = new Date();
+      mockComment.createdDate = myDate;
+      mockComment.lastModifiedDate = myDate;
+      mockComment.lastModifiedBy = 'anId';
+      component.comment = mockComment;
+      const modified = component.isModified();
+      expect(modified).toBeFalsy();
+    }));
+
+    it('should return true if above do not return false', async(() => {
+      mockComment.createdDate =  new Date();
+      mockComment.lastModifiedDate =  new Date();
+      mockComment.lastModifiedBy = 'anId';
+      component.comment = mockComment;
+      const modified = component.isModified();
+      expect(modified).toBeTruthy();
     }));
   });
 });

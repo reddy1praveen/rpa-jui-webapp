@@ -87,14 +87,10 @@ export class PdfService {
     }
 
     setHighlightTool() {
-        localStorage.setItem(this.RENDER_OPTIONS.documentId + '/tooltype', 'highlight');
         PDFAnnotate.UI.enableRect('highlight');
-        PDFAnnotate.UI.disableEdit();
     }
 
     setCursorTool() {
         PDFAnnotate.UI.disableRect();
-        PDFAnnotate.UI.enableEdit();
-        localStorage.setItem(this.RENDER_OPTIONS.documentId + '/tooltype', 'cursor');
     }
 }

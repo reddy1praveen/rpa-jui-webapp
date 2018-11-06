@@ -164,4 +164,17 @@ describe('CommentsComponent', () => {
     });
   });
 
+  describe('handleAnnotationClick', () => {
+    it('should get the clicked annotation and call subjects with annotation', () => {
+      spyOn(mockAnnotationStoreService, 'setAnnotationFocusSubject');
+      spyOn(mockAnnotationStoreService, 'setCommentFocusSubject');
+      spyOn(mockAnnotationStoreService, 'setToolBarUpdate');
+
+      spyOn(mockAnnotationStoreService, 'getAnnotationById')
+        .and.returnValue(Promise.resolve(new Annotation()));
+
+      const target = document.createElement('div');
+      component.handleAnnotationClick(target);
+    });
+  });
 });

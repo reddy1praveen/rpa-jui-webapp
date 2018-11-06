@@ -72,4 +72,14 @@ export class CommentsComponent implements OnInit, OnDestroy {
     handleAnnotationBlur() {
         this.showAllComments();
     }
+
+    handleAnnotationClick(event) {
+        const annotationId = event.getAttribute('data-pdf-annotate-id');
+        this.annotationStoreService.getAnnotationById(annotationId)
+            .then((annotation: Annotation) => {
+                this.annotationStoreService.setAnnotationFocusSubject(annotation);
+                this.annotationStoreService.setCommentFocusSubject(annotation);
+                this.annotationStoreService.setToolBarUpdate(annotation, true);
+            });
+    }
 }

@@ -5,8 +5,6 @@ import {Annotation, AnnotationSet, Comment, Rectangle} from './annotation-set.mo
 import {Utils} from './utils';
 import { DOCUMENT } from '@angular/common';
 
-declare const PDFAnnotate: any;
-
 @Injectable()
 export class PdfAdapter {
     annotationSet: AnnotationSet;
@@ -188,13 +186,13 @@ export class PdfAdapter {
 
         // Unused
         const editAnnotation = (documentId, pageNumber, annotation) => {
-            return new Promise(function (resolve, reject) {
+            return new Promise((resolve, reject) => {
                 this.annotationChangeSubject.next({'type': 'editAnnotation', 'annotation': annotation});
-                resolve(this.data.comments);
+                resolve(this.commentData);
             });
         };
 
-        return new PDFAnnotate.StoreAdapter({
+        return {
             getAnnotations,
             getComments,
             getAnnotation,
@@ -203,7 +201,7 @@ export class PdfAdapter {
             deleteAnnotation,
             addComment,
             deleteComment
-        });
+        };
     }
 
     findById(array, id) {

@@ -59,7 +59,6 @@ export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDe
 
         this.renderedPages = {};
         this.pdfService.render(this.viewerElementRef);
-        this.pdfService.setHighlightTool();
         this.pageNumberSubscription = this.pdfService.getPageNumber()
             .subscribe(page => this.page = page);
         this.focusedAnnotationSubscription = this.annotationStoreService.getAnnotationFocusSubject()
