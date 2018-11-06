@@ -28,6 +28,7 @@ import { ButtonsComponent } from './components/buttons/buttons.component';
 import { LegendComponent } from './components/legend/legend.component';
 import { HintComponent } from './components/hint/hint.component';
 import { ValidationErrorLabelComponent } from './components/validation-error-label/validation-error-label.component';
+import { ValidationErrorFormGroupComponent } from './components/validation-error-formgroup/validation-error-formgroup.component';
 import { ValidationHeaderComponent } from './components/validation-header/validation-header.component';
 import { JuiFormElementsComponent } from './components/jui-form-elements/jui-form-elements.component';
 
@@ -65,6 +66,7 @@ import { JuiFormElementsComponent } from './components/jui-form-elements/jui-for
         LegendComponent,
         HintComponent,
         ValidationErrorLabelComponent,
+        ValidationErrorFormGroupComponent,
         ValidationHeaderComponent,
         JuiFormElementsComponent,
     ],
@@ -93,6 +95,7 @@ import { JuiFormElementsComponent } from './components/jui-form-elements/jui-for
         CaseActionAlertComponent,
         DocumentViewerModule,
         ValidationErrorLabelComponent,
+        ValidationErrorFormGroupComponent,
         ValidationHeaderComponent,
     ]
 })
