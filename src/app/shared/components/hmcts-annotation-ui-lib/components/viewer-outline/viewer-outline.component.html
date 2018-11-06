@@ -1,0 +1,10 @@
+
+<div class="outline-wrapper">
+
+    <div *ngIf="outlineToggle">
+        <app-viewer-outline-item (itemClicked)="onItemClicked($event)" [item]="item" *ngFor="let item of outline"></app-viewer-outline-item>
+    </div>
+
+    <div *ngIf="!outlineToggle" class="outline-toggle" (click)="outlineToggle=!outlineToggle"> </div>
+
+</div>

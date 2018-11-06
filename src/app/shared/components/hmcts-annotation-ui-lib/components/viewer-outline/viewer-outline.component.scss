@@ -1,0 +1,17 @@
+.outline-wrapper {
+    position: absolute;
+    z-index: 1000000;
+    overflow: visible;
+    background-color: red;
+}
+
+.outline-item-label {
+    cursor: pointer;
+}
+
+.outline-toggle {
+    height: 50px;
+    width: 50px;
+    background-color: black;
+    cursor: pointer;
+}

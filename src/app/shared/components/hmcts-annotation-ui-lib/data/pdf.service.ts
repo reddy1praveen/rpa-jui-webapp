@@ -49,6 +49,20 @@ export class PdfService {
         this.RENDER_OPTIONS = RENDER_OPTIONS;
     }
 
+    getOutline() {
+        return this.RENDER_OPTIONS.pdfDocument ? this.getRenderOptions().pdfDocument.getOutline() : null;
+    }
+
+    findOutlineItemPosition(outlineItem) {
+        return new Promise(resolve => {
+            this.getRenderOptions().pdfDocument.getDestination(outlineItem.dest).then( d => {
+                this.getRenderOptions().pdfDocument.getPageIndex(d[0]).then( pageIndex => {
+                    resolve(pageIndex);
+                });
+            });
+        });
+    }
+
     render(viewerElementRef?: ElementRef) {
         if (viewerElementRef != null) {
             this.viewerElementRef = viewerElementRef;

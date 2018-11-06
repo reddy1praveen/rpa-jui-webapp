@@ -12,6 +12,8 @@ import { AnnotationPdfViewerComponent } from './components/annotation-pdf-viewer
 import { Utils } from './data/utils';
 import { ApiHttpService } from './data/api-http.service';
 import { ContextualToolbarComponent } from './components/contextual-toolbar/contextual-toolbar.component';
+import {ViewerOutlineComponent} from './components/viewer-outline/viewer-outline.component';
+import {ViewerOutlineItemComponent} from './components/viewer-outline/viewer-outline-item.component';
 
 @NgModule({
   imports: [
@@ -23,7 +25,9 @@ import { ContextualToolbarComponent } from './components/contextual-toolbar/cont
     CommentsComponent,
     CommentItemComponent,
     ContextualToolbarComponent,
-    AnnotationPdfViewerComponent
+    AnnotationPdfViewerComponent,
+    ViewerOutlineComponent,
+    ViewerOutlineItemComponent
   ],
   providers: [
     PdfService,

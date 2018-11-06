@@ -2,6 +2,8 @@
 <app-comments (click)="handleClick($event, false)" #commentsComponent
  *ngIf="annotate"></app-comments>
 
+<app-viewer-outline (itemClicked)="outlineItemClicked($event)"></app-viewer-outline>
+
 <div id="annotation-wrapper">
     <app-contextual-toolbar #contextualToolbar></app-contextual-toolbar>
 

@@ -133,4 +133,10 @@ export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDe
                 });
         }
     }
+
+    outlineItemClicked(item) {
+        this.pdfService.findOutlineItemPosition(item).then(pageIndex => {
+            alert(pageIndex);
+        });
+    }
 }

@@ -168,10 +168,10 @@ export class AnnotationStoreService implements OnDestroy {
     saveAnnotation(annotation: Annotation, displayToolbar?: boolean) {
         this.apiHttpService.saveAnnotation(annotation).subscribe(
             response => {
-                console.log(response);
-                // if (displayToolbar) {
-                //     this.setToolBarUpdate(annotation);
-                // }
+                annotation.comments.forEach( comment => {
+                    const returnedComment = response.body.comments.find( c => c.id === comment.id );
+                    comment.createdByDetails = returnedComment.createdByDetails;
+                });
             },
             error => console.log(error)
         );
