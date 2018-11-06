@@ -12,13 +12,12 @@ export class PdfService {
     private pageNumber: BehaviorSubject<number>;
 <<<<<<< Updated upstream
     private annotationSub: Subject<string>;
-    private dataLoadedSubject: Subject<boolean>;
+    private dataLoadedSubject: BehaviorSubject<boolean>;
 
     viewerElementRef: ElementRef;
 
     constructor() {
-        this.dataLoadedSubject = new Subject();
-        this.dataLoadedSubject.next(false);
+        this.dataLoadedSubject = new BehaviorSubject(false);
     }
 
     preRun() {
@@ -26,7 +25,7 @@ export class PdfService {
         this.pageNumber = new BehaviorSubject(1);
     }
 
-    getDataLoadedSub(): Subject<boolean> {
+    getDataLoadedSub(): BehaviorSubject<boolean> {
         return this.dataLoadedSubject;
     }
 
@@ -66,12 +65,15 @@ export class PdfService {
                     const page = this.UI.createPage(i + 1);
                     viewer.appendChild(page);
                     setTimeout(() => {
-                        this.UI.renderPage(i + 1, this.RENDER_OPTIONS);
+                        this.UI.renderPage(i + 1, this.RENDER_OPTIONS).then(() => {
+                            if (i === NUM_PAGES -1) {
+                                this.dataLoadedUpdate(true);
+                            }
+                        });
                     });
                 }
 <<<<<<< Updated upstream
                 this.pdfPages = NUM_PAGES;
-                this.dataLoadedUpdate(true);
             }).catch(
             (error) => {
                 const errorMessage = new Error('Unable to render your supplied PDF. ' +

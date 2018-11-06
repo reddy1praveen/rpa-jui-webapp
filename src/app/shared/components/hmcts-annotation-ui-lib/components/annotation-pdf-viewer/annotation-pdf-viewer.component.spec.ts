@@ -250,31 +250,4 @@ describe('AnnotationPdfViewerComponent', () => {
       expect(mockPdfService.setPageNumber).toHaveBeenCalledWith(1);
     });
   });
-
-  describe('handlePdfScroll', () => {
-    it('should hide the contextualtoolbar', () => {
-      const scrollEvent = document.createEvent( 'CustomEvent' );
-      scrollEvent.initCustomEvent( 'scroll', false, false, null );
-      const parentNode = document.createElement('div');
-      spyOnProperty(scrollEvent, 'srcElement', 'get').and
-        .returnValue(parentNode);
-
-      spyOn(mockAnnotationStoreService, 'setToolBarUpdate').and
-        .callFake((subject) => expect(subject).toBeNull());
-      component.handlePdfScroll(scrollEvent);
-    });
-
-    it('should call pdfService setPageNUmber when new page is scrolled', async(() => {
-      const scrollEvent = document.createEvent( 'CustomEvent' );
-      scrollEvent.initCustomEvent( 'scroll', false, false, null );
-      const parentNode = document.createElement('div');
-
-      spyOnProperty(scrollEvent, 'srcElement', 'get').and
-        .returnValue(parentNode);
-      spyOn(mockPdfService, 'setPageNumber');
-
-      component.handlePdfScroll(scrollEvent);
-      expect(mockPdfService.setPageNumber).toHaveBeenCalledWith(1);
-    }));
-  });
 });

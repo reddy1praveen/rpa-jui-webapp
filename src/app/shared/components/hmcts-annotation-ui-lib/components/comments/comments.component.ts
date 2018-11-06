@@ -25,6 +25,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.dataLoadedSub = this.pdfService.getDataLoadedSub().subscribe(isDataLoaded => {
             if (isDataLoaded) {
+                this.showAllComments();
                 this.preRun();
             }
         });
@@ -43,18 +44,18 @@ export class CommentsComponent implements OnInit, OnDestroy {
         this.pageNumSub = this.pdfService.getPageNumber().subscribe(
             pageNumber => {
                 this.pageNumber = pageNumber;
-                this.showAllComments();
             });
     }
 
     showAllComments() {
         // todo - refactor this out of component
-        this.annotationStoreService.getAnnotationsForPage(this.pageNumber)
-            .then((pageData: any) => {
-                const annotations = pageData.annotations.slice();
-                this.sortByY(annotations);
-                this.annotations = annotations;
-            });
+        this.annotations = [];
+        for (let i = 0; i < this.pdfService.pdfPages + 1; i++) {
+            this.annotationStoreService.getAnnotationsForPage(i)
+                .then((pageData: any) => {
+                    this.annotations = this.annotations.concat(pageData.annotations.slice());
+                });
+        }
     }
 
     sortByY(annotations) {

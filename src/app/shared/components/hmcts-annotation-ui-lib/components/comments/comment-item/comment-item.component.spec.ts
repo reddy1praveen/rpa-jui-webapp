@@ -1,12 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgForm, FormsModule } from '@angular/forms';
-import { Subject, of } from 'rxjs';
+import {Subject, of, BehaviorSubject} from 'rxjs';
 
 import { CommentItemComponent } from './comment-item.component';
 import { AnnotationStoreService } from '../../../data/annotation-store.service';
 import { Comment, Annotation } from '../../../data/annotation-set.model';
 import { NO_ERRORS_SCHEMA, Renderer2, Type } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import {PdfService} from '../../../data/pdf.service';
 
 class MockAnnotationStoreService {
   comment: Comment;
@@ -26,6 +27,10 @@ class MockAnnotationStoreService {
   getCommentBtnSubject(): Subject<string> {
     return this.commentBtnSubject;
   }
+}
+
+class MockPdfService {
+    getDataLoadedSub() {}
 }
 
 describe('CommentItemComponent', () => {
@@ -60,6 +65,7 @@ describe('CommentItemComponent', () => {
   );
 
   const mockAnnotationStoreService = new MockAnnotationStoreService();
+  const mockPdfService = new MockPdfService();
 
   beforeEach(async(() => {
     commentForm = <NgForm>{
@@ -74,6 +80,7 @@ describe('CommentItemComponent', () => {
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         { provide: AnnotationStoreService, useFactory: () => mockAnnotationStoreService },
+        { provide: PdfService, useFactory: () => mockPdfService },
         Renderer2
       ],
       imports: [ FormsModule ]
@@ -90,7 +97,8 @@ describe('CommentItemComponent', () => {
     component = fixture.componentInstance;
     spyOn(mockAnnotationStoreService, 'getCommentFocusSubject').and
       .returnValue(of({annotation: annotation, showButton: false}));
-
+    spyOn(mockPdfService, 'getDataLoadedSub').and
+          .returnValue(of(null));
     component.comment = comment;
     component.annotation = annotation;
 
@@ -101,7 +109,7 @@ describe('CommentItemComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('onInit', () => {
+  fdescribe('onInit', () => {
     it('should hideTheButtonsAndUnfocus', () => {
       component.ngOnInit();
       expect(component['focused']).toBeFalsy();

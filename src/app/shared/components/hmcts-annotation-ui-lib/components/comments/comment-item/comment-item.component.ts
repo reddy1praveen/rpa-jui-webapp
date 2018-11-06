@@ -1,8 +1,10 @@
-import {Component, OnInit, Input, Output, EventEmitter, ViewChild, OnDestroy, ChangeDetectorRef, ElementRef} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, ViewChild, OnDestroy, ChangeDetectorRef, ElementRef, Inject} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import { Subscription } from 'rxjs';
 import {Comment, Annotation} from '../../../data/annotation-set.model';
 import {AnnotationStoreService} from '../../../data/annotation-store.service';
+import {DOCUMENT} from '@angular/platform-browser';
+import {PdfService} from '../../../data/pdf.service';
 
 @Component({
     selector: 'app-comment-item',
@@ -13,6 +15,7 @@ export class CommentItemComponent implements OnInit, OnDestroy {
 
     private commentBtnSub: Subscription;
     private commentFocusSub: Subscription;
+    private dataLoadedSub: Subscription;
     hideButton: boolean;
     focused: boolean;
 
@@ -26,9 +29,13 @@ export class CommentItemComponent implements OnInit, OnDestroy {
 
 
     model = new Comment(null, null, null, null, null, null, null, null, null);
+    commentTopPos: number;
+    commentZIndex: number;
 
     constructor(private annotationStoreService: AnnotationStoreService,
-                private ref: ChangeDetectorRef) {
+                private ref: ChangeDetectorRef,
+                @Inject(DOCUMENT) private document: any,
+                private pdfService: PdfService) {
     }
 
     ngOnInit() {
@@ -38,6 +45,7 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         this.commentFocusSub = this.annotationStoreService.getCommentFocusSubject()
             .subscribe((options) => {
                 if (options.annotation.id === this.comment.annotationId) {
+                    this.commentZIndex = 1;
                     this.focused = true;
                     if (options.showButton) {
                         this.handleShowBtn();
@@ -57,6 +65,13 @@ export class CommentItemComponent implements OnInit, OnDestroy {
                 this.handleHideBtn();
                 }
           });
+
+        this.dataLoadedSub = this.pdfService.getDataLoadedSub()
+            .subscribe( (dataLoaded: boolean) => {
+                if (dataLoaded) {
+                    this.commentTopPos = this.getRelativePosition(this.comment.annotationId);
+                }
+            });
     }
 
     ngOnDestroy() {
@@ -65,6 +80,9 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         }
         if (this.commentBtnSub) {
             this.commentBtnSub.unsubscribe();
+        }
+        if (this.dataLoadedSub) {
+            this.dataLoadedSub.unsubscribe();
         }
     }
 
@@ -92,6 +110,7 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         if (!this.ref['destroyed']) {
             this.ref.detectChanges();
         }
+        this.commentZIndex = 0;
     }
 
     convertFormToComment(commentForm: NgForm): Comment {
@@ -113,10 +132,10 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     }
 
     handleCommentClick(event: any) {
-
         event.stopPropagation();
         this.annotationStoreService.setCommentBtnSubject(this.comment.id);
         this.annotationStoreService.setAnnotationFocusSubject(this.annotation);
+        this.commentZIndex = 1;
     }
 
     handleShowBtn() {
@@ -130,5 +149,19 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         }
         this.focused = false;
         this.hideButton = true;
+    }
+
+    getRelativePosition(annotationId: string): number {
+        const svgSelector = this.document.querySelector(`g[data-pdf-annotate-id="${annotationId}"]`);
+        if (svgSelector === null) {
+            return null;
+        } else {
+            const highlightRect = <DOMRect>svgSelector.getBoundingClientRect();
+            const wrapperRect = <DOMRect>this.document.querySelector('#annotation-wrapper').getBoundingClientRect();
+
+            const topPosition = (highlightRect.y - wrapperRect.top);
+
+            return topPosition;
+        }
     }
 }
