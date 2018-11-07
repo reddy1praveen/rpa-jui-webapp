@@ -17,9 +17,10 @@ defineSupportCode(function ({Given, When, Then}) {
 
     Then(/^I click the Make Decision button$/,  async function () {
         browser.sleep(MID_DELAY);
-        await browser.wait(EC.elementToBeClickable(timelinePage.make_decision.first()), MID_DELAY);
-        await timelinePage.make_decision.first().click();
-        browser.sleep(SHORT_DELAY);
+        var loginButton = timelinePage.make_decision;
+        await browser.wait(EC.elementToBeClickable(loginButton), MID_DELAY);
+        await loginButton.click();
+        browser.sleep(MID_DELAY);
     });
 
     Then(/^I select Don't Approve and click continue$/, async function () {
