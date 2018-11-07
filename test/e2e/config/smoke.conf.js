@@ -54,6 +54,10 @@ const config = {
     frameworkPath: require.resolve('protractor-cucumber-framework'),
     specs: ['../features/**/*.feature'],
 
+    //Define which tests should be excluded from execution.
+    exclude : ['../features/app/login.feature', '../features/app/makeDecision.feature'],
+
+
     baseUrl: process.env.TEST_URL || 'http://localhost:3000/',
     params: {
         serverUrls: process.env.TEST_URL || 'http://localhost:3000/',

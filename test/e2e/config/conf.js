@@ -67,6 +67,8 @@ const config = {
     // seleniumAddress: 'http://localhost:4444/wd/hub',
     getPageTimeout: 120000,
     allScriptsTimeout: 500000,
+    getPageTimeOut : 200000,
+    allScriptsTimeout : 500000,
     multiCapabilities: cap,
 
     onPrepare() {
