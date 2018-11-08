@@ -27,6 +27,9 @@ import { FieldsetComponent } from './components/fieldset/fieldset.component';
 import { ButtonsComponent } from './components/buttons/buttons.component';
 import { LegendComponent } from './components/legend/legend.component';
 import { HintComponent } from './components/hint/hint.component';
+import { ValidationErrorFormControlComponent } from './components/validation-error-formcontrol/validation-error-formcontrol.component';
+import { ValidationErrorFormGroupComponent } from './components/validation-error-formgroup/validation-error-formgroup.component';
+import { ValidationHeaderComponent } from './components/validation-header/validation-header.component';
 import { JuiFormElementsComponent } from './components/jui-form-elements/jui-form-elements.component';
 
 @NgModule({
@@ -62,6 +65,9 @@ import { JuiFormElementsComponent } from './components/jui-form-elements/jui-for
         ButtonsComponent,
         LegendComponent,
         HintComponent,
+        ValidationErrorFormControlComponent,
+        ValidationErrorFormGroupComponent,
+        ValidationHeaderComponent,
         JuiFormElementsComponent,
     ],
     exports: [
@@ -87,7 +93,10 @@ import { JuiFormElementsComponent } from './components/jui-form-elements/jui-for
         StatusComponent,
         CaseActionsComponent,
         CaseActionAlertComponent,
-        DocumentViewerModule
+        DocumentViewerModule,
+        ValidationErrorFormControlComponent,
+        ValidationErrorFormGroupComponent,
+        ValidationHeaderComponent,
     ]
 })
 
