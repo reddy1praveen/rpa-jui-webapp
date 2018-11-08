@@ -12,6 +12,8 @@ import {ValidationService} from '../../services/validation.service';
  * ValidationErrorFormControlComponent
  *
  * We show an error message if the FormControl that this component links to via controlId is invalid.
+ *
+ * This component only shows the validation message, it does not apply the validation.
  */
 export class ValidationErrorFormControlComponent {
     @Input() group: FormGroup;

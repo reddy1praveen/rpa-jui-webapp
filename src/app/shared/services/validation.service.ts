@@ -179,4 +179,35 @@ export class ValidationService {
 
         return isAnyCheckboxCheckedValidationFn;
     }
+
+    /**
+     * Is TextArea Valid When Checkbox is Checked
+     *
+     * @param formGroup
+     * @param checkboxControl
+     * @param textareaControl
+     * @param validationIdentifier
+     * @return {any}
+     */
+    isTextAreaValidWhenCheckboxChecked(formGroup: FormGroup, checkboxControl: string, textareaControl: string,
+                                       validationIdentifier: string) {
+
+        const isTextAreaValidWhenCheckboxChecked: ValidatorFn = (controls: FormGroup): ValidationErrors | null => {
+
+            if (!controls.get(checkboxControl).value) {
+                return null;
+            }
+
+            // Now we validates
+            if (controls.get(textareaControl).value.length > 0) {
+                return null;
+            }
+
+            return {
+                [validationIdentifier]: true,
+            };
+        };
+
+        return isTextAreaValidWhenCheckboxChecked;
+    }
 }

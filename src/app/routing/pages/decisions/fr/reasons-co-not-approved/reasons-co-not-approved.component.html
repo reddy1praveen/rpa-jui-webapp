@@ -15,6 +15,7 @@
                                   [data]="group.fieldset"
                                   [validate]="useValidation">
                     </app-fieldset>
+                    <div>{{rejectReasonsForm | json}}</div>
                     <app-jui-form-elements [validate]="useValidation" [group]="rejectReasonsForm" [data]="group"></app-jui-form-elements>
                 </div>
             </form>

@@ -50,12 +50,6 @@ module.exports = {
             validationHeaderErrorMessages: [
                 {
                     validationLevel: 'formControl',
-                    controlId: 'informationNeeded',
-                    text: 'Enter what information is needed',
-                    href: '#'
-                },
-                {
-                    validationLevel: 'formControl',
                     controlId: 'includeAnnotatedVersionDraftConsOrder',
                     text: 'Select yes if you want to include an annotated version of the draft consent order',
                     href: '#'
@@ -63,7 +57,13 @@ module.exports = {
                 {
                     validationLevel: 'formControl',
                     controlId: 'Directions',
-                    text: 'Enter the directions',
+                    text: 'Enter the directions that are required',
+                    href: '#'
+                },
+                {
+                    validationLevel: 'formControl',
+                    controlId: 'Reason',
+                    text: 'Enter a Reason',
                     href: '#'
                 },
                 {
@@ -100,16 +100,7 @@ module.exports = {
                             checkbox: {
                                 control: 'partiesNeedAttend',
                                 value: false,
-                                text: 'The parties need to attend a hearing',
-                                validators: [
-                                    {
-                                        validator: 'required'
-                                    },
-                                    {
-                                        validator: 'custom',
-                                        customValidator: 'oneOfGroupIsSelected'
-                                    }
-                                ]
+                                text: 'The parties need to attend a hearing'
                             }
                         },
                         {
@@ -181,12 +172,8 @@ module.exports = {
                                                                     text: 'What information is needed?',
                                                                     classes: 'govuk-label--m'
                                                                 },
-                                                                validationError: {
-                                                                    value: 'Enter what information is needed'
-                                                                },
                                                                 control: 'informationNeeded',
-                                                                value: '',
-                                                                validators: ['required']
+                                                                value: ''
                                                             }
                                                         }
                                                     ]
@@ -244,8 +231,12 @@ module.exports = {
                                                 text: 'Reason',
                                                 classes: 'govuk-label--m'
                                             },
+                                            validationError: {
+                                                value: 'Enter a reason',
+                                                controlId: 'Reason'
+                                            },
                                             control: 'Reason',
-                                            value: 'Reason text'
+                                            value: ''
                                         }
                                     }
                                 ]

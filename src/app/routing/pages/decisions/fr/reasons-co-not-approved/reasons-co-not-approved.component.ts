@@ -51,6 +51,11 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
 
         const validationIdentifier = 'reasonsConstentOrderNotApproved';
 
+        const crossFieldDependency = {
+            control: 'Reason',
+            dependsOn: 'Other2'
+        };
+
         /**
          * Form Group Validators, are used for validation that involves one control, being dependent upon another,
          * or on a group of other controls.
@@ -68,7 +73,10 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
          * So you should be able to pass in.
          *
          */
-        const formGroupValidators = [this.validationService.isAnyCheckboxChecked(this.rejectReasonsForm, checkboxes, validationIdentifier)];
+        const formGroupValidators = [
+            this.validationService.isAnyCheckboxChecked(this.rejectReasonsForm, checkboxes, validationIdentifier),
+            this.validationService.isTextAreaValidWhenCheckboxChecked(this.rejectReasonsForm, 'Other2', 'Reason', 'reasonsOtherNotGiven')
+        ];
 
         /**
          * Sets up Forms top most validators, ie. validators that depend on multiply controls. ie.
