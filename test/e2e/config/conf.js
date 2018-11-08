@@ -84,15 +84,11 @@ const config = {
         global.should = chai.should;
     },
 
-    // onPrepare: function () {
-    //     rmDir('../test/reports/features/*.html');
-    // },
 
     cucumberOpts: {
         strict: true,
-        // format: ['node_modules/cucumber-pretty'],
         format: 'json:reports_json/results.json',
-        tags: ['@ignore'],
+        tags: ['@all'],
         require: [
             '../support/world.js',
             '../support/*.js',
