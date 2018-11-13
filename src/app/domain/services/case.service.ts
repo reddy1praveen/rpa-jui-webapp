@@ -5,13 +5,15 @@ import {ConfigService} from '../../config.service';
 import {makeStateKey, TransferState} from '@angular/platform-browser';
 import {map} from 'rxjs/operators';
 import {catchError} from 'rxjs/operators';
+import {ErrorServiceUnavailableComponent} from '../../routing/pages/generic-page/error-service-unavailable/error-service-unavailable.component';
 
 @Injectable()
 export class CaseService {
 
     constructor(private httpClient: HttpClient,
                 private configService: ConfigService,
-                private state: TransferState) {
+                private state: TransferState,
+                private customErrorHandling: ErrorServiceUnavailableComponent) {
     }
 
     fetch(caseId, jurisdiction, casetype): Observable<Object> {
@@ -24,6 +26,11 @@ export class CaseService {
         return this.httpClient.get(url).pipe(map(data => {
             this.state.set(key, data);
             return data;
+        })).pipe(catchError(error => {
+            const value: any = {error};
+            this.state.set(key, value);
+            this.customErrorHandling.handleError(error);
+            return value;
         }));
     }
 
