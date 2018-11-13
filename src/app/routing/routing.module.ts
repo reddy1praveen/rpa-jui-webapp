@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './pages/generic-page/dashboard/dashboard.component';
@@ -130,6 +130,20 @@ const routes: Routes = [
                 component: ViewCaseComponent
             }
         ]
+    },
+    {
+        path: '404',
+        component: ErrorServiceUnavailableComponent,
+        data : {status : '404'}
+    },
+    {
+        path: '504',
+        component: ErrorServiceUnavailableComponent,
+        data : {status : '504'}
+    },
+    {
+        path: '**',
+        redirectTo: '/404',
     }
 ];
 
@@ -176,6 +190,8 @@ const routes: Routes = [
     ],
     providers: [
         CaseResolve,
+        ErrorHandler,
+        ErrorServiceUnavailableComponent,
  //       DecisionResolve,
         RedirectionService,
         CaseDataService
