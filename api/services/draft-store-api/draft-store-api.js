@@ -1,6 +1,7 @@
 const express = require('express');
 const config = require('../../../config');
 const generateRequest = require('../../lib/request/request');
+const headerUtilities = require('../../utilities/headerUtilities')
 
 const url = config.services.draft_store_api;
 
@@ -25,12 +26,7 @@ function getInfo(options) {
 }
 
 function getOptions(req) {
-    return {
-        headers: {
-            Authorization: `Bearer ${req.auth.token}`,
-            ServiceAuthorization: `Bearer ${req.headers.ServiceAuthorization}` // ServiceAuthorisation needs Bearer for draft-store apparently!
-        }
-    };
+    headerUtilities.getAuthHeaders(req)
 }
 
 module.exports = app => {
