@@ -1,7 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "outDir": "./dist/out-tsc",
+    "outDir": "./dist/jui-backend",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
