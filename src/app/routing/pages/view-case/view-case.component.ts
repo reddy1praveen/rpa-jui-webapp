@@ -19,6 +19,16 @@ export class ViewCaseComponent implements OnInit {
     public sectionTabName: string | null;
     public targetSection: SectionsCaseItem | null;
 
+    public reference = 'test';
+    public title = '<b>John Smith</b> v <b>Jane Smith</b>';
+    public items = [
+        {
+            text: 'Make a decision',
+            href: '../decision'
+        }
+    ];
+
+
     constructor(public router: Router, private route: ActivatedRoute, private caseDataService: CaseDataService) {
         this.case = this.route.snapshot.data['caseData'];
         this.route.params.subscribe((params: any) => {
@@ -28,7 +38,7 @@ export class ViewCaseComponent implements OnInit {
 
     ngOnInit() {
         if (this.case) {
-            this.targetSection = this.case.sections.find((item: SectionsCaseItem ) => item.id === this.sectionTabName);
+            this.targetSection = this.case.sections.find((item: SectionsCaseItem) => item.id === this.sectionTabName);
             this.sections = this.caseDataService.getNavigation(this.case);
         }
         if (!this.targetSection) {

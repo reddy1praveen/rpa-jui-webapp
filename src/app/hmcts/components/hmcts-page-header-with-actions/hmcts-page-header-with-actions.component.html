@@ -1,0 +1,13 @@
+<div class="hmcts-page-heading">
+    <div class="hmcts-page-heading__title" [innerHtml]="title.html">
+    </div>
+    <div class="hmcts-page-heading__actions">
+        <div class="hmcts-menu">
+            <div class="hmcts-menu__wrapper">
+                <button  *ngFor="let item of items" type="submit" class="govuk-button hmcts-menu__item hmcts-page-heading__action {{item.classes}}">
+                    {{item.text}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

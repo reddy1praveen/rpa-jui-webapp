@@ -10,6 +10,8 @@ import {SentenceCasePipe} from './pipes/sentence-case/sentence-case-pipe';
 import { HmctsAlertComponent } from './components/hmcts-alert/hmcts-alert.component';
 import { HmctsDetailsBarComponent } from './components/hmcts-details-bar/hmcts-details-bar.component';
 import { HmctsGlobalFooterComponent } from './components/hmcts-global-footer/hmcts-global-footer.component';
+import { HmctsPageHeaderWithActionsComponent } from './components/hmcts-page-header-with-actions/hmcts-page-header-with-actions.component';
+import { HmctsMenuComponent } from './components/hmcts-menu/hmcts-menu.component';
 
 @NgModule({
     imports: [
@@ -25,7 +27,9 @@ import { HmctsGlobalFooterComponent } from './components/hmcts-global-footer/hmc
         HmctsAlertComponent,
         SentenceCasePipe,
         HmctsDetailsBarComponent,
-        HmctsGlobalFooterComponent
+        HmctsGlobalFooterComponent,
+        HmctsPageHeaderWithActionsComponent,
+        HmctsMenuComponent,
     ],
     exports: [
         HmctsGlobalHeaderComponent,
@@ -36,7 +40,9 @@ import { HmctsGlobalFooterComponent } from './components/hmcts-global-footer/hmc
         HmctsAlertComponent,
         SentenceCasePipe,
         HmctsDetailsBarComponent,
-        HmctsGlobalFooterComponent
+        HmctsGlobalFooterComponent,
+        HmctsPageHeaderWithActionsComponent,
+        HmctsMenuComponent,
     ]
 })
 export class HmctsModule {
