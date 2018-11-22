@@ -52,30 +52,19 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
         const validationIdentifier = 'reasonsConstentOrderNotApproved';
 
         /**
-         * Form Group Validators, are used for validation that involves one control, being dependent upon another,
-         * or on a group of other controls.
+         * Form Group Validators are used for validation that involves more than one control. ie. When a control
+         * depends on another, or we need to validate a group of controls together.
          *
-         * Validation is required on the common ancestor as per
+         * The validation is required on the common ancestor as per
          * @see https://angular.io/guide/form-validation#adding-to-reactive-forms-1
          * to validate multiply controls.
          *
-         * TODO: So over here, you can place in multiply validators for the page.
-         * So over here you need to pass in the checkboxes. how would you do this?
+         * All for group validators should have the type of ValidationFn.
          *
-         * Therefore isAnyCheckboxChecked needs to return an object that is of signature of ValidationFn.
-         *
-         * So a dev would add validators here, each validator, would have a name
-         * So you should be able to pass in.
-         *
+         * A dev would add validators here, each validator, would have a name assigned to it.
          */
         const formGroupValidators = [this.validationService.isAnyCheckboxChecked(this.rejectReasonsForm, checkboxes, validationIdentifier)];
 
-        /**
-         * Sets up Forms top most validators, ie. validators that depend on multiply controls. ie.
-         * to check if one of multiply checkboxes are checked.
-         *
-         * Note : set Validations takes objects with a signature of ValidationFn
-         */
         this.rejectReasonsForm.setValidators(formGroupValidators);
     }
     ngOnInit() {

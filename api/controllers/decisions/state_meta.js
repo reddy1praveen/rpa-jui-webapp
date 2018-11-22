@@ -263,7 +263,8 @@ module.exports = {
                             controlId: 'Directions'
                         },
                         control: 'Directions',
-                        value: 'Direction text'
+                        value: '',
+                        validators: ['required']
                     }
                 },
                 {
