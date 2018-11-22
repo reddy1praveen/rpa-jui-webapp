@@ -1,13 +1,12 @@
-const Store = require('../../lib/store/store')
+const Store = require('../../../lib/store/store')
 const exceptionFormatter = require('exception-formatter')
-const config = require('../../../config/index')
-const ccdStore = require('../../services/ccd-store-api/ccd-store')
-const express = require('express')
+const config = require('../../../../config/index')
+const ccdStore = require('../../../services/ccd-store-api/ccd-store')
 const moment = require('moment')
 const stateMeta = require('./state_meta')
 const translateJson = require('./translate')
 const log4js = require('log4js')
-const headerUtilities = require('../../lib/utilities/headerUtilities')
+const headerUtilities = require('../../../lib/utilities/headerUtilities')
 
 const logger = log4js.getLogger('State')
 logger.level = config.logging ? config.logging : 'OFF'
@@ -207,7 +206,7 @@ async function makeDecision(decision, req, state, store) {
             store.get(`decisions_${state.inCaseId}`)
         )
     }
-    console.log()
+
     if (decision === 'no') {
         payload = perpareCaseForRefusal(
             caseDetails,
@@ -374,10 +373,6 @@ async function handleStateRoute(req, res) {
     }
 }
 
-module.exports = app => {
-    const router = express.Router({ mergeParams: true })
-    app.use('/decisions', router)
-
-    router.get('/state/:jur_id/:case_id/:state_id', handleStateRoute)
-    router.post('/state/:jur_id/:case_id/:state_id', handleStateRoute)
+module.exports = (req, res) => {
+    handleStateRoute(req, res)
 }

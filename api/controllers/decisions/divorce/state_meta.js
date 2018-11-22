@@ -6,7 +6,7 @@
 //
 
 module.exports = {
-    fr: {
+    FinancialRemedyMVP2: {
         create: {
             idPrefix: 'create',
             name: 'create',

@@ -1,7 +1,9 @@
+
 const cohDecisionsRoutes = require('./cohDecisions')
-const stateDecisionCallback = require('./state')
+const states = require('states')
 
 module.exports = app => {
     cohDecisionsRoutes(app)
-    stateDecisionCallback(app)
+    states(app)
 }
+
