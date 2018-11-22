@@ -9,7 +9,6 @@ import { ViewCaseComponent } from './pages/view-case/view-case.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RedirectionService } from './redirection.service';
 import { DecisionRootComponent } from './pages/decisions/root/root.component';
-import { CreateDecisionComponent } from './pages/decisions/create-decision/create-decision.component';
 import { CheckDecisionComponent } from './pages/decisions/check-decision/check-decision.component';
 import { DecisionConfirmationComponent } from './pages/decisions/decision-confirmation/decision-confirmation.component';
 //import { DecisionResolve } from './resolve/decision.resolve';
@@ -154,7 +153,6 @@ const routes: Routes = [
         PrivacyPolicyComponent,
         TermsAndConditionsComponent,
         ViewCaseComponent,
-        CreateDecisionComponent,
         CheckDecisionComponent,
         DecisionRootComponent,
         DecisionConfirmationComponent,

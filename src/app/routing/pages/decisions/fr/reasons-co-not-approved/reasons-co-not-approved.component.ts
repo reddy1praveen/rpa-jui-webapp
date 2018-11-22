@@ -20,8 +20,8 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
     request: any;
     pageValues: any = null;
     case: any;
-    pageitems;
-
+    pageitems: any;
+    typeId: string;
     /**
      * showValidation
      *
@@ -66,8 +66,9 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
         });
         const caseId = this.case.id;
         const pageId = 'reject-reasons';
-        const jurId = 'fr';
-        this.decisionService.fetch(jurId, caseId, pageId).subscribe(decision => {
+        const jurId = this.case.case_jurisdiction;
+        this.typeId = this.case.case_type_id;
+        this.decisionService.fetch(jurId, caseId, pageId, this.typeId).subscribe(decision => {
             this.decision = decision;
             this.pageitems = this.decision.meta;
             this.pageValues = this.decision.formValues;
@@ -93,7 +94,7 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
             this.useValidation = true;
             return;
         } else {
-            this.decisionService.submitDecisionDraft('fr', this.activatedRoute.snapshot.parent.data.caseData.id, this.pageitems.name, this.request).subscribe(decision => {
+            this.decisionService.submitDecisionDraft('fr', this.activatedRoute.snapshot.parent.data.caseData.id, this.pageitems.name, this.typeId, this.request).subscribe(decision => {
                 console.log(decision.newRoute);
                 this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
             });

@@ -16,6 +16,7 @@ export class HearingDetailsComponent implements OnInit {
     request: any;
     pageValues: any;
     case: any;
+    typeId: string;
     @Input() pageitems;
     constructor(
         private router: Router,
@@ -32,8 +33,10 @@ export class HearingDetailsComponent implements OnInit {
         });
         const caseId = this.case.id;
         const pageId = 'hearing-details';
-        const jurId = 'fr';
-        this.decisionService.fetch(jurId, caseId, pageId).subscribe(decision => {
+        const jurId = this.case.case_jurisdiction;
+        this.typeId = this.case.case_type_id;
+
+        this.decisionService.fetch(jurId, caseId, pageId, this.typeId).subscribe(decision => {
             this.decision = decision;
             this.pageitems = this.decision.meta;
             this.pageValues = this.decision.formValues;
@@ -54,6 +57,7 @@ export class HearingDetailsComponent implements OnInit {
         this.decisionService.submitDecisionDraft('fr',
                 this.activatedRoute.snapshot.parent.data.caseData.id,
                 this.pageitems.name,
+                this.typeId,
                 this.request)
             .subscribe(decision => {
                 console.log(decision.newRoute);
