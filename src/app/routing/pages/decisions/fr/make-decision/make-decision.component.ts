@@ -17,6 +17,8 @@ export class MakeDecisionComponent implements OnInit {
     request: any;
     pageValues: any;
     case: any;
+    typeId: string;
+    jurId: string;
 
     @Input() pageitems;
 
@@ -33,10 +35,17 @@ export class MakeDecisionComponent implements OnInit {
         this.activatedRoute.parent.data.subscribe(data => {
             this.case = data.caseData;
         });
+
+        console.log('CASE is = >', this.case);
+
         const caseId = this.case.id;
         const pageId = 'create';
-        const jurId = 'fr';
-        this.decisionService.fetch(jurId, caseId, pageId).subscribe(decision => {
+        //const jurId = 'fr';
+
+        this.jurId = this.case.case_jurisdiction;
+        this.typeId = this.case.case_type_id;
+
+        this.decisionService.fetch(this.jurId, caseId, pageId, this.typeId).subscribe(decision => {
             this.decision = decision;
             this.pageitems = this.decision.meta;
             this.pageValues = this.decision.formValues;
@@ -50,9 +59,11 @@ export class MakeDecisionComponent implements OnInit {
         this.pageValues.visitedPages = {};
         this.pageValues.visitedPages['create'] = true;
         this.request.formValues.visitedPages = this.pageValues.visitedPages;
-        this.decisionService.submitDecisionDraft('fr',
+        this.decisionService.submitDecisionDraft(
+            this.jurId,
             this.activatedRoute.snapshot.parent.data.caseData.id,
             this.pageitems.name,
+            this.typeId,
             this.request)
             .subscribe(decision => {
             console.log(decision.newRoute);
