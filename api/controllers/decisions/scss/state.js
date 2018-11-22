@@ -1,6 +1,5 @@
 const Store = require('../../../lib/store/store')
-const config = require('../../../../config/index')
-const template = require('./state_meta')
+const config = require('../../../../config')
 const log4js = require('log4js')
 const templates = require('./templates')
 
@@ -22,10 +21,11 @@ function handlePostState(req, res, responseJSON, state) {
     }
 }
 
-function responseAssert(res, responseJSON, inJurisdiction, inStateId, statusHint) {
-    if (template[inJurisdiction] && template[inJurisdiction][inStateId]) {
+function responseAssert(res, responseJSON, caseTypeId, inStateId, statusHint) {
+    if (!templates[caseTypeId]) {
         res.status(ERROR404)
         responseJSON.statusHint = statusHint
+        console.log('false')
         return false
     }
 
@@ -36,7 +36,7 @@ async function handleStateRoute(req, res) {
     const store = new Store(req)
     const jurisdiction = req.params.jurId
     const caseId = req.params.caseId
-    const caseTypeId = req.params.caseTypeId
+    const caseTypeId = req.params.caseTypeId.toLowerCase()
     const stateId = req.params.stateId
 
     const state = {
@@ -50,15 +50,16 @@ async function handleStateRoute(req, res) {
     let result = true
 
     if (
-        responseAssert(res, responseJSON, template[jurisdiction], 'Input parameter route_id: uknown jurisdiction') &&
+        responseAssert(res, responseJSON, caseTypeId, stateId, 'Input parameter route_id: uknown jurisdiction') &&
         responseAssert(
             res,
             responseJSON,
-            template[jurisdiction][stateId],
+            caseTypeId,
+            stateId,
             `Input parameter route_id wrong: no route with this id inside jurisdiction ${jurisdiction}`
         )
     ) {
-        responseJSON.meta = templates[jurisdiction][stateId]
+        responseJSON.meta = templates[caseTypeId][stateId]
 
         if (req.method === 'POST') {
             result = await handlePostState(req, res, responseJSON, state)
