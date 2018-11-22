@@ -239,13 +239,16 @@ async function makeDecision(decision, req, state, store) {
 /* eslint-disable-next-line complexity */
 async function handlePostState(req, res, responseJSON, state) {
     const store = new Store(req)
-    const inCaseId = req.params.case_id
+
+    const jurisdiction = req.params.jurId
+    const caseId = req.params.caseId
+    const caseTypeId = req.params.caseTypeId
 
     const formValues = req.body.formValues
     let result = true
 
     if (formValues) {
-        store.set(`decisions_${inCaseId}`, formValues)
+        store.set(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`)
     }
 
     /* eslint-disable indent */
@@ -268,7 +271,7 @@ async function handlePostState(req, res, responseJSON, state) {
             case 'check':
                 logger.info('Posting to CCD')
                 result = false
-                result = await makeDecision(store.get(`decisions_${inCaseId}`).approveDraftConsent, req, state, store)
+                result = await makeDecision(store.get(`decisions_${caseId}`).approveDraftConsent, req, state, store)
 
                 logger.info('Posted to CCD', result)
 
@@ -322,37 +325,39 @@ function responseAssert(res, responseJSON, inJurisdiction, inStateId, statusHint
 
 async function handleStateRoute(req, res) {
     const store = new Store(req)
-    const inJurisdiction = req.params.jur_id
-    const inCaseId = req.params.case_id
-    const inStateId = req.params.state_id
+    const jurisdiction = req.params.jurId
+    const caseId = req.params.caseId
+    const caseTypeId = req.params.caseTypeId
+    const stateId = req.params.stateId
 
     const state = {
-        inJurisdiction,
-        inCaseId,
-        inStateId
+        jurisdiction,
+        caseId,
+        caseTypeId,
+        stateId
     }
 
     const responseJSON = {}
     let result = true
 
     if (
-        responseAssert(res, responseJSON, stateMeta[inJurisdiction], 'Input parameter route_id: uknown jurisdiction') &&
+        responseAssert(res, responseJSON, stateMeta[jurisdiction], 'Input parameter route_id: uknown jurisdiction') &&
         responseAssert(
             res,
             responseJSON,
-            stateMeta[inJurisdiction][inStateId],
-            `Input parameter route_id wrong: no route with this id inside jurisdiction ${inJurisdiction}`
+            stateMeta[jurisdiction][stateId],
+            `Input parameter route_id wrong: no route with this id inside jurisdiction ${jurisdiction}`
         )
     ) {
         // for GET we return meta for the state requested by inStateId
         // however, for POST, the meta may get overwritten if the change of state occurs
-        responseJSON.meta = stateMeta[inJurisdiction][inStateId]
+        responseJSON.meta = stateMeta[jurisdiction][stateId]
 
         if (req.method === 'POST') {
             result = await handlePostState(req, res, responseJSON, state)
         }
 
-        responseJSON.formValues = store.get(`decisions_${inCaseId}`) || {}
+        responseJSON.formValues = store.get(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`) || {}
     }
 
     // logger.info(req.headers.ServiceAuthorization)
@@ -361,7 +366,7 @@ async function handleStateRoute(req, res) {
     // logger.info('########################')
     // logger.info(state)
     // logger.info('########################')
-    logger.info(store.get(`decisions_${inCaseId}`) || {})
+    logger.info(store.get(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`) || {})
     // logger.info('########################')
     logger.info('Finished proccessing')
     if (result) {
