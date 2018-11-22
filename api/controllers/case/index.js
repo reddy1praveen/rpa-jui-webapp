@@ -7,6 +7,7 @@ const { getAllQuestionsByCase } = require('../questions/index')
 const { getCCDCase } = require('../../services/ccd-store-api/ccd-store')
 const { getHearingByCase } = require('../../services/coh-cor-api/coh-cor-api')
 const headerUtilities = require('../../lib/utilities/headerUtilities')
+const { uploadDocument } = require('../documents')
 
 function hasCOR(jurisdiction, caseType) {
     return jurisdiction === 'SSCS'
@@ -146,6 +147,26 @@ module.exports = app => {
         const caseId = req.params.case_id
 
         getCaseRaw(userId, jurisdiction, caseType, caseId, req)
+            .then(result => {
+                res.setHeader('Access-Control-Allow-Origin', '*')
+                res.setHeader('content-type', 'application/json')
+                res.status(200).send(JSON.stringify(result))
+            })
+            .catch(response => {
+                console.log(response.error || response)
+                res.status(response.error.status).send(response.error.message)
+            })
+    })
+
+    // TODO : Working on connecting up to CCD.
+    router.post('/:jur/:casetype/:case_id/upload', (req, res, next) => {
+        const userId = req.auth.userId
+        const jurisdiction = req.params.jur
+        const caseType = req.params.casetype
+        const caseId = req.params.case_id
+
+        //userId, jurisdiction, caseType, caseId, file, options
+        uploadDocument(userId, jurisdiction, caseType, caseId, req)
             .then(result => {
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.setHeader('content-type', 'application/json')

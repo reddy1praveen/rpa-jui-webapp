@@ -61,3 +61,5 @@ module.exports = app => {
         uploadDocument().pipe(res)
     })
 }
+
+module.exports.uploadDocument = uploadDocument
