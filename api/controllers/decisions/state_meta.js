@@ -47,6 +47,16 @@ module.exports = {
         'reject-reasons': {
             idPrefix: 'reject-reasons',
             name: 'reject-reasons',
+            formGroupValidators: [
+                {
+                    validator: 'isAnyCheckboxChecked',
+                    validationErrorId: 'reasonsConstentOrderNotApproved',
+                    checkboxes: [
+                        'partiesNeedAttend', 'NotEnoughInformation', 'orderNotAppearOfS25ca1973', 'd81',
+                        'pensionAnnex', 'applicantTakenAdvice', 'respondentTakenAdvice', 'Other2'
+                    ]
+                }
+            ],
             validationHeaderErrorMessages: [
                 {
                     validationLevel: 'formControl',
