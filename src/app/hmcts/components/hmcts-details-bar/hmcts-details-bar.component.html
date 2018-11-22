@@ -5,9 +5,10 @@
             <span class="hmcts-details-bar__title" [innerHtml]="title.html"></span>
         </div>
         <div class="hmcts-details-bar__actions" *ngIf="items">
-            <ng-container *ngFor="let item of items">
-                <button type="submit" class="govuk-button hmcts-details-bar__action {{item.classes}}">{{item.text}}</button>
-            </ng-container>
+            <app-hmcts-menu [items]="items"></app-hmcts-menu>
+            <!--<ng-container *ngFor="let item of items">-->
+                <!--<button type="submit" class="govuk-button hmcts-details-bar__action {{item.classes}}">{{item.text}}</button>-->
+            <!--</ng-container>-->
         </div>
     </div>
 </div>
