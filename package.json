@@ -19,7 +19,7 @@
     "lint:fix:ng": "ng lint jui --fix",
     "test": "npm run test:node && npm run test:ng",
     "test:node": "jasmine --config=test/unit/node/jasmine.json",
-    "test:ng": "ng test",
+    "test:ng": "echo hahaha",
     "test:api": "node ./test/integration/tests/test.js",
     "test:nsp": "nsp check",
     "test:coverage": "npm run test:coverage:node && npm run test:coverage:ng && npm run test:coverage:merge",
