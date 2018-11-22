@@ -2,14 +2,17 @@ const express = require('express')
 const divorceCallback = require('./divorce/state')
 const scssCallback = require('./scss/state')
 
+const divorce = 'DIVORCE'
+const scss = 'SCSS'
+
 function handleStateRoute(req, res) {
     const jurisdiction = req.params.jurId
 
     switch (jurisdiction) {
-    case 'DIVORCE':
+    case divorce:
         divorceCallback(req, res)
         break
-    case 'SCSS':
+    case scss:
         scssCallback(req, res)
         break
     default:
@@ -20,6 +23,6 @@ module.exports = app => {
     const router = express.Router({ mergeParams: true })
     app.use('/decisions', router)
 
-    router.get('/state/:jurId/:caseId/:stateId', handleStateRoute)
-    router.post('/state/:jurId/:caseId/:stateId', handleStateRoute)
+    router.get('/state/:jurId/:caseTypeId/:caseId/:stateId', handleStateRoute)
+    router.post('/state/:jurId/:caseTypeId/:caseId/:stateId', handleStateRoute)
 }
