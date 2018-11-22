@@ -7,15 +7,14 @@ const scss = 'SCSS'
 
 function handleStateRoute(req, res) {
     const jurisdiction = req.params.jurId
-
     switch (jurisdiction) {
-    case divorce:
-        divorceCallback(req, res)
-        break
-    case scss:
-        scssCallback(req, res)
-        break
-    default:
+        case divorce:
+            divorceCallback(req, res)
+            break
+        case scss:
+            scssCallback(req, res)
+            break
+        default:
     }
 }
 
