@@ -9,7 +9,7 @@
 // event  --> state/states | result
 // state/states ---> condition/conditions -> result
 
-export default [
+module.export = [
     {
         event: 'change',
         result: '[state]'
