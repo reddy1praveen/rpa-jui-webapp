@@ -58,7 +58,6 @@ export class CommentItemComponent implements OnInit, OnDestroy {
 
                     if (options.showButton) {
                         this.onEdit();
-                        // this.commentArea.nativeElement.focus();
                     } else {
                         this.handleShowBtn();
                     }
@@ -121,6 +120,7 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     }
 
     onEdit() {
+        this.commentArea.nativeElement.focus();
         this.focused = true;
     }
 

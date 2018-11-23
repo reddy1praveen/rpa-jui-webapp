@@ -168,6 +168,8 @@ export class AnnotationStoreService implements OnDestroy {
     saveAnnotation(annotation: Annotation, displayToolbar?: boolean) {
         this.apiHttpService.saveAnnotation(annotation).subscribe(
             response => {
+                const index =  this.pdfAdapter.annotationSet.annotations.findIndex(x => x.id === annotation.id);
+                this.pdfAdapter.annotationSet.annotations[index] = response.body;
                 console.log(response);
                 // if (displayToolbar) {
                 //     this.setToolBarUpdate(annotation);
