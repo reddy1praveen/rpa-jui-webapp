@@ -1,22 +1,22 @@
 module.exports = {
     idPrefix: 'create',
     name: 'create',
-    header: 'Do you want to approve the draft consent order?',
+    header: 'What do you want to send to the parties?',
     groups: [
         {
             fieldset: [
                 {
                     radios: {
-                        control: 'approveDraftConsent',
+                        control: 'preliminaryView',
                         radioGroup: [
                             {
                                 value: 'yes',
-                                text: 'Yes',
+                                text: 'Preliminary view',
                                 hiddenAccessibilityText: 'some hidden text'
                             },
                             {
                                 value: 'no',
-                                text: 'No',
+                                text: 'Final decision',
                                 hiddenAccessibilityText: 'some hidden text'
                             }
                         ]

@@ -21,7 +21,26 @@ module.exports = {
                                     {
                                         value: 'yes',
                                         text: 'Yes',
-                                        hiddenAccessibilityText: 'some hidden text'
+                                        hiddenAccessibilityText: 'some hidden text',
+                                        groups: [
+                                          {
+                                            radios: {
+                                                control: 'approveDraftConsent',
+                                                radioGroup: [
+                                                    {
+                                                        value: 'yes',
+                                                        text: 'Yes',
+                                                        hiddenAccessibilityText: 'some hidden text'
+                                                    },
+                                                    {
+                                                        value: 'no',
+                                                        text: 'No',
+                                                        hiddenAccessibilityText: 'some hidden text'
+                                                    }
+                                                ]
+                                              }
+                                          }
+                                        ]
                                     },
                                     {
                                         value: 'no',
