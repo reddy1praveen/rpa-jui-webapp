@@ -9,14 +9,9 @@
               {{data.text}}
           </label>
       </div>
-
       <div class="govuk-form-group">
-          <div *ngIf="data.groups" class="govuk-radios__conditional">
-            {{data | json}}
-            <br>-------------------<br>
-            {{group.controls | json}}
-            <!-- {{group.controls[data.control].value}} -->
-              <ng-container *ngFor="let subgroup of data.groups.radios">
+          <div *ngIf="data.groups && group.value[control]===data.value" class="govuk-radios__conditional">
+              <ng-container *ngFor="let subgroup of data.groups">
                   <app-fieldset *ngIf="subgroup.fieldset"
                                 [classes]="'govuk-fieldset'"
                                 [group]="group"
