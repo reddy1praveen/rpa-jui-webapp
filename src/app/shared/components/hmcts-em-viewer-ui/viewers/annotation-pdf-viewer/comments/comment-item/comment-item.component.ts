@@ -55,7 +55,6 @@ export class CommentItemComponent implements OnInit, OnDestroy {
             .subscribe((options) => {
                 if (options.annotation.id === this.comment.annotationId) {
                     this.commentZIndex = 1;
-                    this.focused = true;
                     this.handleShowBtn();
                     this.commentArea.nativeElement.focus();
                     this.ref.detectChanges();
@@ -112,6 +111,16 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         const comment = this.convertFormToComment(this.commentItem);
         this.annotationStoreService.editComment(comment);
         this.commentSubmitted.emit(this.annotation);
+        this.focused = false;
+    }
+
+    onEdit() {
+        this.focused = true;
+    }
+
+    onCancel() {
+        this.focused = false;
+        this.sliceComment = this.comment.content;
     }
 
     isModified(): boolean {
@@ -160,7 +169,6 @@ export class CommentItemComponent implements OnInit, OnDestroy {
 
     handleShowBtn() {
         new Promise(resolve => {
-            this.focused = true;
             this.hideButton = false;
             this.expandComment();
             resolve('Success');
