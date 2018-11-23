@@ -349,6 +349,7 @@ async function handleStateRoute(req, res) {
             `Input parameter route_id wrong: no route with this id inside jurisdiction ${jurisdiction}`
         )
     ) {
+        console.log('in')
         // for GET we return meta for the state requested by inStateId
         // however, for POST, the meta may get overwritten if the change of state occurs
         responseJSON.meta = stateMeta[jurisdiction][stateId]
