@@ -27,7 +27,11 @@ form textarea {
 
 .mimic-focus {
   outline-offset: -2px;
-  outline: -webkit-focus-ring-color auto 5px;
+  outline: black auto 5px;
+}
+
+textarea.viewMode:focus {
+    outline: none;
 }
 
 #detailsWrapper {

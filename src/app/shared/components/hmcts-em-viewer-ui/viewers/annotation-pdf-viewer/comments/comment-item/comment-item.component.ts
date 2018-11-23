@@ -122,11 +122,13 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     onEdit() {
         this.commentArea.nativeElement.focus();
         this.focused = true;
+        this.renderer.removeClass(this.commentArea.nativeElement, 'viewMode');
     }
 
     onCancel() {
         this.focused = false;
         this.sliceComment = this.comment.content;
+        this.renderer.addClass(this.commentArea.nativeElement, 'viewMode');
     }
 
     isModified(): boolean {
@@ -146,6 +148,7 @@ export class CommentItemComponent implements OnInit, OnDestroy {
             this.ref.detectChanges();
         }
         this.commentZIndex = 0;
+        this.renderer.addClass(this.commentArea.nativeElement, 'viewMode');
     }
 
     convertFormToComment(commentForm: NgForm): Comment {
