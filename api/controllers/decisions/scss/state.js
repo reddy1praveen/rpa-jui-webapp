@@ -22,10 +22,11 @@ function handlePostState(req, res, responseJSON, state) {
 }
 
 function responseAssert(res, responseJSON, caseTypeId, inStateId, statusHint) {
+    console.log('false')
     if (!templates[caseTypeId]) {
         res.status(ERROR404)
         responseJSON.statusHint = statusHint
-        console.log('false')
+
         return false
     }
 
@@ -48,6 +49,7 @@ async function handleStateRoute(req, res) {
 
     const responseJSON = {}
     let result = true
+    console.log('testset')
 
     if (
         responseAssert(res, responseJSON, caseTypeId, stateId, 'Input parameter route_id: uknown jurisdiction') &&
