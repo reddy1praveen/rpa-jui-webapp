@@ -49,6 +49,9 @@ export class MakeDecisionComponent implements OnInit {
             this.decision = decision;
             this.pageitems = this.decision.meta;
             this.pageValues = this.decision.formValues;
+
+            console.log('decision is = >', decision);
+
             this.createForm(this.pageitems, this.pageValues) ;
         });
     }
