@@ -192,7 +192,6 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         this.renderer.removeClass(this.commentArea.nativeElement, 'expanded');
         this.renderer.addClass(this.detailsWrapper.nativeElement, 'collapsed');
 
-        this.renderer.setStyle(this.commentArea.nativeElement, 'height', '20px');
         this.setHeight();
     }
 

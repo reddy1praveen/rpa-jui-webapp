@@ -54,7 +54,8 @@ textarea.expanded {
 }
 
 textarea.collapsed {
-  margin-top: -25px;
+    margin-top: -25px;
+    max-height: 20px;
 }
 
 .collapsed > time {
