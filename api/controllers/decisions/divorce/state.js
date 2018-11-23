@@ -341,18 +341,18 @@ async function handleStateRoute(req, res) {
     let result = true
 
     if (
-        responseAssert(res, responseJSON, stateMeta[jurisdiction], 'Input parameter route_id: uknown jurisdiction') &&
+        responseAssert(res, responseJSON, jurisdiction, stateId, 'Input parameter route_id: uknown jurisdiction') &&
         responseAssert(
             res,
             responseJSON,
-            stateMeta[jurisdiction][stateId],
+            jurisdiction,
+            stateId,
             `Input parameter route_id wrong: no route with this id inside jurisdiction ${jurisdiction}`
         )
     ) {
-        console.log('in')
         // for GET we return meta for the state requested by inStateId
         // however, for POST, the meta may get overwritten if the change of state occurs
-        responseJSON.meta = stateMeta[jurisdiction][stateId]
+        responseJSON.meta = stateMeta[caseTypeId][stateId]
 
         if (req.method === 'POST') {
             result = await handlePostState(req, res, responseJSON, state)
