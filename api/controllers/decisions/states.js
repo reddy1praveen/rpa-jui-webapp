@@ -5,15 +5,17 @@ const scssCallback = require('./scss/state')
 const divorce = 'DIVORCE'
 const scss = 'SCSS'
 
-//const mapping = []
+const mapping = []
 
-// function process(event, state) {
-//     mapping.some((instruction, i) => {
-//         if (instruction.event) {
-//             return true //event is the main index and so there can only be one instruction per event - exit after finding
-//         }
-//     })
-// }
+function process(event, state) {
+    mapping.some((instruction, i) => {
+        if (instruction.event === event) {
+            // event is the main index and so there can only be one instruction per event - exit after finding
+            return true
+        }
+        return false
+    })
+}
 
 function handleStateRoute(req, res) {
     const jurisdiction = req.params.jurId
