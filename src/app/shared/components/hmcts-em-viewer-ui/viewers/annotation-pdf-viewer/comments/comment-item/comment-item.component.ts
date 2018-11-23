@@ -186,7 +186,7 @@ export class CommentItemComponent implements OnInit, OnDestroy {
 
     collapseComment() {
         if (!this.isCommentEmpty()) {
-            this.splitComment();
+            this.shrinkComment();
         }
         this.renderer.addClass(this.commentArea.nativeElement, 'collapsed');
         this.renderer.removeClass(this.commentArea.nativeElement, 'expanded');
@@ -199,17 +199,21 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         return this.comment.content === null;
     }
     
-    isSplitable(): boolean {
-        return this.comment.content.toString().split('\n').length > 1 || this.comment.content.length > 40;
+    isShrinkable(): boolean {
+        return this.hasLineBreak() || this.isTextLongerThanCollapse();
     }
 
-    isOvermultipleLines(): boolean {
+    hasLineBreak(): boolean {
+        return this.comment.content.toString().split('\n').length > 1;
+    }
+
+    isTextLongerThanCollapse(): boolean {
         return this.comment.content.length > 40;
     }
 
-    splitComment() {
-        if (this.isSplitable()) {
-            if (this.isOvermultipleLines()) {
+    shrinkComment() {
+        if (this.isShrinkable()) {
+            if (this.isTextLongerThanCollapse()) {
                 this.sliceComment = this.comment.content.slice(0, 37) + '...';
             } else {
                 this.sliceComment = this.comment.content.slice(0, this.comment.content.length / 2) + '...';
