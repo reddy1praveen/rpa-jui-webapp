@@ -29,7 +29,8 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     @ViewChild('commentArea') commentArea: ElementRef;
     @ViewChild('commentItem') commentItem: NgForm;
     @ViewChild('detailsWrapper') detailsWrapper: ElementRef;
-
+    @ViewChild('commentDate') commentDate: ElementRef;
+    
     model = new Comment(null, null, null, null, null, null, null, null, null);
     commentTopPos: number;
     commentZIndex: number;
@@ -183,7 +184,11 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         if (!this.isCommentEmpty()) {
             this.splitComment();
         }
-        this.renderer.setStyle(this.commentArea.nativeElement, 'height', '90px');
+        this.renderer.addClass(this.commentArea.nativeElement, 'collapsed');
+        this.renderer.removeClass(this.commentArea.nativeElement, 'expanded');
+        this.renderer.addClass(this.detailsWrapper.nativeElement, 'collapsed');
+
+        this.renderer.setStyle(this.commentArea.nativeElement, 'height', '20px');
         this.setHeight();
     }
 
@@ -192,7 +197,7 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     }
     
     isSplitable(): boolean {
-        return this.comment.content.toString().split('\n').length > 4 || this.comment.content.length > 100;
+        return this.comment.content.toString().split('\n').length > 1 || this.comment.content.length > 100;
     }
 
     isOvermultipleLines(): boolean {
@@ -210,6 +215,11 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     }
 
     expandComment() {
+        this.renderer.addClass(this.commentArea.nativeElement, 'expanded');
+        this.renderer.removeClass(this.commentArea.nativeElement, 'collapsed');
+        this.renderer.removeClass(this.detailsWrapper.nativeElement, 'collapsed');
+        this.renderer.addClass(this.detailsWrapper.nativeElement, 'expanded');
+
         this.renderer.setStyle(this.commentArea.nativeElement, 'height', 'auto');
         this.renderer.setStyle(this.commentArea.nativeElement, 'height', this.commentArea.nativeElement.scrollHeight + 'px');
         this.sliceComment = this.comment.content;

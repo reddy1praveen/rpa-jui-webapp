@@ -5,9 +5,9 @@
     (click)="handleCommentClick($event)"
     [style.top.px]="commentTopPos"
     [style.z-index]="commentZIndex">
-    <div #detailsWrapper class="jui-comment__header">
+    <div #detailsWrapper id="detailsWrapper" class="jui-comment__header">
       <span *ngIf="comment.createdByDetails" class="jui-comment__author">{{comment.createdByDetails.forename}} {{comment.createdByDetails.surname}}</span>
-      <time class="jui-comment__meta" ng-controller="datCtrl">{{ comment.createdDate | date: 'd MMMM y h:mm a' }}</time>
+      <time #commentDate class="jui-comment__meta" ng-controller="datCtrl">{{ comment.createdDate | date: 'd MMMM y h:mm a' }}</time>
       <div *ngIf="false">
           <span>modified By: {{comment.lastModifiedByDetails.forename}} {{comment.lastModifiedByDetails.surname}}</span>
         <time class="jui-comment__meta" ng-controller="datCtrl"><br>{{ comment.lastModifiedDate | date: 'd MMMM y h:mm a' }}</time>
@@ -24,7 +24,7 @@
       [ngModel]="sliceComment" name="content"
       value="comment.content"></textarea>
 
-      <div [hidden]="hideButton" class="jui-comment__footer">
+      <div [hidden]="hideButton" class="jui-comment__footer commentBtns">
           <button type="submit" class="govuk-button" role="button">Save</button>
           <button 
             class="govuk-button hmcts hmcts-button--secondary" 

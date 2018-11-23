@@ -13,7 +13,6 @@ form {
 
 form textarea {
   width: 95%;
-  height: 90px;
   padding: 2px;
   border: none;
   
@@ -30,6 +29,38 @@ form textarea {
   outline-offset: -2px;
   outline: -webkit-focus-ring-color auto 5px;
 }
+
+#detailsWrapper {
+  padding: 0px;
+}
+
+#detailsWrapper.expanded {
+  margin-bottom: 15px;
+}
+
+.commentBtns {
+  height: 50px;
+}
+
+.expanded {
+  margin-top: 0px;
+}
+
+.collapsed {
+  height: 30px;
+}
+textarea.expanded {
+  margin-bottom: 10px;
+}
+
+textarea.collapsed {
+  margin-top: -25px;
+}
+
+.collapsed > time {
+  display: none;
+}
+
 
 ////////////////////////////////////////
 ////////////////////////////////////////
