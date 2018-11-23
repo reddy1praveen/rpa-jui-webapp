@@ -55,8 +55,14 @@ export class CommentItemComponent implements OnInit, OnDestroy {
             .subscribe((options) => {
                 if (options.annotation.id === this.comment.annotationId) {
                     this.commentZIndex = 1;
-                    this.handleShowBtn();
-                    this.commentArea.nativeElement.focus();
+
+                    if (options.showButton) {
+                        this.onEdit();
+                        // this.commentArea.nativeElement.focus();
+                    } else {
+                        this.handleShowBtn();
+                    }
+                    
                     this.ref.detectChanges();
                 } else {
                     this.onBlur();
