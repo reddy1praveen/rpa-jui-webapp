@@ -256,10 +256,14 @@ async function handlePostState(req, res, responseJSON, state) {
         // the 'state' will be the page to change
         responseJSON.newRoute = state.inStateId
     }
+    console.log(req.body.event)
     if (req.body.event === 'continue') {
-        switch (state.inStateId) {
+        console.log(1, state.stateId)
+        switch (state.stateId) {
             case 'create':
+                console.log('2')
                 if (formValues.approveDraftConsent === 'yes') {
+                    console.log('3')
                     responseJSON.newRoute = 'notes-for-court-administrator'
                 } else {
                     responseJSON.newRoute = 'reject-reasons'
@@ -304,11 +308,13 @@ async function handlePostState(req, res, responseJSON, state) {
             default:
                 break
         }
+
         // update meta data according to newly selected state
         if (responseJSON.newRoute) {
-            responseJSON.meta = stateMeta[state.inJurisdiction][responseJSON.newRoute]
+            responseJSON.meta = stateMeta[state.caseTypeId][responseJSON.newRoute]
         }
     }
+    console.log('result', result)
     return result
     /* eslint-enable indent */
 }
@@ -358,6 +364,7 @@ async function handleStateRoute(req, res) {
             result = await handlePostState(req, res, responseJSON, state)
         }
 
+        console.log('result', result)
         responseJSON.formValues = store.get(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`) || {}
     }
 
