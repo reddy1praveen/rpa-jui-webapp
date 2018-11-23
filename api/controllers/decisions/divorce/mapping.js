@@ -9,14 +9,20 @@
 // event  --> state/states | result
 // state/states ---> condition/conditions -> result
 
-module.export = [
-    {
+// [state] and [end] are special casess
+
+const mapping = [
+    ({
         event: 'change',
         result: '[state]'
     },
     {
         event: 'continue',
         states: [
+            {
+                state: 'check',
+                result: '[end]'
+            },
             {
                 state: 'create',
                 conditions: [
@@ -63,7 +69,13 @@ module.export = [
             {
                 state: 'hearing-details',
                 result: 'notes-for-court-administrator'
+            },
+            {
+                state: 'notes-for-court-administrator',
+                result: 'check'
             }
         ]
-    }
+    })
 ]
+
+module.exports = mapping

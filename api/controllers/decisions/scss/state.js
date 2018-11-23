@@ -19,6 +19,14 @@ function handlePostState(req, res, responseJSON, state) {
     if (formValues) {
         store.set(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`, formValues)
     }
+
+    if (req.body.event === 'continue') {
+        if (formValues.approveDraftConsent === 'yes') {
+            responseJSON.newRoute = 'preliminary-advanced'
+        } else {
+            responseJSON.newRoute = 'final decision'
+        }
+    }
 }
 
 function responseAssert(res, responseJSON, caseTypeId, inStateId, statusHint) {
