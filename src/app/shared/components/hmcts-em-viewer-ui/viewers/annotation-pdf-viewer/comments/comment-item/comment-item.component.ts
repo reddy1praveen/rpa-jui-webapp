@@ -159,23 +159,27 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     }
 
     handleShowBtn() {
-        this.focused = true;
-        this.hideButton = false;
-        this.expandComment();
-        setTimeout(() => {
+        new Promise(resolve => {
+            this.focused = true;
+            this.hideButton = false;
+            this.expandComment();
+            resolve('Success');
+        }).then(() => {
             this.commentArea.nativeElement.scrollIntoView({behavior: 'instant'});
             this.setHeight();
         });
     }
 
     handleHideBtn() {
-        if (!this.commentItem.value.content) {
-            this.annotationStoreService.deleteComment(this.comment.id);
-        }
-        this.focused = false;
-        this.hideButton = true;
-        this.collapseComment();
-        setTimeout(() => {
+        new Promise(resolve => {
+            if (!this.commentItem.value.content) {
+                this.annotationStoreService.deleteComment(this.comment.id);
+            }
+            this.focused = false;
+            this.hideButton = true;
+            this.collapseComment();
+            resolve('Success');
+        }).then(() => {
             this.setHeight();
         });
     }
@@ -197,17 +201,17 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     }
     
     isSplitable(): boolean {
-        return this.comment.content.toString().split('\n').length > 1 || this.comment.content.length > 100;
+        return this.comment.content.toString().split('\n').length > 1 || this.comment.content.length > 40;
     }
 
     isOvermultipleLines(): boolean {
-        return this.comment.content.length > 100;
+        return this.comment.content.length > 40;
     }
 
     splitComment() {
         if (this.isSplitable()) {
             if (this.isOvermultipleLines()) {
-                this.sliceComment = this.comment.content.slice(0, 100) + '...';
+                this.sliceComment = this.comment.content.slice(0, 37) + '...';
             } else {
                 this.sliceComment = this.comment.content.slice(0, this.comment.content.length / 2) + '...';
             }
