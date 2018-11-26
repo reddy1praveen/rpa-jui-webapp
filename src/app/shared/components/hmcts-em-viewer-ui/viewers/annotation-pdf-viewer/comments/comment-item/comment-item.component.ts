@@ -148,7 +148,6 @@ export class CommentItemComponent implements OnInit, OnDestroy {
             this.ref.detectChanges();
         }
         this.commentZIndex = 0;
-        this.renderer.addClass(this.commentArea.nativeElement, 'viewMode');
     }
 
     convertFormToComment(commentForm: NgForm): Comment {
