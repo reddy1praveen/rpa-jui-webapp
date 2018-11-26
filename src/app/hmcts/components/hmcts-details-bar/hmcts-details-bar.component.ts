@@ -7,17 +7,9 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class HmctsDetailsBarComponent implements OnInit {
 
-    @Input() reference = 'FR1231612322';
-    @Input() title = { html: '<b>John Smith</b> v <b>Jane Smith</b>' };
-    @Input() items = [
-        {
-            text: 'Make a decision'
-        },
-        {
-            classes: 'hmcts-button--secondary',
-            text: 'List for hearing'
-        }
-    ];
+    @Input() reference;
+    @Input() title;
+    @Input() items;
 
     constructor() { }
 

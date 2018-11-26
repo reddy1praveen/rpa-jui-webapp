@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HmctsDetailsBarComponent } from './hmcts-details-bar.component';
+import { HmctsMenuComponent } from './hmcts-menu.component';
 
-describe('HmctsDetailsBarComponent', () => {
-  let component: HmctsDetailsBarComponent;
-  let fixture: ComponentFixture<HmctsDetailsBarComponent>;
+describe('HmctsMenuComponent', () => {
+  let component: HmctsMenuComponent;
+  let fixture: ComponentFixture<HmctsMenuComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HmctsDetailsBarComponent ]
+      declarations: [ HmctsMenuComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HmctsDetailsBarComponent);
+    fixture = TestBed.createComponent(HmctsMenuComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

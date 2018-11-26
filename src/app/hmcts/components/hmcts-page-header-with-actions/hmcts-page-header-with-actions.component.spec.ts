@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HmctsDetailsBarComponent } from './hmcts-details-bar.component';
+import { HmctsPageHeaderWithActionsComponent } from './hmcts-page-header-with-actions.component';
 
-describe('HmctsDetailsBarComponent', () => {
-  let component: HmctsDetailsBarComponent;
-  let fixture: ComponentFixture<HmctsDetailsBarComponent>;
+describe('HmctsPageHeaderWithActionsComponent', () => {
+  let component: HmctsPageHeaderWithActionsComponent;
+  let fixture: ComponentFixture<HmctsPageHeaderWithActionsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HmctsDetailsBarComponent ]
+      declarations: [ HmctsPageHeaderWithActionsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HmctsDetailsBarComponent);
+    fixture = TestBed.createComponent(HmctsPageHeaderWithActionsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

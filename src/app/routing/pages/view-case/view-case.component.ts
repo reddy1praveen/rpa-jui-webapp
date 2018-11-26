@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import 'rxjs/add/operator/filter';
 import {LinkItem, PageDateCase, SectionsCaseItem} from '../../../domain/models/section_fields';
 import {CaseDataService} from './view-case.services';
+import {HtmlService} from '../../../shared/services/html.service';
 import {Subscription} from 'rxjs';
 
 
@@ -29,7 +30,8 @@ export class ViewCaseComponent implements OnInit {
     ];
 
 
-    constructor(public router: Router, private route: ActivatedRoute, private caseDataService: CaseDataService) {
+    constructor(public router: Router, private route: ActivatedRoute, private caseDataService: CaseDataService,
+        private htmlService: HtmlService) {
         this.case = this.route.snapshot.data['caseData'];
         this.route.params.subscribe((params: any) => {
             params.section ? this.sectionTabName = params.section : this.sectionTabName = null;
@@ -55,4 +57,16 @@ export class ViewCaseComponent implements OnInit {
         }
     }
 
+    getReference(judicialCase) {
+
+        return judicialCase.details.fields[0].value;
+    }
+
+    getTitle(judicialCase) {
+
+        console.log('judicialCase');
+        console.log(judicialCase.details);
+
+        return this.htmlService.getHtmlCaseTitle(judicialCase.details.fields[1].value); //'<b>Test Smith</b> v <b>Agent Smith</b>';
+    }
 }

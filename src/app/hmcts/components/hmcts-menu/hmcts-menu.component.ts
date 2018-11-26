@@ -7,14 +7,14 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class HmctsMenuComponent implements OnInit {
 
-    // TODO: Pass this in.
+    // TODO: We should make sure that
     @Input() items = [{
-        text: 'Make decision'
+        text: 'Default Button 1'
     }, {
-        text: 'List for hearings',
+        text: 'Default Button 2',
         classes: 'hmcts-button--secondary'
     }, {
-        text: 'End case',
+        text: 'Default Button 3',
         classes: 'hmcts-button--secondary'
     }];
 

@@ -1,7 +1,9 @@
-<app-casebar [case]="case"></app-casebar>
+<div [ngStyle]="{'border': '1px solid pink'}">
+    <app-casebar [case]="case"></app-casebar>
+</div>
 <!-- So we are moving towards this -->
-<div [ngStyle]="{'border': '1px solid red'}">
-    <app-hmcts-details-bar [reference]="reference" title="title" [items]="items" ></app-hmcts-details-bar>
+<div [ngStyle]="{'border': '1px solid blue'}">
+    <app-hmcts-details-bar [reference]="getReference(case)" [title]="getTitle(case)" [items]="items" ></app-hmcts-details-bar>
 </div>
 
 <app-hmcts-menu></app-hmcts-menu>

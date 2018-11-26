@@ -2,7 +2,8 @@
     <div class="hmcts-details-bar__container">
         <div class="hmcts-details-bar__details">
             <span class="hmcts-details-bar__reference">{{reference}}</span>
-            <span class="hmcts-details-bar__title" [innerHtml]="title.html"></span>
+            <span class="hmcts-details-bar__title" [innerHtml]="title">
+            </span>
         </div>
         <div class="hmcts-details-bar__actions" *ngIf="items">
             <app-hmcts-menu [items]="items"></app-hmcts-menu>
