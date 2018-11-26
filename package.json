@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "nuke": "rm -rf dist && rm -rf node-modules",
+    "nuke": "rm -rf dist",
     "build": "tsc && ng build --prod && ng run jui:server",
     "start": "cd dist/jui-backend && node server.js",
     "start-dev-proxy": "ng serve --proxy-config proxy.config.json",

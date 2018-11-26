@@ -1,43 +1,45 @@
-const app = require("./application");
+const app = require('./application');
 // require( 'zone.js/dist/zone-node');
-import * as express from "express";
-const ngExpressEngine = require("@nguniversal/express-engine").ngExpressEngine;
+import * as express from 'express';
+import * as path from 'path';
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+const ngExpressEngine = require('@nguniversal/express-engine').ngExpressEngine;
+
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 const {
     AppServerModuleNgFactory,
     LAZY_MODULE_MAP
-} = require("../jui-frontend/server/main");
+} = require('../jui-frontend/server/main');
 
 const {
     provideModuleMap
-} = require("@nguniversal/module-map-ngfactory-loader");
+} = require('@nguniversal/module-map-ngfactory-loader');
 
 const provider = provideModuleMap(LAZY_MODULE_MAP);
 
 app.engine(
-    "html",
+    'html',
     ngExpressEngine({
         bootstrap: AppServerModuleNgFactory,
         providers: [provider]
     })
 );
 
-app.set("view engine", "html");
-app.set("views", __dirname);
+app.set('view engine', 'html');
+app.set('views', __dirname);
 
-app.use(express.static(`${__dirname}/assets`, { index: false }));
-app.use(express.static(`${__dirname}/dist`, { index: false }));
+app.use(express.static(path.join(__dirname, '..', 'assets'), { index: false }));
+app.use(express.static(path.join(__dirname, '..', 'jui-frontend', 'main'), { index: false }));
 
-app.use("/*", (req, res) => {
+app.use('/*', (req, res) => {
     console.time(`GET: ${req.originalUrl}`);
-    res.render("./dist/index", {
+    res.render('../jui-frontend/main/index', {
         req,
         res,
         providers: [
-            { provide: "REQUEST", useValue: req },
-            { provide: "RESPONSE", useValue: res }
+            { provide: 'REQUEST', useValue: req },
+            { provide: 'RESPONSE', useValue: res }
         ]
     });
     console.timeEnd(`GET: ${req.originalUrl}`);
