@@ -313,6 +313,7 @@ async function handlePostState(req, res, responseJSON, state) {
 }
 
 function responseAssert(res, responseJSON, inJurisdiction, inStateId, statusHint) {
+    console.log(stateMeta)
     if (stateMeta[inJurisdiction] && stateMeta[inJurisdiction][inStateId]) {
         res.status(ERROR404)
         responseJSON.statusHint = statusHint
