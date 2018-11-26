@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Form, FormGroup} from '@angular/forms';
 import {Validators, ValidationErrors, ValidatorFn} from '@angular/forms';
+import {FormGroupValidator} from './validation.typescript';
 
 @Injectable({
     providedIn: 'root'
@@ -177,7 +178,7 @@ export class ValidationService {
     }
 
     /**
-     * Is TextArea Valid When Checkbox is Checked
+     * isTextAreaValidWhenCheckboxChecked
      *
      * @param formGroup
      * @param checkboxControl
@@ -206,35 +207,52 @@ export class ValidationService {
         return isTextAreaValidWhenCheckboxChecked;
     }
 
-    createFormGroupValidators(form: FormGroup, formGroupValidators: Array<object>) {
-        console.log('formGroupValidators');
-        console.log(formGroupValidators);
+    /**
+     * createFormGroupValidators
+     *
+     * FormGroup Validators are used for validation that involves more than one FormControl. ie. When a control
+     * depends on another, or we need to validate a group of controls together. Validation for multiply controls is
+     * required on the common ancestor as per the Angular Documentation.
+     *
+     * @see @see https://angular.io/guide/form-validation#adding-to-reactive-forms-1
+     *
+     * @param {FormGroup} formGroup - Angular FormGroup
+     * @param formGroupValidators - [{
+     *    validatorFunc: 'isAnyCheckboxChecked',
+     *    validationErrorId: 'reasonsConstentOrderNotApproved',
+     *    checkboxes: [
+     *        'partiesNeedAttend', 'NotEnoughInformation', 'orderNotAppearOfS25ca1973', 'd81',
+     *        'pensionAnnex', 'applicantTakenAdvice', 'respondentTakenAdvice', 'Other2'
+     *    ]}]
+     */
+    createFormGroupValidators(formGroup: FormGroup, formGroupValidators) {
 
         return formGroupValidators.map(formGroupValidator => {
 
-            console.log('formGroupValidator');
-            console.log(formGroupValidator);
+            const groupValidator: FormGroupValidator = formGroupValidator;
 
-            return this.createFormGroupValidator(form, formGroupValidator.validator, formGroupValidator.checkboxes,
-                formGroupValidator.validationErrorId);
+            return this.createFormGroupValidator(formGroup, groupValidator.validatorFunc, groupValidator.checkboxes,
+                groupValidator.validationErrorId);
         });
     }
 
     /**
-     * Creates Form Group Validator
+     * createFormGroupValidator
      *
-     * Note you'll need to pass in the name of the validator function that you wish to use as a string. This
-     * string value could come from a Json object, like in the case of state_meta.js
+     * You'll need to pass in the name of the validator function that you wish to use.
      *
-     * @param form
-     * @param {String} validator - 'isAnyCheckboxChecked'
+     * @see state_meta.js
+     *
+     * @param formGroup
+     * @param {String} validatorFunc - 'isAnyCheckboxChecked'
      * @param {Array} checkboxes - ['partiesNeedAttend', 'NotEnoughInformation']
      * @param {String} validationErrorId - 'reasonsConstentOrderNotApproved'
+     *
      * @return {ValidatorFn}
      */
-    createFormGroupValidator(form: FormGroup, validator: string, checkboxes: Array<string>,
+    createFormGroupValidator(formGroup: FormGroup, validatorFunc: string, checkboxes: Array<string>,
                              validationErrorId: string): ValidatorFn {
 
-        return this[validator](form, checkboxes, validationErrorId);
+        return this[validatorFunc](formGroup, checkboxes, validationErrorId);
     }
 }

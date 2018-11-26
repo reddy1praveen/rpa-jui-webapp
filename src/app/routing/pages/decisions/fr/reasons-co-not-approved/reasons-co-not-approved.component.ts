@@ -39,43 +39,26 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
                  private formsService: FormsService,
                  private validationService: ValidationService) {}
 
+    /**
+     * createForm
+     *
+     * Creates a form with controls.
+     *
+     * We then add FormGroup Validators onto that form using createFormGroupValidators(). Angular FormGroup validators
+     * are used to validate controls as a set. Ie. If the User needs to have 1 checkbox, out of 8 checked to proceed.
+     *
+     * @param pageitems
+     * @param pageValues
+     */
     createForm(pageitems, pageValues) {
 
-        //So we need to go through all the validators, and then we need to get formGroupValidators back
-
-        /**
-         * Creates Form Group with Controls.
-         */
         this.rejectReasonsForm = new FormGroup(this.formsService.defineformControls(pageitems, pageValues));
-
-        // const checkboxes: Array<string> = ['partiesNeedAttend', 'NotEnoughInformation', 'orderNotAppearOfS25ca1973', 'd81',
-        //     'pensionAnnex', 'applicantTakenAdvice', 'respondentTakenAdvice', 'Other2'];
-
-        console.log('pageitems');
-        console.log(pageitems);
-
-        // const checkboxes: Array<string> = pageitems.formGroupLevelValidators.checkboxes;
-
-        // const validationIdentifier = 'reasonsConstentOrderNotApproved';
-
-        /**
-         * Form Group Validators are used for validation that involves more than one control. ie. When a control
-         * depends on another, or we need to validate a group of controls together.
-         *
-         * The validation is required on the common ancestor as per
-         * @see https://angular.io/guide/form-validation#adding-to-reactive-forms-1
-         * to validate multiply controls.
-         *
-         * All for group validators should have the type of ValidationFn.
-         *
-         * A dev would add validators here, each validator, would have a name assigned to it.
-         */
-        // const formGroupValidators = [this.validationService.isAnyCheckboxChecked(this.rejectReasonsForm, checkboxes, validationIdentifier)];
 
         const formGroupValidators = this.validationService.createFormGroupValidators(this.rejectReasonsForm, pageitems.formGroupValidators);
 
         this.rejectReasonsForm.setValidators(formGroupValidators);
     }
+
     ngOnInit() {
         this.rejectReasonsForm = null;
         this.activatedRoute.parent.data.subscribe(data => {

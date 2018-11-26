@@ -49,7 +49,7 @@ module.exports = {
             name: 'reject-reasons',
             formGroupValidators: [
                 {
-                    validator: 'isAnyCheckboxChecked',
+                    validatorFunc: 'isAnyCheckboxChecked',
                     validationErrorId: 'reasonsConstentOrderNotApproved',
                     checkboxes: [
                         'partiesNeedAttend', 'NotEnoughInformation', 'orderNotAppearOfS25ca1973', 'd81',
