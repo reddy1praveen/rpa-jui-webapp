@@ -1,16 +1,16 @@
 const express = require('express')
-const divorceCallback = require('./divorce')
-const scssCallback = require('./scss/state')
-const stateMeta = require('./divorce/state_meta')
 const config = require('../../../config')
 const log4js = require('log4js')
 const Store = require('../../lib/store/store')
 
-const divorce = 'DIVORCE'
-const sscs = 'SSCS'
+const divorceType = 'DIVORCE'
+const sscsType = 'SSCS'
 
 const divorceMapping = require('./divorce/mapping.js')
 const divorcePayload = require('./divorce')
+const stateMeta = require('./divorce/state_meta')
+
+const sscs = require('./sscs/')
 
 const logger = log4js.getLogger('scss engine')
 logger.level = config.logging ? config.logging : 'OFF'
@@ -31,6 +31,7 @@ function some(array, predicate) {
 function handleCondition(conditionNode, variables) {
     // index 0 hardcoded, not interating through for OR
     const key = Object.keys(conditionNode.condition[0])[0]
+    console.log(conditionNode)
     if (variables[key] === conditionNode.condition[0][key]) {
         return conditionNode.result // eslint-disable-line no-param-reassign
     }
@@ -69,10 +70,10 @@ function handleInstruction(instruction, stateId, variables) {
 function process(req, res, mapping, payload, templates) {
     const jurisdiction = req.params.jurId
     const caseId = req.params.caseId
-    const caseTypeId = req.params.caseTypeId
+    const caseTypeId = req.params.caseTypeId.toLowerCase()
     const stateId = req.params.stateId
 
-    let event = req.body.event
+    const event = req.body.event
     let variables = req.body.formValues
 
     let meta = {}
@@ -97,13 +98,16 @@ function process(req, res, mapping, payload, templates) {
                 } else if (result === 'end') {
                     payload(req, res)
                 } else if (result) {
+                    console.log('assigning meta',caseTypeId,result)
                     meta = templates[caseTypeId][result]
+                    console.log(meta)
                     newRoute = result
                 }
             }
             return false
         })
     } else {
+        console.log(templates)
         meta = templates[caseTypeId][stateId]
     }
 
@@ -119,17 +123,19 @@ function process(req, res, mapping, payload, templates) {
 
 function handleStateRoute(req, res) {
     console.log(req.method)
+    
     const jurisdiction = req.params.jurId
 
     switch (jurisdiction) {
-        case divorce:
-            process(req, res, divorceMapping, divorcePayload, stateMeta)
-            //divorceCallback(req, res)
-            break
-        case sscs:
-            scssCallback(req, res)
-            break
-        default:
+    case divorceType:
+        process(req, res, divorceMapping, divorcePayload, stateMeta)
+        //divorceCallback(req, res)
+        break
+    case sscsType:
+    console.log('SSCS')
+        process(req, res, sscs.mapping, {}, sscs.templates)
+        break
+    default:
     }
 }
 
