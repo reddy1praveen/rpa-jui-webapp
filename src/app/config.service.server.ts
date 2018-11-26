@@ -1,7 +1,8 @@
 import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {makeStateKey, TransferState} from '@angular/platform-browser';
 declare function require(name: string);
-const config = require('../../config');
+import { config } from '../../config';
+
 import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
 import { isPlatformBrowser } from '@angular/common';
 import { Response, Request } from 'express';
