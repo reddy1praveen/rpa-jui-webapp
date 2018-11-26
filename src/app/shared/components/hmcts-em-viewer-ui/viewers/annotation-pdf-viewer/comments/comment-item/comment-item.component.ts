@@ -96,8 +96,11 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     }
 
     setHeight() {
+        this.renderer.setStyle(this.commentArea.nativeElement, 'height', 'auto');
+        this.renderer.setStyle(this.commentArea.nativeElement, 'height', this.commentArea.nativeElement.scrollHeight + 'px');
         this.commentHeight =  this.commentSelector.nativeElement.getBoundingClientRect().height;
         this.commentRendered.emit(true);
+        this.ref.detectChanges();
     }
 
     ngOnDestroy() {
@@ -122,13 +125,13 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     onEdit() {
         this.commentArea.nativeElement.focus();
         this.focused = true;
-        this.renderer.removeClass(this.commentArea.nativeElement, 'viewMode');
+        this.renderer.removeClass(this.commentArea.nativeElement, 'view-mode');
     }
 
     onCancel() {
         this.focused = false;
         this.renderer.setProperty(this.commentArea.nativeElement, 'value', this.comment.content);
-        this.renderer.addClass(this.commentArea.nativeElement, 'viewMode');
+        this.renderer.addClass(this.commentArea.nativeElement, 'view-mode');
     }
 
     isModified(): boolean {
@@ -229,11 +232,7 @@ export class CommentItemComponent implements OnInit, OnDestroy {
 
     shrinkComment() {
         if (this.isShrinkable()) {
-            if (this.isTextLongerThanCollapse()) {
-                this.sliceComment = this.comment.content.slice(0, 37) + '...';
-            } else {
-                this.sliceComment = this.comment.content.slice(0, this.comment.content.length / 2) + '...';
-            }
+            this.sliceComment = this.comment.content.toString().split('\n').join(' ').slice(0, 37) + '...';
         }
     }
 
@@ -243,8 +242,6 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         this.renderer.removeClass(this.detailsWrapper.nativeElement, 'collapsed');
         this.renderer.addClass(this.detailsWrapper.nativeElement, 'expanded');
 
-        this.renderer.setStyle(this.commentArea.nativeElement, 'height', 'auto');
-        this.renderer.setStyle(this.commentArea.nativeElement, 'height', this.commentArea.nativeElement.scrollHeight + 'px');
         this.sliceComment = this.comment.content;
         this.setHeight();
     }
