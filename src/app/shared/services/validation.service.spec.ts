@@ -3,7 +3,7 @@ import {TestBed, inject} from '@angular/core/testing';
 import {ValidationService} from './validation.service';
 import {FormGroup, FormControl, ValidatorFn} from '@angular/forms';
 
-fdescribe('ValidationService', () => {
+describe('ValidationService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [ValidationService]
@@ -19,41 +19,15 @@ fdescribe('ValidationService', () => {
             expect(service).toBeTruthy();
         }));
 
-    // const createFormGroupValidators = (formGroupValidators) => {
-    //
-    //     return formGroupValidators.map(formGroupValidator => {
-    //         return
-    //     })
-    // };
+    // TODO: This should not check for Function as it's too broad.
+    it('should create a form group validator, with type ValidationFn.', inject([ValidationService], (service: ValidationService) => {
 
-    // it('should take in form group validators.', inject([ValidationService], (service: ValidationService) => {
-    //
-    //     const form = new FormGroup({
-    //         test: new FormControl('test')
-    //     });
-    //
-    //     const formGroupValidators = [
-    //         {
-    //             validator: 'isAnyCheckboxChecked',
-    //             validationErrorId: 'reasonsConstentOrderNotApproved',
-    //             checkboxes: [
-    //                 'partiesNeedAttend', 'NotEnoughInformation', 'orderNotAppearOfS25ca1973', 'd81',
-    //                 'pensionAnnex', 'applicantTakenAdvice', 'respondentTakenAdvice', 'Other2'
-    //             ]
-    //         }
-    //     ];
-    //
-    //     expect(service.createFormGroupValidators(form, formGroupValidators)).toBe(formGroupValidators);
-    // }));
-
-    it('should create a form group validator.', inject([ValidationService], (service: ValidationService) => {
-
-        const form = new FormGroup({
+        const formGroup = new FormGroup({
             test: new FormControl('test')
         });
 
         const formGroupValidators = {
-            validator: 'isAnyCheckboxChecked',
+            validatorFunc: 'isAnyCheckboxChecked',
             validationErrorId: 'reasonsConstentOrderNotApproved',
             checkboxes: [
                 'partiesNeedAttend', 'NotEnoughInformation', 'orderNotAppearOfS25ca1973', 'd81',
@@ -61,7 +35,9 @@ fdescribe('ValidationService', () => {
             ]
         };
 
-        expect(service.createFormGroupValidator(form, formGroupValidators.validator, formGroupValidators.checkboxes,
-            formGroupValidators.validationErrorId)).toEqual(jasmine.any(Function));
+        const formGroupValidatorFunction = service.createFormGroupValidator(formGroup, formGroupValidators.validatorFunc, formGroupValidators.checkboxes,
+            formGroupValidators.validationErrorId);
+
+        expect(formGroupValidatorFunction).toEqual(jasmine.any(Function));
     }));
 });
