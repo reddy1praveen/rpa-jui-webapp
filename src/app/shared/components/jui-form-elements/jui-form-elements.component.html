@@ -17,7 +17,7 @@
                 [hint]="data.input.hint"
                 [label]="data.input.label"
                 [labelFor]="data.input.control"></app-inputs>
-    <app-radiobutton *ngIf="data.radios" [classes]="'govuk-radios '"
+    <app-radiobutton *ngIf="data.radios" [classes]="'govuk-radios ' + data.radios.classes"
                      [items]="data.radios.radioGroup"
                      [group]="group"
                      [control]="data.radios.control"
