@@ -127,7 +127,7 @@ export class CommentItemComponent implements OnInit, OnDestroy {
 
     onCancel() {
         this.focused = false;
-        this.sliceComment = this.comment.content;
+        this.renderer.setAttribute(this.commentArea.nativeElement, 'value', this.comment.content);
         this.renderer.addClass(this.commentArea.nativeElement, 'viewMode');
     }
 

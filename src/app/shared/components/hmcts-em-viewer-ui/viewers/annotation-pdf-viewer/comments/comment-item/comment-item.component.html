@@ -19,9 +19,9 @@
       (blur)="onBlur()"
       type="text" 
       [class.mimic-focus]="focused"
-      class="jui-comment__content form-control mimic-focus"
+      class="jui-comment__content form-control mimic-focus viewMode"
       required
-      [ngModel]="comment.content" name="content"
+      [ngModel]="sliceComment" name="content"
       value="comment.content"
         [readonly]="!focused"></textarea>
 
