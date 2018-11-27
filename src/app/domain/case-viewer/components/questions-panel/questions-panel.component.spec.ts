@@ -23,9 +23,6 @@ class TestQuestionsPanelDummyHostComponent {
 describe('Testing @input', () => {
     let testHostComponent: TestQuestionsPanelDummyHostComponent;
     let testHostFixture: ComponentFixture<TestQuestionsPanelDummyHostComponent>;
-    let el: DebugElement;
-    let de: any;
-
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [ QuestionsPanelComponent, TestQuestionsPanelDummyHostComponent ],
@@ -37,7 +34,6 @@ describe('Testing @input', () => {
     beforeEach(() => {
         testHostFixture = TestBed.createComponent(TestQuestionsPanelDummyHostComponent);
         testHostComponent = testHostFixture.componentInstance;
-        // de = testHostFixture.debugElement.queryAll(By.css('.hmcts-sub-navigation__item'));
     });
     it('should fail panelData as not be passed through', () => {
         expect(testHostComponent.QuestionsPanelComponent.panelData).toBeUndefined();
