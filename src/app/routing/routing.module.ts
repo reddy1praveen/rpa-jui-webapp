@@ -11,7 +11,6 @@ import { RedirectionService } from './redirection.service';
 import { DecisionRootComponent } from './pages/decisions/root/root.component';
 import { CheckDecisionComponent } from './pages/decisions/check-decision/check-decision.component';
 import { DecisionConfirmationComponent } from './pages/decisions/decision-confirmation/decision-confirmation.component';
-//import { DecisionResolve } from './resolve/decision.resolve';
 import { HearingRootComponent } from './pages/hearings/root/root.component';
 import { CreateHearingComponent } from './pages/hearings/create-hearing/create-hearing.component';
 import { CheckHearingComponent } from './pages/hearings/check-hearing/check-hearing.component';
@@ -82,13 +81,14 @@ const routes: Routes = [
                 path: 'decision', component: DecisionRootComponent,
                 children: [
                     {path: 'create', component: MakeDecisionComponent},
+                    {path: 'preliminary-advanced', component: MakeDecisionComponent},
+                    {path: 'final-decision', component: MakeDecisionComponent},
                     {path: 'reject-reasons', component: ReasonsCoNotApprovedComponent},
                     {path: 'notes-for-court-administrator', component: NotesForCourtAdministratorComponent},
                     {path: 'draft-consent-order', component: DraftConsentOrderComponent},
                     {path: 'hearing-details', component: HearingDetailsComponent},
                     {path: 'check', component: CheckDecisionComponent},
-                    {path: 'decision-confirmation', component: DecisionConfirmationComponent},
-                    {path: 'preliminary-advanced', component: PreliminaryAdvancedComponent}
+                    {path: 'decision-confirmation', component: DecisionConfirmationComponent}
                 ]
             },
             {
@@ -177,7 +177,6 @@ const routes: Routes = [
     ],
     providers: [
         CaseResolve,
- //       DecisionResolve,
         RedirectionService,
         CaseDataService
     ],
