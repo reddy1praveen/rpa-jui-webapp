@@ -119,11 +119,12 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         const comment = this.convertFormToComment(this.commentItem);
         this.annotationStoreService.editComment(comment);
         this.commentSubmitted.emit(this.annotation);
+
+        this.renderer.addClass(this.commentArea.nativeElement, 'view-mode');
         this.focused = false;
     }
 
     onEdit() {
-        this.commentArea.nativeElement.focus();
         this.focused = true;
         this.renderer.removeClass(this.commentArea.nativeElement, 'view-mode');
     }
@@ -210,6 +211,7 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         this.renderer.addClass(this.commentArea.nativeElement, 'collapsed');
         this.renderer.removeClass(this.commentArea.nativeElement, 'expanded');
         this.renderer.addClass(this.detailsWrapper.nativeElement, 'collapsed');
+        this.renderer.addClass(this.commentArea.nativeElement, 'view-mode');
 
         this.setHeight();
     }
@@ -232,8 +234,12 @@ export class CommentItemComponent implements OnInit, OnDestroy {
 
     shrinkComment() {
         if (this.isShrinkable()) {
-            this.sliceComment = this.comment.content.toString().split('\n').join(' ').slice(0, 37) + '...';
+            this.sliceComment = this.removeMultipleLines().slice(0, 37) + '...';
         }
+    }
+
+    removeMultipleLines() {
+        return this.comment.content.split('\n').join(' ');
     }
 
     expandComment() {
