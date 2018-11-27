@@ -13,26 +13,28 @@ function getUploadDocumentEventId(jurisdiction, caseType) {
 function uploadDocument(userId = null, jurisdiction = null, caseType = null, caseId = null, file = null, options = null) {
     const eventId = getUploadDocumentEventId(jurisdiction, caseType)
 
-    postDocument(file, options).then(res => {
-        getCCDEventToken(userId, jurisdiction, caseType, caseId, eventId, options)
-            .then(eventToken => {
-                return {
-                    data: {
-                        documentId: {
-                            id: res.uuid // grab the case
-                        }
-                    },
-                    event: {
-                        id: eventId,
-                        description: JUI_UPLOAD_DOCUMENT,
-                        summary: JUI_UPLOAD_DOCUMENT
-                    },
-                    event_token: eventToken.token,
-                    ignore_warning: true
+    postDocument(file, 'PUBLIC', options)
+        .then(res => {
+            getCCDEventToken(userId, jurisdiction, caseType, caseId, eventId, options)
+                .then(eventToken => {
+                    return {
+                        data: {
+                            documentId: {
+                                id: res.uuid // grab the case
+                            }
+                        },
+                        event: {
+                            id: eventId,
+                            description: JUI_UPLOAD_DOCUMENT,
+                            summary: JUI_UPLOAD_DOCUMENT
+                        },
+                        event_token: eventToken.token,
+                        ignore_warning: true
+                    }
                 }
-            })
-            .then(body => postCCDEvent(userId, jurisdiction, caseType, caseId, { ...options, body }))
-    })
+                )
+                .then(body => postCCDEvent(userId, jurisdiction, caseType, caseId, { ...options, body }))
+        })
 }
 
 function getOptions(req) {
@@ -56,6 +58,6 @@ module.exports = app => {
     })
 
     route.post('/', (req, res, next) => {
-        //   uploadDocument().pipe(res)
+        uploadDocument().pipe(res)
     })
 }

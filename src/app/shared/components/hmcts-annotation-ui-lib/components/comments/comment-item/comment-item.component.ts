@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Output, EventEmitter, ViewChild, OnDestroy, ChangeDetectorRef, ElementRef} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, ViewChild, OnDestroy, ChangeDetectorRef, ElementRef, Renderer2} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import { Subscription } from 'rxjs';
 import {Comment, Annotation} from '../../../data/annotation-set.model';
@@ -17,38 +17,42 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     private dataLoadedSub: Subscription;
     hideButton: boolean;
     focused: boolean;
+    sliceComment: string;
 
     @Input() comment: Comment;
     @Input() annotation: Annotation;
 
     @Output() commentSubmitted: EventEmitter<any> = new EventEmitter<any>();
-
+    @Output() commentRendered: EventEmitter<any> = new EventEmitter<any>();
+    @ViewChild('commentSelector') commentSelector: ElementRef;
     @ViewChild('commentArea') commentArea: ElementRef;
     @ViewChild('commentItem') commentItem: NgForm;
-
+    @ViewChild('detailsWrapper') detailsWrapper: ElementRef;
 
     model = new Comment(null, null, null, null, null, null, null, null, null);
     commentTopPos: number;
     commentZIndex: number;
+    commentHeight: number;
+    annotationTopPos: number;
 
     constructor(private annotationStoreService: AnnotationStoreService,
                 private pdfService: PdfService,
-                private ref: ChangeDetectorRef) {
+                private ref: ChangeDetectorRef,
+                private renderer: Renderer2) {
     }
 
     ngOnInit() {
         this.hideButton = true;
         this.focused = false;
+        this.sliceComment = this.comment.content;
 
         this.commentFocusSub = this.annotationStoreService.getCommentFocusSubject()
             .subscribe((options) => {
                 if (options.annotation.id === this.comment.annotationId) {
                     this.commentZIndex = 1;
                     this.focused = true;
-                    if (options.showButton) {
-                        this.handleShowBtn();
-                        this.commentArea.nativeElement.focus();
-                    }
+                    this.handleShowBtn();
+                    this.commentArea.nativeElement.focus();
                     this.ref.detectChanges();
                 } else {
                     this.onBlur();
@@ -57,19 +61,31 @@ export class CommentItemComponent implements OnInit, OnDestroy {
 
         this.commentBtnSub = this.annotationStoreService.getCommentBtnSubject()
             .subscribe((commentId) => {
-                if (commentId === this.comment.id) {
-                this.handleShowBtn();
-                } else {
-                this.handleHideBtn();
-                }
+                (commentId === this.comment.id) ? this.handleShowBtn() : this.handleHideBtn();
           });
 
         this.dataLoadedSub = this.pdfService.getDataLoadedSub()
             .subscribe( (dataLoaded: boolean) => {
                 if (dataLoaded) {
-                    this.commentTopPos = this.getRelativePosition(this.comment.annotationId);
+                    this.annotationTopPos = this.getRelativePosition(this.comment.annotationId);
+                    this.commentTopPos = this.annotationTopPos;
+                    this.commentRendered.emit(true);
+                    this.collapseComment();
                 }
             });
+
+        this.commentItem.statusChanges.subscribe(
+                () => {
+                    if (this.focused) {
+                        this.expandComment();
+                    }
+                }
+            );
+    }
+
+    setHeight() {
+        this.commentHeight =  this.commentSelector.nativeElement.getBoundingClientRect().height;
+        this.commentRendered.emit(true);
     }
 
     ngOnDestroy() {
@@ -88,7 +104,6 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         const comment = this.convertFormToComment(this.commentItem);
         this.annotationStoreService.editComment(comment);
         this.commentSubmitted.emit(this.annotation);
-        this.handleHideBtn();
     }
 
     isModified(): boolean {
@@ -104,7 +119,6 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     }
 
     onBlur() {
-        // this.handleHideBtn();
         if (!this.ref['destroyed']) {
             this.ref.detectChanges();
         }
@@ -139,6 +153,10 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     handleShowBtn() {
         this.focused = true;
         this.hideButton = false;
+        this.expandComment();
+        setTimeout(() => {
+            this.setHeight();
+        });
     }
 
     handleHideBtn() {
@@ -147,6 +165,47 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         }
         this.focused = false;
         this.hideButton = true;
+        this.collapseComment();
+        setTimeout(() => {
+            this.setHeight();
+        });
+    }
+
+    collapseComment() {
+        if (!this.isCommentEmpty()) {
+            this.splitComment();
+        }
+        this.renderer.setStyle(this.commentArea.nativeElement, 'height', '90px');
+        this.setHeight();
+    }
+
+    isCommentEmpty(): boolean {
+        return this.comment.content === null;
+    }
+    
+    isSplitable(): boolean {
+        return this.comment.content.toString().split('\n').length > 4 || this.comment.content.length > 100;
+    }
+
+    isOvermultipleLines(): boolean {
+        return this.comment.content.length > 100;
+    }
+
+    splitComment() {
+        if (this.isSplitable()) {
+            if (this.isOvermultipleLines()) {
+                this.sliceComment = this.comment.content.slice(0, 100) + '...';
+            } else {
+                this.sliceComment = this.comment.content.slice(0, this.comment.content.length / 2) + '...';
+            }
+        }
+    }
+
+    expandComment() {
+        this.renderer.setStyle(this.commentArea.nativeElement, 'height', 'auto');
+        this.renderer.setStyle(this.commentArea.nativeElement, 'height', this.commentArea.nativeElement.scrollHeight + 'px');
+        this.sliceComment = this.comment.content;
+        this.setHeight();
     }
 
     getRelativePosition(annotationId: string): number {
@@ -155,7 +214,7 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         if (svgSelector === null) {
             return null;
         } else {
-            const highlightRect = <DOMRect>svgSelector.getBoundingClientRect();
+            const highlightRect = <DOMRect> svgSelector.getBoundingClientRect();
             const wrapperRect = <DOMRect> this.pdfService.getAnnotationWrapper().nativeElement.getBoundingClientRect();
 
             const topPosition = (highlightRect.y - wrapperRect.top);

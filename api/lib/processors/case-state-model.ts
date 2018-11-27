@@ -13,7 +13,11 @@ const DEFAULT_CCD_STATE = {
         return true
     },
     then(context) {
-        context.outcome = createCaseState(context.caseData.ccdState, null, GO_TO.SUMMARY_GO_TO)
+        context.outcome = createCaseState(
+            context.caseData.ccdState,
+            null,
+            GO_TO.SUMMARY_GO_TO
+        )
         context.ccdCohStateCheck = true
     }
 }
@@ -29,13 +33,17 @@ const DEFAULT_CCD_STATE = {
 const cohState = {
     when(context) {
         const hearingData = context.caseData.hearingData
-        const hearingState = hearingData ? hearingData.current_state.state_name : undefined
+        const hearingState = (hearingData) ? hearingData.current_state.state_name : undefined
         return context.ccdCohStateCheck && hearingState && hearingState === STATE.COH_STARTED_STATE
     },
     then(context) {
         context.cohStateCheck = true
         const hearingData = context.caseData.hearingData
-        context.outcome = createCaseState(STATE.COH_STARTED_STATE, hearingData.current_state.state_datetime, GO_TO.CASE_FILE_GO_TO)
+        context.outcome = createCaseState(
+            STATE.COH_STARTED_STATE,
+            hearingData.current_state.state_datetime,
+            GO_TO.CASE_FILE_GO_TO
+        )
     }
 }
 
@@ -87,8 +95,7 @@ const deadlineElapsed = {
 const deadlineExtensionExpired = {
     when(context) {
         const questionRound = context.caseData.latestQuestions
-        const questionDeadlineElapsed =
-            context.cohStateCheck && questionRound && questionRound.state === STATE.COH_Q_DEADLINE_ELAPSED_STATE
+        const questionDeadlineElapsed = context.cohStateCheck && questionRound && questionRound.state === STATE.COH_Q_DEADLINE_ELAPSED_STATE
         return questionDeadlineElapsed && questionRound.deadline_extension_count > 0
     },
     then(context) {
@@ -136,7 +143,11 @@ const cohRelistState = {
     },
     then(context) {
         const hearingData = context.caseData.hearingData
-        context.outcome = createCaseState(STATE.COH_RELISTED_STATE, hearingData.current_state.state_datetime, GO_TO.SUMMARY_GO_TO)
+        context.outcome = createCaseState(
+            STATE.COH_RELISTED_STATE,
+            hearingData.current_state.state_datetime,
+            GO_TO.SUMMARY_GO_TO
+        )
 
         context.stop = true
     }
@@ -156,7 +167,12 @@ const referredToJudge = {
     },
     then(context) {
         const consentOrder = context.caseData.consentOrder ? getDocId(context.caseData.consentOrder) : undefined
-        context.outcome = createCaseState(context.caseData.ccdState, null, GO_TO.CASE_FILE_GO_TO, consentOrder)
+        context.outcome = createCaseState(
+            context.caseData.ccdState,
+            null,
+            GO_TO.CASE_FILE_GO_TO,
+            consentOrder
+        )
     }
 }
 
@@ -214,7 +230,10 @@ const processEngineMap = {
             stateConditions: [DEFAULT_CCD_STATE]
         },
         financialremedymvp2: {
-            stateConditions: [DEFAULT_CCD_STATE, referredToJudge]
+            stateConditions: [
+                DEFAULT_CCD_STATE,
+                referredToJudge
+            ]
         }
     }
 }
@@ -223,7 +242,7 @@ const processEngineMap = {
 function getProcessEngine(jurisdiction, caseType) {
     const jud = processEngineMap[jurisdiction.toLowerCase()]
     const conditionsList = jud ? jud[caseType.toLowerCase()] : null
-    return conditionsList || [DEFAULT_CCD_STATE]
+    return (conditionsList) || [DEFAULT_CCD_STATE]
 }
 
 function processCaseStateEngine(param) {
@@ -249,21 +268,40 @@ function processCaseStateEngine(param) {
 }
 
 export function processCaseState(caseData) {
+
+
+    // Example of caseData Model at this current moment
+    // const caseData = {
+    //     jurisdiction: "", // CCD Case jurisdiction
+    //     case_type_id: "", // CCD Case case type
+    //     state: "", // CCD Case state
+    //     case_data:{ // CCD Case Data
+    //         consentOrder: "", // used in FR only
+    //         appeal: {
+    //             hearingType: "" // used in SSCS only
+    //         }
+    //     },
+    //     hearing_data: { // COH Hearing Data
+    //         // used in COH only
+    //     },
+    //     question_data: { // COH Question Data
+    //         question_round_number // used in COH only
+    //     }
+    // }
+
     const jurisdiction = caseData.jurisdiction
     const caseType = caseData.case_type_id
     const ccdState = caseData.state
 
-    // COH Realted Cases Only
+    // COH Related Cases Only
     const hearingData = caseData.hearing_data ? caseData.hearing_data : undefined
     const questionRoundData = caseData.question_data
 
-    const latestQuestions = questionRoundData
-        ? questionRoundData.sort((a, b) => a.question_round_number < b.question_round_number)[0]
-        : undefined
+    const latestQuestions = (questionRoundData) ? questionRoundData.sort((a, b) => a.question_round_number < b.question_round_number)[0] : undefined
 
-    // FR realted only
+    // FR related only
     const consentOrder = caseData.case_data.consentOrder ? caseData.case_data.consentOrder : undefined
-    // SSCS realted only
+    // SSCS related only
     const hearingType = caseData.case_data.appeal ? caseData.case_data.appeal.hearingType : undefined
 
     const caseState: any = processCaseStateEngine({
@@ -285,3 +323,5 @@ export function processCaseState(caseData) {
 
     return caseData
 }
+
+module.exports.processCaseState = processCaseState
