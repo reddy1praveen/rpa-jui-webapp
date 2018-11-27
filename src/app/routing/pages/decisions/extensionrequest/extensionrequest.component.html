@@ -1,0 +1,25 @@
+<app-govuk-back-link></app-govuk-back-link>
+<main class="govuk-main-wrapper" role="main">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <ng-container *ngIf="useValidation && extensionRequestForm.invalid">
+                <app-validation-header [validationHeaderErrorMessages]="pageitems.validationHeaderErrorMessages" [formGroup]="extensionRequestForm">
+                </app-validation-header>
+            </ng-container>
+            <h1 *ngIf="pageitems" class="govuk-heading-xl">{{pageitems.header}}</h1>
+            <form *ngIf="pageitems" [formGroup]="extensionRequestForm" (ngSubmit)="onSubmit()">
+                <div class="govuk-form-group" *ngFor="let group of pageitems.groups">
+                    <app-fieldset *ngIf="group.fieldset"
+                                  [classes]="'govuk-fieldset'"
+                                  [group]="extensionRequestForm"
+                                  [data]="group.fieldset"
+                                  [validate]="useValidation">
+                    </app-fieldset>
+                    <app-jui-form-elements [validate]="useValidation" [group]="extensionRequestForm" [data]="group"></app-jui-form-elements>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+
