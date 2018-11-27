@@ -31,7 +31,7 @@ import { MakeDecisionComponent } from './pages/decisions/fr/make-decision/make-d
 import { NotesForCourtAdministratorComponent } from './pages/decisions/fr/notes-for-court-administrator/notes-for-court-administrator.component';
 import { DraftConsentOrderComponent } from './pages/decisions/fr/draft-consent-order/draft-consent-order.component';
 import { HearingDetailsComponent } from './pages/decisions/fr/hearing-details/hearing-details.component';
-import {FormsService} from '../shared/services/forms.service';
+import { FormsService } from '../shared/services/forms.service';
 import { GenericPageComponent } from './pages/generic-page/generic-page.component';
 import { ErrorServiceUnavailableComponent } from './pages/generic-page/error-service-unavailable/error-service-unavailable.component';
 import { ConfirmationComponent } from './pages/generic-page/confirmation/confirmation.component';
@@ -41,7 +41,8 @@ import { TermsAndConditionsComponent } from './pages/generic-page/terms-and-cond
 import { CookiesComponent } from './pages/generic-page/cookies/cookies.component';
 import { PrivacyPolicyComponent } from './pages/generic-page/privacy-policy/privacy-policy.component';
 import { DemoComponent } from './pages/generic-page/demo/demo.component';
-import {CaseDataService} from './pages/view-case/view-case.services';
+import { CaseDataService } from './pages/view-case/view-case.services';
+import { PreliminaryAdvancedComponent } from './pages/decisions/sscs/preliminary-advanced/preliminary-advanced.component';
 
 const routes: Routes = [
     {
@@ -86,7 +87,8 @@ const routes: Routes = [
                     {path: 'draft-consent-order', component: DraftConsentOrderComponent},
                     {path: 'hearing-details', component: HearingDetailsComponent},
                     {path: 'check', component: CheckDecisionComponent},
-                    {path: 'decision-confirmation', component: DecisionConfirmationComponent}
+                    {path: 'decision-confirmation', component: DecisionConfirmationComponent},
+                    {path: 'preliminary-advanced', component: PreliminaryAdvancedComponent}
                 ]
             },
             {
@@ -163,6 +165,7 @@ const routes: Routes = [
         DemoComponent,
         ReasonsCoNotApprovedComponent,
         MakeDecisionComponent,
+        PreliminaryAdvancedComponent,
         DraftConsentOrderComponent,
         NotesForCourtAdministratorComponent,
         HearingDetailsComponent,
@@ -185,11 +188,3 @@ const routes: Routes = [
 
 export class RoutingModule {
 }
-
-
-
-
-
-
-
-
