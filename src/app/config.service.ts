@@ -1,8 +1,8 @@
-import {Inject, Injectable} from '@angular/core';
-import {makeStateKey, TransferState} from '@angular/platform-browser';
+import { Inject, Injectable } from '@angular/core';
+import { makeStateKey, TransferState } from '@angular/platform-browser';
 declare function require(name: string);
-import { config } from "../../config";
-import { DOCUMENT } from "@angular/common";
+import { config } from '../../config';
+import { DOCUMENT } from '@angular/common';
 
 @Injectable({
     providedIn: 'root'
