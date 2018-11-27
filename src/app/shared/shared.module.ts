@@ -39,6 +39,7 @@ import { ValidationErrorFormGroupComponent } from './components/validation-error
 import { ValidationHeaderComponent } from './components/validation-header/validation-header.component';
 import { JuiFormElementsComponent } from './components/jui-form-elements/jui-form-elements.component';
 import { InputsComponent } from './components/inputs/inputs.component';
+import { DateComponent } from './components/date/date.component';
 
 @NgModule({
     imports: [
@@ -85,6 +86,7 @@ import { InputsComponent } from './components/inputs/inputs.component';
         ValidationHeaderComponent,
         JuiFormElementsComponent,
         InputsComponent,
+        DateComponent,
     ],
     exports: [
         JuiFormElementsComponent,
@@ -122,10 +124,8 @@ import { InputsComponent } from './components/inputs/inputs.component';
         DocumentViewerModule,
         DocumentListComponent,
         DocumentUploadComponent,
+        DateComponent
     ]
 })
 
 export class SharedModule {}
-
-
-

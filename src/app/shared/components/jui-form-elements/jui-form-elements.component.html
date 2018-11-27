@@ -11,6 +11,11 @@
             {{data.validationError.value}}
         </app-validation-error-formgroup>
     </ng-container>
+    <app-date *ngIf="data.date"
+              [id]="data.date.formName"
+              [data]="data.date"
+              [group]="group">
+    </app-date>
     <app-inputs *ngIf="data.input"
                 [item]="data.input"
                 [group]="group"
