@@ -42,7 +42,8 @@ import { CookiesComponent } from './pages/generic-page/cookies/cookies.component
 import { PrivacyPolicyComponent } from './pages/generic-page/privacy-policy/privacy-policy.component';
 import { DemoComponent } from './pages/generic-page/demo/demo.component';
 import {CaseDataService} from './pages/view-case/view-case.services';
-import { StaticPagesModule } from '../../../projects/static-pages/src/lib/static-pages.module';
+import {StaticPagesModule} from '../../../projects/static-pages/src/lib/static-pages.module';
+
 
 const routes: Routes = [
     {
