@@ -22,7 +22,7 @@ export class ConfigService {
         }
     }
 
-    getBaseUrl(config) {
-        return `${config.protocol}://${this.document.location.host}`;
+    getBaseUrl(configData) {
+        return `${configData.protocol}://${this.document.location.host}`;
     }
 }
