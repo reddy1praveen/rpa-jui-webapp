@@ -8,7 +8,6 @@ import { DOCUMENT } from '@angular/common';
     providedIn: 'root'
 })
 export class ConfigService {
-
     config = null;
 
     CONFIG_KEY = makeStateKey('config');

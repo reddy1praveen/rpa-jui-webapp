@@ -11,14 +11,16 @@ import { Response, Request } from 'express';
     providedIn: 'root'
 })
 export class ServerConfigService {
-
     config = null;
 
     CONFIG_KEY = makeStateKey('config');
 
-    constructor(private state: TransferState, @Inject(REQUEST) private request: Request,
-                @Inject(RESPONSE) private response: Response,
-                @Inject(PLATFORM_ID) private platformId: string) {
+    constructor(
+        private state: TransferState,
+        @Inject(REQUEST) private request: Request,
+        @Inject(RESPONSE) private response: Response,
+        @Inject(PLATFORM_ID) private platformId: string
+    ) {
         this.config = this.state.get(this.CONFIG_KEY, null as any);
         if (!this.config) {
             config.api_base_url = this.getBaseUrl(config);
