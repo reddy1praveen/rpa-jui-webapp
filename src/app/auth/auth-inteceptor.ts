@@ -8,8 +8,11 @@ import {
     HttpInterceptor,
     HttpErrorResponse
 } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
 import {AuthService} from './auth.service';
+import {NotFoundComponent} from '../../../projects/static-pages/src/lib/containers/not-found/not-found.component';
+import {GatewayTimeoutComponent} from '../../../projects/static-pages/src/lib/containers/gateway-timeout/gateway-timeout.component';
+import {of, Observable} from 'rxjs';
+import {catchError} from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
