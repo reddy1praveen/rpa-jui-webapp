@@ -1,7 +1,9 @@
+<!-- TODO: This should take in items, and a there should be a HMCTS Menu Component within case actions -->
 <app-case-actions
     [header]="panelData.name"
     [actionPrimaryButton]="{href: '../../decision/create', text: 'Make decision'}"
     [actionSecondaryButton]="{href: '../../hearing/list', text: 'List for hearing'}"
+    [actionThirdButton]="{href: '../../upload', text: 'Upload new item'}"
 ></app-case-actions>
 
 <app-case-file
