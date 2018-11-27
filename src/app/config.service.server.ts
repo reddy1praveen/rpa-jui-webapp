@@ -1,5 +1,5 @@
-import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
-import {makeStateKey, TransferState} from '@angular/platform-browser';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { makeStateKey, TransferState } from '@angular/platform-browser';
 declare function require(name: string);
 import { config } from '../../config';
 
