@@ -1,0 +1,36 @@
+<div class="jui-width-container">
+    <app-govuk-back-link></app-govuk-back-link>
+    <div class="govuk-main-wrapper">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h1 class="govuk-heading-xl">Upload new item</h1>
+                <div class="govuk-form-group">
+                    <label class="govuk-label govuk-label--m" for="selectfile">
+                        Select file
+                    </label>
+                    <span id="selectfile-hint" class="govuk-hint">
+                        PDF only (maximum file size 10mb)
+                    </span>
+                    <input (change)="handleFileInput($event.target.files[0])" class="govuk-file-upload" id="selectfile"
+                           name="selectfile" type="file" aria-describedby="selectfile-hint">
+                </div>
+
+                <div class="govuk-form-group">
+                    <label class="govuk-label govuk-label--m" for="fullname">
+                        Full name
+                    </label>
+                    <input class="govuk-input" id="fullname" name="fullname" type="text">
+                </div>
+                <div class="govuk-form-group">
+                    <label class="govuk-label govuk-label--m" for="notes">
+                        Add a note (optional)
+                    </label>
+                    <textarea class="govuk-textarea" id="notes" name="notes" rows="5"></textarea>
+                </div>
+                <button type="submit" class="govuk-button">
+                    Upload
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

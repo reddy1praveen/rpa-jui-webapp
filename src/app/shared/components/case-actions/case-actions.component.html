@@ -1,13 +1,17 @@
-<div class="hmcts-page-heading">
+<div [ngStyle]="{'border':'1px solid blue'}" class="hmcts-page-heading">
     <div class="hmcts-page-heading__title-wrapper">
         <h1 data-selector="heading" class="hmcts-page-heading__title govuk-heading-xl">{{header}}</h1>
     </div>
+    <!-- TODO: Should use HMCTS Menu Component here, instead of this. -->
     <div *ngIf="actionPrimaryButton || actionSecondaryButton" class="hmcts-page-heading__actions-wrapper">
         <a *ngIf="actionPrimaryButton" [routerLink]="actionPrimaryButton.href" role="button" class="govuk-button hmcts-page-heading__button">
             {{actionPrimaryButton.text}}
         </a>
         <a *ngIf="actionSecondaryButton"  [routerLink]="actionSecondaryButton.href" role="button" class="govuk-button hmcts-page-heading__button hmcts-button--secondary">
             {{actionSecondaryButton.text}}
+        </a>
+        <a *ngIf="actionThirdButton"  [routerLink]="actionThirdButton.href" role="button" class="govuk-button hmcts-page-heading__button hmcts-button--secondary">
+            {{actionThirdButton.text}}
         </a>
     </div>
 </div>

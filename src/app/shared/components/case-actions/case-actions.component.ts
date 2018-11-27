@@ -7,9 +7,11 @@ import {Component, Input} from '@angular/core';
 })
 export class CaseActionsComponent {
 
+    // TODO: This should be an array
     @Input() header = '';
     @Input() actionPrimaryButton;
     @Input() actionSecondaryButton;
+    @Input() actionThirdButton;
 
     constructor() { }
 
