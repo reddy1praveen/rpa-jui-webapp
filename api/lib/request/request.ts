@@ -6,11 +6,15 @@ const request = require('request-promise')
  * TODO: Requires Unit tests as this is used everywhere to make requests to 3rd party
  * services.
  */
-module.exports = (method, url, params) => {
 
-    const headers = (params.headers && config.configEnv !== 'mock') ? Object.assign(params.headers) : {}
+//** actually - replace with axios - AJ
+
+module.exports = (method, url, params) => {
+    const headers = params.headers && config.configEnv !== 'mock' ? Object.assign(params.headers) : {}
 
     let options = {
+        body: '',
+        formData: '',
         method,
         url,
         headers: {
