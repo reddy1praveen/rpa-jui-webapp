@@ -5,6 +5,7 @@
   "scripts": {
     "ng": "ng",
     "nuke": "rm -rf dist",
+    "nuke:modules": "rm -rf node_modules",
     "build": "tsc && ng build jui --prod && ng build static-pages  && ng run jui:server",
     "start": "cd dist/jui-backend && node server.js",
     "start-dev-proxy": "ng serve --proxy-config proxy.config.json",
