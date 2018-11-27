@@ -53,13 +53,13 @@ const cohState = {
 // goto the questions
 const questionState = {
     when(context) {
-        const questionRound = context.caseData.questionRoundData
+        const questionRound = context.caseData.latestQuestions
         const currentState = questionRound && questionRound.questions && questionRound.questions[0].state
 
         return context.cohStateCheck && currentState
     },
     then(context) {
-        const questionRound = context.caseData.questionRoundData
+        const questionRound = context.caseData.latestQuestions
         context.outcome = createCaseState(
             questionRound.questions[0].state,
             questionRound.questions[0].state_datetime,
@@ -74,11 +74,11 @@ const questionState = {
 // goto questions
 const deadlineElapsed = {
     when(context) {
-        const questionRound = context.caseData.questionRoundData
+        const questionRound = context.caseData.latestQuestions
         return context.cohStateCheck && questionRound && questionRound.state === STATE.COH_Q_DEADLINE_ELAPSED_STATE
     },
     then(context) {
-        const questionRound = context.caseData.questionRoundData
+        const questionRound = context.caseData.latestQuestions
         context.outcome = createCaseState(
             STATE.COH_Q_DEADLINE_ELAPSED_STATE,
             questionRound.questions[0].state_datetime,
@@ -94,12 +94,12 @@ const deadlineElapsed = {
 // goto questions
 const deadlineExtensionExpired = {
     when(context) {
-        const questionRound = context.caseData.questionRoundData
+        const questionRound = context.caseData.latestQuestions
         const questionDeadlineElapsed = context.cohStateCheck && questionRound && questionRound.state === STATE.COH_Q_DEADLINE_ELAPSED_STATE
         return questionDeadlineElapsed && questionRound.deadline_extension_count > 0
     },
     then(context) {
-        const questionRound = context.caseData.questionRoundData
+        const questionRound = context.caseData.latestQuestions
         context.outcome = createCaseState(
             STATE.COH_Q_DEADLINE_EXT_ELAPSED_STATE,
             questionRound.questions[0].state_datetime,
@@ -245,7 +245,7 @@ function getProcessEngine(jurisdiction, caseType) {
     return (conditionsList) || [DEFAULT_CCD_STATE]
 }
 
-module.exports = param => {
+function processCaseStateEngine(param) {
     const stateConditions = getProcessEngine(param.jurisdiction, param.caseType).stateConditions
 
     const context = {
@@ -266,3 +266,62 @@ module.exports = param => {
 
     return context.outcome
 }
+
+function processCaseState(caseData) {
+
+    // Example of caseData Model at this current moment
+    // const caseData = {
+    //     jurisdiction: "", // CCD Case jurisdiction
+    //     case_type_id: "", // CCD Case case type
+    //     state: "", // CCD Case state
+    //     case_data:{ // CCD Case Data
+    //         consentOrder: "", // used in FR only
+    //         appeal: {
+    //             hearingType: "" // used in SSCS only
+    //         }
+    //     },
+    //     hearing_data: { // COH Hearing Data
+    //         // used in COH only
+    //     },
+    //     question_data: { // COH Question Data
+    //         question_round_number // used in COH only
+    //     }
+    // }
+
+    const jurisdiction = caseData.jurisdiction
+    const caseType = caseData.case_type_id
+    const ccdState = caseData.state
+
+    // COH Related Cases Only
+    const hearingData = caseData.hearing_data ? caseData.hearing_data : undefined
+    const questionRoundData = caseData.question_data
+
+    const latestQuestions = (questionRoundData) ? questionRoundData.sort((a, b) => a.question_round_number < b.question_round_number)[0] : undefined
+
+    // FR related only
+    const consentOrder = caseData.case_data.consentOrder ? caseData.case_data.consentOrder : undefined
+    // SSCS related only
+    const hearingType = caseData.case_data.appeal ? caseData.case_data.appeal.hearingType : undefined
+
+    const inputStates = {
+        jurisdiction,
+        caseType,
+        ccdState,
+        hearingType,
+        hearingData,
+        latestQuestions,
+        consentOrder
+    }
+
+    const caseState = processCaseStateEngine(inputStates)
+    caseData.state = caseState
+    if (caseState.stateDateTime) {
+        if (new Date(caseData.last_modified) < new Date(caseState.stateDateTime)) {
+            caseData.last_modified = caseState.stateDateTime
+        }
+    }
+
+    return caseData
+}
+
+module.exports.processCaseState = processCaseState

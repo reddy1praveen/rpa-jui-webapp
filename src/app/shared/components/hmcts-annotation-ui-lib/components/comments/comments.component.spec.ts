@@ -1,11 +1,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA, QueryList } from '@angular/core';
 import { Subject, Observable, of } from 'rxjs';
 
 import { CommentsComponent } from './comments.component';
 import { AnnotationStoreService } from '../../data/annotation-store.service';
 import { PdfService } from '../../data/pdf.service';
-import { Annotation, Comment, Rectangle } from '../../data/annotation-set.model';
+import { Annotation, Comment } from '../../data/annotation-set.model';
+import { Utils } from '../../data/utils';
+import { CommentItemComponent } from './comment-item/comment-item.component';
+
+class MockUtils {
+  isSameLine() {}
+  sortByLinePosition() {}
+}
 
 class MockPdfService {
   pageNumber;
@@ -15,6 +22,7 @@ class MockPdfService {
     this.pageNumber.next(1);
   }
 
+  getPdfPages() {}
   getPageNumber() {
     return this.pageNumber;
   }
@@ -59,7 +67,14 @@ class MockAnnotationStoreService {
   }
 }
 
+class MockCommentItemComponent extends CommentItemComponent {
+  constructor() {
+    super(null, null, null, null);
+  }
+}
+
 describe('CommentsComponent', () => {
+  const mockUtils = new MockUtils();
   const mockAnnotationStoreService = new MockAnnotationStoreService();
   const mockPdfService = new MockPdfService();
   let component: CommentsComponent;
@@ -73,6 +88,7 @@ describe('CommentsComponent', () => {
       ],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
+        { provide: Utils, useFactory: () => mockUtils },
         { provide: PdfService, useFactory: () => mockPdfService },
         { provide: AnnotationStoreService, useFactory: () => mockAnnotationStoreService }
       ],
@@ -88,7 +104,7 @@ describe('CommentsComponent', () => {
 
     fixture = TestBed.createComponent(CommentsComponent);
     component = fixture.componentInstance;
-
+    component.commentItems = new QueryList();
     spyOn(mockPdfService, 'getDataLoadedSub').and.returnValue(of(true));
     spyOn(mockAnnotationStoreService, 'getAnnotationsForPage').and
     .callFake(() => {
@@ -128,28 +144,55 @@ describe('CommentsComponent', () => {
     });
   });
 
+  describe('redrawCommentItemComponents', () => {
+    it('should call sortCommentItemComponents', (done) => {
+      spyOn(component, 'sortCommentItemComponents').and.stub();
+      component.redrawCommentItemComponents();
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+          done(); // waits for promise to complete
+      });
+    });
+  });
+
+  describe('sortCommentItemComponents', () => {
+    it('should sort comments by their top position', () => {
+      spyOn(mockUtils, 'isSameLine').and.stub();
+      spyOn(mockUtils, 'sortByLinePosition').and.stub();
+
+      component.commentItems = new QueryList();
+      const sortedMap = component.sortCommentItemComponents();
+      expect(sortedMap).not.toBeNull();
+    });
+  });
+
+  describe('isOverlapping', () => {
+    it('should return the current comment', () => {
+      const commentItemComponent = new MockCommentItemComponent();
+      const returnedComment = component.isOverlapping(commentItemComponent, null);
+      expect(returnedComment).toBe(commentItemComponent);
+    });
+
+    it('should calculate previous comment height if overlapping', () => {
+      const previousCommentItemComponent = new MockCommentItemComponent();
+      previousCommentItemComponent.commentTopPos = 10;
+      previousCommentItemComponent.annotationTopPos = 10;
+      previousCommentItemComponent.commentHeight = 10;
+
+      const commentItemComponent = new MockCommentItemComponent();
+      commentItemComponent.commentTopPos = 10;
+      commentItemComponent.annotationTopPos = 10;
+
+      const returnedComment = component.isOverlapping(commentItemComponent, previousCommentItemComponent);
+      expect(returnedComment.commentTopPos).toBe(previousCommentItemComponent.commentTopPos + previousCommentItemComponent.commentHeight);
+    });
+  }); 
+
   describe('preRun', () => {
     it('should subscribe to pageNumSub', () => {
       component.preRun();
 
       expect(component['pageNumber']).toBe(1);
-    });
-  });
-
-  describe('sortByY', () => {
-    it('should sort annotations by their Y prop', () => {
-      const anno1 = new Annotation(null, null, null, null, null, null, null, null, null, null, null, null,
-        [new Rectangle(null, null, null, null, null, null, null, null, null, null, 10)]);
-      const anno2 = new Annotation(null, null, null, null, null, null, null, null, null, null, null, null,
-          [new Rectangle(null, null, null, null, null, null, null, null, null, null, 20)]);
-      const anno3 = new Annotation(null, null, null, null, null, null, null, null, null, null, null, null,
-        [new Rectangle(null, null, null, null, null, null, null, null, null, null, 30)]);
-
-      const unsortAnno = [anno2, anno3, anno1];
-      component.sortByY(unsortAnno);
-      expect(unsortAnno[0].rectangles[0].y).toBe(anno1.rectangles[0].y);
-      expect(unsortAnno[1].rectangles[0].y).toBe(anno2.rectangles[0].y);
-      expect(unsortAnno[2].rectangles[0].y).toBe(anno3.rectangles[0].y);
     });
   });
 

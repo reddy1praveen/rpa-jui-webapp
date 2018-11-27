@@ -34,7 +34,6 @@ import { DraftConsentOrderComponent } from './pages/decisions/fr/draft-consent-o
 import { HearingDetailsComponent } from './pages/decisions/fr/hearing-details/hearing-details.component';
 import {FormsService} from '../shared/services/forms.service';
 import { GenericPageComponent } from './pages/generic-page/generic-page.component';
-import { ErrorServiceUnavailableComponent } from './pages/generic-page/error-service-unavailable/error-service-unavailable.component';
 import { ConfirmationComponent } from './pages/generic-page/confirmation/confirmation.component';
 import { CheckYourAnswersComponent } from './pages/generic-page/check-your-answers/check-your-answers.component';
 import { TaskListComponent } from './pages/generic-page/task-list/task-list.component';
@@ -42,6 +41,8 @@ import { TermsAndConditionsComponent } from './pages/generic-page/terms-and-cond
 import { CookiesComponent } from './pages/generic-page/cookies/cookies.component';
 import { PrivacyPolicyComponent } from './pages/generic-page/privacy-policy/privacy-policy.component';
 import { DemoComponent } from './pages/generic-page/demo/demo.component';
+import {CaseDataService} from './pages/view-case/view-case.services';
+import { StaticPagesModule } from '../../../projects/static-pages/src/lib/static-pages.module';
 
 const routes: Routes = [
     {
@@ -131,24 +132,16 @@ const routes: Routes = [
         ]
     },
     {
-        path: '404',
-        component: ErrorServiceUnavailableComponent,
-        data : {status : '404'}
-    },
-    {
-        path: '504',
-        component: ErrorServiceUnavailableComponent,
-        data : {status : '504'}
-    },
-    {
         path: '**',
         redirectTo: '/404',
+        pathMatch: 'full'
     }
 ];
 
 @NgModule({
     imports: [
         CommonModule,
+        StaticPagesModule,
         RouterModule.forRoot(routes, {
             scrollPositionRestoration: 'enabled',
             anchorScrolling: 'enabled'
@@ -182,7 +175,6 @@ const routes: Routes = [
         NotesForCourtAdministratorComponent,
         HearingDetailsComponent,
         GenericPageComponent,
-        ErrorServiceUnavailableComponent,
         ConfirmationComponent,
         CheckYourAnswersComponent,
         TaskListComponent
@@ -190,9 +182,9 @@ const routes: Routes = [
     providers: [
         CaseResolve,
         ErrorHandler,
-        ErrorServiceUnavailableComponent,
  //       DecisionResolve,
-        RedirectionService
+        RedirectionService,
+        CaseDataService
     ],
     exports: [
         RouterModule

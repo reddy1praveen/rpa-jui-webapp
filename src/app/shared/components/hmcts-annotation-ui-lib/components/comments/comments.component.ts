@@ -1,9 +1,10 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Component, OnInit, OnDestroy, ViewChildren, QueryList } from '@angular/core';
 import {Subscription} from 'rxjs';
 import {PdfService} from '../../data/pdf.service';
 import {AnnotationStoreService} from '../../data/annotation-store.service';
 import { Annotation } from '../../data/annotation-set.model';
+import { CommentItemComponent } from './comment-item/comment-item.component';
+import { Utils } from '../../data/utils';
 
 @Component({
     selector: 'app-comments',
@@ -17,18 +18,53 @@ export class CommentsComponent implements OnInit, OnDestroy {
     annotations: Annotation[];
     pageNumber: number;
     private pageNumSub: Subscription;
+    @ViewChildren('commentItem') commentItems: QueryList<CommentItemComponent>;
 
     constructor(private annotationStoreService: AnnotationStoreService,
-                private pdfService: PdfService) {
+                private pdfService: PdfService,
+                private utils: Utils) {
     }
 
     ngOnInit() {
-        this.dataLoadedSub = this.pdfService.getDataLoadedSub().subscribe(isDataLoaded => {
-            if (isDataLoaded) {
-                this.showAllComments();
-                this.preRun();
-            }
+        this.dataLoadedSub = this.pdfService.getDataLoadedSub()
+            .subscribe(isDataLoaded => {
+                if (isDataLoaded) {
+                    this.showAllComments();
+                    this.preRun();
+                }
         });
+    }
+
+    redrawCommentItemComponents() {
+        setTimeout(() => {
+            let previousCommentItem: CommentItemComponent;
+            this.sortCommentItemComponents().forEach((commentItem: CommentItemComponent) => {
+                    previousCommentItem = this.isOverlapping(commentItem, previousCommentItem);
+                });
+        });
+    }
+
+    sortCommentItemComponents() {
+        return this.commentItems.map((commentItem: CommentItemComponent) => commentItem)
+            .sort((a, b) => {
+                if (this.utils.isSameLine(a.annotationTopPos, b.annotationTopPos)) {
+                    return this.utils.sortByLinePosition(a.annotation.rectangles, b.annotation.rectangles); 
+                }
+                if (a.commentTopPos < b.commentTopPos) { return -1; }
+                if (a.commentTopPos > b.commentTopPos) { return 1; }
+                return 0;
+            });
+    }
+
+    isOverlapping(commentItem: CommentItemComponent, previousCommentItem: CommentItemComponent): CommentItemComponent {
+        commentItem.commentTopPos = commentItem.annotationTopPos;
+        if (previousCommentItem) {
+            const endOfPreviousCommentItem = (previousCommentItem.commentTopPos + previousCommentItem.commentHeight);
+            if (commentItem.commentTopPos <= endOfPreviousCommentItem) {
+                commentItem.commentTopPos = endOfPreviousCommentItem;
+            }
+        }
+        return commentItem;
     }
 
     ngOnDestroy() {
@@ -50,23 +86,12 @@ export class CommentsComponent implements OnInit, OnDestroy {
     showAllComments() {
         // todo - refactor this out of component
         this.annotations = [];
-        for (let i = 0; i < this.pdfService.pdfPages + 1; i++) {
+        for (let i = 0; i < this.pdfService.getPdfPages() + 1; i++) {
             this.annotationStoreService.getAnnotationsForPage(i)
                 .then((pageData: any) => {
                     this.annotations = this.annotations.concat(pageData.annotations.slice());
                 });
         }
-    }
-
-    sortByY(annotations) {
-        annotations.sort(
-            function (a, b) {
-                const keyA = a.rectangles[0].y,
-                    keyB = b.rectangles[0].y;
-                if (keyA < keyB) { return -1; }
-                if (keyA > keyB) { return 1; }
-                return 0;
-            });
     }
 
     handleAnnotationBlur() {

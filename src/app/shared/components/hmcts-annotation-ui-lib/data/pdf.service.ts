@@ -5,13 +5,13 @@ import { PdfAnnotateWrapper } from './js-wrapper/pdf-annotate-wrapper';
 
 @Injectable()
 export class PdfService {
-    UI: any;
-    pdfPages: number;
+
+    private pdfPages: number;
     private RENDER_OPTIONS: { documentId: string, pdfDocument: any, scale: any, rotate: number };
     private pageNumber: BehaviorSubject<number>;
     private dataLoadedSubject: BehaviorSubject<boolean>;
-
-    viewerElementRef: ElementRef;
+    private viewerElementRef: ElementRef;
+    private annotationWrapper: ElementRef;
 
     constructor(private pdfWrapper: PdfWrapper,
                 private pdfAnnotateWrapper: PdfAnnotateWrapper) {
@@ -21,6 +21,22 @@ export class PdfService {
     preRun() {
         this.pdfWrapper.workerSrc('/public/javascripts/pdf.worker.js');
         this.pageNumber = new BehaviorSubject(1);
+    }
+
+    getPdfPages(): number {
+        return this.pdfPages;
+    }
+
+    getAnnotationWrapper(): ElementRef {
+        return this.annotationWrapper;
+    }
+
+    setAnnotationWrapper(annotationWrapper: ElementRef) {
+        this.annotationWrapper = annotationWrapper;
+    }
+
+    getViewerElementRef(): ElementRef {
+        return this.viewerElementRef;
     }
 
     getDataLoadedSub(): BehaviorSubject<boolean> {
@@ -58,17 +74,20 @@ export class PdfService {
                 const viewer = this.viewerElementRef.nativeElement;
                 viewer.innerHTML = '';
                 const NUM_PAGES = pdf.pdfInfo.numPages;
-                for (let i = 0; i < NUM_PAGES; i++) {
-                    const page = this.pdfAnnotateWrapper.createPage(i + 1);
-                    viewer.appendChild(page);
-                    setTimeout(() => {
-                        this.pdfAnnotateWrapper.renderPage(i + 1, this.RENDER_OPTIONS).then(() => {
-                            if (i === NUM_PAGES - 1) {
-                                this.dataLoadedUpdate(true);
-                            }
+                pdf.getPage(1).then(pdfPage => {
+                    this.RENDER_OPTIONS.rotate = pdfPage.rotate;
+                    for (let i = 0; i < NUM_PAGES; i++) {
+                        const page = this.pdfAnnotateWrapper.createPage(i + 1);
+                        viewer.appendChild(page);
+                        setTimeout(() => {
+                            this.pdfAnnotateWrapper.renderPage(i + 1, this.RENDER_OPTIONS).then(() => {
+                                if (i === NUM_PAGES - 1) {
+                                    this.dataLoadedUpdate(true);
+                                }
+                            });
                         });
-                    });
-                }
+                    }
+                });
                 this.pdfPages = NUM_PAGES;
             }).catch(
             (error) => {
