@@ -7,9 +7,10 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 COPY package.json .
-COPY package-lock.json .
+#COPY package-lock.json .
 COPY yarn.lock .
 
+RUN yarn
 RUN npm install
 
 COPY . .
