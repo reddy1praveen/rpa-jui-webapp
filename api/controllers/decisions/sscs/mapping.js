@@ -12,7 +12,7 @@
 // [state] and [end] are special casess
 
 const mapping = [
-    ({
+    {
         event: 'change',
         result: '[state]'
     },
@@ -31,9 +31,13 @@ const mapping = [
                         result: 'final-decision'
                     }
                 ]
+            },
+            {
+                state: 'preliminary-advanced',
+                result: 'set-award-dates'
             }
         ]
-    })
+    }
 ]
 
 module.exports = mapping
