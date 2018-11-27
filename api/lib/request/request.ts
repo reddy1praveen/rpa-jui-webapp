@@ -7,14 +7,14 @@ const request = require('request-promise')
  * services.
  */
 
- //** actually - replace with axios - AJ
+//** actually - replace with axios - AJ
 
 module.exports = (method, url, params) => {
-
-    const headers = (params.headers && config.configEnv !== 'mock') ? Object.assign(params.headers) : {}
+    const headers = params.headers && config.configEnv !== 'mock' ? Object.assign(params.headers) : {}
 
     let options = {
         body: '',
+        formData: '',
         method,
         url,
         headers: {

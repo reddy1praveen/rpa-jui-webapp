@@ -58,6 +58,6 @@ module.exports = app => {
     })
 
     route.post('/', (req, res, next) => {
-        uploadDocument().pipe(res)
+      //  uploadDocument().pipe(res)
     })
 }
