@@ -1,19 +1,19 @@
-import { Inject, Injectable, PLATFORM_ID } from "@angular/core";
-import { makeStateKey, TransferState } from "@angular/platform-browser";
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { makeStateKey, TransferState } from '@angular/platform-browser';
 declare function require(name: string);
-import { config } from "../../config";
+import { config } from '../../config';
 
-import { REQUEST, RESPONSE } from "@nguniversal/express-engine/tokens";
-import { isPlatformBrowser } from "@angular/common";
-import { Response, Request } from "express";
+import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
+import { isPlatformBrowser } from '@angular/common';
+import { Response, Request } from 'express';
 
 @Injectable({
-    providedIn: "root"
+    providedIn: 'root'
 })
 export class ServerConfigService {
     config = null;
 
-    CONFIG_KEY = makeStateKey("config");
+    CONFIG_KEY = makeStateKey('config');
 
     constructor(
         private state: TransferState,
@@ -31,7 +31,7 @@ export class ServerConfigService {
 
     getBaseUrl(config) {
         const protocol = config.protocol;
-        const host = this.request.get("host");
+        const host = this.request.get('host');
         return `${protocol}://${host}`;
     }
 }
