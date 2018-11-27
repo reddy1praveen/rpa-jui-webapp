@@ -303,12 +303,14 @@ module.exports = {
                                     {
                                         value: 'yes',
                                         text: 'Yes',
-                                        hiddenAccessibilityText: ', send an annotated version of the draft consent order to the parties'
+                                        hiddenAccessibilityText:
+                                            ', send an annotated version of the draft consent order to the parties'
                                     },
                                     {
                                         value: 'no',
                                         text: 'No',
-                                        hiddenAccessibilityText: ', I don’t want to send an annotated version of the draft consent order to the parties'
+                                        hiddenAccessibilityText:
+                                            ', I don’t want to send an annotated version of the draft consent order to the parties'
                                     }
                                 ],
                                 validators: ['required']
@@ -723,7 +725,8 @@ module.exports = {
                     textarea: {
                         label: 'Any other hearing details (optional)',
                         hint: {
-                            text: 'For example, if you need to hear the case. Or if you need to transfer either the financial remedy or entire divorce case to another court.'
+                            text:
+                                'For example, if you need to hear the case. Or if you need to transfer either the financial remedy or entire divorce case to another court.'
                         },
                         control: 'otherHearingDetails',
                         value: 'Other hearing details text'
