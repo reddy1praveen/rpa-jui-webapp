@@ -16,7 +16,6 @@ export class AuthService {
         private redirectionService: RedirectionService
     ) {
 
-        console.log('#############', this.configService.config);
         this.COOKIE_KEYS = {
             TOKEN: this.configService.config.cookies.token,
             USER: this.configService.config.cookies.userId

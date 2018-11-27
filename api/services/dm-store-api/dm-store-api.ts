@@ -42,7 +42,7 @@ function getDocumentBinary(documentId, options) {
 }
 
 // Streams a specific version of the content of a Stored Document.
-function getDocumentVersionBinary(documentId, options) {
+function getDocumentVersionBinary(documentId, versionId, options) {
     return generateRequest('GET', `${url}/documents/${documentId}/versions/${versionId}/binary`, options)
 }
 

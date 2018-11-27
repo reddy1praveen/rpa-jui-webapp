@@ -303,7 +303,7 @@ export function processCaseState(caseData) {
     // SSCS related only
     const hearingType = caseData.case_data.appeal ? caseData.case_data.appeal.hearingType : undefined
 
-    const caseState = processCaseStateEngine({
+    const caseState: any = processCaseStateEngine({
         jurisdiction,
         caseType,
         ccdState,

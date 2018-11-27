@@ -32,9 +32,9 @@ function uploadDocument(userId = null, jurisdiction = null, caseType = null, cas
                         ignore_warning: true
                     }
                 }
-            })
-            .then(body => postCCDEvent(userId, jurisdiction, caseType, caseId, { ...options, body }))
-    })
+                )
+                .then(body => postCCDEvent(userId, jurisdiction, caseType, caseId, { ...options, body }))
+        })
 }
 
 function getOptions(req) {

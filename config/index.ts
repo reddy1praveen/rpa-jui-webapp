@@ -1,4 +1,4 @@
-import {application} from './application.config';
+import { application } from './application.config';
 
 import * as local from './environments/local.config';
 import * as docker from './environments/docker.config';
@@ -31,7 +31,6 @@ const configs = {
 
 export const configEnv = process ? process.env.JUI_ENV || 'local' : 'local';
 export const config = { ...configs[configEnv].default, ...application };
-console.log(config);
 
 if (configEnv === 'local') {
     config.protocol = 'http';
