@@ -96,8 +96,8 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     }
 
     setHeight() {
-        this.renderer.setStyle(this.commentArea.nativeElement, 'height', 'auto');
-        this.renderer.setStyle(this.commentArea.nativeElement, 'height', this.commentArea.nativeElement.scrollHeight + 'px');
+        this.renderer.setStyle(this.commentArea.nativeElement, 'height', 'fit-content');
+        this.renderer.setStyle(this.commentArea.nativeElement, 'height', (this.commentArea.nativeElement.scrollHeight) + 'px');
         this.commentHeight =  this.commentSelector.nativeElement.getBoundingClientRect().height;
         this.commentRendered.emit(true);
         this.ref.detectChanges();
@@ -120,19 +120,26 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         this.annotationStoreService.editComment(comment);
         this.commentSubmitted.emit(this.annotation);
 
-        this.renderer.addClass(this.commentArea.nativeElement, 'view-mode');
-        this.focused = false;
+        this.viewOnly();
     }
 
     onEdit() {
-        this.focused = true;
-        this.renderer.removeClass(this.commentArea.nativeElement, 'view-mode');
+        this.editOnly();
     }
 
     onCancel() {
-        this.focused = false;
         this.renderer.setProperty(this.commentArea.nativeElement, 'value', this.comment.content);
+        this.viewOnly();
+    }
+
+    viewOnly() {
         this.renderer.addClass(this.commentArea.nativeElement, 'view-mode');
+        this.focused = false;
+    }
+
+    editOnly() {
+        this.focused = true;
+        this.renderer.removeClass(this.commentArea.nativeElement, 'view-mode');
     }
 
     isModified(): boolean {
@@ -205,15 +212,20 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     }
 
     collapseComment() {
-        if (!this.isCommentEmpty()) {
-            this.shrinkComment();
-        }
-        this.renderer.addClass(this.commentArea.nativeElement, 'collapsed');
-        this.renderer.removeClass(this.commentArea.nativeElement, 'expanded');
-        this.renderer.addClass(this.detailsWrapper.nativeElement, 'collapsed');
-        this.renderer.addClass(this.commentArea.nativeElement, 'view-mode');
+        new Promise(resolve => {
+            this.expandComment();
+            resolve('Success');
+        }).then(() => {
+            if (!this.isCommentEmpty()) {
+                this.shrinkComment();
+            }
+            this.renderer.addClass(this.commentArea.nativeElement, 'collapsed');
+            this.renderer.removeClass(this.commentArea.nativeElement, 'expanded');
+            this.renderer.addClass(this.detailsWrapper.nativeElement, 'collapsed');
+            this.renderer.addClass(this.commentArea.nativeElement, 'view-mode');
 
-        this.setHeight();
+            this.setHeight();
+        });
     }
 
     isCommentEmpty(): boolean {
@@ -221,20 +233,12 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     }
     
     isShrinkable(): boolean {
-        return this.hasLineBreak() || this.isTextLongerThanCollapse();
-    }
-
-    hasLineBreak(): boolean {
-        return this.comment.content.toString().split('\n').length > 1;
-    }
-
-    isTextLongerThanCollapse(): boolean {
-        return this.comment.content.length > 40;
+        return this.commentArea.nativeElement.scrollHeight > 31;
     }
 
     shrinkComment() {
         if (this.isShrinkable()) {
-            this.sliceComment = this.removeMultipleLines().slice(0, 37) + '...';
+            this.sliceComment = this.removeMultipleLines().slice(0, 20) + '...';
         }
     }
 
