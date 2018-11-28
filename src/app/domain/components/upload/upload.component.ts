@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {RedirectionService} from '../../../routing/redirection.service';
 import {FormGroup} from '@angular/forms';
 import {DocumentStoreService} from '../../../shared/services/documentStore/document-store.service';
 
@@ -12,7 +11,7 @@ export class UploadComponent implements OnInit {
 
     redirect = '/';
     uploadForm: FormGroup;
-    fileToUpload: File = null;
+    inputFile: File = null;
 
     userNotSelectedFileError: boolean;
 
@@ -21,8 +20,7 @@ export class UploadComponent implements OnInit {
      */
     systemFailedToUploadError: boolean;
 
-    constructor(private documentService: DocumentStoreService,
-                private redirectionService: RedirectionService) {
+    constructor(private documentService: DocumentStoreService) {
     }
 
     ngOnInit(): void {
@@ -35,7 +33,8 @@ export class UploadComponent implements OnInit {
      */
     inputFileHandler(file: File) {
 
-        this.fileToUpload = file;
+        this.inputFile = file;
+
         this.userNotSelectedFileError = false;
         this.systemFailedToUploadError = false;
     }
@@ -77,12 +76,16 @@ export class UploadComponent implements OnInit {
             );
     }
 
-    gotoRedirect() {
-        console.log('Uploaded?');
-        // this.redirectionService.redirect(this.redirect);
+    testFunction() {
+        return false;
     }
 
-    cancelUpload() {
-        this.gotoRedirect();
-    }
+    // gotoRedirect() {
+    //     console.log('Uploaded?');
+    //     // this.redirectionService.redirect(this.redirect);
+    // }
+
+    // cancelUpload() {
+    //     this.gotoRedirect();
+    // }
 }
