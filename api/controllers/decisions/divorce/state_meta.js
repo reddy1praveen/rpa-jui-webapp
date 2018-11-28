@@ -626,7 +626,7 @@ module.exports = {
             buttons: [
                 {
                     control: 'createButton',
-                    value: 'continue',
+                    value: 'Submit',
                     onEvent: 'continue'
                 }
             ]
