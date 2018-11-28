@@ -46,10 +46,11 @@ export class CommentsComponent implements OnInit, OnDestroy {
 
     sortCommentItemComponents() {
         return this.commentItems.map((commentItem: CommentItemComponent) => commentItem)
-            .sort((a, b) => {
-                if (this.utils.isSameLine(a.annotationTopPos, b.annotationTopPos)) {
-                    return this.utils.sortByLinePosition(a.annotation.rectangles, b.annotation.rectangles); 
-                }
+            .sort((a: CommentItemComponent, b: CommentItemComponent) => {
+
+                if (a.annotationTopPos < b.annotationTopPos) { return -1; }
+                if (a.annotationTopPos > b.annotationTopPos) { return 1; }
+
                 if (a.commentTopPos < b.commentTopPos) { return -1; }
                 if (a.commentTopPos > b.commentTopPos) { return 1; }
                 return 0;

@@ -10,7 +10,6 @@ import { PdfService } from '../../../data/pdf.service';
 import { AnnotationStoreService } from '../../../data/annotation-store.service';
 
 class MockUtils {
-  isSameLine() {}
   sortByLinePosition() {}
 }
 
@@ -157,7 +156,6 @@ describe('CommentsComponent', () => {
 
   describe('sortCommentItemComponents', () => {
     it('should sort comments by their top position', () => {
-      spyOn(mockUtils, 'isSameLine').and.stub();
       spyOn(mockUtils, 'sortByLinePosition').and.stub();
 
       component.commentItems = new QueryList();
