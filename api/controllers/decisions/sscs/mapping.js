@@ -35,6 +35,10 @@ const mapping = [
             {
                 state: 'preliminary-advanced',
                 result: 'set-award-dates'
+            },
+            {
+                state: 'set-award-dates',
+                result: 'scores'
             }
         ]
     }
