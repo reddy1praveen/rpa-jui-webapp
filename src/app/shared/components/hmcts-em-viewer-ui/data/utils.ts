@@ -4,11 +4,11 @@ export class Utils {
 
     buildLineRectangle(rectangles) {
 
-        this.sortByY(rectangles, true);
+        this.sortByY(rectangles);
         const lowestY = rectangles[0].y;
         const lineHeight = rectangles[0].height;
 
-        this.sortByX(rectangles, true);
+        this.sortByX(rectangles);
         const lowestX = rectangles[0].x;
         const upperX = rectangles[rectangles.length - 1].x;
         const width = rectangles[rectangles.length - 1].width;
@@ -24,7 +24,7 @@ export class Utils {
 
     generateRectanglePerLine(annotationRectangles: Rectangle[], generatedRectangles: Rectangle[]) {
 
-        this.sortByY(annotationRectangles, true);
+        this.sortByY(annotationRectangles);
         const highestY = annotationRectangles[annotationRectangles.length - 1].y;
         const lowestY = annotationRectangles[0].y;
         const lineHeight = this.getAnnotationLineHeight(annotationRectangles);
@@ -43,7 +43,7 @@ export class Utils {
         return rectangles[0].height;
     }
 
-    sortByY(rectangles: Rectangle[], lowest: boolean) {
+    sortByY(rectangles: Rectangle[], lowest = true) {
         rectangles.sort(
             function (a, b) {
                 const keyA = a.y,
@@ -54,7 +54,7 @@ export class Utils {
             });
     }
 
-    sortByX(rectangles: Rectangle[], lowest: boolean) {
+    sortByX(rectangles: Rectangle[], lowest = true) {
         rectangles.sort(
             function (a, b) {
                 const keyA = a.x,
@@ -66,8 +66,8 @@ export class Utils {
     }
 
     sortByLinePosition(a: Rectangle[], b: Rectangle[]): number {
-        this.sortByX(a, true);
-        this.sortByX(b, true);
+        this.sortByX(a);
+        this.sortByX(b);
         return (a[0].x > b[0].x) ? 1 : -1;
     }
 

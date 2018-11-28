@@ -68,7 +68,7 @@ class MockAnnotationStoreService {
 
 class MockCommentItemComponent extends CommentItemComponent {
   constructor() {
-    super(null, null, null, null);
+    super(null, null, null, null, null);
   }
 }
 

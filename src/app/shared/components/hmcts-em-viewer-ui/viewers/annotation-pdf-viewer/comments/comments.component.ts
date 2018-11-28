@@ -47,14 +47,24 @@ export class CommentsComponent implements OnInit, OnDestroy {
     sortCommentItemComponents() {
         return this.commentItems.map((commentItem: CommentItemComponent) => commentItem)
             .sort((a: CommentItemComponent, b: CommentItemComponent) => {
-
+                if (this.isAnnotationOnSameLine(a, b)) {
+                    if (a.annotationLeftPos < b.annotationLeftPos) { return -1; }
+                    if (a.annotationLeftPos >= b.annotationLeftPos) { return 1; }
+                }
                 if (a.annotationTopPos < b.annotationTopPos) { return -1; }
-                if (a.annotationTopPos > b.annotationTopPos) { return 1; }
-
+                if (a.annotationTopPos >= b.annotationTopPos) { return 1; }
                 if (a.commentTopPos < b.commentTopPos) { return -1; }
                 if (a.commentTopPos > b.commentTopPos) { return 1; }
                 return 0;
             });
+    }
+
+    isAnnotationOnSameLine(a: CommentItemComponent, b: CommentItemComponent): boolean {
+        const delta = (a.annotationHeight >= b.annotationHeight) ? a.annotationHeight : b.annotationHeight;
+        if (this.utils.difference(a.annotationTopPos, b.annotationTopPos) > delta) {
+            return false;
+        }
+        return true;
     }
 
     isOverlapping(commentItem: CommentItemComponent, previousCommentItem: CommentItemComponent): CommentItemComponent {
