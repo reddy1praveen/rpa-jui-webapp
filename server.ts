@@ -44,4 +44,6 @@ app.use('/*', (req, res) => {
     console.timeEnd(`GET: ${req.originalUrl}`);
 });
 
+console.log('branch test')
+
 app.listen(process.env.PORT || 3000, () => {});
