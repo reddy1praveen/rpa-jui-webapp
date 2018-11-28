@@ -13,10 +13,7 @@ COPY yarn.lock .
 RUN npm install
 
 COPY . .
-COPY server.ts .
-COPY application.ts .
 RUN npm run build
 
 EXPOSE 8080
 CMD [ "npm", "start" ]
-
