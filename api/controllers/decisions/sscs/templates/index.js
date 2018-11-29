@@ -14,4 +14,6 @@ templates.benefit['preliminary-advanced'] = require('./benefit/preliminaryAdvanc
 templates.benefit['final-decision'] = require('./benefit/finalDecision')
 templates.benefit['set-award-dates'] = require('./benefit/setAwardDates')
 
+templates.benefit.scores = require('./benefit/scores')
+
 module.exports = templates
