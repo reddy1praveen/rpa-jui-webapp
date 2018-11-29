@@ -64,7 +64,7 @@ export class UploadComponent implements OnInit {
 
         const metadataObj: Map<string, string> = new Map<string, string>();
 
-        this.documentService.postFile('PRIVATE', metadataObj, file)
+        this.documentService.postFileAndAssociateWithCase('PRIVATE', metadataObj, file)
             .subscribe((response) => {
                     console.log(response);
                     //TODO: Where should we redirect to on success?
@@ -76,9 +76,9 @@ export class UploadComponent implements OnInit {
             );
     }
 
-    testFunction() {
-        return false;
-    }
+    // testFunction() {
+    //     return false;
+    // }
 
     // gotoRedirect() {
     //     console.log('Uploaded?');

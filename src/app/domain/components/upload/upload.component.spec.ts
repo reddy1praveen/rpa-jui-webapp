@@ -6,20 +6,21 @@ import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {DocumentStoreService} from '../../../shared/services/documentStore/document-store.service';
 
 import {UploadComponent} from './upload.component';
+import {Observable} from "rxjs/Rx";
 
 class MockDocumentStoreService {
     postFile() {
     }
 }
 
-fdescribe('UploadComponent', () => {
+describe('UploadComponent', () => {
 
     let component: UploadComponent;
     let fixture: ComponentFixture<UploadComponent>;
 
     const mockDocumentStoreService = new MockDocumentStoreService();
 
-    const blob = new Blob([''], { type: 'text/html' });
+    const blob = new Blob([''], {type: 'text/html'});
     blob['lastModifiedDate'] = '';
     blob['name'] = 'filename';
 
@@ -31,7 +32,7 @@ fdescribe('UploadComponent', () => {
             schemas: [CUSTOM_ELEMENTS_SCHEMA],
             providers: [
                 UploadComponent,
-                {provide: DocumentStoreService, useFactory: () => mockDocumentStoreService }
+                {provide: DocumentStoreService, useFactory: () => mockDocumentStoreService}
             ],
         })
             .compileComponents();
@@ -49,50 +50,25 @@ fdescribe('UploadComponent', () => {
         expect(component.inputFile).toBe(fakeFile);
     });
 
-    // it('should send file to document service.', () => {
+    it('should send file to document service.', () => {
+
+        spyOn(mockDocumentStoreService, 'postFile').and.returnValue(Observable.of(true));
+
+        component.postFile(fakeFile);
+
+        expect(mockDocumentStoreService.postFile).toHaveBeenCalledTimes(1);
+    });
+
+
+    // Works
+    // it('should hook into component class function', () => {
     //
-    //     const blob = new Blob([''], { type: 'text/html' });
-    //     blob['lastModifiedDate'] = '';
-    //     blob['name'] = 'filename';
-    //
-    //     const fakeFile = <File>blob;
-    //
-    //     spyOn(mockDocumentStoreService, 'postFile');
-    //
-    //     component.postFile(fakeFile);
-    //
-    //     expect(component.inputFile).toBe(fakeFile);
+    //     expect(component.testFunction()).toBeFalsy();
     // });
 
-
     // Works
-    it('should hook into component class function', () => {
-
-        expect(component.testFunction()).toBeFalsy();
-    });
-
-    // Works
-    it('should contain upload new item', () => {
-        const inputElement: HTMLElement = fixture.nativeElement;
-        expect(inputElement.textContent).toContain('Upload new item');
-    });
+    // it('should contain upload new item', () => {
+    //     const inputElement: HTMLElement = fixture.nativeElement;
+    //     expect(inputElement.textContent).toContain('Upload new item');
+    // });
 });
-
-
-// describe('LightswitchComp', () => {
-//     it('#clicked() should toggle #isOn', () => {
-//         const comp = new LightswitchComponent();
-//         expect(comp.isOn).toBe(false, 'off at first');
-//         comp.clicked();
-//         expect(comp.isOn).toBe(true, 'on after click');
-//         comp.clicked();
-//         expect(comp.isOn).toBe(false, 'off after second click');
-//     });
-//
-//     it('#clicked() should set #message to "is on"', () => {
-//         const comp = new LightswitchComponent();
-//         expect(comp.message).toMatch(/is off/i, 'off at first');
-//         comp.clicked();
-//         expect(comp.message).toMatch(/is on/i, 'on after clicked');
-//     });
-// });

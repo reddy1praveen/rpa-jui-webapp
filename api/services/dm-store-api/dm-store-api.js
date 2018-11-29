@@ -5,6 +5,7 @@ const formidable = require('formidable')
 const config = require('../../../config')
 const generateRequest = require('../../lib/request/request')
 const headerUtilities = require('../../lib/utilities/headerUtilities')
+const ccdStoreTokenUtilities = require('../../lib/utilities/ccdStoreTokenUtilities')
 
 const url = config.services.dm_store_api
 
@@ -65,7 +66,27 @@ function getDocumentVersionThumbnail(documentId, versionId, options) {
  */
 
 // Creates a list of Stored Documents by uploading a list of binary/text files.
-function postDocument(file, classification, options) {
+function postDocument(req, file, classification, options) {
+
+    options.formData = {
+        files: [
+            {
+                value: fs.createReadStream(file.path),
+                options: { filename: file.name, contentType: file.type }
+            }
+        ],
+        classification: getClassification(classification)
+    }
+
+    return generateRequest('POST', `${url}/documents`, options)
+}
+
+//TODO: is this the proper place for this?
+function postDocumentAndAssociateWithCase(req, caseId, file, classification, options) {
+
+
+    console.log(ccdStoreTokenUtilities.getTokenAndMakePayload(req, caseId))
+
     options.formData = {
         files: [
             {
@@ -183,12 +204,33 @@ module.exports = app => {
 
     /**
      * Retrieves the file from a multipart form.
+     *
+     * ///${jurisdiction}/case-types/${caseType}/cases/${caseId}`
      */
     router.post('/documents', (req, res, next) => {
         const form = new formidable.IncomingForm()
 
         form.on('file', (name, file) => {
-            postDocument(file, 'PUBLIC', getOptions(req)).pipe(res)
+            postDocument(req, file, 'PUBLIC', getOptions(req)).pipe(res)
+        })
+
+        form.parse(req)
+    })
+
+    /**
+     * This route uploads the document and associates the document with a case. This is done in one request,
+     * as it makes sense that the UI doesn't have to do two calls, one to upload and one to associate.
+     *
+     * TODO: Should this be here?
+     * TODO: Should we have two endpoints? should the front end know that it needs to be associated?
+     */
+    router.post('/documents/:caseId', (req, res, next) => {
+
+        const form = new formidable.IncomingForm()
+        const caseId = req.params.caseId;
+
+        form.on('file', (name, file) => {
+            postDocumentAndAssociateWithCase(req, caseId, file, 'PUBLIC', getOptions(req)).pipe(res)
         })
 
         form.parse(req)
