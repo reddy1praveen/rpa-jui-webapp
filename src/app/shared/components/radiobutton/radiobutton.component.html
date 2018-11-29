@@ -8,6 +8,12 @@
           <label class="govuk-label govuk-radios__label" for="{{idPrefix + '-' + (i+1)}}">
               {{data.text}}
           </label>
+          <app-hint *ngIf="data.hint" [classes]="data.hint.classes">
+              {{data.hint.text}}
+          </app-hint>
+          <ul *ngIf="data.list" class="govuk-list govuk-list--bullet govuk-!-margin-bottom-0">
+            <li *ngFor="let item of data.list">{{ item }}</li>
+          </ul>
       </div>
       <div class="govuk-form-group">
           <div *ngIf="data.groups && group.value[control]===data.value" class="govuk-radios__conditional">

@@ -83,6 +83,7 @@ const routes: Routes = [
                     {path: 'preliminary-advanced', component: MakeDecisionComponent},
                     {path: 'final-decision', component: MakeDecisionComponent},
                     {path: 'set-award-dates', component: MakeDecisionComponent},
+                    {path: 'scores', component: MakeDecisionComponent},
                     {path: 'reject-reasons', component: ReasonsCoNotApprovedComponent},
                     {path: 'notes-for-court-administrator', component: NotesForCourtAdministratorComponent},
                     {path: 'draft-consent-order', component: DraftConsentOrderComponent},
