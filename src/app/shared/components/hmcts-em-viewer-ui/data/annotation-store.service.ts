@@ -93,7 +93,7 @@ export class AnnotationStoreService implements OnDestroy {
                 break;
             }
             case 'editComment': {
-                this.saveAnnotation(e.annotation);
+                this.saveAnnotation(e.annotation, e.type);
                 break;
             }
             case 'deleteComment': {
@@ -168,7 +168,7 @@ export class AnnotationStoreService implements OnDestroy {
     saveAnnotation(annotation: Annotation, type?: string) {
         this.apiHttpService.saveAnnotation(annotation).subscribe(
             response => {
-                if (type === 'addComment') {
+                if (type === 'addComment' || type === 'editComment') {
                     this.pdfAdapter.annotationSet.annotations[this.pdfAdapter.annotationSet.annotations
                         .findIndex(x => x.id === annotation.id)] = response.body;
                 }
