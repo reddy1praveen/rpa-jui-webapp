@@ -47,16 +47,19 @@ export class CommentsComponent implements OnInit, OnDestroy {
     sortCommentItemComponents() {
         return this.commentItems.map((commentItem: CommentItemComponent) => commentItem)
             .sort((a: CommentItemComponent, b: CommentItemComponent) => {
-                if (this.isAnnotationOnSameLine(a, b)) {
-                    if (a.annotationLeftPos < b.annotationLeftPos) { return -1; }
-                    if (a.annotationLeftPos >= b.annotationLeftPos) { return 1; }
-                }
-                if (a.annotationTopPos < b.annotationTopPos) { return -1; }
-                if (a.annotationTopPos >= b.annotationTopPos) { return 1; }
-                if (a.commentTopPos < b.commentTopPos) { return -1; }
-                if (a.commentTopPos > b.commentTopPos) { return 1; }
-                return 0;
+                return this.processSort(a, b);
             });
+    }
+
+    processSort(a: CommentItemComponent, b: CommentItemComponent): number {
+        if (this.isAnnotationOnSameLine(a, b)) {
+            if (a.annotationLeftPos < b.annotationLeftPos) { return -1; }
+            if (a.annotationLeftPos >= b.annotationLeftPos) { return 1; }
+        }
+        if (a.annotationTopPos < b.annotationTopPos) { return -1; }
+        if (a.annotationTopPos >= b.annotationTopPos) { return 1; }
+
+        return 0;
     }
 
     isAnnotationOnSameLine(a: CommentItemComponent, b: CommentItemComponent): boolean {
