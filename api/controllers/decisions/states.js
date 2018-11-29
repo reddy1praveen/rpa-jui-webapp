@@ -78,7 +78,7 @@ function process(req, res, mapping, payload, templates) {
 
     let meta = {}
     let newRoute = null
-
+console.log('test')
     const store = new Store(req)
 
     if (variables) {
