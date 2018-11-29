@@ -65,7 +65,7 @@ app.get(
     '/health',
     healthcheck.configure({
         checks: {
-            ccd_data_api: healthcheckConfig(config.services.ccd_data_api),
+           // ccd_data_api: healthcheckConfig(config.services.ccd_data_api),
             ccd_def_api: healthcheckConfig(config.services.ccd_def_api),
             idam_web: healthcheckConfig(config.services.idam_web),
             idam_api: healthcheckConfig(config.services.idam_api),
@@ -88,7 +88,7 @@ app.get(
     '/info',
     infoRequestHandler({
         info: {
-            ccd_data_api: infocheckConfig(config.services.dm_store_api),
+            //ccd_data_api: infocheckConfig(config.services.dm_store_api),
             ccd_def_api: infocheckConfig(config.services.ccd_def_api),
             idam_web: infocheckConfig(config.services.idam_web),
             idam_api: infocheckConfig(config.services.idam_api),
