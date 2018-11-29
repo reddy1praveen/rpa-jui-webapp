@@ -11,10 +11,8 @@
           <app-hint *ngIf="data.hint" [classes]="data.hint.classes">
               {{data.hint.text}}
           </app-hint>
-          <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-0">
-            <li>to use an aid or appliance to be able to take nutrition</li>
-            <li>supervision to be able to take nutrition</li>
-            <li>assistance to be able to cut up food</li>
+          <ul *ngIf="data.list" class="govuk-list govuk-list--bullet govuk-!-margin-bottom-0">
+            <li *ngFor="let item of data.list">{{ item }}</li>
           </ul>
       </div>
       <div class="govuk-form-group">
