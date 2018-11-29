@@ -11,8 +11,8 @@
           <app-hint *ngIf="data.hint" [classes]="data.hint.classes">
               {{data.hint.text}}
           </app-hint>
-          <ul *ngIf="data.list" class="govuk-list govuk-list--bullet govuk-!-margin-bottom-0">
-            <li *ngFor="let item of data.list">{{ item }}</li>
+          <ul *ngIf="data.list" [class]="'govuk-list' + data.list.classes">
+            <li *ngFor="let item of data.list.text">{{ item }}</li>
           </ul>
       </div>
       <div class="govuk-form-group">

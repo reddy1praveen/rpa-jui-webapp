@@ -84,7 +84,10 @@ const routes: Routes = [
                     {path: 'final-decision', component: MakeDecisionComponent},
                     {path: 'set-award-dates', component: MakeDecisionComponent},
                     {path: 'scores', component: MakeDecisionComponent},
-                    {path: 'reject-reasons', component: ReasonsCoNotApprovedComponent},
+
+                    {path: 'reject-reasons', component: MakeDecisionComponent},
+
+                  //  {path: 'reject-reasons', component: ReasonsCoNotApprovedComponent},
                     {path: 'notes-for-court-administrator', component: NotesForCourtAdministratorComponent},
                     {path: 'draft-consent-order', component: DraftConsentOrderComponent},
                     {path: 'hearing-details', component: HearingDetailsComponent},
