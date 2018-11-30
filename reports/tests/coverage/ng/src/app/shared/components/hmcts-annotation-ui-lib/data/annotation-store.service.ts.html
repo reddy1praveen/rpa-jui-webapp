@@ -1,0 +1,887 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/app/shared/components/hmcts-annotation-ui-lib/data/annotation-store.service.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../../../../index.html">All files</a> / <a href="index.html">src/app/shared/components/hmcts-annotation-ui-lib/data</a> annotation-store.service.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">60.58% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>83/137</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">41.18% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>7/17</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">40.82% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>20/49</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">61.9% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>78/126</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">34x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">33x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {Injectable, OnDestroy} from '@angular/core';
+import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
+import {Observable, Subscription, Subject, BehaviorSubject, throwError} from 'rxjs';
+import {catchError} from 'rxjs/operators';
+import {v4 as uuid} from 'uuid';
+import {Annotation, Comment, IAnnotation, IAnnotationSet} from './annotation-set.model';
+import {PdfService} from './pdf.service';
+import {PdfAdapter} from './pdf-adapter';
+import {ApiHttpService} from './api-http.service';
+import { PdfAnnotateWrapper } from './js-wrapper/pdf-annotate-wrapper';
+&nbsp;
+@Injectable()
+export class AnnotationStoreService implements OnDestroy {
+&nbsp;
+    annotationChangeSubscription: Subscription;
+    private commentBtnSubject: Subject&lt;string&gt;;
+    private commentFocusSubject: BehaviorSubject&lt;{annotation: Annotation, showButton?: boolean}&gt;;
+    private annotationFocusSubject: Subject&lt;Annotation&gt;;
+    private contextualToolBarOptions: Subject&lt;{annotation: Annotation, showDelete: boolean}&gt;;
+&nbsp;
+    constructor(private pdfAdapter: PdfAdapter,
+                private apiHttpService: ApiHttpService,
+                private pdfService: PdfService,
+                private pdfAnnotateWrapper: PdfAnnotateWrapper) {
+&nbsp;
+        this.commentBtnSubject = new Subject();
+        this.commentFocusSubject = new BehaviorSubject(
+            {annotation: new Annotation(null, null, null, null, null, null, null, null, null, null, null, null)});
+&nbsp;
+        this.contextualToolBarOptions = new Subject();
+&nbsp;
+        this.annotationFocusSubject = new Subject();
+&nbsp;
+        this.annotationChangeSubscription = this.pdfAdapter.getAnnotationChangeSubject().subscribe((e) =&gt; this.handleAnnotationEvent(e));
+    }
+&nbsp;
+    getAnnotationFocusSubject(): Subject&lt;Annotation&gt; {
+        return this.annotationFocusSubject;
+    }
+&nbsp;
+    setAnnotationFocusSubject(annotation: Annotation) {
+        this.annotationFocusSubject.next(annotation);
+    }
+&nbsp;
+    getCommentFocusSubject(): BehaviorSubject&lt;{annotation: Annotation, showButton?: boolean}&gt; {
+        return this.commentFocusSubject;
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    setCommentFocusSubject(</span>annotation: Annotation, showButton?: boolean) {
+<span class="cstat-no" title="statement not covered" >        this.commentFocusSubject.next({annotation, showButton});</span>
+    }
+&nbsp;
+    getCommentBtnSubject(): Subject&lt;string&gt; {
+        return this.commentBtnSubject;
+    }
+&nbsp;
+    setCommentBtnSubject(commentId: string) {
+        this.commentBtnSubject.next(commentId);
+    }
+&nbsp;
+    setToolBarUpdate(annotation: Annotation, showDelete?: boolean) {
+        const contextualOptions = {
+            annotation,
+            showDelete
+        };
+&nbsp;
+        this.contextualToolBarOptions.next(contextualOptions);
+    }
+&nbsp;
+    getToolbarUpdate(): Subject&lt;{annotation: Annotation, showDelete: boolean}&gt; {
+        return this.contextualToolBarOptions;
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    preLoad(</span>annotationData: IAnnotationSet) {
+<span class="cstat-no" title="statement not covered" >        if (annotationData != null) {</span>
+<span class="cstat-no" title="statement not covered" >            this.pdfAdapter.setStoreData(annotationData);</span>
+<span class="cstat-no" title="statement not covered" >            this.pdfAnnotateWrapper.setStoreAdapter(this.pdfAdapter.getStoreAdapter());</span>
+<span class="cstat-no" title="statement not covered" >            this.pdfService.setHighlightTool();</span>
+        } else {
+<span class="cstat-no" title="statement not covered" >            this.pdfService.setCursorTool();</span>
+<span class="cstat-no" title="statement not covered" >            this.pdfAnnotateWrapper.setStoreAdapter();</span>
+        }
+    }
+&nbsp;
+    handleAnnotationEvent(e) {
+        switch (e.type) {
+            case 'addAnnotation': {
+                this.saveAnnotation(e.annotation, true);
+                break;
+            }
+            case 'addComment': {
+                this.saveAnnotation(e.annotation);
+                break;
+            }
+            case 'editComment': {
+                this.saveAnnotation(e.annotation);
+                break;
+            }
+            case 'deleteComment': {
+                this.saveAnnotation(e.annotation);
+                break;
+            }
+            case 'editAnnotation': {
+                this.saveAnnotation(e.annotation);
+                break;
+            }
+            case 'deleteAnnotation': {
+                this.deleteAnnotation(e.annotation);
+                break;
+            }
+        }
+    }
+&nbsp;
+    fetchData(baseUrl, dmDocumentId): Observable&lt;HttpResponse&lt;IAnnotationSet&gt;&gt; {
+        return this.apiHttpService.fetch(baseUrl, dmDocumentId).pipe(
+            catchError(<span class="fstat-no" title="function not covered" >(</span>err) =&gt; {
+<span class="cstat-no" title="statement not covered" >                if (err instanceof HttpErrorResponse) {</span>
+<span class="cstat-no" title="statement not covered" >                    switch (err.status) {</span>
+                        case 400: {
+<span class="cstat-no" title="statement not covered" >                            return throwError(err.error);</span>
+                        }
+                        case 404: {
+                            const body = <span class="cstat-no" title="statement not covered" >{</span>
+                                documentId: dmDocumentId,
+                                id: uuid()
+                            };
+<span class="cstat-no" title="statement not covered" >                            return this.apiHttpService.createAnnotationSet(baseUrl, body);</span>
+                        }
+                        case 500: {
+<span class="cstat-no" title="statement not covered" >                            return throwError('Internal server error: ' + err);</span>
+                        }
+                    }
+                }
+            }));
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    saveData() {</span></span>
+        let loadedData: IAnnotationSet;
+        let toKeepAnnotations: IAnnotation[];
+        let toRemoveAnnotations: IAnnotation[];
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        loadedData = this.pdfAdapter.annotationSet;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        toKeepAnnotations = this.pdfAdapter.annotations;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        toRemoveAnnotations = this.pdfAdapter.annotationSet.annotations</span>
+            .filter(<span class="fstat-no" title="function not covered" >(</span>annotation: IAnnotation) =&gt; <span class="cstat-no" title="statement not covered" >!this.pdfAdapter.annotations.map(<span class="fstat-no" title="function not covered" >a =&gt; <span class="cstat-no" title="statement not covered" >a.id)</span>.includes(annotation.id))</span>;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        toKeepAnnotations.forEach(<span class="fstat-no" title="function not covered" >(</span>annotation: Annotation) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            this.apiHttpService.saveAnnotation(annotation).subscribe(</span>
+<span class="fstat-no" title="function not covered" >                response =&gt; <span class="cstat-no" title="statement not covered" >console.log(response),</span></span>
+<span class="fstat-no" title="function not covered" >                error =&gt; <span class="cstat-no" title="statement not covered" >console.log(error)</span></span>
+            );
+        });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        toRemoveAnnotations.forEach(<span class="fstat-no" title="function not covered" >(</span>annotation: Annotation) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            this.apiHttpService.deleteAnnotation(annotation).subscribe(</span>
+<span class="fstat-no" title="function not covered" >                response =&gt; <span class="cstat-no" title="statement not covered" >console.log(response),</span></span>
+<span class="fstat-no" title="function not covered" >                error =&gt; <span class="cstat-no" title="statement not covered" >console.log(error)</span></span>
+            );
+        });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        loadedData.annotations.splice(0, loadedData.annotations.length);</span>
+<span class="cstat-no" title="statement not covered" >        loadedData.annotations.concat(toKeepAnnotations);</span>
+<span class="cstat-no" title="statement not covered" >        this.pdfAdapter.annotationSet = loadedData;</span>
+    }
+&nbsp;
+    saveAnnotation(annotation: Annotation, displayToolbar?: boolean) {
+        this.apiHttpService.saveAnnotation(annotation).subscribe(
+            response =&gt; {
+                console.log(response);
+                // if (displayToolbar) {
+                //     this.setToolBarUpdate(annotation);
+                // }
+            },
+            error =&gt; console.log(error)
+        );
+    }
+&nbsp;
+    deleteAnnotation(annotation) {
+        this.apiHttpService.deleteAnnotation(annotation).subscribe(
+            response =&gt; {
+                console.log(response);
+            },
+            error =&gt; console.log(error)
+        );
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    clearAnnotations() {</span>
+<span class="cstat-no" title="statement not covered" >        if (confirm('Are you sure you want to clear annotations?')) {</span>
+<span class="cstat-no" title="statement not covered" >            this.pdfAdapter.annotations = [];</span>
+<span class="cstat-no" title="statement not covered" >            this.pdfService.render();</span>
+<span class="cstat-no" title="statement not covered" >            this.saveData();</span>
+        }
+    }
+&nbsp;
+    editComment(comment: Comment) {
+        this.pdfAdapter.editComment(comment);
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    getAnnotationById(</span>annotationId: string): Promise&lt;Annotation&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        return new Promise&lt;Annotation&gt;(<span class="fstat-no" title="function not covered" >(</span>resolve) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            this.getAnnotation(</span>
+                annotationId,
+<span class="fstat-no" title="function not covered" >                annotation =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                    resolve(annotation);</span>
+                });
+        });
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    getAnnotationsForPage(</span>pageNumber): Promise&lt;Annotation[]&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        return new Promise&lt;Annotation[]&gt;(<span class="fstat-no" title="function not covered" >(</span>resolve) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            this.getAnnotations(</span>
+                pageNumber,
+<span class="fstat-no" title="function not covered" >                pageData =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                    resolve(pageData);</span>
+                });
+        });
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    getCommentsForAnnotation(</span>annotationId): Promise&lt;Comment[]&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        return new Promise&lt;Comment[]&gt;(<span class="fstat-no" title="function not covered" >(</span>resolve) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            this.getComments(</span>
+                annotationId,
+<span class="fstat-no" title="function not covered" >                comments =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                    resolve(comments);</span>
+                });
+        });
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    getAnnotation(</span>annotationId: string, callback) {
+<span class="cstat-no" title="statement not covered" >        this.pdfAnnotateWrapper.getStoreAdapter()</span>
+            .getAnnotation(this.pdfService.getRenderOptions().documentId, annotationId)
+            .then(callback);
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    getComments(</span>annotationId: string, callback) {
+<span class="cstat-no" title="statement not covered" >        this.pdfAnnotateWrapper.getStoreAdapter()</span>
+            .getComments(this.pdfService.getRenderOptions().documentId, annotationId)
+            .then(callback);
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    addComment(</span>comment: Comment) {
+<span class="cstat-no" title="statement not covered" >        this.pdfAnnotateWrapper.getStoreAdapter()</span>
+            .addComment(this.pdfService.getRenderOptions().documentId, comment.annotationId, comment.content)
+            .then();
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    getAnnotations(</span>pageNumber: number, callback) {
+<span class="cstat-no" title="statement not covered" >        this.pdfAnnotateWrapper.getStoreAdapter()</span>
+            .getAnnotations(this.pdfService.getRenderOptions().documentId, pageNumber)
+            .then(callback);
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    deleteComment(</span>commentId: string) {
+<span class="cstat-no" title="statement not covered" >        this.pdfAnnotateWrapper.getStoreAdapter()</span>
+            .deleteComment(this.pdfService.getRenderOptions().documentId, commentId)
+            .then();
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    deleteAnnotationById(</span>annotationId: string) {</span>
+<span class="cstat-no" title="statement not covered" >        this.pdfAnnotateWrapper.getStoreAdapter()</span>
+        .deleteAnnotation(this.pdfService.getRenderOptions().documentId, annotationId)
+        .then(<span class="fstat-no" title="function not covered" >() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            this.pdfService.render();</span>
+        });
+    }
+&nbsp;
+    ngOnDestroy() {
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (this.annotationChangeSubscription) {
+            this.annotationChangeSubscription.unsubscribe();
+        }
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Nov 29 2018 23:25:33 GMT+0000 (Greenwich Mean Time)
+</div>
+</div>
+<script src="../../../../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../../../../sorter.js"></script>
+</body>
+</html>

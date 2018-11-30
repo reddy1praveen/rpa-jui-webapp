@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/app/routing/routing.module.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">All files</a> / <a href="index.html">src/app/routing</a> routing.module.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>48/48</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/0</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>1/1</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>46/46</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule, Routes } from '@angular/router';
+import { DashboardComponent } from './pages/generic-page/dashboard/dashboard.component';
+import { SharedModule } from '../shared/shared.module';
+import { DomainModule } from '../domain/domain.module';
+import { AuthGuardService } from '../auth/auth-guard.service';
+import { ViewCaseComponent } from './pages/view-case/view-case.component';
+import { HttpClientModule } from '@angular/common/http';
+import { RedirectionService } from './redirection.service';
+import { DecisionRootComponent } from './pages/decisions/root/root.component';
+import { CreateDecisionComponent } from './pages/decisions/create-decision/create-decision.component';
+import { CheckDecisionComponent } from './pages/decisions/check-decision/check-decision.component';
+import { DecisionConfirmationComponent } from './pages/decisions/decision-confirmation/decision-confirmation.component';
+//import { DecisionResolve } from './resolve/decision.resolve';
+import { HearingRootComponent } from './pages/hearings/root/root.component';
+import { CreateHearingComponent } from './pages/hearings/create-hearing/create-hearing.component';
+import { CheckHearingComponent } from './pages/hearings/check-hearing/check-hearing.component';
+import { HearingConfirmationComponent } from './pages/hearings/hearing-confirmation/hearing-confirmation.component';
+import { CaseResolve } from './resolve/case.resolve';
+import { CreateQuestionsComponent } from '../domain/components/questions/create/create.component';
+import { CheckQuestionsComponent } from '../domain/components/questions/check/check.component';
+import { ViewQuestionComponent } from '../domain/components/questions/view/view.component';
+import { DeleteQuestionComponent } from '../domain/components/questions/delete/delete.component';
+import { EditQuestionComponent } from '../domain/components/questions/edit/edit.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { JUIFormsModule } from '../forms/forms.module';
+import { GovukModule } from '../govuk/govuk.module';
+import { HmctsModule } from '../hmcts/hmcts.module';
+import { ReasonsCoNotApprovedComponent } from './pages/decisions/fr/reasons-co-not-approved/reasons-co-not-approved.component';
+import { MakeDecisionComponent } from './pages/decisions/fr/make-decision/make-decision.component';
+import { NotesForCourtAdministratorComponent } from './pages/decisions/fr/notes-for-court-administrator/notes-for-court-administrator.component';
+import { DraftConsentOrderComponent } from './pages/decisions/fr/draft-consent-order/draft-consent-order.component';
+import { HearingDetailsComponent } from './pages/decisions/fr/hearing-details/hearing-details.component';
+import {FormsService} from '../shared/services/forms.service';
+import { GenericPageComponent } from './pages/generic-page/generic-page.component';
+import { ErrorServiceUnavailableComponent } from './pages/generic-page/error-service-unavailable/error-service-unavailable.component';
+import { ConfirmationComponent } from './pages/generic-page/confirmation/confirmation.component';
+import { CheckYourAnswersComponent } from './pages/generic-page/check-your-answers/check-your-answers.component';
+import { TaskListComponent } from './pages/generic-page/task-list/task-list.component';
+import { TermsAndConditionsComponent } from './pages/generic-page/terms-and-conditions/terms-and-conditions.component';
+import { CookiesComponent } from './pages/generic-page/cookies/cookies.component';
+import { PrivacyPolicyComponent } from './pages/generic-page/privacy-policy/privacy-policy.component';
+import { DemoComponent } from './pages/generic-page/demo/demo.component';
+import {CaseDataService} from './pages/view-case/view-case.services';
+&nbsp;
+const routes: Routes = [
+    {
+        path: '',
+        component: GenericPageComponent,
+        children: [
+            {
+                path: '',
+                component: DashboardComponent,
+                canActivate: [AuthGuardService],
+            },
+            {
+                path: 'demo',
+                component: DemoComponent,
+            },
+            {
+                path: 'terms-and-conditions',
+                component: TermsAndConditionsComponent
+            },
+            {
+                path: 'cookies',
+                component: CookiesComponent
+            },
+            {
+                path: 'privacy-policy',
+                component: PrivacyPolicyComponent
+            },
+        ]
+    },
+    {
+        path: 'case/:jur/:casetype/:case_id',
+        resolve: {
+            caseData: CaseResolve
+        },
+        children: [
+            {
+                path: 'decision', component: DecisionRootComponent,
+                children: [
+                    {path: 'create', component: MakeDecisionComponent},
+                    {path: 'reject-reasons', component: ReasonsCoNotApprovedComponent},
+                    {path: 'notes-for-court-administrator', component: NotesForCourtAdministratorComponent},
+                    {path: 'draft-consent-order', component: DraftConsentOrderComponent},
+                    {path: 'hearing-details', component: HearingDetailsComponent},
+                    {path: 'check', component: CheckDecisionComponent},
+                    {path: 'decision-confirmation', component: DecisionConfirmationComponent}
+                ]
+            },
+            {
+                    path: 'hearing', component: HearingRootComponent, children: [
+                    {path: 'list', component: CreateHearingComponent},
+                    {path: 'check', component: CheckHearingComponent},
+                    {path: 'confirm', component: HearingConfirmationComponent}
+                ]
+            },
+            {
+                path: 'questions/new/:round',
+                component: CreateQuestionsComponent
+            },
+            {
+                path: 'questions/check/:round',
+                component: CheckQuestionsComponent
+            },
+            {
+                path: 'questions/:question_id',
+                component: ViewQuestionComponent
+            },
+            {
+                path: 'questions/:question_id/edit',
+                component: EditQuestionComponent
+            },
+            {
+                path: 'questions/:question_id/delete',
+                component: DeleteQuestionComponent
+            },
+            {
+                path: ':section',
+                component: ViewCaseComponent,
+            },
+            {
+                path: ':section/:section_item_id',
+                component: ViewCaseComponent,
+            },
+            {
+                path: '',
+                component: ViewCaseComponent
+            }
+        ]
+    }
+];
+&nbsp;
+@NgModule({
+    imports: [
+        CommonModule,
+        RouterModule.forRoot(routes, {
+            scrollPositionRestoration: 'enabled',
+            anchorScrolling: 'enabled'
+        }),
+        SharedModule,
+        DomainModule,
+        HttpClientModule,
+        ReactiveFormsModule,
+        JUIFormsModule,
+        GovukModule,
+        HmctsModule
+    ],
+    declarations: [
+        DashboardComponent,
+        CookiesComponent,
+        PrivacyPolicyComponent,
+        TermsAndConditionsComponent,
+        ViewCaseComponent,
+        CreateDecisionComponent,
+        CheckDecisionComponent,
+        DecisionRootComponent,
+        DecisionConfirmationComponent,
+        HearingRootComponent,
+        CreateHearingComponent,
+        CheckHearingComponent,
+        HearingConfirmationComponent,
+        DemoComponent,
+        ReasonsCoNotApprovedComponent,
+        MakeDecisionComponent,
+        DraftConsentOrderComponent,
+        NotesForCourtAdministratorComponent,
+        HearingDetailsComponent,
+        GenericPageComponent,
+        ErrorServiceUnavailableComponent,
+        ConfirmationComponent,
+        CheckYourAnswersComponent,
+        TaskListComponent
+    ],
+    providers: [
+        CaseResolve,
+ //       DecisionResolve,
+        RedirectionService,
+        CaseDataService
+    ],
+    exports: [
+        RouterModule
+    ]
+})
+&nbsp;
+export class RoutingModule {
+}
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Nov 29 2018 23:25:33 GMT+0000 (Greenwich Mean Time)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>
