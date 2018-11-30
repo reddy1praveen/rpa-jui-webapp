@@ -83,7 +83,19 @@ const routes: Routes = [
                     {path: 'preliminary-advanced', component: MakeDecisionComponent},
                     {path: 'final-decision', component: MakeDecisionComponent},
                     {path: 'set-award-dates', component: MakeDecisionComponent},
-                    {path: 'scores', component: MakeDecisionComponent},
+
+                    {path: 'communicating-verbally', component: MakeDecisionComponent},
+                    {path: 'dressing-undressing', component: MakeDecisionComponent},
+                    {path: 'engaging-face', component: MakeDecisionComponent},
+                    {path: 'budgeting-decisions', component: MakeDecisionComponent},
+                    {path: 'managing-therapy', component: MakeDecisionComponent},
+                    {path: 'managing-toilet', component: MakeDecisionComponent},
+                    {path: 'moving-around', component: MakeDecisionComponent},
+                    {path: 'planning-journeys', component: MakeDecisionComponent},
+                    {path: 'preparing-food', component: MakeDecisionComponent},
+                    {path: 'reading-signs', component: MakeDecisionComponent},
+                    {path: 'taking-nutrition', component: MakeDecisionComponent},
+                    {path: 'washing-bathing', component: MakeDecisionComponent},
 
                     {path: 'reject-reasons', component: MakeDecisionComponent},
 
