@@ -462,5 +462,552 @@ module.exports = {
               onEvent: 'continue'
           }
       }
+    ],
+    header: 'Dressing and undressing',
+    caption: {
+        classes: 'govuk-caption-xl',
+        text: 'Daily living'
+    },
+    groups: [
+        {
+            fieldset: [
+                {
+                    legend: {
+                        text: 'Select your new score',
+                        isPageHeading: true,
+                        classes: 'govuk-fieldset__legend--m'
+                    }
+                },
+                {
+                    radios: {
+                        control: 'dailyLivingDressingUndressing',
+                        radioGroup: [
+                            {
+                                value: '0',
+                                text: 'Can dress and undress unaided',
+                                hint: {
+                                    text: '0 points',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            },
+                            {
+                                value: '2',
+                                text: 'Needs to use an aid or appliance to be able to dress or undress',
+                                hint: {
+                                    text: '2 point',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            },
+                            {
+                                value: '2',
+                                text: 'Needs either:',
+                                hint: {
+                                    text: '2 points',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                },
+                                list: {
+                                    classes: 'govuk-list--bullet govuk-!-margin-bottom-0',
+                                    text: [
+                                        'prompting to be able to dress, undress or determine appropriate circumstances for remaining clothed',
+                                        'prompting or assistance to be able to select appropriate clothing'
+                                    ]
+                                }
+                            },
+                            {
+                                value: '2',
+                                text: 'Needs assistance to be able to dress or undress their lower body',
+                                hint: {
+                                    text: '2 points',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            },
+                            {
+                                value: '4',
+                                text: 'Needs assistance to be able to dress or undress their upper body',
+                                hint: {
+                                    text: '4 points',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            },
+                            {
+                                value: '8',
+                                text: 'Cannot dress or undress at all',
+                                hint: {
+                                    text: '8 points',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            button: {
+                control: 'createButton',
+                value: 'Continue',
+                type: 'submit',
+                classes: '',
+                onEvent: 'continue'
+            }
+        }
+    ],
+    header: 'Communicating verbally',
+    caption: {
+        classes: 'govuk-caption-xl',
+        text: 'Daily living'
+    },
+    groups: [
+        {
+            fieldset: [
+                {
+                    legend: {
+                        text: 'Select your new score',
+                        isPageHeading: true,
+                        classes: 'govuk-fieldset__legend--m'
+                    }
+                },
+                {
+                    radios: {
+                        control: 'dailyLivingCommunicatingVerbally',
+                        radioGroup: [
+                            {
+                                value: '0',
+                                text: 'Can express and understand verbal information unaided',
+                                hint: {
+                                    text: '0 points',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            },
+                            {
+                                value: '2',
+                                text: 'Needs to use an aid or appliance to be able to speak or hear',
+                                hint: {
+                                    text: '2 point',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            },
+                            {
+                                value: '4',
+                                text: 'Needs communication support to be able to express or understand complex verbal information',
+                                hint: {
+                                    text: '4 points',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            },
+                            {
+                                value: '8',
+                                text: 'Needs communication support to be able to express or understand basic verbal information',
+                                hint: {
+                                    text: '8 points',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            },
+                            {
+                                value: '12',
+                                text: 'Cannot express or understand verbal information at all even with communication support',
+                                hint: {
+                                    text: '12 points',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            button: {
+                control: 'createButton',
+                value: 'Continue',
+                type: 'submit',
+                classes: '',
+                onEvent: 'continue'
+            }
+        }
+    ],
+    header: 'Reading and understanding signs, symbols and words',
+    caption: {
+        classes: 'govuk-caption-xl',
+        text: 'Daily living'
+    },
+    groups: [
+        {
+            fieldset: [
+                {
+                    legend: {
+                        text: 'Select your new score',
+                        isPageHeading: true,
+                        classes: 'govuk-fieldset__legend--m'
+                    }
+                },
+                {
+                    radios: {
+                        control: 'dailyLivingReadingSigns',
+                        radioGroup: [
+                            {
+                                value: '0',
+                                text: 'Can read and understand basic and complex written information either unaided or using spectacles or contact lenses',
+                                hint: {
+                                    text: '0 points',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            },
+                            {
+                                value: '2',
+                                text: 'Needs to use an aid or appliance, other than spectacles or contact lenses, to be able to read or understand either basic or complex written information',
+                                hint: {
+                                    text: '2 point',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            },
+                            {
+                                value: '2',
+                                text: 'Needs prompting to be able to read or understand complex written information',
+                                hint: {
+                                    text: '2 points',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            },
+                            {
+                                value: '4',
+                                text: 'Needs prompting to be able to read or understand basic written information',
+                                hint: {
+                                    text: '4 points',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            },
+                            {
+                                value: '8',
+                                text: 'Cannot read or understand signs, symbols or words at all',
+                                hint: {
+                                    text: '8 points',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            button: {
+                control: 'createButton',
+                value: 'Continue',
+                type: 'submit',
+                classes: '',
+                onEvent: 'continue'
+            }
+        }
+    ],
+    header: 'Engaging with other people face to face',
+    caption: {
+        classes: 'govuk-caption-xl',
+        text: 'Daily living'
+    },
+    groups: [
+        {
+            fieldset: [
+                {
+                    legend: {
+                        text: 'Select your new score',
+                        isPageHeading: true,
+                        classes: 'govuk-fieldset__legend--m'
+                    }
+                },
+                {
+                    radios: {
+                        control: 'dailyLivingManagingToilet',
+                        radioGroup: [
+                            {
+                                value: '0',
+                                text: 'Can engage with other people unaided',
+                                hint: {
+                                    text: '0 points',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            },
+                            {
+                                value: '2',
+                                text: 'Needs prompting to be able to engage with other people',
+                                hint: {
+                                    text: '2 point',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            },
+                            {
+                                value: '4',
+                                text: 'Needs social support to be able to engage with other people',
+                                hint: {
+                                    text: '4 points',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            },
+                            {
+                                value: '8',
+                                text: 'Cannot engage with other people due to such engagement causing either:',
+                                list: {
+                                    classes: 'govuk-list--bullet govuk-!-margin-bottom-0',
+                                    text: [
+                                        'overwhelming psychological distress to the claimant',
+                                        'the claimant to exhibit behaviour which would result in a substantial risk of harm to the claimant or another person'
+                                    ]
+                                },
+                                hint: {
+                                    text: '8 points',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            button: {
+                control: 'createButton',
+                value: 'Continue',
+                type: 'submit',
+                classes: '',
+                onEvent: 'continue'
+            }
+        }
+    ],
+    header: 'Making budgeting decisions',
+    caption: {
+        classes: 'govuk-caption-xl',
+        text: 'Daily living'
+    },
+    groups: [
+        {
+            fieldset: [
+                {
+                    legend: {
+                        text: 'Select your new score',
+                        isPageHeading: true,
+                        classes: 'govuk-fieldset__legend--m'
+                    }
+                },
+                {
+                    radios: {
+                        control: 'dailyLivingMakingBudgetDecisions',
+                        radioGroup: [
+                            {
+                                value: '0',
+                                text: 'Can manage complex budgeting decisions unaided',
+                                hint: {
+                                    text: '0 points',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            },
+                            {
+                                value: '2',
+                                text: 'Needs prompting or assistance to be able to make complex budgeting decisions',
+                                hint: {
+                                    text: '2 point',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            },
+                            {
+                                value: '4',
+                                text: 'Needs prompting or assistance to be able to make simple budgeting decisions',
+                                hint: {
+                                    text: '4 points',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            },
+                            {
+                                value: '6',
+                                text: 'Cannot make any budgeting decisions at all',
+                                hint: {
+                                    text: '6 points',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            button: {
+                control: 'createButton',
+                value: 'Continue',
+                type: 'submit',
+                classes: '',
+                onEvent: 'continue'
+            }
+        }
+    ],
+    header: 'Planning and following journeys',
+    caption: {
+        classes: 'govuk-caption-xl',
+        text: 'Mobility'
+    },
+    groups: [
+        {
+            fieldset: [
+                {
+                    legend: {
+                        text: 'Select your new score',
+                        isPageHeading: true,
+                        classes: 'govuk-fieldset__legend--m'
+                    }
+                },
+                {
+                    radios: {
+                        control: 'MobilityPlanningJourneys',
+                        radioGroup: [
+                            {
+                                value: '0',
+                                text: 'Can plan and follow the route of a journey unaided',
+                                hint: {
+                                    text: '0 points',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            },
+                            {
+                                value: '4',
+                                text: 'Needs prompting to be able to undertake any journey to avoid overwhelming psychological distress to the claimant',
+                                hint: {
+                                    text: '4 point',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            },
+                            {
+                                value: '8',
+                                text: 'For reasons other than psychological distress, cannot plan the route of a journey',
+                                hint: {
+                                    text: '8 points',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            },
+                            {
+                                value: '10',
+                                text: 'For reasons other than psychological distress, cannot follow the route of an unfamiliar journey without another person, assistance dog or orientation aid',
+                                hint: {
+                                    text: '10 points',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            },
+                            {
+                                value: '10',
+                                text: 'Cannot undertake any journey because it would cause overwhelming psychological distress to the claimant',
+                                hint: {
+                                    text: '10 points',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            },
+                            {
+                                value: '12',
+                                text: 'For reasons other than psychological distress, cannot follow the route of a familiar journey without another person, an assistance dog or an orientation aid',
+                                hint: {
+                                    text: '12 points',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            button: {
+                control: 'createButton',
+                value: 'Continue',
+                type: 'submit',
+                classes: '',
+                onEvent: 'continue'
+            }
+        }
+    ],
+    header: 'Moving around',
+    caption: {
+        classes: 'govuk-caption-xl',
+        text: 'Mobility'
+    },
+    groups: [
+        {
+            fieldset: [
+                {
+                    legend: {
+                        text: 'Select your new score',
+                        isPageHeading: true,
+                        classes: 'govuk-fieldset__legend--m'
+                    }
+                },
+                {
+                    radios: {
+                        control: 'MobilityMovingAround',
+                        radioGroup: [
+                            {
+                                value: '0',
+                                text: 'Can stand and then move more than 200 metres, either aided or unaided',
+                                hint: {
+                                    text: '0 points',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            },
+                            {
+                                value: '4',
+                                text: 'Can stand and then move more than 50 metres but no more than 200 metres, either aided or unaided',
+                                hint: {
+                                    text: '4 point',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            },
+                            {
+                                value: '8',
+                                text: 'Can stand and then move unaided more than 20 metres but no more than 50 metres',
+                                hint: {
+                                    text: '8 points',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            },
+                            {
+                                value: '10',
+                                text: 'Can stand and then move using an aid or appliance more than 20 metres but no more than 50 metres',
+                                hint: {
+                                    text: '10 points',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            },
+                            {
+                                value: '12',
+                                text: 'Can stand and then move more than 1 metre but no more than 20 metres, either aided or unaided',
+                                hint: {
+                                    text: '12 points',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                }
+                            },
+                            {
+                                value: '12',
+                                text: 'Cannot, either aided or unaided:',
+                                hint: {
+                                    text: '12 points',
+                                    classes: 'govuk-hint govuk-radios__hint'
+                                },
+                                list: {
+                                    classes: 'govuk-list--bullet govuk-!-margin-bottom-0',
+                                    text: [
+                                        'stand',
+                                        'move more than 1 metre'
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            button: {
+                control: 'createButton',
+                value: 'Continue',
+                type: 'submit',
+                classes: '',
+                onEvent: 'continue'
+            }
+        }
     ]
 }
