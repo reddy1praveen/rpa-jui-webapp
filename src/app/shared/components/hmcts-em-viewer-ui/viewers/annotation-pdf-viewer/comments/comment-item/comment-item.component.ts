@@ -33,7 +33,6 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     
     model = new Comment(null, null, null, null, null, null, null, null, null);
     commentTopPos: number;
-    commentZIndex: number;
     commentHeight: number;
     annotationTopPos: number;
     annotationLeftPos: number;
@@ -54,7 +53,6 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         this.commentFocusSub = this.annotationStoreService.getCommentFocusSubject()
             .subscribe((options) => {
                 if (options.annotation.id === this.comment.annotationId) {
-                    this.commentZIndex = 1;
 
                     if (options.showButton) {
                         this.onEdit();
@@ -100,7 +98,9 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         this.renderer.setStyle(this.commentArea.nativeElement, 'height', (this.commentArea.nativeElement.scrollHeight) + 'px');
         this.commentHeight =  this.commentSelector.nativeElement.getBoundingClientRect().height;
         this.commentRendered.emit(true);
-        this.ref.detectChanges();
+        if (!this.ref['destroyed']) {
+            this.ref.detectChanges();
+        }
     }
 
     ngOnDestroy() {
@@ -158,7 +158,6 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         if (!this.ref['destroyed']) {
             this.ref.detectChanges();
         }
-        this.commentZIndex = 0;
     }
 
     convertFormToComment(commentForm: NgForm): Comment {
@@ -183,7 +182,6 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         event.stopPropagation();
         this.annotationStoreService.setCommentBtnSubject(this.comment.id);
         this.annotationStoreService.setAnnotationFocusSubject(this.annotation);
-        this.commentZIndex = 1;
     }
 
     handleShowBtn() {
@@ -242,7 +240,7 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         }
     }
 
-    removeMultipleLines() {
+    removeMultipleLines(): string {
         return this.comment.content.split('\n').join(' ');
     }
 
@@ -265,8 +263,7 @@ export class CommentItemComponent implements OnInit, OnDestroy {
             const highlightRect = <DOMRect> svgSelector.getBoundingClientRect();
             const wrapperRect = <DOMRect> this.pdfService.getAnnotationWrapper().nativeElement.getBoundingClientRect();
 
-            const topPosition = (highlightRect.y - wrapperRect.top);
-            return topPosition;
+            return (highlightRect.y - wrapperRect.top);
         }
     }
 }
