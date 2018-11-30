@@ -39,7 +39,56 @@ const mapping = [
             {
                 state: 'set-award-dates',
                 result: 'scores'
+            },
+            {
+                state: 'scores',
+                result: 'communicating-verbally'
+            },
+            {
+                state: 'communicating-verbally',
+                result: 'dressing-undressing'
+            },
+            {
+                state: 'dressing-undressing',
+                result: 'engaging-face'
+            },
+            {
+                state: 'engaging-face',
+                result: 'budgeting-decisions'
+            },
+            {
+                state: 'budgeting-decisions',
+                result: 'managing-therapy'
+            },
+            {
+                state: 'managing-therapy',
+                result: 'managing-toilet'
+            },
+            {
+                state: 'managing-toilet',
+                result: 'moving-around'
+            },
+            {
+                state: 'moving-around',
+                result: 'planning-journeys'
+            },
+            {
+                state: 'planning-journeys',
+                result: 'preparing-food'
+            },
+            {
+                state: 'preparing-food',
+                result: 'reading-signs'
+            },
+            {
+                state: 'reading-signs',
+                result: 'taking-nutrition'
+            },
+            {
+                state: 'taking-nutrition',
+                result: 'washing-bathing'
             }
+
         ]
     }
 ]

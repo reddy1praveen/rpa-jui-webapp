@@ -18,38 +18,38 @@ module.exports = {
         },
         {
             date: {
-                    formName: 'startDate',
-                    day: {
-                          input: {
-                              label: {
-                                  text: 'Day',
-                                  classes: 'govuk-date-input__label'
-                              },
-                              control: 'awardEndDateDay',
-                              classes: 'govuk-date-input__input govuk-input--width-2'
-                          }
-                    },
-                    month: {
-                          input: {
-                              label: {
-                                  text: 'Month',
-                                  classes: 'govuk-date-input__label'
-                              },
-                              control: 'awardEndDateMonth',
-                              classes: 'govuk-date-input__input govuk-input--width-2'
-                          }
-                    },
-                    year:{
-                          input: {
-                              label: {
-                                  text: 'Year',
-                                  classes: 'govuk-date-input__label'
-                              },
-                              control: 'awardEndDateYear',
-                              classes: 'govuk-date-input__input govuk-input--width-4'
-                          }
+                formName: 'startDate',
+                day: {
+                    input: {
+                        label: {
+                            text: 'Day',
+                            classes: 'govuk-date-input__label'
+                        },
+                        control: 'awardEndDateDay',
+                        classes: 'govuk-date-input__input govuk-input--width-2'
                     }
-              }
+                },
+                month: {
+                    input: {
+                        label: {
+                            text: 'Month',
+                            classes: 'govuk-date-input__label'
+                        },
+                        control: 'awardEndDateMonth',
+                        classes: 'govuk-date-input__input govuk-input--width-2'
+                    }
+                },
+                year: {
+                    input: {
+                        label: {
+                            text: 'Year',
+                            classes: 'govuk-date-input__label'
+                        },
+                        control: 'awardEndDateYear',
+                        classes: 'govuk-date-input__input govuk-input--width-4'
+                    }
+                }
+            }
         },
         {
             fieldset: [
@@ -62,54 +62,54 @@ module.exports = {
                                 text: 'Set end date',
                                 hiddenAccessibilityText: 'some hidden text',
                                 groups: [
-                                  {
-                                      legend: {
-                                          text: 'End date',
-                                          isPageHeading: true,
-                                          classes: 'govuk-fieldset__legend--m'
-                                      }
-                                  },
-                                  {
-                                      hint: {
-                                          text: 'For example, 12 4 2019',
-                                          classes: 'govuk-hint'
-                                      }
-                                  },
-                                  {
-                                    date: {
+                                    {
+                                        legend: {
+                                            text: 'End date',
+                                            isPageHeading: true,
+                                            classes: 'govuk-fieldset__legend--m'
+                                        }
+                                    },
+                                    {
+                                        hint: {
+                                            text: 'For example, 12 4 2019',
+                                            classes: 'govuk-hint'
+                                        }
+                                    },
+                                    {
+                                        date: {
                                             formName: 'endDate',
                                             day: {
-                                                  input: {
-                                                      label: {
-                                                          text: 'Day',
-                                                          classes: 'govuk-date-input__label'
-                                                      },
-                                                      control: 'awardEndDateDay',
-                                                      classes: 'govuk-date-input__input govuk-input--width-2'
-                                                  }
+                                                input: {
+                                                    label: {
+                                                        text: 'Day',
+                                                        classes: 'govuk-date-input__label'
+                                                    },
+                                                    control: 'awardEndDateDay',
+                                                    classes: 'govuk-date-input__input govuk-input--width-2'
+                                                }
                                             },
                                             month: {
-                                                  input: {
-                                                      label: {
-                                                          text: 'Month',
-                                                          classes: 'govuk-date-input__label'
-                                                      },
-                                                      control: 'awardEndDateMonth',
-                                                      classes: 'govuk-date-input__input govuk-input--width-2'
-                                                  }
+                                                input: {
+                                                    label: {
+                                                        text: 'Month',
+                                                        classes: 'govuk-date-input__label'
+                                                    },
+                                                    control: 'awardEndDateMonth',
+                                                    classes: 'govuk-date-input__input govuk-input--width-2'
+                                                }
                                             },
-                                            year:{
-                                                  input: {
-                                                      label: {
-                                                          text: 'Year',
-                                                          classes: 'govuk-date-input__label'
-                                                      },
-                                                      control: 'awardEndDateYear',
-                                                      classes: 'govuk-date-input__input govuk-input--width-4'
-                                                  }
-                                      }
+                                            year: {
+                                                input: {
+                                                    label: {
+                                                        text: 'Year',
+                                                        classes: 'govuk-date-input__label'
+                                                    },
+                                                    control: 'awardEndDateYear',
+                                                    classes: 'govuk-date-input__input govuk-input--width-4'
+                                                }
+                                            }
+                                        }
                                     }
-                                  }
                                 ]
                             },
                             {
