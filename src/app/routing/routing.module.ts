@@ -41,6 +41,8 @@ import { CookiesComponent } from './pages/generic-page/cookies/cookies.component
 import { PrivacyPolicyComponent } from './pages/generic-page/privacy-policy/privacy-policy.component';
 import { DemoComponent } from './pages/generic-page/demo/demo.component';
 import { CaseDataService } from './pages/view-case/view-case.services';
+import { ExtensionrequestComponent } from './pages/extensionrequest/extensionrequest.component';
+
 
 const routes: Routes = [
     {
@@ -79,23 +81,33 @@ const routes: Routes = [
             {
                 path: 'decision', component: DecisionRootComponent,
                 children: [
-                    {path: 'create', component: MakeDecisionComponent},
-                    {path: 'preliminary-advanced', component: MakeDecisionComponent},
-                    {path: 'final-decision', component: MakeDecisionComponent},
-                    {path: 'set-award-dates', component: MakeDecisionComponent},
-                    {path: 'reject-reasons', component: ReasonsCoNotApprovedComponent},
-                    {path: 'notes-for-court-administrator', component: NotesForCourtAdministratorComponent},
-                    {path: 'draft-consent-order', component: DraftConsentOrderComponent},
-                    {path: 'hearing-details', component: HearingDetailsComponent},
-                    {path: 'check', component: CheckDecisionComponent},
-                    {path: 'decision-confirmation', component: DecisionConfirmationComponent}
+                    { path: 'create', component: MakeDecisionComponent },
+                    { path: 'preliminary-advanced', component: MakeDecisionComponent },
+                    { path: 'final-decision', component: MakeDecisionComponent },
+                    { path: 'set-award-dates', component: MakeDecisionComponent },
+                    { path: 'reject-reasons', component: ReasonsCoNotApprovedComponent },
+                    { path: 'notes-for-court-administrator', component: NotesForCourtAdministratorComponent },
+                    { path: 'draft-consent-order', component: DraftConsentOrderComponent },
+                    { path: 'hearing-details', component: HearingDetailsComponent },
+                    { path: 'check', component: CheckDecisionComponent },
+                    { path: 'decision-confirmation', component: DecisionConfirmationComponent }
                 ]
             },
             {
-                    path: 'hearing', component: HearingRootComponent, children: [
-                    {path: 'list', component: CreateHearingComponent},
-                    {path: 'check', component: CheckHearingComponent},
-                    {path: 'confirm', component: HearingConfirmationComponent}
+                path: 'extension-request', component: ExtensionrequestComponent
+            },
+            {
+                path: 'extension', component: DecisionRootComponent,
+                children: [
+                    { path: 'extend-deadline', component: ExtensionrequestComponent },
+                    { path: 'ex2', component: MakeDecisionComponent },
+                ]
+            },
+            {
+                path: 'hearing', component: HearingRootComponent, children: [
+                    { path: 'list', component: CreateHearingComponent },
+                    { path: 'check', component: CheckHearingComponent },
+                    { path: 'confirm', component: HearingConfirmationComponent }
                 ]
             },
             {
@@ -172,7 +184,8 @@ const routes: Routes = [
         ErrorServiceUnavailableComponent,
         ConfirmationComponent,
         CheckYourAnswersComponent,
-        TaskListComponent
+        TaskListComponent,
+        ExtensionrequestComponent
     ],
     providers: [
         CaseResolve,
