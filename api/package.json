@@ -19,11 +19,12 @@
     "statements": 0,
     "functions": 0,
     "branches": 0,
-    "include": [
-      "**/**"
+    "extension": [
+      ".ts",
+      ".tsx"
     ],
     "exclude": [
-      "**/templates/**"
+      "**/*.d.ts"
     ],
     "reporter": [
       "lcov",
