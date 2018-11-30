@@ -10,6 +10,7 @@
 # dependencies
 /node_modules
 api/node_modules
+api/.nyc_output
 
 # IDEs and editors
 /.idea
