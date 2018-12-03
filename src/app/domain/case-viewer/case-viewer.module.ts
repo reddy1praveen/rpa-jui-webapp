@@ -12,11 +12,13 @@ import {DocumentViewerModule} from '../../shared/components/document-viewer/docu
 import {HmctsModule} from '../../hmcts/hmcts.module';
 import {GovukModule} from '../../govuk/govuk.module';
 import {FormsModule} from '@angular/forms';
+import {GovUiModule} from '../../../../projects/gov-ui/src/lib/gov-ui.module';
 
 
 @NgModule({
     imports: [
         CommonModule,
+        GovUiModule,
         SharedModule,
         DocumentViewerModule,
         RouterModule,

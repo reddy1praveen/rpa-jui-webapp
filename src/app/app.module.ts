@@ -10,12 +10,14 @@ import { ConfigService } from './config.service';
 import {AuthModule} from './auth/auth.module';
 import {HmctsModule} from './hmcts/hmcts.module';
 import {GovukModule} from './govuk/govuk.module';
+// import {GovUiModule} from '../../projects/gov-ui/src/lib/gov-ui.module';
 
 @NgModule({
     declarations: [
         AppComponent
     ],
     imports: [
+        // GovUiModule,
         BrowserModule.withServerTransition({appId: 'jui'}),
         BrowserTransferStateModule,
         RoutingModule,

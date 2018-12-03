@@ -40,7 +40,8 @@
     "test:codecov-upload": "codecov -f ./reports/tests/coverage/lcov.info",
     "snyk": "snyk test",
     "snyk-protect": "snyk protect",
-    "doc:ng": "compodoc -p src/tsconfig.app.json -s"
+    "doc:ng": "compodoc -p src/tsconfig.app.json -s -a jui",
+    "doc:lib:ui": "compodoc -p projects/mylibrary/tsconfig.lib.json -s -o -w"
   },
   "husky": {
     "hooks": {

@@ -19,10 +19,12 @@ import {QuestionService} from './services/question.service';
 import {JUIFormsModule} from '../forms/forms.module';
 import {GovukModule} from '../govuk/govuk.module';
 import {HmctsModule} from '../hmcts/hmcts.module';
+import {GovUiModule} from '../../../projects/gov-ui/src/lib/gov-ui.module';
 
 @NgModule({
     imports: [
         CommonModule,
+        GovUiModule,
         SharedModule,
         RouterModule,
         JUIFormsModule,
