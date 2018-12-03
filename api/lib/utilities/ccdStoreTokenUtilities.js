@@ -29,6 +29,9 @@ async function getTokenAndMakePayload(req, caseId) {
 
     const eventTokenAndCase = await getEventTokenAndCase(userId, caseId, jurisdiction, caseType, eventId, authHeaders)
 
+    console.log('eventTokenAndCase');
+    console.log(eventTokenAndCase);
+
     const eventToken = eventTokenAndCase.token
     const caseDetails = eventTokenAndCase.caseDetails
 
@@ -36,18 +39,48 @@ async function getTokenAndMakePayload(req, caseId) {
     // console.log(eventToken);
     // console.log(caseDetails);
 
-    const payload = prepareCaseForApproval(
-        eventToken,
-        eventId,
-        user,
-        directionComments
-    )
+    console.log('eventToken going in ')
+    console.log(eventToken)
 
-    console.log('payload')
-    console.log(payload)
+    // const payload = prepareCaseForApproval(
+    //     eventToken,
+    //     eventId,
+    //     user,
+    //     directionComments
+    // )
+    //
+    // console.log('payload')
+    // console.log(payload)
+    //
+    // const caseWithEventToken = await postCaseWithEventToken(userId, caseId, jurisdiction, caseType, payload,
+    //                             authHeaders)
+    //
+    // console.log('caseWithEventToken')
+    // console.log(caseWithEventToken)
 
     // console.log(eventToken)
     // console.log(caseDetails)
+}
+
+async function postCaseWithEventToken(userId, caseId, jurisdiction, caseType, payload, authHeaders) {
+
+    try {
+        console.log('Payload assembled')
+        console.log(JSON.stringify(payload))
+        const caseWithEventToken = await ccdStore.postCaseWithEventToken(
+            userId,
+            jurisdiction,
+            caseType,
+            caseId,
+            payload,
+            authHeaders
+        )
+
+        return caseWithEventToken
+    } catch (error) {
+        console.log('Error sending event')
+        console.log(error)
+    }
 }
 
 /**
@@ -66,7 +99,7 @@ async function getTokenAndMakePayload(req, caseId) {
  * @return {Promise.<*>}
  */
 async function getEventTokenAndCase(userId, caseId, jurisdiction, caseType, eventId, authHeaders) {
-
+    console.log('getEventTokenAndCase')
     try {
         const eventTokenAndCase = await ccdStore.getEventTokenAndCase(
             userId,
@@ -79,9 +112,10 @@ async function getEventTokenAndCase(userId, caseId, jurisdiction, caseType, even
         return eventTokenAndCase
     } catch (error) {
         console.log('error');
-        console.log(error);
-        // logger.error('Error getting event token', exceptionFormatter(exception, exceptionOptions))
-        return error
+        console.log(error.error);
+        // TODO: Handle StatusCodeError: 422 - {"exception":"uk.gov.hmcts.ccd.endpoint.exceptions.ValidationException","timestamp":"2018-12-03T12:41:46.138","status":422,"error":"Unprocessable Entity","message":"The case status did not qualify for the event",
+
+        // console.log('Error getting event token', exceptionFormatter(exception, exceptionOptions))
     }
 }
 
