@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {FormGroup} from '@angular/forms';
-import {ValidationService} from '../../services/validation.service';
+import {ValidationService} from '../validation.service';
 
 @Component({
     selector: 'app-validation-error-formgroup',

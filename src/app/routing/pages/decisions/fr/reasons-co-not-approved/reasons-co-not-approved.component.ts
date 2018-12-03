@@ -2,8 +2,10 @@ import { Component, Attribute, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { DecisionService } from '../../../../../domain/services/decision.service';
-import { FormsService } from '../../../../../shared/services/forms.service';
-import { ValidationService } from '../../../../../shared/services/validation.service';
+import {FormsService} from '../../../../../../../projects/gov-ui/src/lib/components/error-messege/forms.service';
+import {ValidationService} from '../../../../../../../projects/gov-ui/src/lib/components/error-messege/validation.service';
+// import { FormsService } from '../../../../../shared/services/forms.service';
+// import { ValidationService } from '../../../../../shared/services/validation.service';
 
 @Component({
   selector: 'app-reasons-co-not-approved',

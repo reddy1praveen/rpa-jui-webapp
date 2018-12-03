@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {FormGroup} from '@angular/forms';
-import {ValidationService} from '../../services/validation.service';
+import {ValidationService} from '../../../../../projects/gov-ui/src/lib/components/error-messege/validation.service';
+// import {ValidationService} from '../../services/validation.service';
 
 @Component({
     selector: 'app-validation-header',

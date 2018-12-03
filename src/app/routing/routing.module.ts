@@ -32,7 +32,7 @@ import { MakeDecisionComponent } from './pages/decisions/fr/make-decision/make-d
 import { NotesForCourtAdministratorComponent } from './pages/decisions/fr/notes-for-court-administrator/notes-for-court-administrator.component';
 import { DraftConsentOrderComponent } from './pages/decisions/fr/draft-consent-order/draft-consent-order.component';
 import { HearingDetailsComponent } from './pages/decisions/fr/hearing-details/hearing-details.component';
-import {FormsService} from '../shared/services/forms.service';
+// import {FormsService} from '../shared/services/forms.service';
 import { GenericPageComponent } from './pages/generic-page/generic-page.component';
 import { ErrorServiceUnavailableComponent } from './pages/generic-page/error-service-unavailable/error-service-unavailable.component';
 import { ConfirmationComponent } from './pages/generic-page/confirmation/confirmation.component';
@@ -43,6 +43,7 @@ import { CookiesComponent } from './pages/generic-page/cookies/cookies.component
 import { PrivacyPolicyComponent } from './pages/generic-page/privacy-policy/privacy-policy.component';
 import { DemoComponent } from './pages/generic-page/demo/demo.component';
 import {CaseDataService} from './pages/view-case/view-case.services';
+import {GovUiModule} from '../../../projects/gov-ui/src/lib/gov-ui.module';
 
 const routes: Routes = [
     {
@@ -141,6 +142,7 @@ const routes: Routes = [
             anchorScrolling: 'enabled'
         }),
         SharedModule,
+        GovUiModule,
         DomainModule,
         HttpClientModule,
         ReactiveFormsModule,

@@ -2,7 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {DecisionService} from '../../../../../domain/services/decision.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormsService} from '../../../../../shared/services/forms.service';
+import {FormsService} from '../../../../../../../projects/gov-ui/src/lib/components/error-messege/forms.service';
+// import {FormsService} from '../../../../../shared/services/forms.service';
 
 @Component({
   selector: 'app-hearing-details',

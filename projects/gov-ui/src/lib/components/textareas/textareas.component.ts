@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
-import {ValidationService} from '../../services/validation.service';
+import {ValidationService} from '../error-messege/validation.service';
 
 @Component({
     selector: 'app-textareas',

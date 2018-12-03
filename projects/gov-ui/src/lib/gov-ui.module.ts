@@ -14,18 +14,35 @@ import {RouterModule} from '@angular/router';
 import {HintComponent} from './components/hint/hint.component';
 import {CaseStatusGoto} from '../../../../src/app/shared/pipes/case-status-goto/case.status.goto';
 import {GovukTableComponent} from './components/govuk-table/govuk-table.component';
+import {TextareasComponent} from './components/textareas/textareas.component';
+import {RadiobuttonComponent} from './components/radiobutton/radiobutton.component';
+import {CheckboxComponent} from './components/checkbox/checkbox.component';
+import {ValidationErrorFormControlComponent} from './components/error-messege/validation-error-formcontrol/validation-error-formcontrol.component';
+import {ValidationErrorFormGroupComponent} from './components/error-messege/validation-error-formgroup/validation-error-formgroup.component';
+import {ValidationService} from './components/error-messege/validation.service';
+import {FormsService} from './components/error-messege/forms.service';
+import {FieldsetComponent} from './components/fieldset/fieldset.component';
+import {JuiFormElementsComponent} from './components/jui-form-elements/jui-form-elements.component';
 
 const UIMODULES = [
     ButtonsComponent,
     LabelComponent,
     LegendComponent,
+    FieldsetComponent,
     TabsComponent,
     InputsComponent,
     TableComponent,
     DataListComponent,
     HintComponent,
-    GovukTableComponent
+    GovukTableComponent,
+    TextareasComponent,
+    RadiobuttonComponent,
+    CheckboxComponent,
+    JuiFormElementsComponent,
+    ValidationErrorFormControlComponent,
+    ValidationErrorFormGroupComponent
 ];
+const SERVICES = [];
 
 @NgModule({
   imports: [
@@ -36,9 +53,15 @@ const UIMODULES = [
       ReactiveFormsModule
   ],
   declarations: [
-      GovUiComponent, ...UIMODULES,
+      GovUiComponent,
+      ...UIMODULES,
+      ...SERVICES,
       CaseStatusGoto
   ],
-  exports: [GovUiComponent, ...UIMODULES]
+  exports: [GovUiComponent, ...UIMODULES, ...SERVICES],
+  providers: [
+    ValidationService,
+      FormsService
+  ]
 })
 export class GovUiModule { }
