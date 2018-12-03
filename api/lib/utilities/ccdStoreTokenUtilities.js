@@ -21,23 +21,37 @@ async function getTokenAndMakePayload(req, caseId) {
     const userId = req.auth.userId
     const authHeaders = getOptions(req)
 
-    const eventTokenAndCase = await getEventTokenAndCase(userId, caseId, authHeaders)
-    console.log('eventTokenAndCase');
-    console.log(eventTokenAndCase);
-}
-
-async function getEventTokenAndCase(userId, caseId, authHeaders) {
-
-    console.log('getEventTokenAndCase')
-
     const jurisdiction = 'DIVORCE'
     const caseType = 'FinancialRemedyMVP2'
-
-    //TODO: This should change to upload.
     const eventId = 'FR_approveApplication'
 
-    try {
+    const eventTokenAndCase = await getEventTokenAndCase(userId, caseId, jurisdiction, caseType, eventId, authHeaders)
 
+    const eventToken = eventTokenAndCase.token
+    const caseDetails = eventTokenAndCase.caseDetails
+
+    console.log('eventTokenAndCase')
+    console.log(eventToken)
+    console.log(caseDetails)
+}
+
+/**
+ * getEventTokenAndCase
+ *
+ * TODO: Not sure if we need both Authorization and ServiceAuthorization on this request.
+ * TODO: Error handling passing back meaningful error.
+ *
+ * @param {String} userId - '96842'
+ * @param {String} caseId - '1540909451019845'
+ * @param {String} jurisdiction - 'DIVORCE'
+ * @param {String} caseType - 'FinancialRemedyMVP2'
+ * @param {String} eventId - 'FR_approveApplication'
+ * @param {Object} authHeaders - { Authorization: 'Bearer eyJhb...', ServiceAuthorization: 'eyJhb...' }
+ * @return {Promise.<*>}
+ */
+async function getEventTokenAndCase(userId, caseId, jurisdiction, caseType, eventId, authHeaders) {
+
+    try {
         const eventTokenAndCase = await ccdStore.getEventTokenAndCase(
             userId,
             jurisdiction,
@@ -46,56 +60,14 @@ async function getEventTokenAndCase(userId, caseId, authHeaders) {
             eventId,
             authHeaders
         )
-
         return eventTokenAndCase
-
-        // const eventToken = eventTokenAndCase.token
-        // const caseDetails = eventTokenAndCase.caseDetails
-
-        // console.log(`Got token ${eventToken}`)
-        // console.log(caseDetails)
     } catch (error) {
-        // console.log('exception')
-        // console.log(exception)
+        console.log('error');
+        console.log(error);
         // logger.error('Error getting event token', exceptionFormatter(exception, exceptionOptions))
         return error
     }
 }
-
-// async function getEventTokenAndCase(req, caseId) {
-//     console.log('getEventTokenAndCase')
-//
-//     console.log('req.auth.userId')
-//     console.log(req.auth.userId)
-//
-//     console.log('caseId')
-//     console.log(caseId)
-//
-//     try {
-//         const event = 'FR_approveApplication'
-//
-//         const eventTokenAndCase = await ccdStore.getEventTokenAndCase(
-//             req.auth.userId,
-//             'DIVORCE',
-//             'FinancialRemedyMVP2',
-//             caseId,
-//             event,
-//             getOptions(req)
-//         )
-//
-//         const eventToken = eventTokenAndCase.token
-//         const caseDetails = eventTokenAndCase.caseDetails
-//
-//         console.log(`Got token ${eventToken}`)
-//         console.log(caseDetails)
-//     } catch (exception) {
-//         console.log('exception')
-//         console.log(exception)
-//         // logger.error('Error getting event token', exceptionFormatter(exception, exceptionOptions))
-//         return false
-//     }
-//     return false
-// }
 
 // if (decision === 'yes') {
 //     payload = perpareCaseForApproval(
