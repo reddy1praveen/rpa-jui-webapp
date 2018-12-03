@@ -19,7 +19,7 @@
     "lint:fix:ng": "ng lint jui --fix",
     "test": "npm run test:node && npm run test:ng",
     "test:node": "echo 'not implemented'",
-    "test:ng": "ng test",
+    "test:ng": "ng test jui",
     "test:api": "node ./test/integration/tests/test.js",
     "test:nsp": "nsp check",
     "test:coverage": "echo 'not implemented'",
