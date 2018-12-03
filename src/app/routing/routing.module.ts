@@ -83,6 +83,7 @@ const routes: Routes = [
                     {path: 'preliminary-advanced', component: MakeDecisionComponent},
                     {path: 'final-decision', component: MakeDecisionComponent},
                     {path: 'set-award-dates', component: MakeDecisionComponent},
+                    {path: 'scores', component: MakeDecisionComponent},
 
                     {path: 'communicating-verbally', component: MakeDecisionComponent},
                     {path: 'dressing-undressing', component: MakeDecisionComponent},
