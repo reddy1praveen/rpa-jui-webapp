@@ -39,27 +39,26 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     ]
 }
 
-try {
-    withPipeline(type, product, component) {
-        enableSlackNotifications(channel)
-        loadVaultSecrets(secrets)
-        setVaultName(vault)
+withPipeline(type, product, component) {
+    enableSlackNotifications(channel)
+    loadVaultSecrets(secrets)
+    setVaultName(vault)
 
 //    enablePerformanceTest(15)
 //    enableApiGatewayTest(15)
 //    enableFullFunctionalTest(30)
 //    enableMutationTest(120)
 //    enableCrossBrowserTest(120)
-        enableDockerBuild()
-        enableDeployToAKS()
+    enableDockerBuild()
+    enableDeployToAKS()
 
-        //after('checkout') {sh 'yarn cache clean'}
+    //after('checkout') {sh 'yarn cache clean'}
 
-        before('build') {
-            log.info "****************************************"
-            autoCancelled = true
-            log.info "****************************************"
-        }
+    before('build') {
+        log.info "****************************************"
+        onSuccess()
+        log.info "****************************************"
+    }
 
 //    after('build') {
 //        sh 'npm run build'
@@ -83,45 +82,45 @@ try {
 //        ])
 //    }
 
-        after('test') {
+    after('test') {
 
-            publishHTML ( [
-                allowMissing         : true,
-                alwaysLinkToLastBuild: true,
-                keepAll              : true,
-                reportDir            : "reports/tests/unit/node",
-                reportFiles          : "index.html",
-                reportName           : "node unit tests"
-            ])
+        publishHTML ( [
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/tests/unit/node",
+            reportFiles          : "index.html",
+            reportName           : "node unit tests"
+        ])
 
-            publishHTML ( [
-                allowMissing         : true,
-                alwaysLinkToLastBuild: true,
-                keepAll              : true,
-                reportDir            : "reports/tests/unit/ng",
-                reportFiles          : "index.html",
-                reportName           : "ng unit Tests"
-            ])
+        publishHTML ( [
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/tests/unit/ng",
+            reportFiles          : "index.html",
+            reportName           : "ng unit Tests"
+        ])
 
-            publishHTML ( [
-                allowMissing         : true,
-                alwaysLinkToLastBuild: true,
-                keepAll              : true,
-                reportDir            : "reports/tests/coverage/node",
-                reportFiles          : "index.html",
-                reportName           : "node coverage tests"
-            ])
+        publishHTML ( [
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/tests/coverage/node",
+            reportFiles          : "index.html",
+            reportName           : "node coverage tests"
+        ])
 
-            publishHTML ( [
-                allowMissing         : true,
-                alwaysLinkToLastBuild: true,
-                keepAll              : true,
-                reportDir            : "reports/tests/coverage/ng",
-                reportFiles          : "index.html",
-                reportName           : "ng coverage tests"
-            ])
+        publishHTML ( [
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/tests/coverage/ng",
+            reportFiles          : "index.html",
+            reportName           : "ng coverage tests"
+        ])
 
-        }
+    }
 
 //    after('smoketest:demo') {
 //        publishHTML([
@@ -134,102 +133,93 @@ try {
 //        ])
 //    }
 
-        after('functionalTest:demo') {
-            publishHTML([
-                allowMissing         : true,
-                alwaysLinkToLastBuild: true,
-                keepAll              : true,
-                reportDir            : "reports/tests/functional/",
-                reportFiles          : 'index.html',
-                reportName           : 'DEMO Functional Test'
-            ])
-        }
-
-        after('smoketest:preview') {
-            publishHTML([
-                allowMissing         : true,
-                alwaysLinkToLastBuild: true,
-                keepAll              : true,
-                reportDir            : "reports/smoke_tests/functional/",
-                reportFiles          : 'index.html',
-                reportName           : 'PREVIEW Smoke Test'
-            ])
-        }
-
-        after('functionalTest:preview') {
-            publishHTML([
-                allowMissing         : true,
-                alwaysLinkToLastBuild: true,
-                keepAll              : true,
-                reportDir            : "reports/tests/functional/",
-                reportFiles          : 'index.html',
-                reportName           : 'PREVIEW Functional Test'
-            ])
-        }
-
-        after('functionalTest:preview') {
-            publishHTML([
-                allowMissing         : true,
-                alwaysLinkToLastBuild: true,
-                keepAll              : true,
-                reportDir            : "reports/tests/api_functional/",
-                reportFiles          : 'mochawesome.html',
-                reportName           : 'PREVIEW API Functional Tests'
-            ])
-        }
-
-        after('smoketest:aat') {
-            publishHTML([
-                allowMissing         : true,
-                alwaysLinkToLastBuild: true,
-                keepAll              : true,
-                reportDir            : "reports/smoke_tests/functional/",
-                reportFiles          : 'index.html',
-                reportName           : 'AAT Smoke Test'
-            ])
-        }
-
-        after('functionalTest:aat') {
-            publishHTML([
-                allowMissing         : true,
-                alwaysLinkToLastBuild: true,
-                keepAll              : true,
-                reportDir            : "reports/tests/functional/",
-                reportFiles          : 'index.html',
-                reportName           : 'AAT Functional Test'
-            ])
-        }
-
-
-        after('functionalTest:aat') {
-            publishHTML([
-                allowMissing         : true,
-                alwaysLinkToLastBuild: true,
-                keepAll              : true,
-                reportDir            : "reports/tests/api_functional/",
-                reportFiles          : 'mochawesome.html',
-                reportName           : 'AAT API Functional Tests'
-            ])
-        }
-
-        after('smoketest:prod'){
-            publishHTML([
-                allowMissing         : true,
-                alwaysLinkToLastBuild: true,
-                keepAll              : true,
-                reportDir            : "reports/smoke_tests/functional/",
-                reportFiles          : 'index.html',
-                reportName           : 'PROD Smoke Test'
-            ])
-        }
-
+    after('functionalTest:demo') {
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/tests/functional/",
+            reportFiles          : 'index.html',
+            reportName           : 'DEMO Functional Test'
+        ])
     }
-} catch (e) {
-    if (autoCancelled) {
-        currentBuild.result = 'SUCCESS'
-        // return here instead of throwing error to keep the build "green"
-        return
+
+    after('smoketest:preview') {
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/smoke_tests/functional/",
+            reportFiles          : 'index.html',
+            reportName           : 'PREVIEW Smoke Test'
+        ])
     }
-    // normal error handling
-    throw e
+
+    after('functionalTest:preview') {
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/tests/functional/",
+            reportFiles          : 'index.html',
+            reportName           : 'PREVIEW Functional Test'
+        ])
+    }
+
+    after('functionalTest:preview') {
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/tests/api_functional/",
+            reportFiles          : 'mochawesome.html',
+            reportName           : 'PREVIEW API Functional Tests'
+        ])
+    }
+
+    after('smoketest:aat') {
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/smoke_tests/functional/",
+            reportFiles          : 'index.html',
+            reportName           : 'AAT Smoke Test'
+        ])
+    }
+
+    after('functionalTest:aat') {
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/tests/functional/",
+            reportFiles          : 'index.html',
+            reportName           : 'AAT Functional Test'
+        ])
+    }
+
+
+    after('functionalTest:aat') {
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/tests/api_functional/",
+            reportFiles          : 'mochawesome.html',
+            reportName           : 'AAT API Functional Tests'
+        ])
+    }
+
+    after('smoketest:prod'){
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/smoke_tests/functional/",
+            reportFiles          : 'index.html',
+            reportName           : 'PROD Smoke Test'
+        ])
+    }
+
 }
