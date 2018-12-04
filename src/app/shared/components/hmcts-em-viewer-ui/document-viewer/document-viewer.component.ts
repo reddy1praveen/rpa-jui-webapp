@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {ViewerAnchorDirective} from './viewer-anchor.directive';
 import {DocumentViewerService} from './document-viewer.service';
 import { ViewerFactoryService } from '../viewers/viewer-factory.service';
@@ -15,7 +15,6 @@ export class DocumentViewerComponent implements OnChanges, OnInit {
     @Input() url = '';
     @Input() annotate: boolean;
     @Input() page = 1;
-    @Output() pageChanged = new EventEmitter<number>();
     @Input() baseUrl: string;
 
     // todo make a class
@@ -38,9 +37,6 @@ export class DocumentViewerComponent implements OnChanges, OnInit {
         if (changes.url || changes.annotate) {
             this.buildComponent();
         }
-        if (changes.page && this.viewerComponent) {
-            this.viewerComponent.page = changes.page.currentValue;
-        }
     }
 
     buildComponent() {
@@ -52,12 +48,6 @@ export class DocumentViewerComponent implements OnChanges, OnInit {
                 this.docName = resp.originalDocumentName;
                 this.viewerComponent =
                     this.viewerFactoryService.buildViewer(resp, this.annotate, this.viewerAnchor.viewContainerRef, this.baseUrl);
-                if (this.viewerComponent != null && this.viewerComponent.pageChanged) {
-                    this.viewerComponent.pageChanged.subscribe((value => {
-                        this.pageChanged.emit(value);
-                    }));
-                    this.viewerComponent.page = this.page;
-                }
             }
         }, err => {
             this.error = err;
