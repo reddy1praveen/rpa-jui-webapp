@@ -116,7 +116,7 @@ withPipeline(type, product, component) {
 
     }
 
-    before('securitychecks', {}) {
+    before('securitychecks') {
         pl.call('onSuccess')
     }
 
