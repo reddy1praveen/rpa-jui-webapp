@@ -16,9 +16,17 @@ import { PdfAnnotateWrapper } from './data/js-wrapper/pdf-annotate-wrapper';
 import { PdfWrapper } from './data/js-wrapper/pdf-wrapper';
 import { NgtUniversalModule } from '@ng-toolkit/universal';
 import { ImageViewerComponent } from './components/image-viewer/image-viewer.component';
+import { UnsupportedViewerComponent } from './components/unsupported-viewer/unsupported-viewer.component';
+import { UrlFixerService } from './data/url-fixer.service';
+import { ViewerFactoryService } from './components/viewer-factory.service';
+import { DocumentViewerComponent } from './document-viewer/document-viewer.component';
+import { ViewerAnchorDirective } from './document-viewer/viewers/viewer-anchor.directive';
+import { BrowserModule } from '@angular/platform-browser';
+import { DocumentViewerService } from './document-viewer/document-viewer.service';
 
 @NgModule({
   imports: [
+    BrowserModule,
     NgtUniversalModule,
     CommonModule,
     FormsModule,
@@ -29,8 +37,16 @@ import { ImageViewerComponent } from './components/image-viewer/image-viewer.com
     CommentItemComponent,
     ContextualToolbarComponent,
     AnnotationPdfViewerComponent,
-    ImageViewerComponent
+    ImageViewerComponent,
+    UnsupportedViewerComponent,
+    DocumentViewerComponent,
+    ViewerAnchorDirective
   ],
+  entryComponents: [
+    AnnotationPdfViewerComponent,
+    ImageViewerComponent,
+    UnsupportedViewerComponent
+],
   providers: [
     PdfAnnotateWrapper,
     PdfWrapper,
@@ -39,14 +55,19 @@ import { ImageViewerComponent } from './components/image-viewer/image-viewer.com
     PdfAdapter,
     NpaService,
     ApiHttpService,
-    Utils
+    Utils,
+    UrlFixerService,
+    ViewerFactoryService,
+    DocumentViewerService
   ],
   exports: [
     CommentsComponent,
     CommentItemComponent,
     ContextualToolbarComponent,
     AnnotationPdfViewerComponent,
-    ImageViewerComponent
+    ImageViewerComponent,
+    UnsupportedViewerComponent,
+    DocumentViewerComponent
   ]
 })
 export class HmctsAnnotationUiModule { }

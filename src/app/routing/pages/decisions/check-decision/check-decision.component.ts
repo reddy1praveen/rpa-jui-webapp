@@ -7,7 +7,6 @@ import { NpaService } from '../../../../shared/components/hmcts-annotation-ui-li
 import { IDocumentTask } from '../../../../shared/components/hmcts-annotation-ui-lib/data/document-task.model';
 import { ApiHttpService } from '../../../../shared/components/hmcts-annotation-ui-lib/data/api-http.service';
 import { AnnotationStoreService } from '../../../../shared/components/hmcts-annotation-ui-lib/data/annotation-store.service';
-import { ViewerFactoryService } from '../../../../shared/components/document-viewer/viewers/viewer-factory.service';
 
 @Component({
     selector: 'app-check-decision',

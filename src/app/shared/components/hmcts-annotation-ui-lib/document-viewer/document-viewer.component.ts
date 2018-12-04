@@ -1,9 +1,8 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {ViewerAnchorDirective} from './viewers/viewer-anchor.directive';
-import {ViewerFactoryService} from './viewers/viewer-factory.service';
-import {Viewer} from './viewers/viewer';
-import {UrlFixerService} from './url-fixer.service';
 import {DocumentViewerService} from './document-viewer.service';
+import { ViewerFactoryService } from '../components/viewer-factory.service';
+import { UrlFixerService } from '../data/url-fixer.service';
 
 @Component({
     selector: 'app-document-viewer',
@@ -22,7 +21,7 @@ export class DocumentViewerComponent implements OnChanges, OnInit {
     // todo make a class
     mimeType: string;
     docName: string;
-    viewerComponent: Viewer;
+    viewerComponent: any;
     error: string;
 
     constructor(private viewerFactoryService: ViewerFactoryService,

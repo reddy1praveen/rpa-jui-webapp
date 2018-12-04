@@ -1,10 +1,10 @@
 import {ComponentFactoryResolver, ComponentRef, Injectable, ViewContainerRef} from '@angular/core';
-import {UnsupportedViewerComponent} from './unsupported-viewer/unsupported-viewer.component';
-import {UrlFixerService} from '../url-fixer.service';
 import {AnnotationPdfViewerComponent} from '../../hmcts-annotation-ui-lib/components/annotation-pdf-viewer/annotation-pdf-viewer.component';
 import {AnnotationStoreService} from '../../hmcts-annotation-ui-lib/data/annotation-store.service';
 import {IAnnotationSet} from '../../hmcts-annotation-ui-lib/data/annotation-set.model';
 import { ImageViewerComponent } from '../../hmcts-annotation-ui-lib/components/image-viewer/image-viewer.component';
+import { UnsupportedViewerComponent } from '../../hmcts-annotation-ui-lib/components/unsupported-viewer/unsupported-viewer.component';
+import { UrlFixerService } from '../data/url-fixer.service';
 
 @Injectable()
 export class ViewerFactoryService {
@@ -63,6 +63,14 @@ export class ViewerFactoryService {
         } else if (ViewerFactoryService.isImage(documentMetaData.mimeType)) {
 
             const componentFactory = this.componentFactoryResolver.resolveComponentFactory(ImageViewerComponent);
+            viewContainerRef.clear();
+
+            const componentRef: ComponentRef<any> = viewContainerRef.createComponent(componentFactory);
+            componentRef.instance.originalUrl = documentMetaData._links.self.href;
+            componentRef.instance.url = this.urlFixer.fixDm(documentMetaData._links.binary.href, baseUrl);
+            return componentRef.instance;
+        } else {
+            const componentFactory = this.componentFactoryResolver.resolveComponentFactory(UnsupportedViewerComponent);
             viewContainerRef.clear();
 
             const componentRef: ComponentRef<any> = viewContainerRef.createComponent(componentFactory);
