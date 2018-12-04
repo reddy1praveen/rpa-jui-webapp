@@ -116,6 +116,11 @@ withPipeline(type, product, component) {
 
     }
 
+    callAround('securitychecks', {}) {
+        pl.call('onSuccess')
+    }
+
+
 //    after('smoketest:demo') {
 //        publishHTML([
 //            allowMissing         : true,
