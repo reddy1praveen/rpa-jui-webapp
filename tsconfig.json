@@ -21,6 +21,12 @@
       ],
       "gov-ui/*": [
         "dist/gov-ui/*"
+      ],
+      "gov-ui-custom": [
+        "dist/gov-ui-custom"
+      ],
+      "gov-ui-custom/*": [
+        "dist/gov-ui-custom/*"
       ]
     },
     "lib": [
