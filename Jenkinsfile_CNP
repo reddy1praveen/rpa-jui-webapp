@@ -58,10 +58,7 @@ withPipeline(type, product, component) {
         try {
             throw new RuntimeException("Quit build successfully")
         } catch (err) {
-            def user = err.getCauses()[0].getUser()
-            if('SYSTEM' == user.toString()) {
-                currentBuild.result = "SUCCESS"
-            }
+            currentBuild.result = "SUCCESS"
         }
     }
 
