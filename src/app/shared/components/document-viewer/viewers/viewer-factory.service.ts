@@ -1,11 +1,10 @@
 import {ComponentFactoryResolver, ComponentRef, Injectable, ViewContainerRef} from '@angular/core';
-import {ImgViewerComponent} from './img-viewer/img-viewer.component';
-import {Viewer} from './viewer';
 import {UnsupportedViewerComponent} from './unsupported-viewer/unsupported-viewer.component';
 import {UrlFixerService} from '../url-fixer.service';
 import {AnnotationPdfViewerComponent} from '../../hmcts-annotation-ui-lib/components/annotation-pdf-viewer/annotation-pdf-viewer.component';
 import {AnnotationStoreService} from '../../hmcts-annotation-ui-lib/data/annotation-store.service';
 import {IAnnotationSet} from '../../hmcts-annotation-ui-lib/data/annotation-set.model';
+import { ImageViewerComponent } from '../../hmcts-annotation-ui-lib/components/image-viewer/image-viewer.component';
 
 @Injectable()
 export class ViewerFactoryService {
@@ -17,7 +16,7 @@ export class ViewerFactoryService {
 
     private static determineComponent(mimeType: string) {
         if (ViewerFactoryService.isImage(mimeType)) {
-            return ImgViewerComponent;
+            return ImageViewerComponent;
         }
         return UnsupportedViewerComponent;
     }
@@ -61,13 +60,12 @@ export class ViewerFactoryService {
 
         } else if (ViewerFactoryService.isPdf(documentMetaData.mimeType) && !annotate) {
             return this.buildAnnotateUi(documentMetaData, viewContainerRef, baseUrl, annotate, null);
-        } else {
-            const componentToBuild = ViewerFactoryService.determineComponent(documentMetaData.mimeType);
-            const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentToBuild);
+        } else if (ViewerFactoryService.isImage(documentMetaData.mimeType)) {
 
+            const componentFactory = this.componentFactoryResolver.resolveComponentFactory(ImageViewerComponent);
             viewContainerRef.clear();
 
-            const componentRef: ComponentRef<Viewer> = viewContainerRef.createComponent(componentFactory);
+            const componentRef: ComponentRef<any> = viewContainerRef.createComponent(componentFactory);
             componentRef.instance.originalUrl = documentMetaData._links.self.href;
             componentRef.instance.url = this.urlFixer.fixDm(documentMetaData._links.binary.href, baseUrl);
             return componentRef.instance;

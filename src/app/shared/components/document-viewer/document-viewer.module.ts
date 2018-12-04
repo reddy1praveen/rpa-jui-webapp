@@ -11,6 +11,7 @@ import {UrlFixerService} from './url-fixer.service';
 import {DocumentViewerService} from './document-viewer.service';
 import { HmctsAnnotationUiModule } from '../hmcts-annotation-ui-lib/hmcts-annotation-ui.module';
 import { AnnotationPdfViewerComponent } from '../hmcts-annotation-ui-lib/components/annotation-pdf-viewer/annotation-pdf-viewer.component';
+import { ImageViewerComponent } from '../hmcts-annotation-ui-lib/components/image-viewer/image-viewer.component';
 
 @NgModule({
     declarations: [
@@ -21,7 +22,7 @@ import { AnnotationPdfViewerComponent } from '../hmcts-annotation-ui-lib/compone
     ],
     entryComponents: [
         AnnotationPdfViewerComponent,
-        ImgViewerComponent,
+        ImageViewerComponent,
         UnsupportedViewerComponent
     ],
     exports: [DocumentViewerComponent],

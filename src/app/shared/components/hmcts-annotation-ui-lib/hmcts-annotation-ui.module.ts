@@ -15,6 +15,7 @@ import { ContextualToolbarComponent } from './components/contextual-toolbar/cont
 import { PdfAnnotateWrapper } from './data/js-wrapper/pdf-annotate-wrapper';
 import { PdfWrapper } from './data/js-wrapper/pdf-wrapper';
 import { NgtUniversalModule } from '@ng-toolkit/universal';
+import { ImageViewerComponent } from './components/image-viewer/image-viewer.component';
 
 @NgModule({
   imports: [
@@ -27,7 +28,8 @@ import { NgtUniversalModule } from '@ng-toolkit/universal';
     CommentsComponent,
     CommentItemComponent,
     ContextualToolbarComponent,
-    AnnotationPdfViewerComponent
+    AnnotationPdfViewerComponent,
+    ImageViewerComponent
   ],
   providers: [
     PdfAnnotateWrapper,
@@ -43,7 +45,8 @@ import { NgtUniversalModule } from '@ng-toolkit/universal';
     CommentsComponent,
     CommentItemComponent,
     ContextualToolbarComponent,
-    AnnotationPdfViewerComponent
+    AnnotationPdfViewerComponent,
+    ImageViewerComponent
   ]
 })
 export class HmctsAnnotationUiModule { }
