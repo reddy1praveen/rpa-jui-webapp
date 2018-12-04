@@ -6,7 +6,7 @@ class MockRenderer {
 
 }
 
-fdescribe('ImageViewerComponent', () => {
+describe('ImageViewerComponent', () => {
     let component: ImageViewerComponent;
     let fixture: ComponentFixture<ImageViewerComponent>;
     const mockRenderer = new MockRenderer();

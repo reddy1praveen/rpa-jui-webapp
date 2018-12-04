@@ -38,7 +38,7 @@ import { ValidationErrorFormGroupComponent } from './components/validation-error
 import { ValidationHeaderComponent } from './components/validation-header/validation-header.component';
 import { JuiFormElementsComponent } from './components/jui-form-elements/jui-form-elements.component';
 import { InputsComponent } from './components/inputs/inputs.component';
-import { HmctsAnnotationUiModule } from './components/hmcts-annotation-ui-lib/hmcts-annotation-ui.module';
+import { HmctsEmViewerUiModule } from './components/hmcts-em-viewer-ui/hmcts-em-viewer-ui.module';
 
 @NgModule({
     imports: [
@@ -46,7 +46,7 @@ import { HmctsAnnotationUiModule } from './components/hmcts-annotation-ui-lib/hm
         CdkTableModule,
         FormsModule,
         ReactiveFormsModule,
-        HmctsAnnotationUiModule,
+        HmctsEmViewerUiModule,
         RouterModule,
         GovukModule,
         HmctsModule
@@ -88,7 +88,7 @@ import { HmctsAnnotationUiModule } from './components/hmcts-annotation-ui-lib/hm
     ],
     exports: [
         JuiFormElementsComponent,
-        HmctsAnnotationUiModule,
+        HmctsEmViewerUiModule,
         TableComponent,
         DataListComponent,
         FooterComponent,

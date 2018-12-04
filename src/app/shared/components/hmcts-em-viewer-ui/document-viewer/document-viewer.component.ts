@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
-import {ViewerAnchorDirective} from './viewers/viewer-anchor.directive';
+import {ViewerAnchorDirective} from './viewer-anchor.directive';
 import {DocumentViewerService} from './document-viewer.service';
-import { ViewerFactoryService } from '../components/viewer-factory.service';
+import { ViewerFactoryService } from '../viewers/viewer-factory.service';
 import { UrlFixerService } from '../data/url-fixer.service';
 
 @Component({
