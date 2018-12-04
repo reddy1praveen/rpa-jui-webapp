@@ -55,11 +55,9 @@ withPipeline(type, product, component) {
     //after('checkout') {sh 'yarn cache clean'}
 
     before('build') {
-        try {
-            throw new RuntimeException("Quit build successfully")
-        } catch (err) {
-            currentBuild.result = "SUCCESS"
-        }
+        log.info "****************************************"
+        println this.properties.collect{ it }.join('\n')
+        log.info "****************************************"
     }
 
 //    after('build') {
