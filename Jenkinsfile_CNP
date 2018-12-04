@@ -31,9 +31,6 @@ List<LinkedHashMap<String, Object>> secrets = [
 ]
 
 
-before('buildinfra:prod') {
-    error 'This is JUI initial release therefore the prod environment will not be built'
-}
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     [ $class: 'AzureKeyVaultSecret',
@@ -131,7 +128,7 @@ withPipeline(type, product, component) {
 //            reportName           : 'DEMO Smoke Test'
 //        ])
 //    }
-
+    
     after('functionalTest:demo') {
         publishHTML([
             allowMissing         : true,
