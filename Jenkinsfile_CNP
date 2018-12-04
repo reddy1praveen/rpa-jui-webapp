@@ -54,9 +54,11 @@ withPipeline(type, product, component) {
 
     after('checkout') {sh 'yarn cache clean'}
 
-    stage('build') {
+    before('build') {
+        log.info "Class = ${this.getClass().name}"
+        log.info "details = ${this}"
         currentBuild.result = 'SUCCESS'
-        return
+        return 0
     }
 
 //    after('build') {
