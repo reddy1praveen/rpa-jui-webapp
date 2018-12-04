@@ -30,6 +30,11 @@ List<LinkedHashMap<String, Object>> secrets = [
     secret('sscs-password', 'SSCS_PASSWORD')
 ]
 
+
+before('buildinfra:prod') {
+    error 'This is JUI initial release therefore the prod environment will not be built'
+}
+
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     [ $class: 'AzureKeyVaultSecret',
       secretType: 'Secret',
