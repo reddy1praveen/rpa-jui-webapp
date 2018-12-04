@@ -56,7 +56,13 @@ withPipeline(type, product, component) {
 
     before('build') {
         log.info "****************************************"
-        println this.properties.collect{ it }.join('\n')
+        //println this.properties.collect{ it }.join('\n')
+        try { println '1:  ' + this.inspect() } catch (Exception e) {}
+        try { println '2:  ' + this.dump() } catch (Exception e) {}
+        try { println '3:  ' + this } catch (Exception e) {}
+        try { println '4:  ' + this.pl } catch (Exception e) {}
+        try { println '5:  ' + this.properties } catch (Exception e) {}
+
         log.info "****************************************"
     }
 
