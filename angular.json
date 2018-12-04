@@ -229,6 +229,46 @@
           }
         }
       }
+    },
+    "gov-ui-custom": {
+      "root": "projects/gov-ui-custom",
+      "sourceRoot": "projects/gov-ui-custom/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/gov-ui-custom/tsconfig.lib.json",
+            "project": "projects/gov-ui-custom/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/gov-ui-custom/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/gov-ui-custom/src/test.ts",
+            "tsConfig": "projects/gov-ui-custom/tsconfig.spec.json",
+            "karmaConfig": "projects/gov-ui-custom/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/gov-ui-custom/tsconfig.lib.json",
+              "projects/gov-ui-custom/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "cli": {},
