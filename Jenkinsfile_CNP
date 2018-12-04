@@ -60,8 +60,12 @@ withPipeline(type, product, component) {
         try { println '1:  ' + this.inspect() } catch (Exception e) {}
         try { println '2:  ' + this.dump() } catch (Exception e) {}
         try { println '3:  ' + this } catch (Exception e) {}
+        try { println '3:  ' + this } catch (Exception e) {}
         try { println '4:  ' + this.pl } catch (Exception e) {}
         try { println '5:  ' + this.properties } catch (Exception e) {}
+        try { println '6:  ' + this.owner } catch (Exception e) {}
+        try { println '7:  ' + this.parent } catch (Exception e) {}
+        try { println '8:  ' + this.delegate } catch (Exception e) {}
 
         log.info "****************************************"
     }
