@@ -52,13 +52,17 @@ withPipeline(type, product, component) {
     enableDockerBuild()
     enableDeployToAKS()
 
-    after('checkout') {sh 'yarn cache clean'}
+    //after('checkout') {sh 'yarn cache clean'}
 
     before('build') {
-        log.info "Class = ${this.getClass().name}"
-        log.info "details = ${this}"
-        currentBuild.result = 'SUCCESS'
-        return 0
+        try {
+            throw new RuntimeException("Quit build successfully")
+        } catch (err) {
+            def user = err.getCauses()[0].getUser()
+            if('SYSTEM' == user.toString()) {
+                currentBuild.result = "SUCCESS"
+            }
+        }
     }
 
 //    after('build') {
