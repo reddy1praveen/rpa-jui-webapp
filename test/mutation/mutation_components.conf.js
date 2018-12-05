@@ -3,9 +3,10 @@ const strykerConfiguration = config => {
 
         coverageAnalysis: 'perTest',
         testFramework: 'jasmine',
-        testRunner: 'jasmine',
+        testRunner: 'karma',
         // jasmineConfigFile: 'spec/support/jasmine.json',
-        mutator: 'javascript',
+        mutator: 'typescript',
+        timeoutMs: 8000,
 
         transpilers: [],
         // babelrcFile: '.babelrc',
@@ -13,47 +14,32 @@ const strykerConfiguration = config => {
         reporter:
             [
                 'clear-text',
-                // 'progress',
+                'progress',
                 'html', 'progress'
             ],
 
-        // mutate:
-        //     [
-        //         //'src/app/shared/components/**/*.ts'
-        //         // 'src/app/shared/components/document-viewer/*.ts',
-        //         'api/questions/*.spec.js'
-        //         //'!app/assets/**/*.test.js'
-        //     ],
-
         mutate: [
-            'api/questions/*.js',
-            '!api/questions/*.spec.js'
+            'src/app/auth/*.ts',
+            '!src/app/auth/*.spec.ts'
         ],
         files: ['**/*'],
         maxConcurrentTestRunners: 2,
         symlinkNodeModules: false,
-        htmlReporter: { baseDir: './rep/' },
+        htmlReporter: { baseDir: 'functional-output/mutation-assets' },
 
-        // mochaOptions: {
-        //     timeout: 3000,
-        //     require: [ 'babel-register'],
-        //     asyncOnly: false,
-        //     files:
-        //         [
-        //             // 'src/app/shared/components/**/*.spec.ts'
-        //             'api/auth/*.spec.js'
-        //         ],
-        //     timeout: 8000
-        // },
+        karma: {
+            projectType: 'angular-cli',
+            config: { browsers: ['ChromeHeadless'] },
+            karma: { configFile: 'test/karma.conf.js' }
+        },
 
         logLevel: 'debug',
         plugins:
             [
-                // 'stryker-mocha-runner',
                 'stryker-jasmine-runner',
                 'stryker-jasmine',
-                // 'stryker-mocha-framework',
                 'stryker-javascript-mutator',
+                'stryker-typescript',
                 'stryker-html-reporter'
             ]
     });
