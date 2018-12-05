@@ -21,7 +21,7 @@ const mapping = [
         states: [
             {
                 state: 'check',
-                result: '[end]'
+                result: '[payload]'
             },
             {
                 state: 'create',
