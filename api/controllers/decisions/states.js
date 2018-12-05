@@ -41,7 +41,7 @@ function pushStack(req, stack) {
     store.set(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`, newStack)
 }
 
-function popResult(req, stack, variables) {
+function popStack(req, variables) {
     const jurisdiction = req.params.jurId
     const caseId = req.params.caseId
     const caseTypeId = req.params.caseTypeId.toLowerCase()
@@ -55,7 +55,6 @@ function popResult(req, stack, variables) {
     const key = Object.keys(currentItem)[0]
  
     return (variables[key]) ? currentItem[key] : null
-
 }
 
 // does not handle OR yet
@@ -123,6 +122,12 @@ console.log('test')
                 // event is the main index and so there can only be one instruction per event - exit after finding
                 logger.info(`Found matching event for ${event}`)
                 let result = handleInstruction(instruction, stateId, variables)
+                if (Array.isArray(result)) {
+                    pushStack(req, result)
+                    result = popStack(req, variables)
+                } else if (result === '...') {
+                    result = popStack(req, variables)
+                }
                 console.log(`result is ${result}`)
                 if (result === '[state]') {
                     result = req.params.stateId
