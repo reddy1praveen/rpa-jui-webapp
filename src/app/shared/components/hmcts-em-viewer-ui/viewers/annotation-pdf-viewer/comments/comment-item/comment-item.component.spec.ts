@@ -1,22 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgForm, FormsModule } from '@angular/forms';
 import {Subject, of} from 'rxjs';
+import { NO_ERRORS_SCHEMA, Renderer2 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 import { CommentItemComponent } from './comment-item.component';
-<<<<<<< master:src/app/shared/components/hmcts-em-viewer-ui/viewers/annotation-pdf-viewer/comments/comment-item/comment-item.component.spec.ts
-import { NO_ERRORS_SCHEMA, Renderer2 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
-import { Annotation, Comment } from '../../../../data/annotation-set.model';
+import { Rectangle, Annotation, Comment } from '../../../../data/annotation-set.model';
 import { AnnotationStoreService } from '../../../../data/annotation-store.service';
 import { PdfService } from '../../../../data/pdf.service';
-=======
-import { AnnotationStoreService } from '../../../data/annotation-store.service';
-import { Comment, Annotation, Rectangle } from '../../../data/annotation-set.model';
-import { NO_ERRORS_SCHEMA, Renderer2 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
-import {PdfService} from '../../../data/pdf.service';
-import { Utils } from '../../../data/utils';
->>>>>>> Covered commentItem ordering functionality in unit tests:src/app/shared/components/hmcts-annotation-ui-lib/components/comments/comment-item/comment-item.component.spec.ts
+import { Utils } from '../../../../data/utils';
+
 
 class MockAnnotationStoreService {
   comment: Comment;
