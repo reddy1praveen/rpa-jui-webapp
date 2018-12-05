@@ -7,10 +7,14 @@ export interface PageDateDefault extends PageDate {
     type: string;
     sections: Array<SectionsItem>;
 }
-
+// TODO Update this convetions to PageDateWithFields
 export interface PageDateQuestion extends PageDate {
     type: string;
-    fields: Array<QuestionField>;
+    fields: Array<QuestionField> | Array<TimelineField>;
+}
+export interface PageDateWithFields extends PageDate {
+    type: string;
+    fields: Array<QuestionField> | Array<TimelineField>;
 }
 
 export interface PageDateCase extends PageDate {
@@ -50,6 +54,7 @@ export interface FieldItemValue {
     user_last_name: string;
     created_date: string;
 }
+// Questions
 export interface QuestionField {
     value: Array<QuestionValue> | [{}];
 }
@@ -65,4 +70,17 @@ export interface QuestionItem {
     owner_reference: string;
     state_datetime: object;
     state: string;
+}
+// Timeline
+export interface TimelineField {
+    value: Array<TimelineValue> | [{}];
+}
+
+export interface TimelineValue {
+    title: string;
+    by: string;
+    dateUtc:  string;
+    date:  string;
+    time: string;
+    documents: Array<any>;
 }

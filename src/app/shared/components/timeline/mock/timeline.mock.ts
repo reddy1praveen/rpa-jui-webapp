@@ -1,4 +1,12 @@
-export const mockData = [
+export interface timeDataStamp {
+    title: string;
+    by: string;
+    dateUtc: string;
+    date: string;
+    time: string;
+    documents: Array<any>;
+}
+export const mockData: Array<timeDataStamp> = [
     {
         title: 'HEARING',
         by: 'John Smith',

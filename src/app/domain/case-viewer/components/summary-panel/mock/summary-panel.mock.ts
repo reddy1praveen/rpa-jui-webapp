@@ -1,5 +1,31 @@
-import { PageDateDefault } from '../../../../models/section_fields';
+import {PageDateDefault, PageDateQuestion, PageDateWithFields} from '../../../../models/section_fields';
 
+export const mockPanelDataTimeline: PageDateWithFields = {
+    name: 'events',
+    type: 'timeline-panel',
+    fields: [
+        {
+            value: [
+                {
+                    title: 'HEARING',
+                    by: 'John Smith',
+                    dateUtc: '2018-08-06T15:14:11Z',
+                    date: '6 Aug 2018',
+                    time: '15:14pm',
+                    documents: []
+                },
+                {
+                    title: 'CREATED_EVENT',
+                    by: 'Gilbert Smith',
+                    dateUtc: '2018-08-06T15:14:11Z',
+                    date: '6 Aug 2018',
+                    time: '15:14pm',
+                    documents: []
+                }
+            ]
+        }
+    ]
+};
 export const mockPanelData: PageDateDefault = {
     name: 'Summary',
     type: 'summary-panel',
