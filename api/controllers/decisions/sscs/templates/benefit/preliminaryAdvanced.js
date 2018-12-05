@@ -2,6 +2,27 @@ module.exports = {
   idPrefix: 'preliminary-advanced',
   name: 'preliminary-advanced',
   header: 'Select awards',
+  formGroupValidators: [],
+  validationHeaderErrorMessages: [
+      {
+          validationLevel: 'formControl',
+          controlId: 'forDailyLiving',
+          text: 'What are you considering awarding for daily living?',
+          href: '#'
+      },
+      {
+          validationLevel: 'formControl',
+          controlId: 'forMobility',
+          text: 'What are you considering awarding for mobility?',
+          href: '#'
+      },
+      {
+          validationLevel: 'formControl',
+          controlId: 'compareToDWPAward',
+          text: 'How would this new award compare to the original DWP award?',
+          href: '#'
+      }
+  ],
   groups: [
       {
           fieldset: [
@@ -15,6 +36,11 @@ module.exports = {
               {
                   radios: {
                       control: 'forDailyLiving',
+                      validators: ['required'],
+                      validationError: {
+                          value: 'What are you considering awarding for daily living?',
+                          controlId: 'forDailyLiving'
+                      },
                       radioGroup: [
                           {
                               value: 'noAward',
@@ -44,6 +70,11 @@ module.exports = {
               {
                   radios: {
                       control: 'forMobility',
+                      validators: ['required'],
+                      validationError: {
+                          value: 'What are you considering awarding for mobility?',
+                          controlId: 'forMobility'
+                      },
                       radioGroup: [
                           {
                               value: 'noAward',
@@ -73,6 +104,11 @@ module.exports = {
               {
                   radios: {
                       control: 'compareToDWPAward',
+                      validators: ['required'],
+                      validationError: {
+                          value: 'How would this new award compare to the original DWP award?',
+                          controlId: 'compareToDWPAward'
+                      },
                       radioGroup: [
                           {
                               value: 'Higher',
