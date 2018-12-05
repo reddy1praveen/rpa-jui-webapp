@@ -190,8 +190,10 @@ export class CommentItemComponent implements OnInit, OnDestroy {
             this.expandComment();
             resolve('Success');
         }).then(() => {
-            this.commentArea.nativeElement.scrollIntoView({behavior: 'instant'});
             this.setHeight();
+            setTimeout(() => {
+                this.commentArea.nativeElement.focus();
+            });
         });
     }
 
