@@ -11,6 +11,15 @@ module.exports = {
             idPrefix: 'create',
             name: 'create',
             header: 'Do you want to approve the draft consent order?',
+            formGroupValidators: [],
+            validationHeaderErrorMessages: [
+                {
+                    validationLevel: 'formControl',
+                    controlId: 'approveDraftConsent',
+                    text: 'Select yes if you want to approve the draft consent order',
+                    href: '#'
+                }
+            ],
             groups: [
                 {
                     fieldset: [
@@ -18,6 +27,11 @@ module.exports = {
                             radios: {
                                 control: 'approveDraftConsent',
                                 classes: 'govuk-radios--inline',
+                                validators: ['required'],
+                                validationError: {
+                                    value: 'Select yes if you want to approve the draft consent order',
+                                    controlId: 'preliminaryView'
+                                },
                                 radioGroup: [
                                     {
                                         value: 'yes',
@@ -334,6 +348,8 @@ module.exports = {
             name: 'notes-for-court-administrator',
             header: 'Notes for court administrator (optional)',
             hint: 'This won’t be seen by the parties.',
+            formGroupValidators: [],
+            validationHeaderErrorMessages: [],
             groups: [
                 {
                     textarea: {
@@ -646,6 +662,8 @@ module.exports = {
             idPrefix: 'draft-consent-order',
             name: 'draft-consent-order',
             header: 'Add or change comments',
+            formGroupValidators: [],
+            validationHeaderErrorMessages: [],
             buttons: [
                 {
                     control: 'createButton',
@@ -658,12 +676,38 @@ module.exports = {
             idPrefix: 'hearing-details',
             name: 'hearing-details',
             header: 'Hearing details',
+            formGroupValidators: [],
+            validationHeaderErrorMessages: [
+                {
+                    validationLevel: 'formControl',
+                    controlId: 'estimateLengthOfHearing',
+                    text: 'Enter the length of hearing in minutes, for example "20"',
+                    href: '#'
+                },
+                {
+                    validationLevel: 'formControl',
+                    controlId: 'whenHearingPlaced',
+                    text: 'Enter when you’d like the hearing to take place',
+                    href: '#'
+                },
+                {
+                    validationLevel: 'formControl',
+                    controlId: 'whichCourt',
+                    text: 'Choose a court',
+                    href: '#'
+                }
+            ],
             groups: [
                 {
                     input: {
                         label: {
                             text: 'Estimate length of hearing in minutes',
                             classes: 'govuk-label--m'
+                        },
+                        validators: ['required'],
+                        validationError: {
+                            value: 'Enter the length of hearing in minutes, for example "20"',
+                            controlId: 'estimateLengthOfHearing'
                         },
                         control: 'estimateLengthOfHearing',
                         classes: 'govuk-input--width-3'
@@ -680,6 +724,11 @@ module.exports = {
                             classes: 'govuk-hint'
                         },
                         control: 'whenHearingPlaced',
+                        validators: ['required'],
+                        validationError: {
+                            value: 'Enter when you’d like the hearing to take place',
+                            controlId: 'whenHearingPlaced'
+                        },
                         classes: ''
                     }
                 },
@@ -695,26 +744,43 @@ module.exports = {
                         {
                             radios: {
                                 control: 'whichCourt',
+                                validators: ['required'],
+                                validationError: {
+                                    value: 'Choose a court',
+                                    controlId: 'whichCourt'
+                                },
                                 radioGroup: [
                                     {
                                         value: 'southWest',
                                         text: 'South West Divorce Centre',
-                                        hint: { text: 'Southampton' }
+                                        hint: {
+                                          text: 'Southampton',
+                                          classes: 'govuk-hint govuk-radios__hint'
+                                        }
                                     },
                                     {
                                         value: 'eastMidlands',
                                         text: 'East Midlands Divorce Centre',
-                                        hint: { text: 'Nottingham' }
+                                        hint: {
+                                          text: 'Nottingham',
+                                          classes: 'govuk-hint govuk-radios__hint'
+                                        }
                                     },
                                     {
                                         value: 'westMidlands',
                                         text: 'West Midlands Divorce Centre',
-                                        hint: { text: 'Stoke' }
+                                        hint: {
+                                          text: 'Stoke',
+                                          classes: 'govuk-hint govuk-radios__hint'
+                                        }
                                     },
                                     {
                                         value: 'northWest',
                                         text: 'North West Divorce Centre',
-                                        hint: { text: 'Liverpool' }
+                                        hint: {
+                                          text: 'Liverpool',
+                                          classes: 'govuk-hint govuk-radios__hint'
+                                        }
                                     }
                                 ]
                             }
@@ -728,7 +794,7 @@ module.exports = {
                             text: 'For example, if you need to hear the case. Or if you need to transfer either the financial remedy or entire divorce case to another court.'
                         },
                         control: 'otherHearingDetails',
-                        value: 'Other hearing details text'
+                        value: ''
                     }
                 },
                 {

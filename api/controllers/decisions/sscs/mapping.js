@@ -60,7 +60,7 @@ const mapping = [
                     { readingAndUnderstanding: 'reading-signs' },
                     { takingNutrition: 'taking-nutrition' },
                     { washingBathing: 'washing-bathing' }
-                ],
+                ]
             },
             {
                 state: 'communicating-verbally',

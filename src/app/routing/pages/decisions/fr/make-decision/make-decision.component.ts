@@ -3,6 +3,7 @@ import {FormGroup} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {DecisionService} from '../../../../../domain/services/decision.service';
 import {FormsService} from '../../../../../shared/services/forms.service';
+import { ValidationService } from '../../../../../shared/services/validation.service';
 
 @Component({
   selector: 'app-make-decision',
@@ -20,15 +21,19 @@ export class MakeDecisionComponent implements OnInit {
     typeId: string;
     jurId: string;
     pageitems: any;
+    useValidation = false;
 
     constructor(
         public router: Router,
         private activatedRoute: ActivatedRoute,
         public decisionService: DecisionService,
-        private formsService: FormsService
+        private formsService: FormsService,
+        private validationService: ValidationService
     ) {}
     createForm(pageitems, pageValues) {
         this.formDraft = new FormGroup(this.formsService.defineformControls(pageitems, pageValues));
+        const formGroupValidators = this.validationService.createFormGroupValidators(this.formDraft, pageitems.formGroupValidators);
+        this.formDraft.setValidators(formGroupValidators);
     }
     ngOnInit() {
         this.activatedRoute.parent.data.subscribe(data => {
@@ -58,15 +63,33 @@ export class MakeDecisionComponent implements OnInit {
         this.pageValues.visitedPages = {};
         this.pageValues.visitedPages['create'] = true;
         this.request.formValues.visitedPages = this.pageValues.visitedPages;
-        this.decisionService.submitDecisionDraft(
-            this.jurId,
-            this.activatedRoute.snapshot.parent.data.caseData.id,
-            this.pageitems.name,
-            this.typeId,
-            this.request)
-            .subscribe(decision => {
-            console.log(decision.newRoute);
-            this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
-        });
+
+        console.log('Form is valid:', this.formDraft.valid);
+
+        if (this.formDraft.invalid) {
+            this.useValidation = true;
+            return;
+        } else {
+            this.decisionService.submitDecisionDraft(
+                this.jurId,
+                this.activatedRoute.snapshot.parent.data.caseData.id,
+                this.pageitems.name,
+                this.typeId,
+                this.request).subscribe(decision => {
+                console.log(decision.newRoute);
+                this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
+            });
+        }
+
+        // this.decisionService.submitDecisionDraft(
+        //     this.jurId,
+        //     this.activatedRoute.snapshot.parent.data.caseData.id,
+        //     this.pageitems.name,
+        //     this.typeId,
+        //     this.request)
+        //     .subscribe(decision => {
+        //     console.log(decision.newRoute);
+        //     this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
+        // });
     }
 }
