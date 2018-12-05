@@ -27,6 +27,19 @@ function some(array, predicate) {
     return null
 }
 
+function handleResultStack(req, stack) {
+    const jurisdiction = req.params.jurId
+    const caseId = req.params.caseId
+    const caseTypeId = req.params.caseTypeId.toLowerCase()
+    let newStack = [...stack]
+    
+    const store = new Store(req)
+    const currentStack = store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`)
+    if (currentStack === '' || currentStack === null) {
+        newStack = [...currentStack, stack]
+    }
+}
+
 // does not handle OR yet
 function handleCondition(conditionNode, variables) {
     // index 0 hardcoded, not interating through for OR
@@ -129,7 +142,6 @@ function handleStateRoute(req, res) {
     case divorceType:
     console.log("divorce")
         process(req, res, divorceMapping, divorcePayload, stateMeta)
-        //divorceCallback(req, res)
         break
     case sscsType:
     console.log('SSCS')
