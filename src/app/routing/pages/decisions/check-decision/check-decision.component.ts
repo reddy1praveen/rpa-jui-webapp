@@ -8,6 +8,11 @@ import { IDocumentTask } from '../../../../shared/components/hmcts-em-viewer-ui/
 import { ApiHttpService } from '../../../../shared/components/hmcts-em-viewer-ui/data/api-http.service';
 import { AnnotationStoreService } from '../../../../shared/components/hmcts-em-viewer-ui/data/annotation-store.service';
 
+/**
+ * Looks like this component is not being used.
+ *
+ * TODO: Deprecate? [5th December 2018]
+ */
 @Component({
     selector: 'app-check-decision',
     templateUrl: './check-decision.component.html',

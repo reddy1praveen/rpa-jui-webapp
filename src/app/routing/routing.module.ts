@@ -35,6 +35,7 @@ import { GenericPageComponent } from './pages/generic-page/generic-page.componen
 import { ErrorServiceUnavailableComponent } from './pages/generic-page/error-service-unavailable/error-service-unavailable.component';
 import { ConfirmationComponent } from './pages/generic-page/confirmation/confirmation.component';
 import { CheckYourAnswersComponent } from './pages/generic-page/check-your-answers/check-your-answers.component';
+import { CheckComponent } from './pages/decisions/check/check.component';
 import { TaskListComponent } from './pages/generic-page/task-list/task-list.component';
 import { TermsAndConditionsComponent } from './pages/generic-page/terms-and-conditions/terms-and-conditions.component';
 import { CookiesComponent } from './pages/generic-page/cookies/cookies.component';
@@ -88,6 +89,7 @@ const routes: Routes = [
                     {path: 'final-decision', component: MakeDecisionComponent},
                     {path: 'set-award-dates', component: MakeDecisionComponent},
                     {path: 'scores', component: MakeDecisionComponent},
+
                     {path: 'communicating-verbally', component: MakeDecisionComponent},
                     {path: 'dressing-undressing', component: MakeDecisionComponent},
                     {path: 'engaging-face', component: MakeDecisionComponent},
@@ -100,6 +102,8 @@ const routes: Routes = [
                     {path: 'reading-signs', component: MakeDecisionComponent},
                     {path: 'taking-nutrition', component: MakeDecisionComponent},
                     {path: 'washing-bathing', component: MakeDecisionComponent},
+//Final Decision Flow
+                    {path: 'check-your-decision', component: CheckComponent},
 //Financial Ramedy routes
                     {path: 'reject-reasons', component: MakeDecisionComponent},
                     {path: 'notes-for-court-administrator', component: MakeDecisionComponent},
@@ -195,7 +199,8 @@ const routes: Routes = [
         ErrorServiceUnavailableComponent,
         ConfirmationComponent,
         CheckYourAnswersComponent,
-        TaskListComponent
+        TaskListComponent,
+        CheckComponent
     ],
     providers: [
         CaseResolve,

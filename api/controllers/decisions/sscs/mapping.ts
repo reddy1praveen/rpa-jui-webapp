@@ -65,6 +65,10 @@ export const mapping = [
                 ]
             },
             {
+                state: 'final-decision',
+                result: 'check-your-decision'
+            },
+            {
                 state: 'communicating-verbally',
                 result: '...',
             },

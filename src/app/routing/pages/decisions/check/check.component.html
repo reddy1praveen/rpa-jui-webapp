@@ -1,0 +1,48 @@
+<app-govuk-back-link></app-govuk-back-link>
+<main class="govuk-main-wrapper" role="main">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+
+            <h1 class="govuk-heading-xl">
+                Check your decision
+            </h1>
+
+            <!-- use additional modifier class to change column widths for multiple groups of questions and answers: -->
+            <!--   * `app-check-your-answers--short` for short questions -->
+            <!--   * `app-check-your-answers__questions-long` for long questions -->
+            <!--   * none for single group of q&a -->
+            <dl class="app-check-your-answers app-check-your-answers--short">
+                <div class="app-check-your-answers__contents">
+                    <dt class="app-check-your-answers__question">
+                        What do you want to send to the parties?
+                    </dt>
+                    <dd class="app-check-your-answers__answer">
+                        Final decision
+                    </dd>
+                    <dd class="app-check-your-answers__change">
+                        <a href="#">
+                            Change<span class="govuk-visually-hidden"> name</span>
+                        </a>
+                    </dd>
+                </div>
+
+                <div class="app-check-your-answers__contents">
+                    <dt class="app-check-your-answers__question">
+                        Decision notes
+                    </dt>
+                    <dd class="app-check-your-answers__answer">
+                        --
+                    </dd>
+                    <dd class="app-check-your-answers__change">
+                        <a href="#">
+                            Change<span class="govuk-visually-hidden"> date of birth</span>
+                        </a>
+                    </dd>
+                </div>
+            </dl>
+            <a class="govuk-button" href="confirmation-page" role="button">
+                Submit
+            </a>
+        </div>
+    </div>
+</main>

@@ -32,8 +32,6 @@ export class MakeDecisionComponent implements OnInit {
     ) {}
     createForm(pageitems, pageValues) {
         this.formDraft = new FormGroup(this.formsService.defineformControls(pageitems, pageValues));
-
-        if(pageitems.formGroupValidators.length === 0){
           const formGroupValidators = this.validationService.createFormGroupValidators(this.formDraft, pageitems.formGroupValidators);
           this.formDraft.setValidators(formGroupValidators);
         }
