@@ -98,9 +98,9 @@ const routes: Routes = [
                     {path: 'taking-nutrition', component: MakeDecisionComponent},
                     {path: 'washing-bathing', component: MakeDecisionComponent},
 
-                    {path: 'reject-reasons', component: MakeDecisionComponent},
+                  //  {path: 'reject-reasons', component: MakeDecisionComponent},
 
-                  //  {path: 'reject-reasons', component: ReasonsCoNotApprovedComponent},
+                    {path: 'reject-reasons', component: ReasonsCoNotApprovedComponent},
                     {path: 'notes-for-court-administrator', component: NotesForCourtAdministratorComponent},
                     {path: 'draft-consent-order', component: DraftConsentOrderComponent},
                     {path: 'hearing-details', component: HearingDetailsComponent},

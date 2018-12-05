@@ -2,6 +2,10 @@
 <main class="govuk-main-wrapper" role="main">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
+            <ng-container *ngIf="useValidation && formDraft.invalid">
+                <app-validation-header [validationHeaderErrorMessages]="pageitems.validationHeaderErrorMessages" [formGroup]="formDraft">
+                </app-validation-header>
+            </ng-container>
             <h1 *ngIf="pageitems" class="govuk-heading-xl">
               <span *ngIf="pageitems.caption" [class]="pageitems.caption.classes">{{ pageitems.caption.text }}</span>
               {{pageitems.header}}
@@ -11,9 +15,10 @@
                     <app-fieldset *ngIf="group.fieldset"
                                   [classes]="'govuk-fieldset'"
                                   [group]="formDraft"
-                                  [data]="group.fieldset">
+                                  [data]="group.fieldset"
+                                  [validate]="useValidation">
                     </app-fieldset>
-                    <app-jui-form-elements [group]="formDraft" [data]="group"></app-jui-form-elements>
+                    <app-jui-form-elements [group]="formDraft" [validate]="useValidation" [data]="group"></app-jui-form-elements>
                 </div>
             </form>
         </div>
