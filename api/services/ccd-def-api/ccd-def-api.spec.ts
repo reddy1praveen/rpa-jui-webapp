@@ -12,9 +12,9 @@ const proxyquire = pq.noPreserveCache()
 
 import {config} from '../../../config'
 
-const url = config.services.fee_api
+const url = config.services.ccd_def_api
 
-describe('bar-api spec', () => {
+describe('ccd-def-api spec', () => {
     let route
     let request
     let app
@@ -30,7 +30,7 @@ describe('bar-api spec', () => {
 
         app = express()
 
-        route = proxyquire('./bar-api.ts', {
+        route = proxyquire('./ccd-def-api.ts', {
             '../../lib/request/request': httpRequest
         })
 
@@ -70,6 +70,41 @@ describe('bar-api spec', () => {
         it('should make a request', () => {
             getInfo({})
             expect(httpRequest).to.have.been.calledWith('GET', `${url}/info`, {})
+        })
+    })
+
+    describe('getJurisdictions', () => {
+        let getJurisdictions
+
+        beforeEach(() => {
+            getJurisdictions = route.getJurisdictions
+        })
+
+        it('should expose function', () => {
+            expect(getJurisdictions).to.be.ok
+        })
+
+        it('should make a request', () => {
+            getJurisdictions({})
+            expect(httpRequest).to.have.been.calledWith('GET', `${url}/api/data/jurisdictions`, {})
+        })
+    })
+
+    describe('getCaseTypes', () => {
+        let getCaseTypes
+
+        beforeEach(() => {
+            getCaseTypes = route.getCaseTypes
+        })
+
+        it('should expose function', () => {
+            expect(getCaseTypes).to.be.ok
+        })
+
+        it('should make a request', () => {
+            const jurisdictions = 'jud'
+            getCaseTypes(`${jurisdictions}`, {})
+            expect(httpRequest).to.have.been.calledWith('GET', `${url}/api/data/jurisdictions/${jurisdictions}/case-type`, {})
         })
     })
 })

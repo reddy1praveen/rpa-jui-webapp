@@ -8,13 +8,14 @@ import * as supertest from 'supertest'
 
 chai.use(sinonChai)
 const expect = chai.expect
+const assert = chai.assert
 const proxyquire = pq.noPreserveCache()
 
 import {config} from '../../../config'
 
-const url = config.services.fee_api
+const url = config.services.idam_api
 
-describe('bar-api spec', () => {
+describe('idam-api spec', () => {
     let route
     let request
     let app
@@ -30,7 +31,7 @@ describe('bar-api spec', () => {
 
         app = express()
 
-        route = proxyquire('./bar-api.ts', {
+        route = proxyquire('./idam-api.ts', {
             '../../lib/request/request': httpRequest
         })
 
@@ -70,6 +71,49 @@ describe('bar-api spec', () => {
         it('should make a request', () => {
             getInfo({})
             expect(httpRequest).to.have.been.calledWith('GET', `${url}/info`, {})
+        })
+    })
+
+    describe('getDetails', () => {
+        let getDetails
+
+        beforeEach(() => {
+            getDetails = route.getDetails
+        })
+
+        it('should expose function', () => {
+            expect(getDetails).to.be.ok
+        })
+
+        it('should make a request', () => {
+            getDetails({})
+            expect(httpRequest).to.have.been.calledWith('GET', `${url}/details`, {})
+        })
+    })
+
+    describe('postOauthToken', () => {
+        let postOauthToken
+
+        beforeEach(() => {
+            postOauthToken = route.postOauthToken
+        })
+
+        it('should expose function', () => {
+            expect(postOauthToken).to.be.ok
+        })
+
+        // need to figure out how to fake otp
+        xit('should make a request', () => {
+            const code = 'abc12345'
+            const host = 'fakehost'
+            postOauthToken(code, host)
+            expect(httpRequest).to.have.been.calledWith(
+                'POST',
+                `${url}/oauth2/token?grant_type=authorization_code&code=${code}&redirect_uri=http://${host}/oauth2/callback`,
+                {
+                    Authorization: 'Basic anVpd2ViYXBwOkFBQUFBQUFBQUFBQUFBQUE=',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                })
         })
     })
 })

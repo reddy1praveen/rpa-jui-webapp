@@ -12,9 +12,9 @@ const proxyquire = pq.noPreserveCache()
 
 import {config} from '../../../config'
 
-const url = config.services.fee_api
+const url = config.services.coh_cor_api
 
-describe('bar-api spec', () => {
+describe('coh-cor-api spec', () => {
     let route
     let request
     let app
@@ -30,7 +30,7 @@ describe('bar-api spec', () => {
 
         app = express()
 
-        route = proxyquire('./bar-api.ts', {
+        route = proxyquire('./coh-cor-api.ts', {
             '../../lib/request/request': httpRequest
         })
 

@@ -12,9 +12,9 @@ const proxyquire = pq.noPreserveCache()
 
 import {config} from '../../../config'
 
-const url = config.services.fee_api
+const url = config.services.ccd_data_api
 
-describe('bar-api spec', () => {
+describe('ccd-store spec', () => {
     let route
     let request
     let app
@@ -30,7 +30,7 @@ describe('bar-api spec', () => {
 
         app = express()
 
-        route = proxyquire('./bar-api.ts', {
+        route = proxyquire('./ccd-store.ts', {
             '../../lib/request/request': httpRequest
         })
 

@@ -8,13 +8,14 @@ import * as supertest from 'supertest'
 
 chai.use(sinonChai)
 const expect = chai.expect
+const assert = chai.assert
 const proxyquire = pq.noPreserveCache()
 
 import {config} from '../../../config'
 
-const url = config.services.fee_api
+const url = config.services.draft_store_api
 
-describe('bar-api spec', () => {
+describe('draft-store-api spec', () => {
     let route
     let request
     let app
@@ -30,7 +31,7 @@ describe('bar-api spec', () => {
 
         app = express()
 
-        route = proxyquire('./bar-api.ts', {
+        route = proxyquire('./draft-store-api.ts', {
             '../../lib/request/request': httpRequest
         })
 

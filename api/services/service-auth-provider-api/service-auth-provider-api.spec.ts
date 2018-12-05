@@ -8,13 +8,14 @@ import * as supertest from 'supertest'
 
 chai.use(sinonChai)
 const expect = chai.expect
+const assert = chai.assert
 const proxyquire = pq.noPreserveCache()
 
 import {config} from '../../../config'
 
-const url = config.services.fee_api
+const url = config.services.s2s
 
-describe('bar-api spec', () => {
+describe('service-auth-provider-api spec', () => {
     let route
     let request
     let app
@@ -30,7 +31,7 @@ describe('bar-api spec', () => {
 
         app = express()
 
-        route = proxyquire('./bar-api.ts', {
+        route = proxyquire('./service-auth-provider-api.ts', {
             '../../lib/request/request': httpRequest
         })
 
@@ -70,6 +71,24 @@ describe('bar-api spec', () => {
         it('should make a request', () => {
             getInfo({})
             expect(httpRequest).to.have.been.calledWith('GET', `${url}/info`, {})
+        })
+    })
+
+    describe('postS2SLease', () => {
+        let postS2SLease
+
+        beforeEach(() => {
+            postS2SLease = route.postS2SLease
+        })
+
+        it('should expose function', () => {
+            expect(postS2SLease).to.be.ok
+        })
+
+        // need to figure out how to fake otp
+        xit('should make a request', () => {
+            postS2SLease({})
+            expect(httpRequest).to.have.been.calledWith('POST', `${url}/lease`, {})
         })
     })
 })
