@@ -114,4 +114,6 @@ app.get("/oauth2/callback", apiRoute);
 app.get("/logout", apiRoute);
 app.use("/api", apiRoute);
 
+console.log('new test');
+
 module.exports = app;
