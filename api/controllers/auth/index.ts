@@ -8,7 +8,7 @@ const cookieUserId = config.cookies.userId
 
 const test = true
 
-export function logout(req, res)  {
+export function logout(req, res) {
     res.clearCookie(cookieToken)
     res.clearCookie(cookieUserId)
     res.redirect(req.query.redirect || '/')
