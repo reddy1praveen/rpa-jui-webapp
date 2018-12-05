@@ -36,7 +36,8 @@
     "test:fullfunctional": "echo 'not implemented'",
     "test:mutation": "echo 'not implemented'",
     "test:apiGateway": "echo 'not implemented'",
-    "sonar-scan": "node_modules/sonar-scanner/bin/sonar-scanner",
+    "sonar-scan-old": "node_modules/sonar-scanner/bin/sonar-scanner",
+    "sonar-scan": "echo 'not implemented'",
     "test:codacy-upload": "cat ./reports/tests/coverage/lcov.info | codacy-coverage",
     "test:codecov-upload": "codecov -f ./reports/tests/coverage/lcov.info",
     "snyk": "snyk test",
@@ -206,35 +207,6 @@
         120
       ]
     }
-  },
-  "nyc": {
-    "check-coverage": true,
-    "per-file": true,
-    "lines": 0,
-    "statements": 0,
-    "functions": 0,
-    "branches": 0,
-    "include": [
-      "api/**/**"
-    ],
-    "exclude": [
-      "**/*.spec.ts",
-      "**/*.spec.js",
-      "test/**",
-      "config/**",
-      "api/**/templates/**",
-      "src/public/**",
-      "src/environments/**"
-    ],
-    "reporter": [
-      "lcov",
-      "html",
-      "text-summary"
-    ],
-    "require": [],
-    "cache": true,
-    "all": true,
-    "report-dir": "./reports/tests/coverage/node"
   },
   "eslintIgnore": [
     "**/node_modules/**",
