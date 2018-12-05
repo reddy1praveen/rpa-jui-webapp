@@ -19,8 +19,7 @@ export class MakeDecisionComponent implements OnInit {
     case: any;
     typeId: string;
     jurId: string;
-
-    @Input() pageitems;
+    pageitems: any;
 
     constructor(
         public router: Router,
@@ -38,8 +37,6 @@ export class MakeDecisionComponent implements OnInit {
 
         const pageId = this.activatedRoute.snapshot.url[0].path;
         const caseId = this.case.id;
-        //const pageId = 'create';
-        //const jurId = 'fr';
 
         this.jurId = this.case.case_jurisdiction;
         this.typeId = this.case.case_type_id;

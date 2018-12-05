@@ -42,21 +42,67 @@ const mapping = [
             },
             {
                 state: 'scores',
-                result : {
-                    communicatingVerbally: true - communicating-verbally
-                    dressingUndressing: true - dressing-undressing
-                    engagingWithOtherPeople: true - engaging-face
-                    makingBudgetingDecisions: true - budgeting-decisions
-                    managingTherapy: true - managing-therapy
-                    managingToilet: true - managing-toilet
-                    movingAround: true - moving-around
-                    planningFollowingJourneys: true - planning-journeys
-                    preparingFood: true - preparing-food
-                    readingAndUnderstanding: true - reading-signs
-                    takingNutrition: true - taking-nutrition
-                    washingBathing: true - washing-bathing
-                }
+                register: {
+                    communicatingVerbally:"communicating-verbally",
+                    dressingUndressing: "dressing-undressing",
+                    engagingWithOtherPeople: "engaging-face",
+                    makingBudgetingDecisions: "true - budgeting-decisions,
+                    managingTherapy: true - managing-therapy,
+                    managingToilet: true - managing-toilet,
+                    movingAround: true - moving-around,
+                    planningFollowingJourneys: true - planning-journeys,
+                    preparingFood: true - preparing-food,
+                    readingAndUnderstanding: true - reading-signs,
+                    takingNutrition: true - taking-nutrition,
+                    washingBathing: true - washing-bathing,
+                },
+                result: 'communicating-verbally'
+            },
+            {
+                state: 'communicating-verbally',
+                result: 'dressing-undressing'
+            },
+            {
+                state: 'dressing-undressing',
+                result: 'engaging-face'
+            },
+            {
+                state: 'engaging-face',
+                result: 'budgeting-decisions'
+            },
+            {
+                state: 'budgeting-decisions',
+                result: 'managing-therapy'
+            },
+            {
+                state: 'managing-therapy',
+                result: 'managing-toilet'
+            },
+            {
+                state: 'managing-toilet',
+                result: 'moving-around'
+            },
+            {
+                state: 'moving-around',
+                result: 'planning-journeys'
+            },
+            {
+                state: 'planning-journeys',
+                result: 'preparing-food'
+            },
+            {
+                state: 'preparing-food',
+                result: 'reading-signs'
+            },
+            {
+                state: 'reading-signs',
+                result: 'taking-nutrition'
+            },
+            {
+                state: 'taking-nutrition',
+                result: 'washing-bathing'
             }
+
         ]
     }
 ]
