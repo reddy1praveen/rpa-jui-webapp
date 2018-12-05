@@ -3,7 +3,7 @@ import {Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, ViewChild} from '@angul
 import {TimelineComponent} from './timeline.component';
 import {mockData, timeDataStamp} from './mock/timeline.mock';
 
-fdescribe('TimelineComponent Component: Testing Input & Output', () => {
+describe('TimelineComponent Component: Testing Input & Output', () => {
     @Component({
         selector: `app-host-dummy-component`,
         template: `<app-timeline [events]="data" [maxHistory]="maxHistory"></app-timeline>`
