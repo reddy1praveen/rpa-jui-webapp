@@ -21,7 +21,7 @@ export class MakeDecisionComponent implements OnInit {
     typeId: string;
     jurId: string;
     pageitems: any;
-    useValidation = false;
+    useValidation: boolean = false;
 
     constructor(
         public router: Router,
@@ -36,6 +36,8 @@ export class MakeDecisionComponent implements OnInit {
         this.formDraft.setValidators(formGroupValidators);
     }
     ngOnInit() {
+        this.useValidation = false;
+
         this.activatedRoute.parent.data.subscribe(data => {
             this.case = data.caseData;
         });
@@ -60,10 +62,8 @@ export class MakeDecisionComponent implements OnInit {
         const event = this.formDraft.value.createButton.toLowerCase();
         delete this.formDraft.value.createButton;
         this.request = { formValues: this.formDraft.value, event: event };
-        this.pageValues.visitedPages = {};
-        this.pageValues.visitedPages['create'] = true;
-        this.request.formValues.visitedPages = this.pageValues.visitedPages;
 
+        console.log('IsValid :', this.useValidation);
         console.log('Form is valid:', this.formDraft.valid);
 
         if (this.formDraft.invalid) {
