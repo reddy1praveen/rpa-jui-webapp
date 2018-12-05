@@ -3,7 +3,6 @@ const exceptionFormatter = require('exception-formatter')
 const config = require('../../../../config/index')
 const ccdStore = require('../../../services/ccd-store-api/ccd-store')
 const moment = require('moment')
-const stateMeta = require('./state_meta')
 const translateJson = require('./translate')
 const log4js = require('log4js')
 const headerUtilities = require('../../../lib/utilities/headerUtilities')
@@ -11,7 +10,6 @@ const headerUtilities = require('../../../lib/utilities/headerUtilities')
 const logger = log4js.getLogger('State')
 logger.level = config.logging ? config.logging : 'OFF'
 
-const ERROR404 = 404
 const ERROR400 = 400
 const exceptionOptions = {
     maxLines: 1
@@ -49,25 +47,25 @@ function translate(store, fieldName) {
     return null
 }
 
-function perpareCaseForConsentOrder(documentAnnotationId, eventToken, eventId, user, store) {
-    const payload = {
-        /* eslint-disable-next-line id-blacklist */
-        data: {
-            consentOrder: {
-                document_url: `${config.services.dm_store_api}/documents/${documentAnnotationId}`,
-                document_binary_url: `${config.services.dm_store_api}//documents/${documentAnnotationId}/binary`
-            }
-        },
-        event: {
-            id: eventId
-        },
-        event_token: eventToken,
+// function perpareCaseForConsentOrder(documentAnnotationId, eventToken, eventId, user, store) {
+//     const payload = {
+//         /* eslint-disable-next-line id-blacklist */
+//         data: {
+//             consentOrder: {
+//                 document_url: `${config.services.dm_store_api}/documents/${documentAnnotationId}`,
+//                 document_binary_url: `${config.services.dm_store_api}//documents/${documentAnnotationId}/binary`
+//             }
+//         },
+//         event: {
+//             id: eventId
+//         },
+//         event_token: eventToken,
 
-        ignore_warning: true
-    }
+//         ignore_warning: true
+//     }
 
-    return payload
-}
+//     return payload
+// }
 
 function perpareCaseForRefusal(caseData, eventToken, eventId, user, store) {
     let orderRefusal = []
@@ -236,100 +234,7 @@ async function makeDecision(decision, req, state, store) {
     }
 }
 
-/* eslint-disable-next-line complexity */
-async function handlePostState(req, res, responseJSON, state) {
-    const store = new Store(req)
-
-    const jurisdiction = req.params.jurId
-    const caseId = req.params.caseId
-    const caseTypeId = req.params.caseTypeId
-
-    const formValues = req.body.formValues
-    let result = true
-
-    if (formValues) {
-        store.set(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`)
-    }
-
-    /* eslint-disable indent */
-    if (req.body.event === 'change') {
-        // the 'state' will be the page to change
-        responseJSON.newRoute = state.inStateId
-    }
-    console.log(req.body.event)
-    if (req.body.event === 'continue') {
-        console.log(1, state.stateId)
-        switch (state.stateId) {
-            case 'create':
-                console.log('2')
-                if (formValues.approveDraftConsent === 'yes') {
-                    console.log('3')
-                    responseJSON.newRoute = 'notes-for-court-administrator'
-                } else {
-                    responseJSON.newRoute = 'reject-reasons'
-                }
-                break
-            case 'notes-for-court-administrator':
-                responseJSON.newRoute = 'check'
-                break
-            case 'check':
-                logger.info('Posting to CCD')
-                result = false
-                result = await makeDecision(store.get(`decisions_${caseId}`).approveDraftConsent, req, state, store)
-
-                logger.info('Posted to CCD', result)
-
-                if (result) {
-                    responseJSON.newRoute = 'decision-confirmation'
-                } else {
-                    res.status(ERROR400)
-                    res.send('Error updating case')
-                }
-                break
-            case 'reject-reasons':
-                if (formValues.includeAnnotatedVersionDraftConsOrder === 'yes') {
-                    responseJSON.newRoute = 'draft-consent-order'
-                } else if (formValues.partiesNeedAttend === true) {
-                    responseJSON.newRoute = 'hearing-details'
-                } else {
-                    responseJSON.newRoute = 'notes-for-court-administrator'
-                }
-                break
-            case 'draft-consent-order':
-                if (formValues.partiesNeedAttend === true) {
-                    responseJSON.newRoute = 'hearing-details'
-                } else {
-                    responseJSON.newRoute = 'notes-for-court-administrator'
-                }
-                break
-            case 'hearing-details':
-                responseJSON.newRoute = 'notes-for-court-administrator'
-                break
-            default:
-                break
-        }
-
-        // update meta data according to newly selected state
-        if (responseJSON.newRoute) {
-            responseJSON.meta = stateMeta[state.caseTypeId][responseJSON.newRoute]
-        }
-    }
-    console.log('result', result)
-    return result
-    /* eslint-enable indent */
-}
-
-function responseAssert(res, responseJSON, inJurisdiction, inStateId, statusHint) {
-    if (stateMeta[inJurisdiction] && stateMeta[inJurisdiction][inStateId]) {
-        res.status(ERROR404)
-        responseJSON.statusHint = statusHint
-        return false
-    }
-
-    return true
-}
-
-async function handleStateRoute(req, res) {
+async function payload(res, req) {
     const store = new Store(req)
     const jurisdiction = req.params.jurId
     const caseId = req.params.caseId
@@ -343,49 +248,19 @@ async function handleStateRoute(req, res) {
         stateId
     }
 
-    const responseJSON = {}
-    let result = true
+    logger.info('Posting to CCD')
+    let result = false
+    result = await makeDecision(store.get(`decisions_${caseId}`).approveDraftConsent, req, state, store)
 
-    if (
-        responseAssert(res, responseJSON, jurisdiction, stateId, 'Input parameter route_id: uknown jurisdiction') &&
-        responseAssert(
-            res,
-            responseJSON,
-            jurisdiction,
-            stateId,
-            `Input parameter route_id wrong: no route with this id inside jurisdiction ${jurisdiction}`
-        )
-    ) {
-        // for GET we return meta for the state requested by inStateId
-        // however, for POST, the meta may get overwritten if the change of state occurs
-        responseJSON.meta = stateMeta[caseTypeId][stateId]
+    logger.info('Posted to CCD', result)
 
-        if (req.method === 'POST') {
-            result = await handlePostState(req, res, responseJSON, state)
-        }
-
-        console.log('result', result)
-        responseJSON.formValues = store.get(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`) || {}
-    }
-
-    // logger.info(req.headers.ServiceAuthorization)
-    // logger.info('########################')
-    // logger.info(req.auth)
-    // logger.info('########################')
-    // logger.info(state)
-    // logger.info('########################')
-    logger.info(store.get(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`) || {})
-    // logger.info('########################')
-    logger.info('Finished proccessing')
     if (result) {
-        // no errors save and send responseJSON
-        logger.info('Finishing with success')
-        req.session.save(() => res.send(JSON.stringify(responseJSON)))
-    } else {
-        logger.error('Finishing with error')
+        return 'decision-confirmation'
     }
+
+    res.status(ERROR400)
+    res.send('Error updating case')
+    return null
 }
 
-module.exports = (req, res) => {
-    handleStateRoute(req, res)
-}
+module.exports = { payload }

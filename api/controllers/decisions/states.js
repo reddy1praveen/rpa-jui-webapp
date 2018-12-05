@@ -107,7 +107,6 @@ console.log('test')
             return false
         })
     } else {
-        console.log(templates)
         meta = templates[caseTypeId][stateId]
     }
 
@@ -128,6 +127,7 @@ function handleStateRoute(req, res) {
 
     switch (jurisdiction) {
     case divorceType:
+    console.log("divorce")
         process(req, res, divorceMapping, divorcePayload, stateMeta)
         //divorceCallback(req, res)
         break
