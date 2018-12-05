@@ -123,8 +123,10 @@ console.log('test')
                 logger.info(`Found matching event for ${event}`)
                 let result = handleInstruction(instruction, stateId, variables)
                 if (Array.isArray(result)) {
+                    logger.info('Pushing stack')
                     pushStack(req, result)
                     result = popStack(req, variables)
+                    logger.info(`Popped stack ${result}`)
                 } else if (result === '...') {
                     result = popStack(req, variables)
                 }
