@@ -42,20 +42,6 @@ const mapping = [
             },
             {
                 state: 'scores',
-                register: {
-                    communicatingVerbally:"communicating-verbally",
-                    dressingUndressing: "dressing-undressing",
-                    engagingWithOtherPeople: "engaging-face",
-                    makingBudgetingDecisions: "true - budgeting-decisions,
-                    managingTherapy: true - managing-therapy,
-                    managingToilet: true - managing-toilet,
-                    movingAround: true - moving-around,
-                    planningFollowingJourneys: true - planning-journeys,
-                    preparingFood: true - preparing-food,
-                    readingAndUnderstanding: true - reading-signs,
-                    takingNutrition: true - taking-nutrition,
-                    washingBathing: true - washing-bathing,
-                },
                 result: 'communicating-verbally'
             },
             {
