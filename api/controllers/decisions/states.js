@@ -49,7 +49,9 @@ function popStack(req, variables) {
     const store = new Store(req)
  
     const currentStack = store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`)
+    logger.info(`popped stack ${currentStack[0]}`)
     const currentItem = currentStack.pop()
+    logger.info(`Got item ${currentItem}`)
     store.set(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`, currentStack)
 
     const key = Object.keys(currentItem)[0]
@@ -122,6 +124,7 @@ console.log('test')
                 // event is the main index and so there can only be one instruction per event - exit after finding
                 logger.info(`Found matching event for ${event}`)
                 let result = handleInstruction(instruction, stateId, variables)
+                logger.info(`result ${result}`)
                 if (Array.isArray(result)) {
                     logger.info('Pushing stack')
                     pushStack(req, result)
