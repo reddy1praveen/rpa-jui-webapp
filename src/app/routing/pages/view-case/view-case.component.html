@@ -1,10 +1,12 @@
-<app-casebar [case]="case"></app-casebar>
-<div data-selector="case-viewer-component">
-    <div class="jui-width-container">
-        <main id="content" role="main" class="govuk-main-wrapper">
-            <app-hmcts-sub-navigation [items]="sections"></app-hmcts-sub-navigation>
-            <app-case-viewer [case]="case" [sectionId]="sectionTabName"></app-case-viewer>
-        </main>
+<main role="main">
+    <app-casebar [case]="case"></app-casebar>
+    <div data-selector="case-viewer-component" role="main" aria-live="assertive">
+        <div class="jui-width-container">
+            <main id="content" role="main" class="govuk-main-wrapper">
+                <app-hmcts-sub-navigation [items]="sections"></app-hmcts-sub-navigation>
+                <app-case-viewer [case]="case" [sectionId]="sectionTabName"></app-case-viewer>
+            </main>
+        </div>
     </div>
-</div>
+</main>
 
