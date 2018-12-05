@@ -27,7 +27,7 @@ function some(array, predicate) {
     return null
 }
 
-function handleResultStack(req, stack) {
+function pushStack(req, stack) {
     const jurisdiction = req.params.jurId
     const caseId = req.params.caseId
     const caseTypeId = req.params.caseTypeId.toLowerCase()
@@ -38,6 +38,24 @@ function handleResultStack(req, stack) {
     if (currentStack === '' || currentStack === null) {
         newStack = [...currentStack, stack]
     }
+    store.set(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`, newStack)
+}
+
+function popResult(req, stack, variables) {
+    const jurisdiction = req.params.jurId
+    const caseId = req.params.caseId
+    const caseTypeId = req.params.caseTypeId.toLowerCase()
+
+    const store = new Store(req)
+ 
+    const currentStack = store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`)
+    const currentItem = currentStack.pop()
+    store.set(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`, currentStack)
+
+    const key = Object.keys(currentItem)[0]
+ 
+    return (variables[key]) ? currentItem[key] : null
+
 }
 
 // does not handle OR yet
