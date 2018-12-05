@@ -56,7 +56,8 @@ withPipeline(type, product, component) {
 
     before('build') {
         log.info "****************************************"
-        onSuccess()
+        log.info 'Node Version:  ' + "node --version".execute().text
+        log.info 'npm Version:  ' + "npm --version".execute().text
         log.info "****************************************"
     }
 
