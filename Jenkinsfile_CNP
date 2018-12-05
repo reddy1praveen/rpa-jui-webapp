@@ -56,8 +56,10 @@ withPipeline(type, product, component) {
 
     before('build') {
         log.info "****************************************"
-        log.info 'Node Version:  ' + "node --version".execute().text
-        log.info 'npm Version:  ' + "npm --version".execute().text
+        log.info 'Node Version:  '
+        sh 'node --version'
+        log.info 'NPM Version:  '
+        sh 'npm --version'
         log.info "****************************************"
     }
 
