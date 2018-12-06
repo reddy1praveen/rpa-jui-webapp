@@ -2,24 +2,24 @@ module.exports = {
     idPrefix: 'set-award-dates',
     name: 'set-award-dates',
     header: 'Do you want to approve the draft consent order?',
-    formGroupValidators:[{
-        validatorFunc: 'isAnyInputsValid',
-        validationErrorId: 'inputGroupNotValid',
-        inputs: [
-            'awardEndDateDay', 'awardEndDateMonth', 'awardEndDateYear'
-        ]
-    }],
+    formGroupValidators: [
+        {
+            validatorFunc: 'isAnyInputsNotFilledIn',
+            validationErrorId: 'awardEndDateInvalid',
+            controlIds: ['awardEndDateDay', 'awardEndDateMonth', 'awardEndDateYear']
+        }
+    ],
     validationHeaderErrorMessages: [
+        {
+            validationLevel: 'formGroup',
+            formGroupValidationErrorId: 'awardEndDateInvalid',
+            text: 'Enter a Day, Month and Year',
+            href: '#'
+        },
         {
             validationLevel: 'formControl',
             controlId: 'approveDraftConsent',
             text: 'Select the end date',
-            href: '#'
-        },
-        {
-            validationLevel: 'formGroup',
-            controlId: 'inputGroupNotValid',
-            text: 'Select the start date',
             href: '#'
         }
     ],

@@ -159,12 +159,12 @@ export class ValidationService {
      * to display the error in the  view.
      * @return {any}
      */
-    isAnyCheckboxChecked(formGroup: FormGroup, checkboxes: Array<string>, validationIdentifier: string): ValidatorFn | null {
+    isAnyCheckboxChecked(formGroup: FormGroup, controlIds: Array<string>, validationIdentifier: string): ValidatorFn | null {
 
         const isAnyCheckboxCheckedValidationFn: ValidatorFn = (controls: FormGroup): ValidationErrors | null => {
 
-            for (const checkbox of checkboxes) {
-                if (controls.get(checkbox).value) {
+            for (const controlId of controlIds) {
+                if (controls.get(controlId).value) {
                     return null;
                 }
             }
@@ -177,23 +177,38 @@ export class ValidationService {
         return isAnyCheckboxCheckedValidationFn;
     }
 
-    isAnyInputsValid(formGroup: FormGroup, inputs: Array<string>, validationIdentifier: string): ValidatorFn | null {
+    /**
+     * isAnyInputsNotFilledIn
+     *
+     * If the user has filled in all the controls this function returns null and therefore no validation error is returned.
+     * If the user has NOT filled in an input field this function returns a validation error.
+     *
+     * Return null to not throw the validation error.
+     * Return true to throw a validation error.
+     *
+     * @param formGroup
+     * @param controlIds
+     * @param validationIdentifier
+     * @return {ValidatorFn}
+     */
+    isAnyInputsNotFilledIn(formGroup: FormGroup, controlIds: Array<string>, validationIdentifier: string): ValidatorFn | null {
 
         const isAnyInputsValidationFn: ValidatorFn = (controls: FormGroup): ValidationErrors | null => {
 
-            for (const input of inputs) {
-                if (controls.get(input).value) {
-                    return null;
+            for (const controlId of controlIds) {
+                if (!controls.get(controlId).value) {
+                    return {
+                        [validationIdentifier]: true,
+                    };
                 }
             }
 
-            return {
-                [validationIdentifier]: true,
-            };
+            return null;
         };
 
         return isAnyInputsValidationFn;
     }
+
     /**
      * isTextAreaValidWhenCheckboxChecked
      *
@@ -237,7 +252,7 @@ export class ValidationService {
      * @param formGroupValidators - [{
      *    validatorFunc: 'isAnyCheckboxChecked',
      *    validationErrorId: 'reasonsConstentOrderNotApproved',
-     *    checkboxes: [
+     *    controlIds: [
      *        'partiesNeedAttend', 'NotEnoughInformation', 'orderNotAppearOfS25ca1973', 'd81',
      *        'pensionAnnex', 'applicantTakenAdvice', 'respondentTakenAdvice', 'Other2'
      *    ]}]
@@ -248,7 +263,7 @@ export class ValidationService {
 
             const groupValidator: FormGroupValidator = formGroupValidator;
 
-            return this.createFormGroupValidator(formGroup, groupValidator.validatorFunc, groupValidator.checkboxes,
+            return this.createFormGroupValidator(formGroup, groupValidator.validatorFunc, groupValidator.controlIds,
                 groupValidator.validationErrorId);
         });
     }
@@ -262,14 +277,14 @@ export class ValidationService {
      *
      * @param formGroup
      * @param {String} validatorFunc - 'isAnyCheckboxChecked'
-     * @param {Array} checkboxes - ['partiesNeedAttend', 'NotEnoughInformation']
+     * @param {Array} controlIds - ['partiesNeedAttend', 'NotEnoughInformation']
      * @param {String} validationErrorId - 'reasonsConstentOrderNotApproved'
      *
      * @return {ValidatorFn}
      */
-    createFormGroupValidator(formGroup: FormGroup, validatorFunc: string, checkboxes: Array<string>,
+    createFormGroupValidator(formGroup: FormGroup, validatorFunc: string, controlIds: Array<string>,
                              validationErrorId: string): ValidatorFn {
 
-        return this[validatorFunc](formGroup, checkboxes, validationErrorId);
+        return this[validatorFunc](formGroup, controlIds, validationErrorId);
     }
 }

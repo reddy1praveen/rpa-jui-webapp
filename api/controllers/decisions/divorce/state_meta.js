@@ -66,7 +66,7 @@ module.exports = {
                 {
                     validatorFunc: 'isAnyCheckboxChecked',
                     validationErrorId: 'reasonsConstentOrderNotApproved',
-                    checkboxes: [
+                    controlIds: [
                         'partiesNeedAttend', 'NotEnoughInformation', 'orderNotAppearOfS25ca1973', 'd81',
                         'pensionAnnex', 'applicantTakenAdvice', 'respondentTakenAdvice', 'Other2'
                     ]

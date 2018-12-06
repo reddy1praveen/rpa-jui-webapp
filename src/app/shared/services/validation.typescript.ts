@@ -17,8 +17,7 @@ export interface FormGroupValidator {
     validationErrorId: string;
 
     /**
-     * checkboxes - Validation function specific param, the checkboxes required for the isAnyCheckboxChecked
-     * validation func.
+     * controlIds - The control id's required for the validation func.
      */
-    checkboxes: Array<string>;
+    controlIds: Array<string>;
 }
