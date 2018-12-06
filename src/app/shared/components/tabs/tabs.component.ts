@@ -29,7 +29,9 @@ export class TabsComponent implements OnInit {
     ngOnInit(): void {
         this.switchTabs(this.data);
         if (this.fragment === undefined) {
-            window.location.hash = this.data.sections[0].id;
+            if (this.data.sections.length !== 0) {
+                window.location.hash = this.data.sections[0].id;
+            }
         }
     }
 

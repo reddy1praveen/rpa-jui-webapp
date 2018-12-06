@@ -4,9 +4,22 @@ export interface PageDate {
 }
 
 export interface PageDateDefault extends PageDate {
-    type: string;
-    sections: Array<SectionsItem>;
+    type?: string;
+    sections: Array<SectionItem> | any[];
 }
+export interface PageDateSummary extends PageDate {
+    type?: string;
+    sections:  Array<SectionSummaryItem> | [{}];
+}
+export interface PageDateCaseBar extends PageDateDefault {
+    details: {
+        fields: Array<{ value: string }>;
+    };
+    decision: {
+        options: Array<SectionItem> | [{}];
+    };
+}
+
 // TODO Update this convetions to PageDateWithFields
 export interface PageDateQuestion extends PageDate {
     type: string;
@@ -28,6 +41,18 @@ export interface SectionsCaseItem {
     name: string;
 }
 
+export interface SectionItem {
+    id?: string;
+    name: string;
+}
+export interface SectionSummaryItem {
+    id?: string;
+    name: string;
+    type: string;
+    fields: Array<FieldItem>;
+}
+
+
 export interface LinkItem {
     href: string;
     text: string;
@@ -36,16 +61,11 @@ export interface LinkItem {
     active?: Boolean;
 }
 
-export interface SectionsItem {
-    id?: string;
-    name: string;
-    type: string;
-    fields: Array<FieldItem>;
-}
+
 
 export interface FieldItem {
     label?: string;
-    value: string | Array<FieldItemValue> | Array<string>;
+    value: string | Array<FieldItemValue | string>;
 }
 
 export interface FieldItemValue {

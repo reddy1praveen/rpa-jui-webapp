@@ -28,9 +28,9 @@ export class DecisionService {
         return this.httpClient.get(url);
     }
 
-    submitDecisionDraft(jurId: string, caseId: string, pageId: string, caseType: string, body: any): Observable<any> {
-        const url = this.generateDecisionUrl(jurId, caseId, pageId, caseType);
-        console.log('Submit', url, jurId, caseId, pageId, caseType, body);
+    submitDecisionDraft(jurId: string, caseId: string, pageId: string, body: any): Observable<any> {
+        const url = this.generateDecisionUrl(jurId, caseId, pageId);
+        console.log('Submit', url, jurId, caseId, pageId, body);
         return this.httpClient.post(url, body);
     }
 

@@ -1,4 +1,4 @@
-import {PageDateDefault, PageDateQuestion, PageDateWithFields} from '../../../../models/section_fields';
+import {PageDateDefault, PageDateQuestion, PageDateSummary, PageDateWithFields} from '../../../../models/section_fields';
 
 export const mockPanelDataTimeline: PageDateWithFields = {
     name: 'events',
@@ -26,7 +26,7 @@ export const mockPanelDataTimeline: PageDateWithFields = {
         }
     ]
 };
-export const mockPanelData: PageDateDefault = {
+export const mockPanelData: PageDateSummary = {
     name: 'Summary',
     type: 'summary-panel',
     sections: [
