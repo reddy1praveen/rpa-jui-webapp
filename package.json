@@ -104,7 +104,15 @@
     "url": "0.11.0",
     "util": "0.11.0",
     "yarn": "1.6.0",
-    "zone.js": "0.8.19"
+    "zone.js": "0.8.19",
+    "stryker": "^0.33.1",
+    "stryker-api": "^0.22.0",
+    "stryker-html-reporter": "^0.16.9",
+    "stryker-javascript-mutator": "^0.12.1",
+    "stryker-typescript": "^0.16.1",
+    "stryker-mocha-runner": "^0.15.2",
+    "stryker-jasmine": "^0.10.8",
+    "stryker-jasmine-runner": "^0.2.8"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "0.6.0",
@@ -178,7 +186,15 @@
     "tslint": "5.10.0",
     "typescript": "2.7.2",
     "uglifyjs-webpack-plugin": "1.1.8",
-    "url-loader": "0.6.2"
+    "url-loader": "0.6.2",
+    "stryker": "^0.33.1",
+    "stryker-api": "^0.22.0",
+    "stryker-html-reporter": "^0.16.9",
+    "stryker-javascript-mutator": "^0.12.1",
+    "stryker-typescript": "^0.16.1",
+    "stryker-mocha-runner": "^0.15.2",
+    "stryker-jasmine": "^0.10.8",
+    "stryker-jasmine-runner": "^0.2.8"
   },
   "snyk": true,
   "nyc": {
