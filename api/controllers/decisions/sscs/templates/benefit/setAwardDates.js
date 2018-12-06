@@ -21,7 +21,7 @@ module.exports = {
             controlId: 'inputGroupNotValid',
             text: 'Select the start date',
             href: '#'
-        },
+        }
     ],
     groups: [
         {
@@ -40,7 +40,11 @@ module.exports = {
         {
             date: {
                 formName: 'startDate',
-
+                validators: [
+                    {
+                        validator: 'required'
+                    }
+                ],
                 day: {
                     input: {
                         label: {

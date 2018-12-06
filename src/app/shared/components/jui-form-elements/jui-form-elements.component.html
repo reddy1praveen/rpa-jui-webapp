@@ -12,6 +12,8 @@
           </app-validation-error-formgroup>
       </ng-container>
       <app-date *ngIf="data.date"
+                [showValidation]="validate"
+                [validationError]="data.date.validationError"
                 [id]="data.date.formName"
                 [data]="data.date"
                 [group]="group">
