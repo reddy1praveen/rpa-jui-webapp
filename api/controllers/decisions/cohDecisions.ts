@@ -6,7 +6,7 @@ function getOptions(req) {
     return headerUtilities.getAuthHeaders(req)
 }
 
-module.exports = app => {
+export default app => {
     const router = express.Router({ mergeParams: true })
     app.use('/decisions', router)
 

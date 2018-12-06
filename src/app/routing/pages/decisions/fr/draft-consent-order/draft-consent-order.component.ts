@@ -19,6 +19,7 @@ export class DraftConsentOrderComponent implements OnInit {
     case: any;
     consentDocumentUrl: string;
     allowAnnotations = true;
+    typeId: string;
 
     @Input() pageitems;
     constructor( private activatedRoute: ActivatedRoute,
@@ -35,8 +36,10 @@ export class DraftConsentOrderComponent implements OnInit {
         });
         const caseId = this.case.id;
         const pageId = 'draft-consent-order';
-        const jurId = 'fr';
-        this.decisionService.fetch(jurId, caseId, pageId).subscribe(decision => {
+        const jurId = this.case.case_jurisdiction;
+        this.typeId = this.case.case_type_id;
+
+        this.decisionService.fetch(jurId, caseId, pageId, this.typeId).subscribe(decision => {
             this.decision = decision;
             this.pageitems = this.decision.meta;
             this.pageValues = this.decision.formValues;
@@ -54,7 +57,7 @@ export class DraftConsentOrderComponent implements OnInit {
         this.pageValues.visitedPages['draft-consent-order'] = true;
         this.request.formValues.visitedPages = this.pageValues.visitedPages;
         console.log(this.pageitems.name, this.request);
-        this.decisionService.submitDecisionDraft('fr', this.activatedRoute.snapshot.parent.data.caseData.id, this.pageitems.name, this.request).subscribe(decision => {
+        this.decisionService.submitDecisionDraft('fr', this.activatedRoute.snapshot.parent.data.caseData.id, this.pageitems.name, this.typeId, this.request).subscribe(decision => {
             console.log(decision.newRoute);
             this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
         });

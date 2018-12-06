@@ -20,6 +20,7 @@ export class CheckDecisionComponent implements OnInit {
     request: any;
     pageValues: any = null;
     case: any;
+    typeId: string;
     consentOrderDocumentId: string;
     // will hold results of NPA
     annotations: any = null;
@@ -60,6 +61,7 @@ export class CheckDecisionComponent implements OnInit {
         const caseId = this.case.id;
         const pageId = 'check';
         const jurId = 'fr';
+        this.typeId = this.case.case_type_id;
 
         console.log('docId=>', this.consentOrderDocumentId);
 
@@ -73,7 +75,7 @@ export class CheckDecisionComponent implements OnInit {
             }
         });
 
-        this.decisionService.fetch(jurId, caseId, pageId).subscribe(decision => {
+        this.decisionService.fetch(jurId, caseId, pageId, this.typeId).subscribe(decision => {
             this.decision = decision;
             this.pageitems = this.decision.meta;
             this.pageValues = this.decision.formValues;
@@ -108,7 +110,8 @@ export class CheckDecisionComponent implements OnInit {
         this.decisionService.submitDecisionDraft('fr',
             this.activatedRoute.snapshot.parent.data.caseData.id,
             this.pageitems.name,
-            this.request)
+            this.request,
+            this.typeId)
             .subscribe(decision => {
                 console.log(decision.newRoute);
                 this.router.navigate([`../${decision.newRoute}`], { relativeTo: this.activatedRoute });

@@ -1,19 +1,17 @@
-module.exports = {
-    lookup: {
-        capitalPositions: 'The parties capital positions',
-        partiesHousingNeeds: 'The parties housing needs',
-        justificationDeparture: 'The justification of capital',
-        partiesPensionProvision: 'he parties pension provision',
-        childrensHousingNeeds: 'The children’s housing needs',
-        netEffectOrder: 'The net effect of the order',
-        orderNotAppearOfS25ca1973: 'S25 Matrimonial',
-        d81: 'D81 form is incomplete',
-        pensionAnnex: 'Pension annex was not attached',
+export const  lookup  =  {
         applicantTakenAdvice: 'Applicant independent legal advice',
+        capitalPositions: 'The parties capital positions',
+        childrensHousingNeeds: 'The children’s housing needs',
+        d81: 'D81 form is incomplete',
+        eastMidlands: 'EZ801',
+        justificationDeparture: 'The justification of capital',
+        netEffectOrder: 'The net effect of the order',
+        northWest: 'LV251',
+        orderNotAppearOfS25ca1973: 'S25 Matrimonial',
+        partiesHousingNeeds: 'The parties housing needs',
+        partiesPensionProvision: 'he parties pension provision',
+        pensionAnnex: 'Pension annex was not attached',
         respondentTakenAdvice: 'Respondent independent legal advice',
         southWest: 'RS800',
-        eastMidlands: 'EZ801',
         westMidlands: 'ST333',
-        northWest: 'LV251'
     }
-}

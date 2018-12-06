@@ -1,5 +1,6 @@
-class Store {
+export class Store {
     session
+
     constructor(req) {
         this.session = req.session
     }
@@ -12,5 +13,3 @@ class Store {
         return this.session[key]
     }
 }
-
-module.exports = Store
