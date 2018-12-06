@@ -2,6 +2,25 @@ module.exports = {
     idPrefix: 'scores',
     name: 'scores',
     header: 'Which activities were relevant for the tribunal?',
+    formGroupValidators: [
+        {
+            validatorFunc: 'isAnyCheckboxChecked',
+            validationErrorId: 'whichActivitiesRelevant',
+            checkboxes: [
+                'preparingFood', 'takingNutrition', 'managingTherapy', 'washingBathing',
+                'managingToilet', 'dressingUndressing', 'communicatingVerbally', 'readingAndUnderstanding',
+                'engagingWithOtherPeople','makingBudgetingDecisions','planningFollowingJourneys','movingAround'
+            ]
+        }
+    ],
+    validationHeaderErrorMessages: [
+        {
+            validationLevel: 'formGroup',
+            formGroupValidationErrorId: 'whichActivitiesRelevant',
+            text: 'Select at least one activity',
+            href: '#'
+        }
+    ],
     groups: [
         {
             fieldset: [
@@ -19,10 +38,21 @@ module.exports = {
                     }
                 },
                 {
+                    validationError: {
+                        value: 'Select reasons the consent order was not approved',
+                        identifier: 'whichActivitiesRelevant'
+                    }
+                },
+                {
                     checkbox: {
                         control: 'preparingFood',
                         value: false,
-                        text: 'Preparing food'
+                        text: 'Preparing food',
+                        validators: [
+                            {
+                                validator: 'required'
+                            }
+                        ]
                     }
                 },
                 {
