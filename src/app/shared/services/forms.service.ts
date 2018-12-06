@@ -6,7 +6,11 @@ import {ValidationService} from './validation.service';
     providedIn: 'root'
 })
 export class FormsService {
-    FormControls = [];
+
+    /**
+     * Maintains FormControls on a page.
+     */
+    FormControls: Array<FormControl>;
 
     constructor(private validationService: ValidationService) {
     }
@@ -29,15 +33,9 @@ export class FormsService {
     create(someJson, someData) {
         if (typeof someJson === 'object') {
 
-            // Runs through the props
-            // console.log('someJson');
-            // console.log(someJson);
-
             for (const prop in someJson) {
 
                 if (prop === 'control') {
-                    // console.log('prop');
-                    // console.log(prop);
                     if (someJson.radioGroup !== undefined) {
 
                         this.createRadioButtonControl(someJson, someData);
@@ -54,7 +52,6 @@ export class FormsService {
             }
         }
         if (someJson !== undefined && someJson.isArray) {
-            // console.log('someJson is something');
             for (const item  of someJson) {
                 this.create(someJson[item], someData);
             }
@@ -77,7 +74,6 @@ export class FormsService {
                     this.FormControls[someJson.control] = new FormControl(radioEl.value);
                     break;
                 } else {
-                    console.log('new form control without value');
                     this.createFormControl(null, someJson.control, someJson.validators);
                 }
             }
@@ -101,7 +97,21 @@ export class FormsService {
         this.FormControls[controlName] = new FormControl(initialValue);
     }
 
+    /**
+     * resetFormControls
+     *
+     * Resets the Form Controls, so that when the user moves back and forth between pages, the previous FormControls
+     * are not kept.
+     */
+    resetFormControls() {
+
+        this.FormControls = [];
+    }
+
     defineformControls(someJson: any, someData: any): any {
+
+        this.resetFormControls();
+
         this.create(someJson, someData);
         return this.FormControls;
     }
