@@ -27,6 +27,38 @@ function some(array, predicate) {
     return null
 }
 
+function pushStack(req, stack) {
+    const jurisdiction = req.params.jurId
+    const caseId = req.params.caseId
+    const caseTypeId = req.params.caseTypeId.toLowerCase()
+    let newStack = [...stack]
+    
+    const store = new Store(req)
+    const currentStack = store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`)
+    if (currentStack === '' || currentStack === null) {
+        newStack = [...currentStack, stack]
+    }
+    store.set(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`, newStack)
+}
+
+function popStack(req, variables) {
+    const jurisdiction = req.params.jurId
+    const caseId = req.params.caseId
+    const caseTypeId = req.params.caseTypeId.toLowerCase()
+
+    const store = new Store(req)
+ 
+    const currentStack = store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`)
+    logger.info(`popped stack ${currentStack[0]}`)
+    const currentItem = currentStack.pop()
+    logger.info(`Got item ${currentItem}`)
+    store.set(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`, currentStack)
+
+    const key = Object.keys(currentItem)[0]
+ 
+    return (variables[key]) ? currentItem[key] : null
+}
+
 // does not handle OR yet
 function handleCondition(conditionNode, variables) {
     // index 0 hardcoded, not interating through for OR
@@ -92,6 +124,15 @@ console.log('test')
                 // event is the main index and so there can only be one instruction per event - exit after finding
                 logger.info(`Found matching event for ${event}`)
                 let result = handleInstruction(instruction, stateId, variables)
+                logger.info(`result ${result}`)
+                if (Array.isArray(result)) {
+                    logger.info('Pushing stack')
+                    pushStack(req, result)
+                    result = popStack(req, variables)
+                    logger.info(`Popped stack ${result}`)
+                } else if (result === '...') {
+                    result = popStack(req, variables)
+                }
                 console.log(`result is ${result}`)
                 if (result === '[state]') {
                     result = req.params.stateId
@@ -107,7 +148,6 @@ console.log('test')
             return false
         })
     } else {
-        console.log(templates)
         meta = templates[caseTypeId][stateId]
     }
 
@@ -128,8 +168,8 @@ function handleStateRoute(req, res) {
 
     switch (jurisdiction) {
     case divorceType:
+    console.log("divorce")
         process(req, res, divorceMapping, divorcePayload, stateMeta)
-        //divorceCallback(req, res)
         break
     case sscsType:
     console.log('SSCS')
