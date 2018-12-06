@@ -11,7 +11,7 @@ const expect = chai.expect
 const assert = chai.assert
 const proxyquire = pq.noPreserveCache()
 
-import {config} from '../../../config'
+import { config } from '../../../config'
 
 const url = config.services.em_anno_api
 
@@ -71,6 +71,54 @@ describe('em-anno-api spec', () => {
         it('should make a request', () => {
             getInfo({})
             expect(httpRequest).to.have.been.calledWith('GET', `${url}/info`, {})
+        })
+    })
+
+    describe('getAnnotionSet', () => {
+        let getAnnotionSet
+
+        beforeEach(() => {
+            getAnnotionSet = route.getAnnotionSet
+        })
+
+        it('should expose function', () => {
+            expect(getAnnotionSet).to.be.ok
+        })
+    })
+
+    describe('createAnnotationSet', () => {
+        let createAnnotationSet
+
+        beforeEach(() => {
+            createAnnotationSet = route.createAnnotationSet
+        })
+
+        it('should expose function', () => {
+            expect(createAnnotationSet).to.be.ok
+        })
+    })
+
+    describe('addAnnotation', () => {
+        let addAnnotation
+
+        beforeEach(() => {
+            addAnnotation = route.addAnnotation
+        })
+
+        it('should expose function', () => {
+            expect(addAnnotation).to.be.ok
+        })
+    })
+    
+    describe('deleteAnnotation', () => {
+        let deleteAnnotation
+
+        beforeEach(() => {
+            deleteAnnotation = route.deleteAnnotation
+        })
+
+        it('should expose function', () => {
+            expect(deleteAnnotation).to.be.ok
         })
     })
 })

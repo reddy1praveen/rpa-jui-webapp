@@ -11,7 +11,7 @@ const expect = chai.expect
 const assert = chai.assert
 const proxyquire = pq.noPreserveCache()
 
-import {config} from '../../../config'
+import { config } from '../../../config'
 
 const url = config.services.dm_store_api
 
@@ -133,6 +133,162 @@ describe('dm-store-api spec', () => {
                 expect(documents).deep.equal([{ docId: '1234' }, { docId: '1234' }])
                 done()
             })
+        })
+    })
+
+    describe('getDocument', () => {
+        let getDocument
+
+        beforeEach(() => {
+            getDocument = route.getDocument
+        })
+
+        it('should expose function', () => {
+            expect(getDocument).to.be.ok
+        })
+    })
+
+    describe('getDocumentVersion', () => {
+        let getDocumentVersion
+
+        beforeEach(() => {
+            getDocumentVersion = route.getDocumentVersion
+        })
+
+        it('should expose function', () => {
+            expect(getDocumentVersion).to.be.ok
+        })
+    })
+
+    describe('getDocumentVersionBinary', () => {
+        let getDocumentVersionBinary
+
+        beforeEach(() => {
+            getDocumentVersionBinary = route.getDocumentVersionBinary
+        })
+
+        it('should expose function', () => {
+            expect(getDocumentVersionBinary).to.be.ok
+        })
+    })
+
+    describe('getDocumentVersionThumbnail', () => {
+        let getDocumentVersionThumbnail
+
+        beforeEach(() => {
+            getDocumentVersionThumbnail = route.getDocumentVersionThumbnail
+        })
+
+        it('should expose function', () => {
+            expect(getDocumentVersionThumbnail).to.be.ok
+        })
+    })
+
+    describe('postDocument', () => {
+        let postDocument
+
+        beforeEach(() => {
+            postDocument = route.postDocument
+        })
+
+        it('should expose function', () => {
+            expect(postDocument).to.be.ok
+        })
+    })
+
+    describe('postDocumentVersion', () => {
+        let postDocumentVersion
+
+        beforeEach(() => {
+            postDocumentVersion = route.postDocumentVersion
+        })
+
+        it('should expose function', () => {
+            expect(postDocumentVersion).to.be.ok
+        })
+    })
+
+    describe('postDocumentVersionVersion', () => {
+        let postDocumentVersionVersion
+
+        beforeEach(() => {
+            postDocumentVersionVersion = route.postDocumentVersionVersion
+        })
+
+        it('should expose function', () => {
+            expect(postDocumentVersionVersion).to.be.ok
+        })
+    })
+
+    describe('patchDocument', () => {
+        let patchDocument
+
+        beforeEach(() => {
+            patchDocument = route.patchDocument
+        })
+
+        it('should expose function', () => {
+            expect(patchDocument).to.be.ok
+        })
+    })
+
+    describe('deleteDocument', () => {
+        let deleteDocument
+
+        beforeEach(() => {
+            deleteDocument = route.deleteDocument
+        })
+
+        it('should expose function', () => {
+            expect(deleteDocument).to.be.ok
+        })
+    })
+
+    describe('getDocumentAuditEntries', () => {
+        let getDocumentAuditEntries
+
+        beforeEach(() => {
+            getDocumentAuditEntries = route.getDocumentAuditEntries
+        })
+
+        it('should expose function', () => {
+            expect(getDocumentAuditEntries).to.be.ok
+        })
+    })
+
+    describe('filterDocument', () => {
+        let filterDocument
+
+        beforeEach(() => {
+            filterDocument = route.filterDocument
+        })
+
+        it('should expose function', () => {
+            expect(filterDocument).to.be.ok
+        })
+    })
+
+    describe('ownedDocument', () => {
+        let ownedDocument
+
+        beforeEach(() => {
+            ownedDocument = route.ownedDocument
+        })
+
+        it('should expose function', () => {
+            expect(ownedDocument).to.be.ok
+        })
+    })
+
+    describe('postDocumentVersionMigrate', () => {
+        let postDocumentVersionMigrate
+
+        beforeEach(() => {
+            postDocumentVersionMigrate = route.postDocumentVersionMigrate
+        })
+
+        it('should expose function', () => {
+            expect(postDocumentVersionMigrate).to.be.ok
         })
     })
 })
