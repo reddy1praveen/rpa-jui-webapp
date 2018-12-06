@@ -177,6 +177,23 @@ export class ValidationService {
         return isAnyCheckboxCheckedValidationFn;
     }
 
+    isAnyInputsValid(formGroup: FormGroup, inputs: Array<string>, validationIdentifier: string): ValidatorFn | null {
+
+        const isAnyInputsValidationFn: ValidatorFn = (controls: FormGroup): ValidationErrors | null => {
+
+            for (const input of inputs) {
+                if (controls.get(input).value) {
+                    return null;
+                }
+            }
+
+            return {
+                [validationIdentifier]: true,
+            };
+        };
+
+        return isAnyInputsValidationFn;
+    }
     /**
      * isTextAreaValidWhenCheckboxChecked
      *
