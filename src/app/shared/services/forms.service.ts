@@ -6,7 +6,11 @@ import {ValidationService} from './validation.service';
     providedIn: 'root'
 })
 export class FormsService {
-    FormControls = [];
+
+    /**
+     * Maintains FormControls on a page.
+     */
+    FormControls: Array<FormControl>;
 
     constructor(private validationService: ValidationService) {
     }
@@ -29,29 +33,12 @@ export class FormsService {
     create(someJson, someData) {
         if (typeof someJson === 'object') {
 
-            // Runs through the props
-            console.log('someJson');
-            console.log(someJson);
-
             for (const prop in someJson) {
 
                 if (prop === 'control') {
-                    console.log('prop');
-                    console.log(prop);
                     if (someJson.radioGroup !== undefined) {
-                        // RadioButton Logic
-                        if (Object.keys(someData).length !== 0) {
-                            for (const radioEl of someJson.radioGroup) {
-                                if (radioEl.value === someData[someJson.control]) {
-                                    this.FormControls[someJson.control] = new FormControl(radioEl.value);
-                                    break;
-                                } else {
-                                    this.createFormControl(null, someJson.control, someJson.validators);
-                                }
-                            }
-                        } else {
-                            this.FormControls[someJson.control] = new FormControl();
-                        }
+
+                        this.createRadioButtonControl(someJson, someData);
                     } else {
                         if (someData[someJson.control]) {
 
@@ -65,14 +52,35 @@ export class FormsService {
             }
         }
         if (someJson !== undefined && someJson.isArray) {
-            console.log('someJson is something');
             for (const item  of someJson) {
                 this.create(someJson[item], someData);
             }
         }
     }
 
+    /**
+     * createRadioButtonControl
+     *
+     * Moved legacy code to this function to tidy up this service. [6th Dec 2018]
+     *
+     * @param someJson - TODO: Rename to help understanding of object
+     * @param someData - TODO: Rename to help understanding of object
+     */
+    createRadioButtonControl(someJson, someData) {
 
+        if (Object.keys(someData).length !== 0) {
+            for (const radioEl of someJson.radioGroup) {
+                if (radioEl.value === someData[someJson.control]) {
+                    this.FormControls[someJson.control] = new FormControl(radioEl.value);
+                    break;
+                } else {
+                    this.createFormControl(null, someJson.control, someJson.validators);
+                }
+            }
+        } else {
+            this.createFormControl(null, someJson.control, someJson.validators);
+        }
+    }
 
     /**
      * Creates a new `FormControl` instance.
@@ -89,7 +97,21 @@ export class FormsService {
         this.FormControls[controlName] = new FormControl(initialValue);
     }
 
+    /**
+     * resetFormControls
+     *
+     * Resets the Form Controls, so that when the user moves back and forth between pages, the previous FormControls
+     * are not kept.
+     */
+    resetFormControls() {
+
+        this.FormControls = [];
+    }
+
     defineformControls(someJson: any, someData: any): any {
+
+        this.resetFormControls();
+
         this.create(someJson, someData);
         return this.FormControls;
     }
