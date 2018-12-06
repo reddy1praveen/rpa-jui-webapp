@@ -5,7 +5,7 @@ module.exports = {
     formGroupValidators:[{
         validatorFunc: 'isAnyInputsValid',
         validationErrorId: 'inputGroupNotValid',
-        inputs: [
+        checkboxes: [
             'awardEndDateDay', 'awardEndDateMonth', 'awardEndDateYear'
         ]
     }],

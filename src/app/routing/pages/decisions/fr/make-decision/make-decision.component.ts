@@ -81,7 +81,7 @@ export class MakeDecisionComponent implements OnInit, OnDestroy {
                 this.typeId,
                 this.request).subscribe(decision => {
                 console.log(decision.newRoute);
-              //  this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
+                this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
             });
         }
     }

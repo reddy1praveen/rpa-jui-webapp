@@ -177,11 +177,11 @@ export class ValidationService {
         return isAnyCheckboxCheckedValidationFn;
     }
 
-    isAnyInputsValid(formGroup: FormGroup, inputs: Array<string>, validationIdentifier: string): ValidatorFn | null {
+    isAnyInputsValid(formGroup: FormGroup, checkboxes: Array<string>, validationIdentifier: string): ValidatorFn | null {
 
         const isAnyInputsValidationFn: ValidatorFn = (controls: FormGroup): ValidationErrors | null => {
 
-            for (const input of inputs) {
+            for (const input of checkboxes) {
                 if (controls.get(input).value) {
                     return null;
                 }
