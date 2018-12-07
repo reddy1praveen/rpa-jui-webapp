@@ -151,7 +151,7 @@ function process(req, res, mapping, payload, templates) {
             return false
         })
     } else {
-        console.log(templates)
+        console.log(stateId)
         meta = templates[caseTypeId][stateId]
     }
 
@@ -172,14 +172,14 @@ function handleStateRoute(req, res) {
 
     switch (jurisdiction) {
         case divorceType:
-        console.log("divorce")
-        process(req, res, divorceMapping, divorcePayload, stateMeta)
-        break
+            console.log("divorce")
+            process(req, res, divorceMapping, divorcePayload, stateMeta)
+            break
         case sscsType:
-        console.log('SSCS')
-        process(req, res, sscs.mapping, {}, sscs.templates)
-        break
-    default:
+            console.log('SSCS')
+            process(req, res, sscs.mapping, {}, sscs.templates)
+            break
+        default:
     }
 }
 
