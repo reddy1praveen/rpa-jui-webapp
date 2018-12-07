@@ -1,4 +1,4 @@
-import {application} from './application.config';
+import { application } from './application.config';
 
 import * as local from './environments/local.config';
 import * as docker from './environments/docker.config';
@@ -27,10 +27,42 @@ const configs = {
     idam_client: 'juiwebapp',
     oauth_callback_url: 'oauth2/callback',
     protocol: 'https'
+
 };
+
+const loggingConfig = {
+    "appenders": {
+        "access": {
+            "type": "dateFile",
+            "filename": "log/access.log",
+            "pattern": "-yyyy-MM-dd",
+            "category": "http"
+        },
+        "app": {
+            "type": "file",
+            "filename": "log/app.log",
+            "maxLogSize": 10485760,
+            "numBackups": 3
+        },
+        "errorFile": {
+            "type": "file",
+            "filename": "log/errors.log"
+        },
+        "errors": {
+            "type": "logLevelFilter",
+            "level": "ERROR",
+            "appender": "errorFile"
+        }
+    },
+    "categories": {
+        "default": { "appenders": ["app", "errors"], "level": "DEBUG" },
+        "http": { "appenders": ["access"], "level": "DEBUG" }
+    }
+}
 
 export const configEnv = process ? process.env.JUI_ENV || 'local' : 'local';
 export const config = { ...configs[configEnv].default, ...application };
+export const logConfig = { ...loggingConfig }
 console.log(config);
 
 if (configEnv === 'local') {

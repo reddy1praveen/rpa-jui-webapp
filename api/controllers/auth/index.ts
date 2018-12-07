@@ -1,13 +1,16 @@
 import * as express from 'express'
 import { config } from '../../../config/index'
-
+import log4js = require('log4js');
 const { getDetails, postOauthToken } = require('../../services/idam-api/idam-api')
 
 const cookieToken = config.cookies.token
 const cookieUserId = config.cookies.userId
 
+
+
 module.exports = app => {
     const router = express.Router()
+    const logger = log4js.getLogger('Auth')
 
     app.use('/oauth2/callback', router)
 
@@ -26,6 +29,7 @@ module.exports = app => {
             })
             .catch(e => {
                 console.log('error - ', e)
+                logger.error('auth error ', e);
                 res.redirect('/')
             })
     })
@@ -33,6 +37,7 @@ module.exports = app => {
     app.use('/logout', (req, res, next) => {
         res.clearCookie(cookieToken)
         res.clearCookie(cookieUserId)
+        logger.info('clear cookie - user logout')
         res.redirect(req.query.redirect || '/')
     })
 }

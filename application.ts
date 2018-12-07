@@ -3,6 +3,7 @@ const { InfoContributor, infoRequestHandler } = require("@hmcts/info-provider");
 import * as express from "express";
 const apiRoute = require("./api");
 import { config } from "./config";
+var log4js = require('log4js');
 
 const app = express();
 const bodyParser = require("body-parser");
@@ -17,6 +18,7 @@ const FileStore = sessionFileStore(session);
 const appInsightsInstrumentationKey =
     process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "AAAAAAAAAAAAAAAA";
 
+var log = log4js.getLogger("app");
 app.use(
     session({
         cookie: {
@@ -53,6 +55,7 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use(log4js.connectLogger(log4js.getLogger("http"), { level: 'auto' }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());

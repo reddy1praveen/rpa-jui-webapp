@@ -1,4 +1,6 @@
 import * as express from 'express'
+import log4js = require('log4js')
+
 const { getHearingIdOrCreateHearing, getDecision, postDecision, putDecision } = require('../../services/coh-cor-api/coh-cor-api')
 const headerUtilities = require('../../lib/utilities/headerUtilities')
 
@@ -7,6 +9,7 @@ function getOptions(req) {
 }
 
 module.exports = app => {
+    const logger = log4js.getLogger('cohDecisions')
     const router = express.Router({ mergeParams: true })
     app.use('/decisions', router)
 
@@ -24,6 +27,7 @@ module.exports = app => {
             })
             .catch(response => {
                 res.status(response.statusCode).send(response.error.message)
+                logger.error(response.error.message)
             })
     })
 
@@ -41,6 +45,7 @@ module.exports = app => {
             })
             .catch(response => {
                 console.log(response.error || response)
+                logger.error(response.error)
                 res.status(response.error.status).send(response.error.message)
             })
     })
@@ -59,6 +64,7 @@ module.exports = app => {
             })
             .catch(response => {
                 console.log(response.error || response)
+                logger.error(response.error)
                 res.status(response.error.status).send(response.error.message)
             })
     })

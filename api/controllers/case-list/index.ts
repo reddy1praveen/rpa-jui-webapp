@@ -1,4 +1,5 @@
 import * as express from 'express'
+import log4js = require('log4js')
 
 const getListTemplate = require('./templates/index')
 const { processCaseState } = require('../../lib/processors/case-state-model')
@@ -10,6 +11,7 @@ const { getHearingByCase } = require('../../services/coh-cor-api/coh-cor-api')
 const { getDetails } = require('../../services/idam-api/idam-api')
 const { getNewCase, unassignAllCaseFromJudge } = require('./assignCase')
 const headerUtilities = require('../../lib/utilities/headerUtilities')
+const logger = log4js.getLogger('Case list')
 
 const columns = [
     {
@@ -43,35 +45,35 @@ const columns = [
 function getJurisdictions(details) {
     return details
         ? [
-              {
-                  jur: 'SSCS',
-                  caseType: 'Benefit',
-                  filter: `&state=appealCreated&case.appeal.benefitType.code=PIP&case.assignedToJudge=${details.email}`
-                  // filter: `&state=appealCreated&case.appeal.benefitType.code=PIP`
-              },
-              {
-                  jur: 'DIVORCE',
-                  caseType: 'DIVORCE',
-                  filter: `&case.assignedToJudge=${details.email}`
-                  // filter: ``
-              },
-              {
-                  jur: 'DIVORCE',
-                  caseType: 'FinancialRemedyMVP2',
-                  filter: `&state=referredToJudge&case.assignedToJudge=${details.email}`
-                  // filter: `&state=referredToJudge`
-              }
-              // {
-              //     jur: 'CMC',
-              //     caseType: 'MoneyClaimCase',
-              //     filter: '&case.assignedToJudge=${details.email}'
-              // },
-              // {
-              //     jur: 'PROBATE',
-              //     caseType: 'GrantOfRepresentation',
-              //     filter: '&case.assignedToJudge=${details.email}'
-              // }
-          ]
+            {
+                jur: 'SSCS',
+                caseType: 'Benefit',
+                filter: `&state=appealCreated&case.appeal.benefitType.code=PIP&case.assignedToJudge=${details.email}`
+                // filter: `&state=appealCreated&case.appeal.benefitType.code=PIP`
+            },
+            {
+                jur: 'DIVORCE',
+                caseType: 'DIVORCE',
+                filter: `&case.assignedToJudge=${details.email}`
+                // filter: ``
+            },
+            {
+                jur: 'DIVORCE',
+                caseType: 'FinancialRemedyMVP2',
+                filter: `&state=referredToJudge&case.assignedToJudge=${details.email}`
+                // filter: `&state=referredToJudge`
+            }
+            // {
+            //     jur: 'CMC',
+            //     caseType: 'MoneyClaimCase',
+            //     filter: '&case.assignedToJudge=${details.email}'
+            // },
+            // {
+            //     jur: 'PROBATE',
+            //     caseType: 'GrantOfRepresentation',
+            //     filter: '&case.assignedToJudge=${details.email}'
+            // }
+        ]
         : []
 }
 
@@ -339,6 +341,7 @@ module.exports = app => {
                 })
                 .catch(response => {
                     console.log(response.error || response)
+                    logger.error(response.error)
                     res.status(response.statusCode || 500).send(response)
                 })
         })
@@ -355,6 +358,7 @@ module.exports = app => {
             })
             .catch(response => {
                 console.dir(response.error || response)
+                logger.error(response.error)
                 res.status(response.statusCode || 500).send(response.error || response)
             })
     })
@@ -372,6 +376,7 @@ module.exports = app => {
                 })
                 .catch(response => {
                     console.log(response.error || response)
+                    logger.error(response.error)
                     res.status(response.statusCode || 500).send(response)
                 })
         })
@@ -390,6 +395,7 @@ module.exports = app => {
                 })
                 .catch(response => {
                     console.log(response.error || response)
+                    logger.error(response.error)
                     res.status(response.statusCode || 500).send(response)
                 })
         })

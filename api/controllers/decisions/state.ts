@@ -9,8 +9,13 @@ const translateJson = require('./translate')
 const log4js = require('log4js')
 const headerUtilities = require('../../lib/utilities/headerUtilities')
 
+
 const logger = log4js.getLogger('State')
-logger.level = config.logging ? config.logging : 'OFF'
+
+
+
+
+
 
 const ERROR404 = 404
 const ERROR400 = 400
