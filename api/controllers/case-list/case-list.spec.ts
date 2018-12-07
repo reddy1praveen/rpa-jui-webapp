@@ -84,14 +84,16 @@ describe('case-list', () => {
     })
 
     describe('empty case list', () => {
-        xit('should return only template columns', () =>
+        xit('should return only template columns', done => {
             request
                 .get('/cases')
                 .expect(200)
                 .then(response => {
                     expect(response.body.results.length).to.equal(0)
                     expect(response.body.columns).to.deep.equal(columns)
-                }))
+                })
+            done()
+        })
     })
 
     describe('non-empty case list', () => {
