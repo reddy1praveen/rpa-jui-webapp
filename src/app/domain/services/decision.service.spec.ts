@@ -23,15 +23,12 @@ describe('DecisionService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-//                 DomainModule,
-//                 SharedModule,
                 BrowserTransferStateModule,
                 HttpClientTestingModule,
                 RouterTestingModule
             ],
             providers: [
                 DecisionService,
-                // { provide: ConfigService, useClass : MockConfigService},
                 {
                     provide: ConfigService,
                     useValue: configMock
@@ -58,80 +55,69 @@ describe('DecisionService', () => {
         const mockDummyData = [{ id: 1 }, { id: 2 }];
         //const mockCaseId='123';
         const urls = decisionService.generateDecisionUrl(mockCaseId, 'something', 'something');
-
         decisionService.fetch(mockCaseId, 'something', 'something').subscribe(data => {
             expect(data.length).toBe(2);
             expect(data).toEqual(mockDummyData);
         });
-
         const mockReq = httpMock.expectOne(urls);
         expect(mockReq.request.method).toBe('GET');
         expect(mockReq.request.responseType).toEqual('json');
-
-
         mockReq.flush(mockDummyData);
         httpMock.verify();
 
     });
 
-    // it('should submit draft decision via http POST', () => {
-    //
-    //     const mockDummyData = [{ id: 1 }, { id: 2 }];
-    //     const mockAward = 'award data';
-    //     const mockText = 'text data';
-    //     const jurId = '1';
-    //     const caseId =  '1';
-    //     const pageId = '1';
-    //
-    //     // jurId: string, caseId: string, pageId: string, body: any
-    //     decisionService.submitDecisionDraft(mockCaseId, mockAward, mockText, '').subscribe(data => {
-    //         expect(data.length).toBe(2);
-    //     });
-    //
-    //     const urls = decisionService.generateDecisionUrl(jurId, caseId, pageId);
-    //     const mockReq = httpMock.expectOne(`${configMock.config.api_base_url}/api/decisions/state/${jurId}/${caseId}/${pageId}`);
-    //     // expect(mockReq.request.method).toBe('POST');
-    //     expect(mockReq.request.responseType).toEqual('json');
-    //     expect(mockReq.request.body.decision_text).toBe(mockText);
-    //     expect(mockReq.request.body.decision_award).toBe(mockAward);
-    //     console.log('mockReq.request.url::::', mockReq.request.url);
-    //     // expect(mockReq.request.url).toBe(`${configMock.config.api_base_url}/api/decisions/state/${jurId}/${caseId}/${pageId}`);
-    //
-    //     mockReq.flush(mockDummyData);
-    //     httpMock.verify();
-    //
-    // })
+    it('should submit draft decision via http POST', () => {
+        const mockDummyData = [{ id: 1 }, { id: 2 }];
+        const mockAward = 'award data';
+        const mockText = 'text data';
+        const jurId = '1';
+        const caseId =  '1';
+        const pageId = '1';
+        const postBody = {
+            decision_text: mockText,
+            decision_award: mockAward
+        };
 
-//     it('should update draft decision via http PUT', () => {
+        // jurId: string, caseId: string, pageId: string, body: any
+        decisionService.submitDecisionDraft(mockCaseId, mockAward, mockText, postBody).subscribe(data => {
+            expect(data.length).toBe(2);
+        });
 
-//         const mockDummyData = [{ id: 1 }, { id: 2 }];
-//         const mockAward = "award data";
-//         const mockText = "text data";
+        const urls = decisionService.generateDecisionUrl(mockCaseId, mockAward, mockText);
+        const mockReq = httpMock.expectOne(urls);
+        expect(mockReq.request.method).toBe('POST');
+        expect(mockReq.request.responseType).toEqual('json');
+        expect(mockReq.request.body.decision_text).toBe(mockText);
+        expect(mockReq.request.body.decision_award).toBe(mockAward);
+        expect(mockReq.request.url).toBe( '/api/decisions/state/123/award data/text data');
+        mockReq.flush(mockDummyData);
+        httpMock.verify();
+    })
 
-//         decisionService.updateDecisionDraft(mockCaseId, mockAward, mockText).subscribe(data => {
-//              expect(data).toBe(mockDummyData);
+    it('should update draft decision via http PUT', () => {
+        const mockDummyData = [{ id: 1 }, { id: 2 }];
+        const mockAward = 'award data';
+        const mockText = 'text data';
+        decisionService.updateDecisionDraft(mockCaseId, mockAward, mockText).subscribe(data => {
+             expect(data).toBe(mockDummyData);
+        })
+        const newUrl = decisionService.generateDecisionUrl(mockCaseId, 'something', 'something');
+        // const mockReq = httpMock.expectOne(newUrl);
+        // expect(mockReq.request.method).toBe('PUT');
+        // expect(mockReq.request.responseType).toEqual('json');
+        // mockReq.flush(mockDummyData);
+        // httpMock.verify();
+    })
 
-//         })
+    it('should issue decision via http PUT', () => {
+        const mockDummyData = [{ id: 1 }, { id: 2 }];
+        const mockAward = 'award data';
+        const mockText = 'text data';
 
-//         const mockReq = httpMock.expectOne(url);
-//         expect(mockReq.request.method).toBe('PUT');
-//         expect(mockReq.request.responseType).toEqual('json');
-
-//         mockReq.flush(mockDummyData);
-//         httpMock.verify();
-
-//     })
-
-//     it('should issue decision via http PUT', () => {
-
-//         const mockDummyData = [{ id: 1 }, { id: 2 }];
-//         const mockAward = "award data";
-//         const mockText = "text data";
-
-//         decisionService.updateDecisionDraft(mockCaseId, mockAward, mockText).subscribe(data => {
-//              expect(data).toBe(mockDummyData);
-
-//         })
+        decisionService.updateDecisionDraft(mockCaseId, mockAward, mockText).subscribe(data => {
+             expect(data).toBe(mockDummyData);
+        })
 
 //         const mockReq = httpMock.expectOne(url);
 //         expect(mockReq.request.method).toBe('PUT');
@@ -140,6 +126,6 @@ describe('DecisionService', () => {
 //         mockReq.flush(mockDummyData);
 //         httpMock.verify();
 
-//     })
+    })
 
 });
