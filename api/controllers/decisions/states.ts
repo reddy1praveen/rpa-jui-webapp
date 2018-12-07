@@ -42,6 +42,10 @@ function pushStack(req, stack) {
     store.set(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`, newStack)
 }
 
+function isObject(o) {
+    return o !== null && typeof o === 'object' && Array.isArray(o) === false;
+}
+
 function shiftStack(req, variables) {
     const jurisdiction = req.params.jurId
     const caseId = req.params.caseId
@@ -61,16 +65,18 @@ function shiftStack(req, variables) {
         logger.info(currentItem)
         store.set(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`, currentStack)
 
-        const key = Object.keys(currentItem)[0]
-        if (Object.keys(currentItem).length) { // item is an object with variable to evaluate
-            matching = (variables[key]) ? currentItem[key] : null
-            currentItem = currentItem[key]
+        if (isObject(currentItem)) {
+            const key = Object.keys(currentItem)[0]
+            if (Object.keys(currentItem).length) { // item is an object with variable to evaluate
+                matching = (variables[key]) ? currentItem[key] : null
+                currentItem = currentItem[key]
+            }
+        } else {
+            console.log('no object')
         }
-        if (!matching) {
-            currentItem = currentStack[currentStack.length - 1] // if no matching default to last route which should be a page
-        }
-    }
 
+    }
+    console.log(currentItem)
     return currentItem
 }
 
@@ -149,6 +155,7 @@ function process(req, res, mapping, payload, templates) {
                 } else if (result === '...') {
                     console.log('reading from')
                     result = shiftStack(req, variables)
+                    console.log(`result is ${result}`)
                 } else if (result === '[state]') {
                     result = req.params.stateId
                 } else if (result === 'end') {
