@@ -61,54 +61,57 @@ export const mapping = [
                     { readingAndUnderstanding: 'reading-signs' },
                     { takingNutrition: 'taking-nutrition' },
                     { washingBathing: 'washing-bathing' },
-                    'check',
+                    'create',
                 ]
             },
             {
                 state: 'communicating-verbally',
-                result: 'dressing-undressing',
+                result: '...',
             },
             {
                 state: 'dressing-undressing',
-                result: 'engaging-face',
+                result: '...',
             },
             {
                 state: 'engaging-face',
-                result: 'budgeting-decisions',
+                result: '...',
             },
             {
                 state: 'budgeting-decisions',
-                result: 'managing-therapy',
+                result: '...',
             },
             {
                 state: 'managing-therapy',
-                result: 'managing-toilet',
+                result: '...',
             },
             {
                 state: 'managing-toilet',
-                result: 'moving-around',
+                result: '...',
             },
             {
                 state: 'moving-around',
-                result: 'planning-journeys',
+                result: '...',
             },
             {
                 state: 'planning-journeys',
-                result: 'preparing-food',
+                result: '...',
             },
             {
                 state: 'preparing-food',
-                result: 'reading-signs',
+                result: '...',
             },
             {
                 state: 'reading-signs',
-                result: 'taking-nutrition',
+                result: '...',
             },
             {
                 state: 'taking-nutrition',
-                result: 'washing-bathing',
+                result: '...',
+            },
+            {
+                state: 'washing-bathing',
+                result: '...',
             }
-
         ]
     }
 ]

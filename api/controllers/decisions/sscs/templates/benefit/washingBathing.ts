@@ -1,6 +1,6 @@
 module.exports = {
     idPrefix: 'WashingBathing',
-    name: 'WashingBathing',
+    name: 'washing-bathing',
     header: 'Washing and bathing',
     caption: {
         classes: 'govuk-caption-xl',

@@ -1,6 +1,6 @@
 module.exports = {
     idPrefix: 'PreparingFood',
-    name: 'PreparingFood',
+    name: 'preparing-food',
     header: 'Preparing food',
     caption: {
         classes: 'govuk-caption-xl',

@@ -48,12 +48,15 @@ function shiftStack(req, variables) {
     const caseTypeId = req.params.caseTypeId.toLowerCase()
 
     const store = new Store(req)
-    let matching = false
 
-    while (matching) {
-        const currentStack = store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`)
-        logger.info(`popped stack ${currentStack[0]}`)
-        const currentItem = currentStack.shift()
+    let matching = false
+    let currentItem
+
+    const currentStack = store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`)
+    while (!matching && currentStack.length) {
+
+        logger.info(`popped stack ${currentStack}`)
+        currentItem = currentStack.shift()
         logger.info(`Got item ${currentItem}`)
         logger.info(currentItem)
         store.set(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`, currentStack)
@@ -61,8 +64,14 @@ function shiftStack(req, variables) {
         const key = Object.keys(currentItem)[0]
         if (Object.keys(currentItem).length) { // item is an object with variable to evaluate
             matching = (variables[key]) ? currentItem[key] : null
+            currentItem = currentItem[key]
+        }
+        if (!matching) {
+            currentItem = currentStack[currentStack.length - 1] // if no matching default to last route which should be a page
         }
     }
+
+    return currentItem
 }
 
 // does not handle OR yet
@@ -111,6 +120,8 @@ function process(req, res, mapping, payload, templates) {
     const caseTypeId = req.params.caseTypeId.toLowerCase()
     const stateId = req.params.stateId
 
+    console.log(stateId)
+
     const event = req.body.event
     let variables = req.body.formValues
 
@@ -136,12 +147,15 @@ function process(req, res, mapping, payload, templates) {
                     result = shiftStack(req, variables)
                     logger.info(`Popped stack ${result}`)
                 } else if (result === '...') {
+                    console.log('reading from')
                     result = shiftStack(req, variables)
                 } else if (result === '[state]') {
                     result = req.params.stateId
                 } else if (result === 'end') {
                     payload(req, res)
-                } else if (result) {
+                }
+
+                if (result) {
                     console.log('assigning meta', caseTypeId, result)
                     meta = templates[caseTypeId][result]
                     console.log(meta)

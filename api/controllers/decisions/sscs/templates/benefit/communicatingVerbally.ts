@@ -1,6 +1,6 @@
 module.exports = {
     idPrefix: 'CommunicatingVerbally',
-    name: 'CommunicatingVerbally',
+    name: 'communicating-verbally',
     header: 'Communicating verbally',
     caption: {
         classes: 'govuk-caption-xl',
