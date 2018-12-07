@@ -7,7 +7,10 @@ import * as moment from 'moment'
 import * as translateJson from './translate'
 
 import * as headerUtilities from '../../../lib/utilities/headerUtilities'
-import * as ccdStore from '../../../services/ccd-store-api/ccd-store'
+
+//ccdStore from '../../../services/ccd-store-api/ccd-store'
+
+const ccdStore = require('../../../services/ccd-store-api/ccd-store')
 
 const logger = log4js.getLogger('State')
 logger.level = config.logging ? config.logging : 'OFF'
@@ -22,7 +25,7 @@ function getOptions(req) {
 }
 
 function perpareCaseForApproval(caseData, eventToken, eventId, user, store) {
-    return  {
+    return {
         /* eslint-disable-next-line id-blacklist */
         data: {
             orderDirection: 'Order Accepted as drafted',
@@ -151,7 +154,7 @@ function perpareCaseForRefusal(caseData, eventToken, eventId, user, store) {
         document_binary_url: `${config.services.dm_store_api}/documents/${documentAnnotationId}/binary`,
         document_url: `${config.services.dm_store_api}/documents/${documentAnnotationId}`,
     }
-    return  {
+    return {
         /* eslint-disable-next-line id-blacklist */
         data: {
             orderRefusalCollection,
