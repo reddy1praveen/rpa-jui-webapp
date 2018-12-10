@@ -21,6 +21,7 @@ export class CheckDecisionComponent implements OnInit {
     pageValues: any = null;
     case: any;
     typeId: string;
+    jurId: string;
     consentOrderDocumentId: string;
     // will hold results of NPA
     annotations: any = null;
@@ -47,6 +48,7 @@ export class CheckDecisionComponent implements OnInit {
     // If there is no annotations don't call burnAnnotatedDocument
     // If there is annotations call burnAnnotatedDocument - to create new document
     // Pass data from call to Alan to back end to CCD store
+
     isSectionExist(value) {
         if ( this.pageValues.visitedPages[value] === true ) {
             return true;
@@ -58,24 +60,31 @@ export class CheckDecisionComponent implements OnInit {
             this.case = data.caseData;
             this.consentOrderDocumentId = this.decisionService.findConsentOrderDocumentId(this.case);
         });
+        // const caseId = this.case.id;
+        // const pageId = 'check';
+        // const jurId = 'fr';
+        // this.typeId = this.case.case_type_id;
+
+        const pageId = this.activatedRoute.snapshot.url[0].path;
         const caseId = this.case.id;
-        const pageId = 'check';
-        const jurId = 'fr';
+        this.jurId = this.case.case_jurisdiction;
         this.typeId = this.case.case_type_id;
 
         console.log('docId=>', this.consentOrderDocumentId);
+        //
+        // this.annotationStoreService.fetchData('/api', this.consentOrderDocumentId).subscribe((results) => {
+        //     this.annotations = results.body.annotations;
+        //     console.log('annotations => ', this.annotations);
+        //     //If document has bee annotated then burn new document
+        //
+        //     if (this.annotations !== null) {
+        //         this.burnAnnotatedDocument();
+        //     }
+        // });
 
-        this.annotationStoreService.fetchData('/api', this.consentOrderDocumentId).subscribe((results) => {
-            this.annotations = results.body.annotations;
-            console.log('annotations => ', this.annotations);
-            //If document has bee annotated then burn new document
+        console.log("Passing to decService = >>>>", this.jurId, caseId, pageId, this.typeId);
 
-            if (this.annotations !== null) {
-                this.burnAnnotatedDocument();
-            }
-        });
-
-        this.decisionService.fetch(jurId, caseId, pageId, this.typeId).subscribe(decision => {
+        this.decisionService.fetch(this.jurId, caseId, pageId, this.typeId).subscribe(decision => {
             this.decision = decision;
             this.pageitems = this.decision.meta;
             this.pageValues = this.decision.formValues;
@@ -107,11 +116,12 @@ export class CheckDecisionComponent implements OnInit {
             console.log( 'Document hasn\'t generated =', this.npaDocumentTask );
         }
         console.log('Submitting properties =>', this.pageitems.name, this.request);
-        this.decisionService.submitDecisionDraft('fr',
+        this.decisionService.submitDecisionDraft(
+            this.jurId,
             this.activatedRoute.snapshot.parent.data.caseData.id,
-            this.pageitems.name,
-            this.request,
-            this.typeId)
+            pagename,
+            this.typeId,
+            this.request)
             .subscribe(decision => {
                 console.log(decision.newRoute);
                 this.router.navigate([`../${decision.newRoute}`], { relativeTo: this.activatedRoute });
