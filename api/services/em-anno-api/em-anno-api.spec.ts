@@ -84,6 +84,11 @@ describe('em-anno-api spec', () => {
         it('should expose function', () => {
             expect(getAnnotionSet).to.be.ok
         })
+
+        it('should make a getAnnotionSet request', () => {
+            getAnnotionSet('x', {})
+            expect(httpRequest).to.have.been.calledWith('GET', `${url}/api/annotation-sets/filter?documentId=x`, {})
+        })
     })
 
     describe('createAnnotationSet', () => {
@@ -95,6 +100,11 @@ describe('em-anno-api spec', () => {
 
         it('should expose function', () => {
             expect(createAnnotationSet).to.be.ok
+        })
+
+        it('should make a createAnnotationSet request', () => {
+            createAnnotationSet({})
+            expect(httpRequest).to.have.been.calledWith('POST', `${url}/api/annotation-sets/`, {})
         })
     })
 
@@ -108,6 +118,11 @@ describe('em-anno-api spec', () => {
         it('should expose function', () => {
             expect(addAnnotation).to.be.ok
         })
+
+        it('should make a addAnnotation request', () => {
+            addAnnotation({})
+            expect(httpRequest).to.have.been.calledWith('POST', `${url}/api/annotations`, {})
+        })
     })
     
     describe('deleteAnnotation', () => {
@@ -119,6 +134,11 @@ describe('em-anno-api spec', () => {
 
         it('should expose function', () => {
             expect(deleteAnnotation).to.be.ok
+        })
+
+        it('should make a deleteAnnotation request', () => {
+            deleteAnnotation('x', {})
+            expect(httpRequest).to.have.been.calledWith('DELETE', `${url}/api/annotations/x`, {})
         })
     })
 })

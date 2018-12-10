@@ -51,6 +51,18 @@ describe('Questions route', () => {
         request = supertest(app)
     })
 
+    describe('getAllQuestionsByCase', () => {
+        let getAllQuestionsByCase
+
+        beforeEach(() => {
+            getAllQuestionsByCase = route.getAllQuestionsByCase
+        })
+
+        it('should expose getAllQuestionsByCase function', () => {
+            expect(getAllQuestionsByCase).to.be.ok
+        })
+    })
+
     describe('When I try to get a single question', () => {
         const caseNumber = '123456789'
         const questionId = '987654321'
