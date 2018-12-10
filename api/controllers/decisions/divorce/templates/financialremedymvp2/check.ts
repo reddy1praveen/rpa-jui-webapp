@@ -1,5 +1,4 @@
-module.exports={
-    check: {
+module.exports = {
         idPrefix: 'check',
         header: 'Check your decision',
         name: 'check',
@@ -277,4 +276,4 @@ module.exports={
             }
         ]
 }
-}
+
