@@ -3,7 +3,6 @@ import {FormGroup} from '@angular/forms';
 import {DecisionService} from '../../../../../domain/services/decision.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormsService} from '../../../../../shared/services/forms.service';
-import {ConfigService} from '../../../../../config.service';
 
 @Component({
   selector: 'app-draft-consent-order',
@@ -17,9 +16,12 @@ export class DraftConsentOrderComponent implements OnInit {
     request: any;
     pageValues: any = null;
     case: any;
+    typeId: string;
+    jurId: string;
+    pageitems: any;
+    useValidation: boolean = false;
     consentDocumentUrl: string;
     allowAnnotations = true;
-    typeId: string;
 
     @Input() pageitems;
     constructor( private activatedRoute: ActivatedRoute,
@@ -34,19 +36,16 @@ export class DraftConsentOrderComponent implements OnInit {
             this.case = data.caseData;
             this.consentDocumentUrl = this.decisionService.findConsentOrderDocumentUrl(this.case);
         });
+
+        const pageId = this.activatedRoute.snapshot.url[0].path;
         const caseId = this.case.id;
-        const pageId = 'draft-consent-order';
-        const jurId = this.case.case_jurisdiction;
+        this.jurId = this.case.case_jurisdiction;
         this.typeId = this.case.case_type_id;
 
-        this.decisionService.fetch(jurId, caseId, pageId, this.typeId).subscribe(decision => {
+        this.decisionService.fetch(this.jurId, caseId, pageId, this.typeId).subscribe(decision => {
             this.decision = decision;
             this.pageitems = this.decision.meta;
             this.pageValues = this.decision.formValues;
-
-            console.log('pageitems', this.pageitems);
-            console.log('pageValues', this.pageValues);
-
             this.createForm(this.pageitems, this.pageValues) ;
         });
     }
@@ -54,10 +53,14 @@ export class DraftConsentOrderComponent implements OnInit {
         const event = this.draftConsentOrderForm.value.createButton.toLowerCase();
         delete this.draftConsentOrderForm.value.createButton;
         this.request = { formValues: this.draftConsentOrderForm.value, event: event };
-        this.pageValues.visitedPages['draft-consent-order'] = true;
         this.request.formValues.visitedPages = this.pageValues.visitedPages;
         console.log(this.pageitems.name, this.request);
-        this.decisionService.submitDecisionDraft('fr', this.activatedRoute.snapshot.parent.data.caseData.id, this.pageitems.name, this.typeId, this.request).subscribe(decision => {
+        this.decisionService.submitDecisionDraft(
+            this.jurId,
+            this.activatedRoute.snapshot.parent.data.caseData.id,
+            this.pageitems.name,
+            this.typeId,
+            this.request).subscribe(decision => {
             console.log(decision.newRoute);
             this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
         });
