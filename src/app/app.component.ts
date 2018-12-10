@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import { ConfigService } from './config.service';
-import {NavigationEnd, Router} from '@angular/router';
+import {NavigationEnd, Router, Event} from '@angular/router';
 import { environment } from '../environments/environment';
 
 @Component({
@@ -11,25 +11,23 @@ import { environment } from '../environments/environment';
 
 export class AppComponent implements OnInit {
     title = 'JUI Web App';
+    config; // TODO add type
 
-    config;
-
-    constructor(private configService: ConfigService, private router: Router) {
-        // this.config = configService.config;
-        // this.router.events.subscribe(event => {
-        //     if (event instanceof NavigationEnd) {
-        //         (<any>window).ga('set', 'page', event.urlAfterRedirects);
-        //         (<any>window).ga('send', 'pageview');
-        //     }
-        // });
-    }
+    constructor(private configService: ConfigService, private router: Router) {}
 
     ngOnInit() {
-        this.title = this.title.concat()
+        this.router.events.subscribe((event: Event) => {
+            if (event instanceof NavigationEnd) {
+                this.title = this.getTitle(event.url);
+            }
+        });
+
         if (environment.googleAnalyticsKey) {
             // this.appendGaTrackingCode(); // TODO: fix analytics
         }
     }
+
+
 
     private appendGaTrackingCode() {
         try {
@@ -44,5 +42,31 @@ export class AppComponent implements OnInit {
             console.error('Error appending google analytics');
             console.error(ex);
         }
+    }
+
+    private getTitle(key): string {
+        console.log(key)
+        // /case/SSCS/Benefit/1540462621508578/summary"
+       const titleMapping: {[id: string]: string} = {
+           '/' : 'Your cases - Judicial case manager',
+           'decision' : 'Make decision - Judicial case manager',
+           'summary': 'Summary - Judicial case manager'
+
+       };
+        // Examples:
+        // Your cases - Judicial case manager
+        //
+        // Reassign case - Judicial case manager
+        //
+        // Make decision - Judicial case manager
+        //
+        // Questions - Judicial case manager
+        //
+        // Question added - Questions - Judicial case manager
+        //
+        // Error: Questions - Judicial case manager
+        //
+        // Marriage certificate - Judicial case manager
+       return titleMapping[key];
     }
 }
