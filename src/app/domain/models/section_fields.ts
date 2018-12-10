@@ -9,7 +9,7 @@ export interface PageDateDefault extends PageDate {
 }
 export interface PageDateSummary extends PageDate {
     type?: string;
-    sections:  Array<SectionSummaryItem> | [{}];
+    sections:  Array<SectionSummaryItem> | any[];
 }
 export interface PageDateCaseBar extends PageDateDefault {
     details: {
