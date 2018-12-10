@@ -2,6 +2,23 @@ module.exports = {
     idPrefix: 'scores',
     name: 'scores',
     header: 'Which activities were relevant for the tribunal?',
+    formGroupValidators: [
+        {
+            validatorFunc: 'isAnyCheckboxChecked',
+            validationErrorId: 'selectActivities',
+            checkboxes: [
+                'preparingFood', 'takingNutrition'
+            ]
+        }
+    ],
+    validationHeaderErrorMessages: [
+        {
+            validationLevel: 'formGroup',
+            formGroupValidationErrorId: 'selectActivities',
+            text: 'Select reasons the consent order was not approved',
+            href: '#'
+        }
+    ],
     groups: [
         {
             fieldset: [
@@ -16,6 +33,12 @@ module.exports = {
                     hint: {
                         text: 'Select all that apply.',
                         classes: 'govuk-hint'
+                    }
+                },
+                {
+                    validationError: {
+                        value: 'Select reasons the consent order was not approved',
+                        identifier: 'selectActivities'
                     }
                 },
                 {
