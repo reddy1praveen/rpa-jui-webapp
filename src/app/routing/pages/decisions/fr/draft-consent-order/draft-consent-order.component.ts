@@ -22,8 +22,7 @@ export class DraftConsentOrderComponent implements OnInit {
     useValidation: boolean = false;
     consentDocumentUrl: string;
     allowAnnotations = true;
-
-    @Input() pageitems;
+    
     constructor( private activatedRoute: ActivatedRoute,
                  private router: Router,
                  private decisionService: DecisionService,
