@@ -13,6 +13,7 @@ import { CaseService } from '../../../services/case.service';
 import { of } from 'rxjs';
 import {Selector} from '../../../../shared/selector-helper';
 import { RedirectionService } from '../../../../routing/redirection.service';
+import {mockConfigService} from '../../../mock/config.mock';
 
 describe('ViewQuestionComponent', () => {
     let component: ViewQuestionComponent;
@@ -42,11 +43,7 @@ describe('ViewQuestionComponent', () => {
                 QuestionService,
                 {
                     provide: ConfigService,
-                    useValue: {
-                        config: {
-                            api_base_url: ''
-                        }
-                    }
+                    useValue: mockConfigService
                 },
                 {
                     provide: ActivatedRoute,
