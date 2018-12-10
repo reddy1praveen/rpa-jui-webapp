@@ -2,12 +2,15 @@
     <!--<ng-container *ngIf="validationError">-->
         <!--<app-validation-error-formcontrol *ngIf="showValidation" [group]="group" [controlId]="item.control" id="{{item.control}}">{{validationError.value}}</app-validation-error-formcontrol>-->
     <!--</ng-container>-->
+    <div>hello</div>
     <div class="govuk-date-input__item">
       <div class="govuk-form-group">
+          <div>Input</div>
         <app-inputs [item]="data.day.input"
                     [group]="group"
                     [label]="data.day.input.label"
-                    [labelFor]="data.day.input.control"></app-inputs>
+                    [labelFor]="data.day.input.control"
+                    [showValidation]="true"></app-inputs>
 
       </div>
     </div>
@@ -16,7 +19,8 @@
         <app-inputs [item]="data.month.input"
                     [group]="group"
                     [label]="data.month.input.label"
-                    [labelFor]="data.month.input.control"></app-inputs>
+                    [labelFor]="data.month.input.control"
+                    [showValidation]="true"></app-inputs>
       </div>
     </div>
     <div class="govuk-date-input__item">
@@ -24,7 +28,8 @@
         <app-inputs [item]="data.year.input"
                     [group]="group"
                     [label]="data.year.input.label"
-                    [labelFor]="data.year.input.control"></app-inputs>
+                    [labelFor]="data.year.input.control"
+                    [showValidation]="true"></app-inputs>
       </div>
     </div>
 </div>

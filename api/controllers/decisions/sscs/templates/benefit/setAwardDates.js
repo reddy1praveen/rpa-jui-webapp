@@ -21,6 +21,12 @@ module.exports = {
             controlId: 'approveDraftConsent',
             text: 'Select the end date',
             href: '#'
+        },
+        {
+            validationLevel: 'formControl',
+            controlId: 'awardEndDateDay',
+            text: 'Select Award End Date Day',
+            href: '#'
         }
     ],
     groups: [
@@ -51,6 +57,7 @@ module.exports = {
                             text: 'Day',
                             classes: 'govuk-date-input__label'
                         },
+                        validators: ['required'],
                         control: 'awardEndDateDay',
                         classes: 'govuk-date-input__input govuk-input--width-2'
                     }
