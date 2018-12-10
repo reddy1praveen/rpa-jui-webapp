@@ -22,7 +22,7 @@ export class DraftConsentOrderComponent implements OnInit {
     useValidation: boolean = false;
     consentDocumentUrl: string;
     allowAnnotations = true;
-    
+
     constructor( private activatedRoute: ActivatedRoute,
                  private router: Router,
                  private decisionService: DecisionService,
@@ -45,6 +45,12 @@ export class DraftConsentOrderComponent implements OnInit {
             this.decision = decision;
             this.pageitems = this.decision.meta;
             this.pageValues = this.decision.formValues;
+            if (!this.decision.formValues.visitedPages) {
+                this.decision.formValues.visitedPages = {'create': true };
+            } else {
+                console.log(pageId);
+                this.decision.formValues.visitedPages[pageId] = true;
+            }
             this.createForm(this.pageitems, this.pageValues) ;
         });
     }

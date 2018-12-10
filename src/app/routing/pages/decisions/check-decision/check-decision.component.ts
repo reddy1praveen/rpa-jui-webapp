@@ -50,7 +50,7 @@ export class CheckDecisionComponent implements OnInit {
     // Pass data from call to Alan to back end to CCD store
 
     isSectionExist(value) {
-        if ( this.pageValues[value] === true ) {
+        if ( this.pageValues.visitedPages[value] === true ) {
             return true;
         }
     }
@@ -119,7 +119,7 @@ export class CheckDecisionComponent implements OnInit {
         this.decisionService.submitDecisionDraft(
             this.jurId,
             this.activatedRoute.snapshot.parent.data.caseData.id,
-            this.pageitems.name,
+            pagename,
             this.typeId,
             this.request)
             .subscribe(decision => {

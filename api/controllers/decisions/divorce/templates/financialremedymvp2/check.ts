@@ -272,7 +272,7 @@ module.exports = {
             {
                 control: 'createButton',
                 value: 'Submit',
-                onEvent: 'continue'
+                onEvent: 'submit'
             }
         ]
 }
