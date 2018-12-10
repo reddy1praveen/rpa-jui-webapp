@@ -27,8 +27,6 @@ templates.benefit['preparing-food'] = require('./benefit/scores')
 templates.benefit['reading-signs'] = require('./benefit/scores')
 templates.benefit['taking-nutrition'] = require('./benefit/scores')
 templates.benefit['washing-bathing'] = require('./benefit/scores')
-
-// TODO: Final decision workflow, should this be moved out?
-templates.benefit['check-your-decision'] = require('./benefit/setAwardDates')
+templates.benefit['check-your-decision'] = require('./benefit/scores')
 
 module.exports = templates

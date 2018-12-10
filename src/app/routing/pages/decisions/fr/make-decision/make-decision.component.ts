@@ -32,8 +32,9 @@ export class MakeDecisionComponent implements OnInit {
     ) {}
     createForm(pageitems, pageValues) {
         this.formDraft = new FormGroup(this.formsService.defineformControls(pageitems, pageValues));
-          const formGroupValidators = this.validationService.createFormGroupValidators(this.formDraft, pageitems.formGroupValidators);
-          this.formDraft.setValidators(formGroupValidators);
+        if (pageitems.formGroupValidators) {
+            const formGroupValidators = this.validationService.createFormGroupValidators(this.formDraft, pageitems.formGroupValidators);
+            this.formDraft.setValidators(formGroupValidators);
         }
     }
     ngOnInit() {

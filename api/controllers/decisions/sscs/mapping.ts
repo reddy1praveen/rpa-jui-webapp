@@ -43,6 +43,10 @@ export const mapping = [
                 result: 'set-award-dates',
             },
             {
+                state: 'final-decision',
+                result: 'set-award-dates'
+            },
+            {
                 state: 'set-award-dates',
                 result: 'scores',
             },
@@ -63,10 +67,6 @@ export const mapping = [
                     { washingBathing: 'washing-bathing' },
                     'create',
                 ]
-            },
-            {
-                state: 'final-decision',
-                result: 'check-your-decision'
             },
             {
                 state: 'communicating-verbally',
