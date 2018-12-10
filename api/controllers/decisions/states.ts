@@ -1,5 +1,6 @@
 import * as express from 'express'
 import * as log4js from 'log4js'
+import { map } from 'p-iteration'
 import { config } from '../../../config'
 import { Store } from '../../lib/store/store'
 
@@ -116,7 +117,7 @@ function handleInstruction(instruction, stateId, variables) {
     return null
 }
 
-function process(req, res, mapping, payload, templates) {
+async function process(req, res, mapping, payload, templates) {
     const jurisdiction = req.params.jurId
     const caseId = req.params.caseId
     const caseTypeId = req.params.caseTypeId.toLowerCase()
@@ -137,7 +138,7 @@ function process(req, res, mapping, payload, templates) {
 
     if (req.method === 'POST') {
         console.log('event', event)
-        mapping.some((instruction, i) => {
+        await map(mapping, async (instruction: any ) => {
             if (instruction.event === event) {
                 // event is the main index and so there can only be one instruction per event - exit after finding
                 logger.info(`Found matching event for ${event}`)
@@ -154,8 +155,8 @@ function process(req, res, mapping, payload, templates) {
                     console.log(`result is ${result}`)
                 } else if (result === '[state]') {
                     result = req.params.stateId
-                } else if (result === 'end') {
-                    payload(req, res)
+                } else if (result === '.') {
+                    result = await payload(req, res)
                 }
 
                 if (result) {
@@ -170,7 +171,6 @@ function process(req, res, mapping, payload, templates) {
     } else {
         console.log(caseTypeId)
         meta = templates[caseTypeId][stateId]
-        console.log(meta)
     }
 
     variables = store.get(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`) || {}
@@ -195,7 +195,7 @@ function handleStateRoute(req, res) {
             break
         case sscsType:
             console.log('SSCS')
-            process(req, res, sscs.mapping, {}, sscs.templates)
+            process(req, res, sscs.mapping, sscs.payload, sscs.templates)
             break
         default:
     }
