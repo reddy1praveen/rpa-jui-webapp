@@ -18,7 +18,8 @@ export class AppComponent implements OnInit {
     ngOnInit() {
         this.router.events.subscribe((event: Event) => {
             if (event instanceof NavigationEnd) {
-                this.title = this.getTitle(event.url);
+                const replacedTitles = this.replacedTitles(event.url);
+                this.title = this.getTitle(replacedTitles);
             }
         });
 
@@ -26,8 +27,6 @@ export class AppComponent implements OnInit {
             // this.appendGaTrackingCode(); // TODO: fix analytics
         }
     }
-
-
 
     private appendGaTrackingCode() {
         try {
@@ -44,29 +43,46 @@ export class AppComponent implements OnInit {
         }
     }
 
+    private replacedTitles(string: string): string {
+        if (string.indexOf('summary') !== -1) {
+            return 'summary';
+        }
+        if (string.indexOf('parties') !== -1) {
+            return 'parties';
+        }
+        if (string.indexOf('casefile') !== -1) {
+            return 'caseFile';
+        }
+        if (string.indexOf('timeline') !== -1) {
+            return 'timeline';
+        }
+        if (string.indexOf('timeline') !== -1) {
+            return 'timeline';
+        }
+        if (string.indexOf('decision') !== -1) {
+            return 'decision';
+        }
+        if (string.indexOf('hearing') !== -1) {
+            return 'listOfHearing';
+        }
+        if (string.indexOf('reject-reasons') !== -1) {
+            return 'reject-reasons';
+        }
+        return '/';
+    }
+
     private getTitle(key): string {
-        console.log(key)
-        // /case/SSCS/Benefit/1540462621508578/summary"
        const titleMapping: {[id: string]: string} = {
            '/' : 'Your cases - Judicial case manager',
+           'summary': 'Summary - Judicial case manager',
+           'parties': 'Parties - Judicial case manager',
+           'caseFile': 'Case File - Judicial case manager',
+           'timeline': 'Timeline - Judicial case manager',
            'decision' : 'Make decision - Judicial case manager',
-           'summary': 'Summary - Judicial case manager'
-
+           'listOfHearing': 'List of hearing - Judicial case manager',
+           'reject-reasons': 'Reject reasons - Judicial case manager'
        };
-        // Examples:
-        // Your cases - Judicial case manager
-        //
-        // Reassign case - Judicial case manager
-        //
-        // Make decision - Judicial case manager
-        //
-        // Questions - Judicial case manager
-        //
-        // Question added - Questions - Judicial case manager
-        //
-        // Error: Questions - Judicial case manager
-        //
-        // Marriage certificate - Judicial case manager
+
        return titleMapping[key];
     }
 }
