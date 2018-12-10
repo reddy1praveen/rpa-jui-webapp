@@ -3,11 +3,7 @@ import * as log4js from 'log4js'
 import { config } from '../../../config'
 import { Store } from '../../lib/store/store'
 
-import * as divorcePayload from './divorce'
-import * as divorceMapping from './divorce/mapping'
-
-import * as stateMeta from './divorce/state_meta'
-
+import * as divorce from './divorce'
 import * as sscs from './sscs/'
 
 const divorceType = 'DIVORCE'
@@ -140,7 +136,7 @@ function process(req, res, mapping, payload, templates) {
     }
 
     if (req.method === 'POST') {
-        console.log(event)
+        console.log('event', event)
         mapping.some((instruction, i) => {
             if (instruction.event === event) {
                 // event is the main index and so there can only be one instruction per event - exit after finding
@@ -172,8 +168,9 @@ function process(req, res, mapping, payload, templates) {
             return false
         })
     } else {
-        console.log(stateId)
+        console.log(caseTypeId)
         meta = templates[caseTypeId][stateId]
+        console.log(meta)
     }
 
     variables = store.get(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`) || {}
@@ -194,7 +191,7 @@ function handleStateRoute(req, res) {
     switch (jurisdiction) {
         case divorceType:
             console.log("divorce")
-            process(req, res, divorceMapping, divorcePayload, stateMeta)
+            process(req, res, divorce.mapping, divorce.payload, divorce.templates)
             break
         case sscsType:
             console.log('SSCS')

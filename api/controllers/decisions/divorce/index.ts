@@ -8,6 +8,11 @@ import * as translateJson from './translate'
 
 import * as headerUtilities from '../../../lib/utilities/headerUtilities'
 
+import * as Mapping from './mapping'
+import * as  Templates from './templates'
+export const mapping = Mapping.mapping
+export const templates = Templates.templates
+
 //ccdStore from '../../../services/ccd-store-api/ccd-store'
 
 const ccdStore = require('../../../services/ccd-store-api/ccd-store')

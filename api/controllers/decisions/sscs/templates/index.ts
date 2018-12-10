@@ -27,4 +27,5 @@ templates.benefit['preparing-food'] = require('./benefit/preparingFood')
 templates.benefit['reading-signs'] = require('./benefit/readingSigns')
 templates.benefit['taking-nutrition'] = require('./benefit/takingNutrition')
 templates.benefit['washing-bathing'] = require('./benefit/washingBathing')
-
+templates.benefit.check = require('./benefit/check')
+templates.benefit['check-tribunal'] = require('./benefit/checkTribunal')
