@@ -103,7 +103,7 @@ const routes: Routes = [
 //Financial Ramedy routes
                     {path: 'reject-reasons', component: MakeDecisionComponent},
                     {path: 'notes-for-court-administrator', component: MakeDecisionComponent},
-                    {path: 'draft-consent-order', component: MakeDecisionComponent},
+                    {path: 'draft-consent-order', component: DraftConsentOrderComponent},
                     {path: 'hearing-details', component: MakeDecisionComponent}
 
 //Deprecated - to be deleted in the future
