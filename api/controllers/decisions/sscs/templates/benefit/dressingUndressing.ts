@@ -1,11 +1,20 @@
 module.exports = {
     idPrefix: 'DressingUndressing',
-    name: 'DressingUndressing',
+    name: 'dressing-undressing',
     header: 'Dressing and undressing',
     caption: {
         classes: 'govuk-caption-xl',
         text: 'Daily living'
     },
+    formGroupValidators: [],
+    validationHeaderErrorMessages: [
+        {
+            validationLevel: 'formControl',
+            controlId: 'dailyLivingDressingUndressing',
+            text: 'Select at least one activity',
+            href: '#'
+        }
+    ],
     groups: [
         {
             fieldset: [
@@ -19,6 +28,10 @@ module.exports = {
                 {
                     radios: {
                         control: 'dailyLivingDressingUndressing',
+                        validationError: {
+                            value: 'Select at least one activity',
+                            controlId: 'dailyLivingDressingUndressing'
+                        },
                         radioGroup: [
                             {
                                 value: '0',

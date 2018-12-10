@@ -1,11 +1,20 @@
 module.exports = {
     idPrefix: 'ReadingSigns',
-    name: 'ReadingSigns',
+    name: 'reading-signs',
     header: 'Reading and understanding signs, symbols and words',
     caption: {
         classes: 'govuk-caption-xl',
         text: 'Daily living'
     },
+    formGroupValidators: [],
+    validationHeaderErrorMessages: [
+        {
+            validationLevel: 'formControl',
+            controlId: 'dailyLivingReadingSigns',
+            text: 'Select at least one activity',
+            href: '#'
+        }
+    ],
     groups: [
         {
             fieldset: [
@@ -19,6 +28,11 @@ module.exports = {
                 {
                     radios: {
                         control: 'dailyLivingReadingSigns',
+                        validators: ['required'],
+                        validationError: {
+                            value: 'Select at least one activity',
+                            controlId: 'dailyLivingReadingSigns'
+                        },
                         radioGroup: [
                             {
                                 value: '0',

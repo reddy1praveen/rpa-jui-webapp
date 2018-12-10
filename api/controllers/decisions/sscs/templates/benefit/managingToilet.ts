@@ -1,11 +1,20 @@
 module.exports = {
     idPrefix: 'ManagingToilet',
-    name: 'ManagingToilet',
+    name: 'managing-toilet',
     header: 'Managing toilet needs or incontinence',
     caption: {
         classes: 'govuk-caption-xl',
         text: 'Daily living'
     },
+    formGroupValidators: [],
+    validationHeaderErrorMessages: [
+        {
+            validationLevel: 'formControl',
+            controlId: 'dailyLivingManagingToilet',
+            text: 'Select at least one activity',
+            href: '#'
+        }
+    ],
     groups: [
         {
             fieldset: [
@@ -19,6 +28,11 @@ module.exports = {
                 {
                     radios: {
                         control: 'dailyLivingManagingToilet',
+                        validators: ['required'],
+                        validationError: {
+                            value: 'Select at least one activity',
+                            controlId: 'dailyLivingManagingToilet'
+                        },
                         radioGroup: [
                             {
                                 value: '0',

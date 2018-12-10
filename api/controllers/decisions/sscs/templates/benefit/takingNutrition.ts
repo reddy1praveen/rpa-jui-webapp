@@ -1,11 +1,20 @@
 module.exports = {
     idPrefix: 'TakingNutrition',
-    name: 'TakingNutrition',
+    name: 'taking-nutrition',
     header: 'Taking nutrition',
     caption: {
         classes: 'govuk-caption-xl',
         text: 'Daily living'
     },
+    formGroupValidators: [],
+    validationHeaderErrorMessages: [
+        {
+            validationLevel: 'formControl',
+            controlId: 'dailyLivingTakingNutrition',
+            text: 'Select at least one activity',
+            href: '#'
+        }
+    ],
     groups: [
         {
             fieldset: [
@@ -19,6 +28,11 @@ module.exports = {
                 {
                     radios: {
                         control: 'dailyLivingTakingNutrition',
+                        validators: ['required'],
+                        validationError: {
+                            value: 'Select at least one activity',
+                            controlId: 'dailyLivingTakingNutrition'
+                        },
                         radioGroup: [
                             {
                                 value: '0',

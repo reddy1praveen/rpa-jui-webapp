@@ -6,6 +6,15 @@ module.exports = {
         classes: 'govuk-caption-xl',
         text: 'Daily living'
     },
+    formGroupValidators: [],
+    validationHeaderErrorMessages: [
+        {
+            validationLevel: 'formControl',
+            controlId: 'dailyLivingWashingBathing',
+            text: 'Select at least one activity',
+            href: '#'
+        }
+    ],
     groups: [
         {
             fieldset: [
@@ -19,6 +28,11 @@ module.exports = {
                 {
                     radios: {
                         control: 'dailyLivingWashingBathing',
+                        validators: ['required'],
+                        validationError: {
+                            value: 'Select at least one activity',
+                            controlId: 'dailyLivingWashingBathing'
+                        },
                         radioGroup: [
                             {
                                 value: '0',

@@ -1,11 +1,20 @@
 module.exports = {
     idPrefix: 'PlanningJourneys',
-    name: 'PlanningJourneys',
+    name: 'planning-journeys',
     header: 'Planning and following journeys',
     caption: {
         classes: 'govuk-caption-xl',
         text: 'Mobility'
     },
+    formGroupValidators: [],
+    validationHeaderErrorMessages: [
+        {
+            validationLevel: 'formControl',
+            controlId: 'MobilityPlanningJourneys',
+            text: 'Select at least one activity',
+            href: '#'
+        }
+    ],
     groups: [
         {
             fieldset: [
@@ -19,6 +28,11 @@ module.exports = {
                 {
                     radios: {
                         control: 'MobilityPlanningJourneys',
+                        validators: ['required'],
+                        validationError: {
+                            value: 'Select at least one activity',
+                            controlId: 'MobilityPlanningJourneys'
+                        },
                         radioGroup: [
                             {
                                 value: '0',

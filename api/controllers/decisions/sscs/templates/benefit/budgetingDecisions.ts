@@ -1,11 +1,20 @@
 module.exports = {
     idPrefix: 'MakingBudgetDecisions',
-    name: 'MakingBudgetDecisions',
+    name: 'budgeting-decisions',
     header: 'Making budgeting decisions',
     caption: {
         classes: 'govuk-caption-xl',
         text: 'Daily living'
     },
+    formGroupValidators: [],
+    validationHeaderErrorMessages: [
+        {
+            validationLevel: 'formControl',
+            controlId: 'dailyLivingMakingBudgetDecisions',
+            text: 'Select at least one activity',
+            href: '#'
+        }
+    ],
     groups: [
         {
             fieldset: [
@@ -19,6 +28,11 @@ module.exports = {
                 {
                     radios: {
                         control: 'dailyLivingMakingBudgetDecisions',
+                        validators: ['required'],
+                        validationError: {
+                            value: 'Select at least one activity',
+                            controlId: 'dailyLivingMakingBudgetDecisions'
+                        },
                         radioGroup: [
                             {
                                 value: '0',

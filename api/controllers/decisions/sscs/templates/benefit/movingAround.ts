@@ -1,11 +1,20 @@
 module.exports = {
     idPrefix: 'MovingAround',
-    name: 'MovingAround',
+    name: 'moving-around',
     header: 'Moving around',
     caption: {
         classes: 'govuk-caption-xl',
         text: 'Mobility'
     },
+    formGroupValidators: [],
+    validationHeaderErrorMessages: [
+        {
+            validationLevel: 'formControl',
+            controlId: 'MobilityMovingAround',
+            text: 'Select at least one activity',
+            href: '#'
+        }
+    ],
     groups: [
         {
             fieldset: [
@@ -19,6 +28,11 @@ module.exports = {
                 {
                     radios: {
                         control: 'MobilityMovingAround',
+                        validators: ['required'],
+                        validationError: {
+                            value: 'Select at least one activity',
+                            controlId: 'MobilityMovingAround'
+                        },
                         radioGroup: [
                             {
                                 value: '0',

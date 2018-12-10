@@ -1,11 +1,20 @@
 module.exports = {
     idPrefix: 'ManagingTherapy',
-    name: 'ManagingTherapy',
+    name: 'managing-therapy',
     header: 'Managing therapy or monitoring a health condition',
     caption: {
         classes: 'govuk-caption-xl',
         text: 'Daily living'
     },
+    formGroupValidators: [],
+    validationHeaderErrorMessages: [
+        {
+            validationLevel: 'formControl',
+            controlId: 'dailyLivingManagingTherapy',
+            text: 'Select at least one activity',
+            href: '#'
+        }
+    ],
     groups: [
         {
             fieldset: [
@@ -19,6 +28,11 @@ module.exports = {
                 {
                     radios: {
                         control: 'dailyLivingManagingTherapy',
+                        validators: ['required'],
+                        validationError: {
+                            value: 'Select at least one activity',
+                            controlId: 'dailyLivingManagingTherapy'
+                        },
                         radioGroup: [
                             {
                                 value: '0',
