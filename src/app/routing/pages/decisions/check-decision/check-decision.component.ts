@@ -5,8 +5,8 @@ import { FormsService } from '../../../../shared/services/forms.service';
 import { FormGroup } from '@angular/forms';
 import { NpaService } from '../../../../shared/components/hmcts-em-viewer-ui/data/npa.service';
 import { IDocumentTask } from '../../../../shared/components/hmcts-em-viewer-ui/data/document-task.model';
-import { ApiHttpService } from '../../../../shared/components/hmcts-em-viewer-ui/data/api-http.service';
 import { AnnotationStoreService } from '../../../../shared/components/hmcts-em-viewer-ui/data/annotation-store.service';
+import {ConfigService} from '../../../../config.service';
 
 @Component({
     selector: 'app-check-decision',
@@ -33,8 +33,8 @@ export class CheckDecisionComponent implements OnInit {
         private decisionService: DecisionService,
         private formsService: FormsService,
         private npaService: NpaService,
-        private apiHttpService: ApiHttpService,
-        private annotationStoreService: AnnotationStoreService) { }
+        private annotationStoreService: AnnotationStoreService,
+        private configService: ConfigService) { }
     createForm(pageitems, pageValues) {
         this.form = new FormGroup(this.formsService.defineformControls(pageitems, pageValues));
     }
@@ -72,15 +72,15 @@ export class CheckDecisionComponent implements OnInit {
 
         console.log('docId=>', this.consentOrderDocumentId);
         //
-        // this.annotationStoreService.fetchData('/api', this.consentOrderDocumentId).subscribe((results) => {
-        //     this.annotations = results.body.annotations;
-        //     console.log('annotations => ', this.annotations);
-        //     //If document has bee annotated then burn new document
-        //
-        //     if (this.annotations !== null) {
-        //         this.burnAnnotatedDocument();
-        //     }
-        // });
+        this.annotationStoreService.fetchData('/api', this.consentOrderDocumentId).subscribe((results) => {
+            this.annotations = results.body.annotations;
+            console.log('annotations => ', this.annotations);
+            //If document has bee annotated then burn new document
+        
+            if (this.annotations !== null) {
+                this.burnAnnotatedDocument();
+            }
+        });
 
         console.log("Passing to decService = >>>>", this.jurId, caseId, pageId, this.typeId);
 
@@ -132,7 +132,7 @@ export class CheckDecisionComponent implements OnInit {
         if (this.consentOrderDocumentId != null) {
             // this will generate a new document each time it's called.
             // provide second argument to upload the document as a next version of this document
-            this.npaService.exportPdf(this.consentOrderDocumentId /*, second arg - already existing doc id*/).subscribe(
+            this.npaService.exportPdf(this.consentOrderDocumentId, null, this.configService.config.api_base_url /*, second arg - already existing doc id*/).subscribe(
                 (response) => {
                     this.npaDocumentTask = response.body;
                     if (this.npaDocumentTask.taskState === 'FAILED') {

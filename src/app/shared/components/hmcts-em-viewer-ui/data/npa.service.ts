@@ -6,7 +6,6 @@ import {ApiHttpService} from './api-http.service';
 
 @Injectable()
 export class NpaService {
-
     documentTask: Subject<IDocumentTask>;
     outputDmDocumentId: Subject<string>;
 
@@ -15,7 +14,7 @@ export class NpaService {
         this.documentTask = new Subject<IDocumentTask>();
     }
 
-    exportPdf(dmDocumentId: string, outputDmDocumentId?: string): Observable<HttpResponse<IDocumentTask>> {
-        return this.apiHttpService.documentTask(dmDocumentId, outputDmDocumentId);
+    exportPdf(dmDocumentId: string, outputDmDocumentId: string, baseUrl: string): Observable<HttpResponse<IDocumentTask>> {
+        return this.apiHttpService.documentTask(dmDocumentId, outputDmDocumentId, baseUrl);
     }
 }
