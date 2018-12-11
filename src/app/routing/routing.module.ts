@@ -25,12 +25,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { JUIFormsModule } from '../forms/forms.module';
 import { GovukModule } from '../govuk/govuk.module';
 import { HmctsModule } from '../hmcts/hmcts.module';
-import { ReasonsCoNotApprovedComponent } from './pages/decisions/fr/reasons-co-not-approved/reasons-co-not-approved.component';
 import { MakeDecisionComponent } from './pages/decisions/fr/make-decision/make-decision.component';
-import { NotesForCourtAdministratorComponent } from './pages/decisions/fr/notes-for-court-administrator/notes-for-court-administrator.component';
 import { DraftConsentOrderComponent } from './pages/decisions/fr/draft-consent-order/draft-consent-order.component';
-import { HearingDetailsComponent } from './pages/decisions/fr/hearing-details/hearing-details.component';
-import { FormsService } from '../shared/services/forms.service';
 import { GenericPageComponent } from './pages/generic-page/generic-page.component';
 import { ErrorServiceUnavailableComponent } from './pages/generic-page/error-service-unavailable/error-service-unavailable.component';
 import { ConfirmationComponent } from './pages/generic-page/confirmation/confirmation.component';
@@ -106,12 +102,6 @@ const routes: Routes = [
                     {path: 'draft-consent-order', component: DraftConsentOrderComponent},
                     {path: 'hearing-details', component: MakeDecisionComponent}
 
-//Deprecated - to be deleted in the future
-                    // {path: 'reject-reasons', component: ReasonsCoNotApprovedComponent},
-                    // {path: 'notes-for-court-administrator', component: NotesForCourtAdministratorComponent},
-                    // {path: 'draft-consent-order', component: DraftConsentOrderComponent},
-                    // {path: 'hearing-details', component: HearingDetailsComponent},
-
                 ]
             },
             {
@@ -186,11 +176,8 @@ const routes: Routes = [
         CheckHearingComponent,
         HearingConfirmationComponent,
         DemoComponent,
-        ReasonsCoNotApprovedComponent,
         MakeDecisionComponent,
         DraftConsentOrderComponent,
-        NotesForCourtAdministratorComponent,
-        HearingDetailsComponent,
         GenericPageComponent,
         ErrorServiceUnavailableComponent,
         ConfirmationComponent,

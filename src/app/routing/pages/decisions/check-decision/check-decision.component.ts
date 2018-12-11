@@ -1,13 +1,13 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { DecisionService } from '../../../../domain/services/decision.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsService } from '../../../../shared/services/forms.service';
 import { FormGroup } from '@angular/forms';
 import { NpaService } from '../../../../shared/components/hmcts-em-viewer-ui/data/npa.service';
 import { IDocumentTask } from '../../../../shared/components/hmcts-em-viewer-ui/data/document-task.model';
-import { ApiHttpService } from '../../../../shared/components/hmcts-em-viewer-ui/data/api-http.service';
 import { AnnotationStoreService } from '../../../../shared/components/hmcts-em-viewer-ui/data/annotation-store.service';
-import {ConfigService} from '../../../../config.service';
+import { ConfigService } from '../../../../config.service';
+
 
 @Component({
     selector: 'app-check-decision',
@@ -59,30 +59,41 @@ export class CheckDecisionComponent implements OnInit {
     ngOnInit() {
         this.activatedRoute.parent.data.subscribe(data => {
             this.case = data.caseData;
-            this.consentOrderDocumentId = this.decisionService.findConsentOrderDocumentId(this.case);
+            this.jurId = this.case.case_jurisdiction;
+            this.typeId = this.case.case_type_id;
+
+            // if Financial Remedy then call document annotation service
+            if ( this.jurId === 'DIVORCE' && this.typeId === 'FinancialRemedyMVP2' ) {
+                this.consentOrderDocumentId = this.decisionService.findConsentOrderDocumentId(this.case);
+            }
+
         });
-        // const caseId = this.case.id;
-        // const pageId = 'check';
-        // const jurId = 'fr';
-        // this.typeId = this.case.case_type_id;
 
         const pageId = this.activatedRoute.snapshot.url[0].path;
         const caseId = this.case.id;
-        this.jurId = this.case.case_jurisdiction;
-        this.typeId = this.case.case_type_id;
 
-        console.log('docId=>', this.consentOrderDocumentId);
 
-        this.annotationStoreService.fetchData('/api', this.consentOrderDocumentId).subscribe((results) => {
-            this.annotations = results.body.annotations;
-            console.log('annotations => ', this.annotations);
-            //If document has bee annotated then burn new document
-            if (this.annotations !== null) {
-                this.burnAnnotatedDocument();
-            }
-        });
 
-        console.log("Passing to decService = >>>>", this.jurId, caseId, pageId, this.typeId);
+        // console.log('JurID=>', this.jurId);
+        // console.log('TypeID=>', this.typeId);
+
+
+        // if Financial Remedy then call document annotation service
+        if ( this.jurId === 'DIVORCE' && this.typeId === 'FinancialRemedyMVP2' ) {
+
+            //console.log('docId=>', this.consentOrderDocumentId);
+
+            this.annotationStoreService.fetchData('/api', this.consentOrderDocumentId).subscribe((results) => {
+                this.annotations = results.body.annotations;
+
+               // console.log('annotations => ', this.annotations);
+
+                //If document has bee annotated then burn new document
+                if (this.annotations !== null) {
+                    this.burnAnnotatedDocument();
+                }
+            });
+        }
 
         this.decisionService.fetch(this.jurId, caseId, pageId, this.typeId).subscribe(decision => {
             this.decision = decision;
@@ -101,13 +112,9 @@ export class CheckDecisionComponent implements OnInit {
             this.pageitems.name = pagename;
             event = 'change';
         }
-
-
-        // else {
-        //     event = this.form.value.createButton.toLowerCase();
-        // }
         delete this.form.value.createButton;
         this.request = { formValues: this.pageValues, event: event };
+
         if (this.npaDocumentTask) {
             if (this.npaDocumentTask.outputDocumentId) {
                 this.request.formValues.documentAnnotationId = this.npaDocumentTask.outputDocumentId;
@@ -117,7 +124,9 @@ export class CheckDecisionComponent implements OnInit {
         } else {
             console.log( 'Document hasn\'t generated =', this.npaDocumentTask );
         }
+
         console.log('Submitting properties =>', this.pageitems.name, this.request);
+
         this.decisionService.submitDecisionDraft(
             this.jurId,
             this.activatedRoute.snapshot.parent.data.caseData.id,

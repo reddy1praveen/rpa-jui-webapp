@@ -3,9 +3,9 @@
 <div class="jui-width-container">
     <main class="govuk-main-wrapper" role="main">
         <div class="govuk-grid-row">
-            <!--<button (click)="burnAnnotatedDocument()">Get annotated PDF</button>-->
 
-            <div *ngIf="pageitems" class="govuk-grid-column-two-thirds">
+
+            <div *ngIf="pageitems && this.typeId === 'FinancialRemedyMVP2'" class="govuk-grid-column-two-thirds">
                 <h1 class="govuk-heading-xl">{{pageitems.header}}</h1>
 
                 <form *ngIf="pageitems" [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -57,6 +57,8 @@
                     </ng-container>
                 </form>
             </div>
+
+
         </div>
     </main>
 </div>
