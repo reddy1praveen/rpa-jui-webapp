@@ -19,7 +19,8 @@ module.exports = (method, url, params) => {
         url,
         headers: {
             ...headers,
-            'Content-Type':  'application/json'
+            'Content-Type': params.headers['Content-Type'] || 'application/json'
+
         },
         json: true
     }
