@@ -72,7 +72,7 @@ export class CheckDecisionComponent implements OnInit {
         this.typeId = this.case.case_type_id;
 
         console.log('docId=>', this.consentOrderDocumentId);
-        
+
         this.annotationStoreService.fetchData('/api', this.consentOrderDocumentId).subscribe((results) => {
             this.annotations = results.body.annotations;
             console.log('annotations => ', this.annotations);
@@ -101,6 +101,8 @@ export class CheckDecisionComponent implements OnInit {
             this.pageitems.name = pagename;
             event = 'change';
         }
+
+
         // else {
         //     event = this.form.value.createButton.toLowerCase();
         // }
@@ -119,7 +121,7 @@ export class CheckDecisionComponent implements OnInit {
         this.decisionService.submitDecisionDraft(
             this.jurId,
             this.activatedRoute.snapshot.parent.data.caseData.id,
-            pagename,
+            this.pageitems.name,
             this.typeId,
             this.request)
             .subscribe(decision => {
