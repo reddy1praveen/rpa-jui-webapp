@@ -7,7 +7,18 @@ module.exports = {
             validatorFunc: 'isAnyCheckboxChecked',
             validationErrorId: 'selectActivities',
             checkboxes: [
-                'preparingFood', 'takingNutrition'
+                'preparingFood',
+                'takingNutrition',
+                'managingTherapy',
+                'washingBathing',
+                'managingToilet',
+                'dressingUndressing',
+                'communicatingVerbally',
+                'readingAndUnderstanding',
+                'engagingWithOtherPeople',
+                'makingBudgetingDecisions',
+                'planningFollowingJourneys',
+                'movingAround'
             ]
         }
     ],
