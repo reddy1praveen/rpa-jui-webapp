@@ -39,6 +39,10 @@ export const mapping = [
                 ]
             },
             {
+                state: 'final-decision',
+                result: '.'
+            },
+            {
                 state: 'preliminary-advanced',
                 result: 'set-award-dates',
             },
@@ -61,7 +65,7 @@ export const mapping = [
                     { readingAndUnderstanding: 'reading-signs' },
                     { takingNutrition: 'taking-nutrition' },
                     { washingBathing: 'washing-bathing' },
-                    'create',
+                    'check',
                 ]
             },
             {
