@@ -27,6 +27,7 @@ function getOptions(req) {
 
 module.exports = app => {
     const router = express.Router({ mergeParams: true })
+    /* istanbul ignore next */
     app.use('/ccd-def', router)
 
     router.get('/jurisdictions', (req, res, next) => {

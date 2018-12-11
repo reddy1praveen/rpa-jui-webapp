@@ -8,6 +8,7 @@ function getOptions(req) {
 
 module.exports = app => {
     const router = express.Router({ mergeParams: true })
+    /* istanbul ignore next */
     app.use('/decisions', router)
 
     router.get('/:case_id', (req: any, res, next) => {

@@ -23,6 +23,7 @@ function getOptions(req) {
 
 module.exports = app => {
     const router = express.Router({ mergeParams: true })
+    /* istanbul ignore next */
     app.use('/em-npa', router)
 
     router.get('/health', (req, res, next) => {

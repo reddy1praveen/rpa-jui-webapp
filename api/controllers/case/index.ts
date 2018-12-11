@@ -121,6 +121,7 @@ function getOptionsDoc(req) {
 // GET case callback
 module.exports = app => {
     const router = express.Router({ mergeParams: true })
+    /* istanbul ignore next */
     app.use('/case', router)
 
     router.get('/:jur/:casetype/:case_id', (req, res, next) => {

@@ -31,6 +31,7 @@ function getOptions(req) {
 
 module.exports = app => {
     const router = express.Router({ mergeParams: true })
+    /* istanbul ignore next */
     app.use('/draft-store', router)
 
     router.get('/', (req, res, next) => {

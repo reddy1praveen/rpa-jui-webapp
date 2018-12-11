@@ -17,6 +17,7 @@ export function logout(req, res) {
 export function auth(app) {
     const router = express.Router()
 
+    /* istanbul ignore next */
     app.use('/oauth2/callback', router)
 
     router.use((req: any, res, next) => {
@@ -38,5 +39,6 @@ export function auth(app) {
             })
     })
 
+    /* istanbul ignore next */
     app.use('/logout', logout)
 }
