@@ -25,7 +25,6 @@ export function successInterceptor(response) {
     const url = shorten(response.config.url, config.maxLogLine)
 
     logger.info(`Success on ${response.config.method.toUpperCase()} to ${url}`)
-    console.log(response.headers)
     return response
 }
 
@@ -38,7 +37,6 @@ export function errorInterceptor(response) {
     const error = valueOrNull(response, 'response.status') ? response.response.status : Error(response).message
     const data = valueOrNull(response, 'response.status') ? JSON.stringify(response.response.data, null, 2) : null
 
-    console.log(response.response.data)
     logger.error(`Error on ${response.config.method.toUpperCase()} to ${url} (${error}) \n 
     ${exceptionFormatter(data, exceptionOptions)}`)
 

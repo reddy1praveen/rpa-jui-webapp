@@ -5,11 +5,11 @@ export class Store {
         this.session = req.session
     }
 
-    set(key, value) {
+    async set(key, value) {
         this.session[key] = value
     }
 
-    get(key) {
+    async get(key) {
         return this.session[key]
     }
 }

@@ -3,9 +3,9 @@ import * as log4js from 'log4js'
 import { map } from 'p-iteration'
 import { config } from '../../../config'
 import { Store } from '../../lib/store/store'
-
+import * as coh from '../../services/coh'
 import * as divorce from './divorce'
-import * as sscs from './sscs/'
+import * as sscs from './sscs'
 
 const divorceType = 'DIVORCE'
 const sscsType = 'SSCS'
@@ -25,14 +25,14 @@ function some(array, predicate) {
     return null
 }
 
-function pushStack(req, stack) {
+async function pushStack(req, stack) {
     const jurisdiction = req.params.jurId
     const caseId = req.params.caseId
     const caseTypeId = req.params.caseTypeId.toLowerCase()
     let newStack = [...stack]
 
     const store = new Store(req)
-    const currentStack = store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`)
+    const currentStack = await store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`)
     if (currentStack === '' || currentStack === null) {
         newStack = [...currentStack, stack]
     }
@@ -40,10 +40,10 @@ function pushStack(req, stack) {
 }
 
 function isObject(o) {
-    return o !== null && typeof o === 'object' && Array.isArray(o) === false;
+    return o !== null && typeof o === 'object' && Array.isArray(o) === false
 }
 
-function shiftStack(req, variables) {
+async function shiftStack(req, variables) {
     const jurisdiction = req.params.jurId
     const caseId = req.params.caseId
     const caseTypeId = req.params.caseTypeId.toLowerCase()
@@ -53,14 +53,14 @@ function shiftStack(req, variables) {
     let matching = false
     let currentItem
 
-    const currentStack = store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`)
+    const currentStack = await store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`)
     while (!matching && currentStack.length) {
 
         logger.info(`popped stack ${currentStack}`)
         currentItem = currentStack.shift()
         logger.info(`Got item ${currentItem}`)
         logger.info(currentItem)
-        store.set(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`, currentStack)
+        await store.set(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`, currentStack)
 
         if (isObject(currentItem)) {
             const key = Object.keys(currentItem)[0]
@@ -118,7 +118,7 @@ function handleInstruction(instruction, stateId, variables) {
     return null
 }
 
-async function process(req, res, mapping, payload, templates) {
+async function process(req, res, mapping, payload, templates, store) {
     const jurisdiction = req.params.jurId
     const caseId = req.params.caseId
     const caseTypeId = req.params.caseTypeId.toLowerCase()
@@ -131,10 +131,14 @@ async function process(req, res, mapping, payload, templates) {
 
     let meta = {}
     let newRoute = null
-    const store = new Store(req)
 
     if (variables) {
-        store.set(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`, variables)
+        // get current store
+        let stored = await store.get(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`)
+        if (!(stored + '').length) {
+            stored = {}
+        }
+        await store.set(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`, { ...stored, ...variables })
     }
 
     if (req.method === 'POST') {
@@ -174,7 +178,7 @@ async function process(req, res, mapping, payload, templates) {
         meta = templates[caseTypeId][stateId]
     }
 
-    variables = store.get(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`) || {}
+    variables = await store.get(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`) || {}
 
     const response = {
         formValues: variables,
@@ -184,19 +188,22 @@ async function process(req, res, mapping, payload, templates) {
     req.session.save(() => res.send(JSON.stringify(response)))
 }
 
-function handleStateRoute(req, res) {
+async function handleStateRoute(req, res) {
     console.log(req.method)
 
     const jurisdiction = req.params.jurId
 
+    const store = new Store(req)
+
     switch (jurisdiction) {
         case divorceType:
             console.log("divorce")
-            process(req, res, divorce.mapping, divorce.payload, divorce.templates)
+            process(req, res, divorce.mapping, divorce.payload, divorce.templates, new Store(req))
             break
         case sscsType:
             console.log('SSCS')
-            process(req, res, sscs.mapping, sscs.payload, sscs.templates)
+            const hearingId = await sscs.init(req, res)
+            process(req, res, sscs.mapping, sscs.payload, sscs.templates, new coh.Store(hearingId))
             break
         default:
     }
