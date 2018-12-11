@@ -14,7 +14,7 @@ export class NpaService {
         this.outputDmDocumentId = new Subject<string>();
         this.documentTask = new Subject<IDocumentTask>();
     }
-    xportPdf(dmDocumentId: string, outputDmDocumentId: string, baseUrl: string): Observable<HttpResponse<IDocumentTask>> {
+    exportPdf(dmDocumentId: string, outputDmDocumentId: string, baseUrl: string): Observable<HttpResponse<IDocumentTask>> {
         return this.apiHttpService.documentTask(dmDocumentId, outputDmDocumentId, baseUrl);
     }
 }
