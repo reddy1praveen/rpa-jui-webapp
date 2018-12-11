@@ -19,6 +19,4 @@ export class SearchResultComponent implements OnInit {
     ngOnInit() {
         this.data$ = this.caseService.search();
     }
-
-    onSubmit() {}
 }

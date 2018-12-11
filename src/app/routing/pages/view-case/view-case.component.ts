@@ -51,7 +51,7 @@ export class ViewCaseComponent implements OnInit, OnDestroy {
             }
         }
     }
-    private setNavigationSections() {
+    private setNavigationSections(): void {
         this.sections = this.caseDataService.getNavigation(this.case, this.sectionTabName);
     }
 
