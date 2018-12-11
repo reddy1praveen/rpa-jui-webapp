@@ -34,19 +34,6 @@ export class DecisionService {
         return this.httpClient.post(url, body);
     }
 
-    // updateDecisionDraft(caseId: string, award: string, text: string) {
-    //     const url = this.generateDecisionUrl('fr', caseId, 'create');
-    //     const body = {
-    //         decision_award: award,
-    //         decision_header: award,
-    //         decision_reason: text,
-    //         decision_text: text,
-    //         decision_state: 'decision_drafted'
-    //     };
-    //     return this.httpClient.put(url, body);
-    // }
-    //
-
     issueDecision(decision: any): void  {
         console.log("Decisin", decision);
         //this.router.navigate([`/demo`], {relativeTo: this.activatedRoute});
@@ -61,7 +48,6 @@ export class DecisionService {
         // };
         // return this.httpClient.put(url, body);
     }
-
 
 
     findConsentOrderDocumentUrl(caseData): string {

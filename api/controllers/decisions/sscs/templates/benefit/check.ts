@@ -1,17 +1,49 @@
 module.exports = {
     idPrefix: 'check',
-    header: 'Check your decision',
+    header: 'Explain the tribunal’s view',
     name: 'check',
     groups: [
         {
-            header: 'Draft consent order',
+            header: 'Daily living',
             page: 'create',
             contents: [
                 {
-                    title: 'Decision',
+                    title: 'Activity',
                     details: [
                         {
-                            control: 'approveDraftConsent',
+                            control: 'dailyLivingPreparingFood',
+                            type: 'radio',
+                            no: 'Consent order not approved',
+                            yes: 'Consent order approved'
+                        }
+                    ],
+                    link: {
+                        text: 'Change',
+                        event: 'create',
+                        hiddenAccessibilityText: 'reasons'
+                    }
+                },
+                {
+                    title: 'Descriptor',
+                    details: [
+                        {
+                            control: 'dailyLivingPreparingFood',
+                            type: 'radio',
+                            no: 'Consent order not approved',
+                            yes: 'Consent order approved'
+                        }
+                    ],
+                    link: {
+                        text: 'Change',
+                        event: 'create',
+                        hiddenAccessibilityText: 'reasons'
+                    }
+                },
+                {
+                    title: 'Points',
+                    details: [
+                        {
+                            control: 'dailyLivingPreparingFood',
                             type: 'radio',
                             no: 'Consent order not approved',
                             yes: 'Consent order approved'
