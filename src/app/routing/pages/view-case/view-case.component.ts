@@ -26,14 +26,14 @@ export class ViewCaseComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        // TODO revisit this gain and perhaps find
+        // TODO revisit this when components initialisation bug is fixed
         this.routerSubscription = this.router.events.subscribe((event: Event) => {
             if (event instanceof NavigationEnd) {
                 this.setNavigationSections();
             }
         });
         if (this.case && !this.sections.length) {
-            this.setNavigationSections()
+            this.setNavigationSections();
         }
         if (this.case) {
             this.targetSection = this.caseDataService.findTargetSection(this.case, this.sectionTabName);
