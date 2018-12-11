@@ -3,6 +3,6 @@ import { errorInterceptor, requestInterceptor, successInterceptor } from '../int
 
 export const http: AxiosInstance = axios.create({})
 
-//axios.defaults.headers.common['Content-Type'] = 'application/json'
+axios.defaults.headers.common['Content-Type'] = 'application/json'
 http.interceptors.request.use(requestInterceptor)
 http.interceptors.response.use(successInterceptor, errorInterceptor)
