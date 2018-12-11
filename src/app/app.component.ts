@@ -43,29 +43,26 @@ export class AppComponent implements OnInit {
         }
     }
 
-    private replacedTitles(string: string): string {
-        if (string.indexOf('summary') !== -1) {
+    private replacedTitles(url: string): string {
+        if (url.indexOf('summary') !== -1) {
             return 'summary';
         }
-        if (string.indexOf('parties') !== -1) {
+        if (url.indexOf('parties') !== -1) {
             return 'parties';
         }
-        if (string.indexOf('casefile') !== -1) {
+        if (url.indexOf('casefile') !== -1) {
             return 'caseFile';
         }
-        if (string.indexOf('timeline') !== -1) {
+        if (url.indexOf('timeline') !== -1) {
             return 'timeline';
         }
-        if (string.indexOf('timeline') !== -1) {
-            return 'timeline';
-        }
-        if (string.indexOf('decision') !== -1) {
+        if (url.indexOf('decision') !== -1) {
             return 'decision';
         }
-        if (string.indexOf('hearing') !== -1) {
+        if (url.indexOf('hearing') !== -1) {
             return 'listOfHearing';
         }
-        if (string.indexOf('reject-reasons') !== -1) {
+        if (url.indexOf('reject-reasons') !== -1) {
             return 'reject-reasons';
         }
         return '/';
@@ -80,7 +77,6 @@ export class AppComponent implements OnInit {
            'timeline': 'Timeline - Judicial case manager',
            'decision' : 'Make decision - Judicial case manager',
            'listOfHearing': 'List of hearing - Judicial case manager',
-           'reject-reasons': 'Reject reasons - Judicial case manager'
        };
 
        return titleMapping[key];
