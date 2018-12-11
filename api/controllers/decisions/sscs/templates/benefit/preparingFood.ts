@@ -43,7 +43,7 @@ module.exports = {
                                 }
                             },
                             {
-                                value: '2',
+                                value: '2.1',
                                 text: 'Needs to use an aid or appliance to be able to either prepare or cook a simple meal',
                                 hint: {
                                     text: '2 points',
@@ -51,7 +51,7 @@ module.exports = {
                                 }
                             },
                             {
-                                value: '2',
+                                value: '2.2',
                                 text: 'Cannot cook a simple meal using a conventional cooker but is able to do so using a microwave',
                                 hint: {
                                     text: '2 points',
@@ -59,7 +59,7 @@ module.exports = {
                                 }
                             },
                             {
-                                value: '2',
+                                value: '2.3',
                                 text: 'Needs prompting to be able to either prepare or cook a simple meal',
                                 hint: {
                                     text: '2 points',
