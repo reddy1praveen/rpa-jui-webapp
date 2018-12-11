@@ -10,6 +10,8 @@ import { PdfAnnotateWrapper } from '../../data/js-wrapper/pdf-annotate-wrapper';
 import { CommentsComponent } from './comments/comments.component';
 import { ContextualToolbarComponent } from './contextual-toolbar/contextual-toolbar.component';
 import { EmLoggerService } from '../../logging/em-logger.service';
+import { RenderOptions } from '../../data/js-wrapper/renderOptions.model';
+import { PdfRenderService } from '../../data/pdf-render.service';
 
 
 @Component({
@@ -45,20 +47,20 @@ export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDe
                 private ref: ChangeDetectorRef,
                 private renderer: Renderer2,
                 private pdfAnnotateWrapper: PdfAnnotateWrapper,
+                private pdfRenderService: PdfRenderService) {
                 private log: EmLoggerService) {
-        log.setClass('AnnotationPdfViewerComponent');
     }
 
     ngOnInit() {
         this.loadAnnotations(this.annotate);
         this.pdfService.preRun();
-        this.pdfService.setRenderOptions({
-            documentId: this.url,
-            pdfDocument: null,
-            scale: parseFloat('1.33'),
-            rotate: 0,
-            rotationPages: []
-        });
+        this.pdfRenderService.setRenderOptions( new RenderOptions(
+            this.url,
+            null,
+            parseFloat('1.33'),
+            0,
+            []
+        ));
 
         this.pdfService.render(this.viewerElementRef);
         this.pdfService.setAnnotationWrapper(this.annotationWrapper);
@@ -79,20 +81,6 @@ export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDe
         if (this.focusedAnnotationSubscription) {
             this.focusedAnnotationSubscription.unsubscribe();
         }
-    }
-
-    onRotateClockwise() {
-        const RENDER_OPTIONS = this.pdfService.getRenderOptions();
-        RENDER_OPTIONS.rotate = RENDER_OPTIONS.rotate + 90;
-        this.pdfService.setRenderOptions(RENDER_OPTIONS);
-        this.pdfService.render();
-    }
-    
-     onRotateAntiClockwise() {
-        const RENDER_OPTIONS = this.pdfService.getRenderOptions();
-        RENDER_OPTIONS.rotate = RENDER_OPTIONS.rotate - 90;
-        this.pdfService.setRenderOptions(RENDER_OPTIONS);
-        this.pdfService.render();
     }
 
     loadAnnotations(annotate: boolean) {

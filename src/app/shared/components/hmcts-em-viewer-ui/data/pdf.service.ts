@@ -5,12 +5,13 @@ import { PdfAnnotateWrapper } from './js-wrapper/pdf-annotate-wrapper';
 import { EmLoggerService } from '../logging/em-logger.service';
 import { PdfPage } from './js-wrapper/pdf-page';
 import { RenderOptions } from './js-wrapper/renderOptions.model';
+import { RotationFactoryService } from '../viewers/rotation-factory.service';
+import { PdfRenderService } from './pdf-render.service';
 
 @Injectable()
 export class PdfService {
 
     private pdfPages: number;
-    private RENDER_OPTIONS: RenderOptions;
     private pageNumber: BehaviorSubject<number>;
     private dataLoadedSubject: BehaviorSubject<boolean>;
     private viewerElementRef: ElementRef;
@@ -18,7 +19,9 @@ export class PdfService {
 
     constructor(private log: EmLoggerService,
                 private pdfWrapper: PdfWrapper,
-                private pdfAnnotateWrapper: PdfAnnotateWrapper) {
+                private pdfAnnotateWrapper: PdfAnnotateWrapper,
+                private rotationFactoryService: RotationFactoryService,
+                private pdfRenderService: PdfRenderService) {
         this.dataLoadedSubject = new BehaviorSubject(false);
         log.setClass('PdfService');
     }
@@ -62,72 +65,59 @@ export class PdfService {
         this.pageNumber.next(pageNumber);
     }
 
-    getRenderOptions() {
-        return Object.assign({}, this.RENDER_OPTIONS);
-    }
-
-    setRenderOptions(RENDER_OPTIONS: RenderOptions): any {
-        this.RENDER_OPTIONS = RENDER_OPTIONS;
-    }
-
     render(viewerElementRef?: ElementRef) {
         if (viewerElementRef != null) {
             this.viewerElementRef = viewerElementRef;
         }
         this.log.info('Rendering PDF document');
-        this.pdfWrapper.getDocument(this.RENDER_OPTIONS.documentId)
+        const renderOptions = this.pdfRenderService.getRenderOptions();
+        this.pdfWrapper.getDocument(renderOptions.documentId)
             .then(pdf => {
-                this.RENDER_OPTIONS.pdfDocument = pdf;
+                renderOptions.pdfDocument = pdf;
                 const viewer = this.viewerElementRef.nativeElement;
                 viewer.innerHTML = '';
                 this.pdfPages = pdf.pdfInfo.numPages;
 
-                for (let i = 1; i < this.pdfPages; i++) {
+                for (let i = 1; i < this.pdfPages + 1; i++) {
                     const page = this.pdfAnnotateWrapper.createPage(i);
                     
                     // Create a copy of the render options for each page.
-                    const pageOptions = Object.assign({}, this.RENDER_OPTIONS);
+                    const pageOptions = Object.assign({}, renderOptions);
                     viewer.appendChild(page);
                     pdf.getPage(i).then((pdfPage) => {
                         // Get current page rotation from page rotation objects
-                        pageOptions.rotate = this.getPageRotation(pageOptions, pdfPage);
+                        pageOptions.rotate = this.getPageRotation(renderOptions, pageOptions, pdfPage);
                         setTimeout(() => {
                             this.pdfAnnotateWrapper.renderPage(i, pageOptions).then(() => {
                                 if (i === this.pdfPages - 1) {
                                     this.dataLoadedUpdate(true);
+                                    this.pdfRenderService.setRenderOptions(renderOptions);
                                 }
                             });
                         });
-                        
                     });
+
+                    const rect = page.getBoundingClientRect();
+                    this.rotationFactoryService.addToDom(i, rect);
                 }
             }).catch(
             (error) => {
                 const errorMessage = new Error('Unable to render your supplied PDF. ' +
-                    this.RENDER_OPTIONS.documentId + '. Error is: ' + error);
+                renderOptions.documentId + '. Error is: ' + error);
                 this.log.error(errorMessage);
             }
         );
     }
 
-    getPageRotation(pageOptions: RenderOptions, pdfPage: any): number {
+    getPageRotation(renderOptions: RenderOptions, pageOptions: RenderOptions, pdfPage: any): number {
         let rotation = pageOptions.rotationPages
             .filter(rotateObj => rotateObj.page === pdfPage.pageNumber)
             .map(rotateObj => rotateObj.rotate)[0];
         if (!rotation) {
-            this.RENDER_OPTIONS.rotationPages.push({page: pdfPage.pageNumber, rotate: pdfPage.rotate});
+            renderOptions.rotationPages.push({page: pdfPage.pageNumber, rotate: pdfPage.rotate});
             rotation = pdfPage.rotate;
         }
         return rotation;
-    }
-
-    calculateRotation(pdfPage): number {
-        const rotateVal = pdfPage.rotate + this.RENDER_OPTIONS.rotate;
-        if (rotateVal >= 0) {
-            return (rotateVal >= 360) ? rotateVal - 360 : rotateVal;
-        } else {
-            return 360 - Math.abs(rotateVal);
-        }
     }
 
     setHighlightTool() {
