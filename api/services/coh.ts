@@ -1,9 +1,13 @@
 import axios, { AxiosInstance } from 'axios'
+import * as log4js from 'log4js'
 import * as moment from 'moment'
 import { config } from '../../config'
+import { http } from '../lib/http'
 
-const http: AxiosInstance = axios.create({})
-export const url = config.services.coh.corApi
+export const url = config.services.coh_cor_api
+
+const logger = log4js.getLogger('cases')
+logger.level = config.logging || 'off'
 
 interface DateTimeObject {
     date: string
@@ -24,8 +28,8 @@ function mergeCohEvents(eventsJson: any): any[] {
     const history = eventsJson.online_hearing.history
     const questionHistory = eventsJson.online_hearing.questions
         ? eventsJson.online_hearing.questions
-              .map(arr => arr.history)
-              .reduce((historyArray, item) => historyArray.concat(item), [])
+            .map(arr => arr.history)
+            .reduce((historyArray, item) => historyArray.concat(item), [])
         : []
 
     const answersHistory = eventsJson.online_hearing.answers
@@ -86,3 +90,81 @@ export async function getEvents(caseId: string, userId: string): Promise<any[]> 
         }
     })
 }
+
+export async function getDecision(hearingId: string): Promise<any> {
+    logger.info(`Getting decision with hearing Id ${hearingId}`)
+    const response = await http.get(`${url}/continuous-online-hearings/${hearingId}/decisions`)
+    return response.data
+}
+
+export async function getOrCreateHearing(caseId, userId) {
+    const hearing = await getHearing(caseId)
+    let hearingId
+
+    if (hearing) {
+        hearingId = hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : null
+    } else {
+        hearingId = await createHearing(caseId, userId)
+    }
+
+    return hearingId
+}
+
+export async function createDecision(hearingId: string): Promise<string> {
+    const response = await http.post(`${url}/continuous-online-hearings/${hearingId}/decisions`, {
+        "decision_award": "n/a",
+        "decision_header": "n/a",
+        "decision_reason": "n/a",
+        "decision_text": "n/a",
+    })
+
+    return response.data.decision_id
+}
+
+export async function updateOrCreateDecision(caseId, userId) {
+    let decisionId
+    let decision
+
+    // first lets try and get a hearing
+    const hearingId = await getOrCreateHearing(caseId, userId)
+
+    if (!hearingId) {
+        logger.error('Error getting hearing for decision!')
+    } else {
+        logger.info(`Got hearding for case ${caseId}`)
+        try {
+            decision = await getDecision(hearingId)
+            logger.info(decision)
+        } catch {
+            logger.info(`Can't find decision`)
+        }
+
+        if (decision) {
+            decisionId = decision.decision_id ? decision.decision_id : null
+        } else {
+            logger.info(`Can't find decision, creating`)
+            decisionId = await createDecision(hearingId)
+        }
+    }
+
+    // needs to return hearingId
+    return hearingId
+}
+
+export async function storeQuestion(hearingId, userId, question) {
+    const response = await http.post(`${url}/continuous-online-hearings/${hearingId}/questions`, {
+        "owner_reference": userId,
+        "question_body_text": "string",
+        "question_header_text": "string",
+        "question_ordinal": "0",
+        "question_round": "0",
+    })
+}
+
+// export storeAnswer(decisionId, key, value) {
+//     const hearingId = await getOrCreateHearing(caseId, userId)
+//     const decision = await getDecision(hearingId)
+
+//     decisionId = decision.decision_id ? decision.decision_id : null
+
+// }

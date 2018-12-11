@@ -73,6 +73,7 @@ function shiftStack(req, variables) {
         }
 
     }
+
     console.log(currentItem)
     return currentItem
 }
@@ -138,7 +139,7 @@ async function process(req, res, mapping, payload, templates) {
 
     if (req.method === 'POST') {
         console.log('event', event)
-        await map(mapping, async (instruction: any ) => {
+        await map(mapping, async (instruction: any) => {
             if (instruction.event === event) {
                 // event is the main index and so there can only be one instruction per event - exit after finding
                 logger.info(`Found matching event for ${event}`)
@@ -156,7 +157,7 @@ async function process(req, res, mapping, payload, templates) {
                 } else if (result === '[state]') {
                     result = req.params.stateId
                 } else if (result === '.') {
-                    result = await payload(req, res)
+                    result = await payload(req, res, variables)
                 }
 
                 if (result) {

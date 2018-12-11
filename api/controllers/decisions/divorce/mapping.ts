@@ -22,7 +22,7 @@ export const mapping = [
         states: [
             {
                 state: 'check',
-                result: '[payload]'
+                result: '.'
             },
             {
                 state: 'create',

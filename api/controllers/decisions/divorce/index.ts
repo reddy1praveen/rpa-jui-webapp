@@ -187,7 +187,7 @@ async function makeDecision(decision, req, state, store) {
             req.auth.userId,
             'DIVORCE',
             'FinancialRemedyMVP2',
-            state.inCaseId,
+            state.caseId,
             event,
             getOptions(req)
         )
@@ -207,7 +207,7 @@ async function makeDecision(decision, req, state, store) {
             eventToken,
             'FR_approveApplication',
             req.session.user,
-            store.get(`decisions_${state.inCaseId}`)
+            store
         )
     }
 
@@ -217,19 +217,19 @@ async function makeDecision(decision, req, state, store) {
             eventToken,
             'FR_orderRefusal',
             req.session.user,
-            store.get(`decisions_${state.inCaseId}`)
+            store
         )
     }
 
     try {
         logger.info('Payload assembled')
-        logger.info(JSON.stringify(payload))
+        logger.info(JSON.stringify(payloadData))
         await ccdStore.postCaseWithEventToken(
             req.auth.userId,
             'DIVORCE',
             'FinancialRemedyMVP2',
-            state.inCaseId,
-            payload,
+            state.caseId,
+            payloadData,
             getOptions(req)
         )
 
@@ -240,8 +240,7 @@ async function makeDecision(decision, req, state, store) {
     }
 }
 
-export async function payload(res, req) {
-    const store = new Store(req)
+export async function payload(req, res, store) {
     const jurisdiction = req.params.jurId
     const caseId = req.params.caseId
     const caseTypeId = req.params.caseTypeId
@@ -254,9 +253,10 @@ export async function payload(res, req) {
         stateId,
     }
 
+
     logger.info('Posting to CCD')
     let result = false
-    result = await makeDecision(store.get(`decisions_${caseId}`).approveDraftConsent, req, state, store)
+    result = await makeDecision(store.approveDraftConsent, req, state, store)
 
     logger.info('Posted to CCD', result)
 

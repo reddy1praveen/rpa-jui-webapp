@@ -1,22 +1,26 @@
-import * as draftStore from '../../../services/draftStore'
-const draft = require('../../../services/draft-store-api/draft-store-api')
+import * as coh from '../../../services/coh'
 import * as Mapping from './mapping'
 import * as  Templates from './templates'
+
 
 export const mapping = Mapping.mapping
 export const templates = Templates.templates
 
-export async function payload(req, res) {
+export async function payload(req, res, payload) {
     console.log('payload')
 
-    const options = draft.getOptions(req)
-    const data = await draft.createDraft(draft.getOptions(req))
-    console.log(data)
-    // draft.getAllDrafts(draft.getOptions(req)).then(data =>{
-    //     console.log(data)
-    // })
-    // draftStore.setConfig(res)
-    // draftStore.createDraft()
+    //create decision in COH
+
+    const hearingId = await coh.updateOrCreateDecision(req.params.caseId, req.auth.userId)
+
+    if (hearingId) {
+        // okay lets add questions to this
+        Object.keys(payload).forEach(variable => {
+            coh.storeQuestion(hearingId, req.auth.userId, variable)
+
+        })
+
+    }
 
     return 'decision-confirmation'
 }

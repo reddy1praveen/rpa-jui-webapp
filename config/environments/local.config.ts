@@ -22,5 +22,5 @@ export default {
     protocol: 'http',
     secureCookie: false,
     sessionSecret: 'secretSauce',
-    logging: 'info'
+    logging: 'debug'
 };
