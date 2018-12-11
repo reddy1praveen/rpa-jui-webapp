@@ -17,10 +17,10 @@ import {RouterModule} from '@angular/router';
         AppComponent
     ],
     imports: [
+        RouterModule,
         BrowserModule.withServerTransition({appId: 'jui'}),
         BrowserTransferStateModule,
         RoutingModule,
-        RouterModule,
         HttpClientModule,
         SharedModule,
         DomainModule,
