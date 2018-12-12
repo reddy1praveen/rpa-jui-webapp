@@ -45,3 +45,7 @@ export function exists(object: any, nestled: string, returnValue = false) {
 export function shorten(str: string, maxLen: number): string {
     return str.length > maxLen ? `${str.substring(0, maxLen)}...` : str
 }
+
+export function isObject(o) {
+    return o !== null && typeof o === 'object' && Array.isArray(o) === false
+}

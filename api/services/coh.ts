@@ -1,4 +1,3 @@
-import axios, { AxiosInstance } from 'axios'
 import * as log4js from 'log4js'
 import * as moment from 'moment'
 import { config } from '../../config'
@@ -121,6 +120,29 @@ export async function createDecision(hearingId: string): Promise<string> {
     return response.data.decision_id
 }
 
+export async function storeData(hearingId, data) {
+    const response = await http.put(`${url}/continuous-online-hearings/${hearingId}/decisions`, {
+        "decision_award": "n/a",
+        "decision_header": "n/a",
+        "decision_reason": "n/a",
+        "decision_state": "decision_drafted",
+        "decision_text": JSON.stringify(data),
+    })
+}
+
+export async function getData(hearingId) {
+
+    let response
+
+    try {
+        response = await http.get(`${url}/continuous-online-hearings/${hearingId}/decisions`)
+    } catch {
+        logger.info(`No decision for hearing ${hearingId} found`)
+    }
+    const data = response.data.decision_text || {}
+    return JSON.parse(data)
+}
+
 export async function updateOrCreateDecision(caseId, userId) {
     let decisionId
     let decision
@@ -151,20 +173,22 @@ export async function updateOrCreateDecision(caseId, userId) {
     return hearingId
 }
 
-export async function storeQuestion(hearingId, userId, question) {
-    const response = await http.post(`${url}/continuous-online-hearings/${hearingId}/questions`, {
-        "owner_reference": userId,
-        "question_body_text": "string",
-        "question_header_text": "string",
-        "question_ordinal": "0",
-        "question_round": "0",
-    })
+export class Store {
+    hearingId
+
+    constructor(hearingId) {
+        this.hearingId = hearingId
+    }
+
+    async set(key, value) {
+        const data = {}
+        data[key] = value
+        await storeData(this.hearingId, data)
+
+    }
+
+    async get(key) {
+        const data = await getData(this.hearingId)
+        return data[key]
+    }
 }
-
-// export storeAnswer(decisionId, key, value) {
-//     const hearingId = await getOrCreateHearing(caseId, userId)
-//     const decision = await getDecision(hearingId)
-
-//     decisionId = decision.decision_id ? decision.decision_id : null
-
-// }
