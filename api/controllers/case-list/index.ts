@@ -302,6 +302,7 @@ function getOptions(req) {
 
 module.exports = app => {
     const router = express.Router({ mergeParams: true })
+    /* istanbul ignore next */
     app.use('/cases', router)
 
     router.get('/', (req: any, res, next) => {

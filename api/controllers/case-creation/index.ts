@@ -64,6 +64,7 @@ function getOptions(req: any) {
 
 module.exports = app => {
     const router = express.Router({ mergeParams: true })
+    /* istanbul ignore next */
     app.use('/casex/create', router)
 
     router.get('/:jur/:casetype', (req: any, res, next) => {

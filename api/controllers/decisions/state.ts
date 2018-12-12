@@ -370,6 +370,7 @@ async function handleStateRoute(req, res) {
 
 module.exports = app => {
     const router = express.Router({ mergeParams: true })
+    /* istanbul ignore next */
     app.use('/decisions', router)
 
     router.get('/state/:jur_id/:case_id/:state_id', handleStateRoute)

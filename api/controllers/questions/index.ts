@@ -145,6 +145,7 @@ function getOptions(req) {
 module.exports = app => {
     const route = express.Router({ mergeParams: true })
     // TODO: we need to put this back to '/case' in the future (rather than '/caseQ') when it doesn't clash with case/index.js
+    /* istanbul ignore next */
     app.use('/caseQ', route)
 
     // GET A Question

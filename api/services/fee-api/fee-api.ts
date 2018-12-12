@@ -19,6 +19,7 @@ function getOptions(req) {
 
 module.exports = app => {
     const router = express.Router({ mergeParams: true })
+    /* istanbul ignore next */
     app.use('/fee', router)
 
     router.get('/health', (req, res, next) => {

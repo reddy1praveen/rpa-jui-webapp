@@ -162,6 +162,7 @@ function getOptions(req) {
  */
 module.exports = app => {
     const router = express.Router({ mergeParams: true })
+    /* istanbul ignore next */
     app.use('/dm-store', router)
 
     router.get('/health', (req, res, next) => {

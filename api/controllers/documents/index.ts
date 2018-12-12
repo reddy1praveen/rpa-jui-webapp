@@ -43,6 +43,7 @@ function getOptions(req) {
 
 module.exports = app => {
     const route = express.Router({ mergeParams: true })
+    /* istanbul ignore next */
     app.use('/documents', route)
 
     route.get('/:document_id', (req, res, next) => {
