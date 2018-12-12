@@ -49,6 +49,7 @@ testem.log
 Thumbs.db
 version
 /test/reports/
+reports/
 .tmp/
 !.sessions/
 .sessions/*

@@ -53,7 +53,7 @@ async function shiftStack(req, variables) {
     let matching = false
     let currentItem
 
-    const currentStack = await store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`)
+    const currentStack = await store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`) || {}
     while (!matching && currentStack.length) {
 
         logger.info(`popped stack ${currentStack}`)
