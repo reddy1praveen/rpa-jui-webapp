@@ -5,12 +5,15 @@
         <div class="govuk-grid-row">
 
 
-            <div *ngIf="pageitems && this.typeId === 'FinancialRemedyMVP2'" class="govuk-grid-column-two-thirds">
+            <div *ngIf="pageitems" class="govuk-grid-column-two-thirds">
                 <h1 class="govuk-heading-xl">{{pageitems.header}}</h1>
 
                 <form *ngIf="pageitems" [formGroup]="form" (ngSubmit)="onSubmit()">
                     <ng-container *ngFor="let group of pageitems.groups; let Index = index">
-                        <ng-container *ngIf="isSectionExist(group.page)">
+
+
+                        <!-- Financial Remedy -->
+                        <ng-container *ngIf="isSectionExist(group.page) && this.typeId === 'FinancialRemedyMVP2'">
                             <h2 class="govuk-heading-m">{{ group.header }}</h2>
                             <dl class="app-check-your-answers app-check-your-answers--short govuk-!-margin-bottom-8">
                                 <div class="app-check-your-answers__contents" *ngFor="let content of group.contents; let c = index">
@@ -49,6 +52,58 @@
                                 </div>
                             </dl>
                         </ng-container>
+                        <!--End of Financial Remedy -->
+
+                        <!--Preliminary Vew-->
+                        <ng-container *ngIf="this.typeId === 'Benefit'">
+
+                            <app-govuk-inset-text  *ngIf="group.inset"
+                                                   [text]="group.inset.text">
+                            </app-govuk-inset-text>
+                            <h2 *ngIf="group.heading" [class]="group.heading.classes">{{ group.heading.text }}</h2>
+                            <table *ngIf="group.table" [class]="'govuk-table ' + group.table.classes">
+
+                                <caption *ngIf="group.table.caption" [class]="'govuk-table__caption ' + group.table.caption.classes">{{group.table.caption.text}}</caption>
+
+                                <thead class="govuk-table__head">
+                                    <tr class="govuk-table__row">
+                                        <th class="govuk-table__header" *ngFor="let head of group.table.headers" >{{ head }}</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody class="govuk-table__body">
+
+                                <tr class="govuk-table__row" *ngFor="let activity of group.table.activities">
+                                    <ng-container *ngIf="pageValues[activity.type] === true">
+                                        <td class="govuk-table__cell">{{activity.name}}</td>
+                                        <ng-container *ngFor="let score of activity.scores">
+                                            <ng-container *ngIf="pageValues[activity.selector] === score.selector">
+                                                <td class="govuk-table__cell">
+                                                    {{score.text}}
+                                                    <ul *ngIf="score.list">
+                                                        <li *ngFor="let li of score.list.text" [class]="score.list.classes">{{ li }}</li>
+                                                    </ul>
+                                                </td>
+                                                <td class="govuk-table__cell">{{score.score}}</td>
+                                                <td class="govuk-table__cell govuk-table__cell--numeric">
+                                                    <a style="cursor:pointer"
+                                                       (click) = onSubmit(activity.link)
+                                                       title="Edit {{activity.link}} page">Change
+                                                        <span class="govuk-visually-hidden">{{activity.hiddenAccessibilityText}}</span>
+                                                    </a>
+                                                </td>
+                                            </ng-container>
+                                        </ng-container>
+                                    </ng-container>
+                                </tr>
+
+                                </tbody>
+                            </table>
+
+                        </ng-container>
+                        <!--End of Preliminary Vew-->
+
+
                     </ng-container>
                     <ng-container *ngIf="pageitems.buttons">
                         <ng-container *ngFor="let button of pageitems.buttons; let bi = index;">

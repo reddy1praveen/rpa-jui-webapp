@@ -43,7 +43,7 @@ module.exports = {
                                 }
                             },
                             {
-                                value: '2',
+                                value: '2.0',
                                 text: 'Needs either:',
                                 hint: {
                                     text: '2 points',
@@ -59,7 +59,7 @@ module.exports = {
                                 }
                             },
                             {
-                                value: '2',
+                                value: '2.1',
                                 text: 'Needs a therapeutic source to be able to take nutrition',
                                 hint: {
                                     text: '2 points',

@@ -43,7 +43,7 @@ module.exports = {
                                 }
                             },
                             {
-                                value: '2',
+                                value: '2.0',
                                 text: 'Needs to use an aid or appliance to be able to manage toilet needs or incontinence',
                                 hint: {
                                     text: '2 point',
@@ -51,7 +51,7 @@ module.exports = {
                                 }
                             },
                             {
-                                value: '2',
+                                value: '2.1',
                                 text: 'Needs supervision or prompting to be able to manage toilet needs',
                                 hint: {
                                     text: '2 points',
