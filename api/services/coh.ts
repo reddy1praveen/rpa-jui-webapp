@@ -1,8 +1,5 @@
-import { helpData } from './../../src/app/hmcts/components/hmcts-global-footer/mock/hmcts-global-footer.mock';
-import axios, { AxiosInstance } from 'axios'
 import * as log4js from 'log4js'
 import * as moment from 'moment'
-import { map } from 'p-iteration'
 import { config } from '../../config'
 import { http } from '../lib/http'
 
@@ -186,7 +183,6 @@ export class Store {
     async set(key, value) {
         const data = {}
         data[key] = value
-        console.log(data)
         await storeData(this.hearingId, data)
 
     }

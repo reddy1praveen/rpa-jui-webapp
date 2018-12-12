@@ -109,7 +109,7 @@ describe('ApiHttpService', () => {
                 '123141', '2018-10-17 13:26:05.767');
 
             apiHttpService.setBaseUrl(baseUrl);
-            apiHttpService.documentTask(dmDocumentId, outputDocumentId).subscribe((response) => {
+            apiHttpService.documentTask(dmDocumentId, outputDocumentId, '').subscribe((response) => {
                 expect(response.body).toEqual(jasmine.any(DocumentTask));
             });
 
