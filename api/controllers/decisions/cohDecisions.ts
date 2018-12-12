@@ -1,5 +1,6 @@
 import * as express from 'express'
 const { getHearingIdOrCreateHearing, getDecision, postDecision, putDecision } = require('../../services/coh-cor-api/coh-cor-api')
+const { relistHearing } = require('../../services/coh')
 const headerUtilities = require('../../lib/utilities/headerUtilities')
 
 function getOptions(req) {
@@ -55,6 +56,29 @@ export default app => {
             .then(response => {
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.setHeader('content-type', 'application/json')
+                res.status(200).send(JSON.stringify(response))
+            })
+            .catch(response => {
+                console.log(response.error || response)
+                res.status(response.error.status).send(response.error.message)
+            })
+    })
+
+    router.put('/:case_id/hearing/relist', (req: any, res, next) => {
+
+        console.log('relist')
+        const userId = req.auth.userId
+        const caseId = req.params.case_id
+        const options = getOptions(req)
+
+        // TODO: You might have to make sure that the Authorisation, and
+        // ServiceAuth is being set on the request
+        relistHearing(caseId)
+            .then(response => {
+                res.setHeader('Access-Control-Allow-Origin', '*')
+                res.setHeader('content-type', 'application/json')
+                console.log('response')
+                console.log(response)
                 res.status(200).send(JSON.stringify(response))
             })
             .catch(response => {

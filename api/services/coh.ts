@@ -96,6 +96,16 @@ export async function getDecision(hearingId: string): Promise<any> {
     return response.data
 }
 
+//TODO: Make dry with getOrCreateHearing
+export async function getHearingId(caseId) {
+
+    const hearing = await getHearing(caseId)
+    console.log('hearing')
+    console.log(hearing)
+
+    return hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : null
+}
+
 export async function getOrCreateHearing(caseId, userId) {
     const hearing = await getHearing(caseId)
     let hearingId
@@ -171,6 +181,47 @@ export async function updateOrCreateDecision(caseId, userId) {
 
     // needs to return hearingId
     return hearingId
+}
+
+/**
+ * relistHearing
+ *
+ * Occurs when a re-listing for hearing is requested by a Judge. A Judge is able to relist a hearing at any point.
+ *
+ * Note the the body of the PUT request should contain 'continuous_online_hearing_relisted',
+ * within a signature of:
+ * {
+ *  'reason': 'string',
+ *  'state': 'drafted'
+ * }
+ *
+ * TODO: Is it state or online_hearing_state, let's go with the swagger url is fine here
+ * TODO: Should we say it's set
+ * @see RIUI-652
+ * @param hearingId
+ * @return {Promise}
+ */
+export async function relistHearing(caseId) {
+
+    console.log('relistHearing')
+    console.log(caseId)
+    // Gets hearingID
+    const hearingId = await getHearingId(caseId)
+    let response
+    console.log('hearingId')
+    console.log(hearingId)
+    if (!hearingId) {
+        //TODO: This case may not have a hearing
+        return 'Return no hearing Id error'
+    }
+    try {
+        //TODO: We need to pass in the { reason:'string', state:'drafted' }
+        response = await http.put(`${url}/continuous-online-hearings/${hearingId}/relist`)
+        logger.info(response)
+    } catch (error) {
+        logger.info(`Can't find decision`)
+    }
+    return response
 }
 
 export class Store {

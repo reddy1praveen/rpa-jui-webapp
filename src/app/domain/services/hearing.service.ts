@@ -13,7 +13,8 @@ export class HearingService {
     constructor(private httpClient: HttpClient, private configService: ConfigService) { }
 
     generateHearingsUrl(caseId: string) {
-        return `${this.configService.config.api_base_url}/api/hearings/${caseId}`;
+        // return `${this.configService.config.api_base_url}/api/hearings/${caseId}`;
+        return `${this.configService.config.api_base_url}/api/decisions/${caseId}/hearing/relist`;
     }
 
     changeMessage(message: string) {
@@ -28,6 +29,6 @@ export class HearingService {
             reason: relist_reason,
         };
 
-        return this.httpClient.post(url, body);
+        return this.httpClient.put(url, body);
     }
 }
