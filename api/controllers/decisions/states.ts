@@ -52,15 +52,14 @@ async function shiftStack(req, variables) {
     let currentItem
 
     const currentStack =  await  store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`)
-    console.log('stack')
-    console.log(currentStack)
+
     while (!matching && currentStack.length) {
 
         logger.info(`popped stack ${currentStack}`)
         currentItem = currentStack.shift()
         logger.info(`Got item ${currentItem}`)
         logger.info(currentItem)
-        store.set(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`, currentStack)
+        await store.set(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`, currentStack)
 
         if (isObject(currentItem)) {
             const key = Object.keys(currentItem)[0]
@@ -82,7 +81,7 @@ async function shiftStack(req, variables) {
 function handleCondition(conditionNode, variables) {
     // index 0 hardcoded, not interating through for OR
     const key = Object.keys(conditionNode.condition[0])[0]
-    console.log(conditionNode)
+
     if (variables[key] === conditionNode.condition[0][key]) {
         return conditionNode.result // eslint-disable-line no-param-reassign
     }
@@ -123,8 +122,6 @@ async function process(req, res, mapping, payload, templates, store) {
     const caseId = req.params.caseId
     const caseTypeId = req.params.caseTypeId.toLowerCase()
     const stateId = req.params.stateId
-
-    console.log(stateId)
 
     const event = req.body.event
     let variables = req.body.formValues
