@@ -3,6 +3,7 @@ import * as log4js from 'log4js'
 import { map } from 'p-iteration'
 import { config } from '../../../config'
 import { Store } from '../../lib/store/store'
+import { isObject } from '../../lib/util'
 import * as coh from '../../services/coh'
 import * as divorce from './divorce'
 import * as sscs from './sscs'
@@ -26,6 +27,7 @@ function some(array, predicate) {
 }
 
 async function pushStack(req, stack) {
+    logger.info('Pushing stack')
     const jurisdiction = req.params.jurId
     const caseId = req.params.caseId
     const caseTypeId = req.params.caseTypeId.toLowerCase()
@@ -37,10 +39,6 @@ async function pushStack(req, stack) {
         newStack = [...currentStack, stack]
     }
     store.set(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`, newStack)
-}
-
-function isObject(o) {
-    return o !== null && typeof o === 'object' && Array.isArray(o) === false
 }
 
 async function shiftStack(req, variables) {
@@ -152,7 +150,6 @@ async function process(req, res, mapping, payload, templates, store) {
                 let result = handleInstruction(instruction, stateId, variables)
                 logger.info(`result ${result}`)
                 if (Array.isArray(result)) {
-                    logger.info('Pushing stack')
                     await pushStack(req, result)
                     result = await shiftStack(req, variables)
                     logger.info(`Popped stack ${result}`)
@@ -167,9 +164,7 @@ async function process(req, res, mapping, payload, templates, store) {
                 }
 
                 if (result) {
-                    console.log('assigning meta', caseTypeId, result)
                     meta = templates[caseTypeId][result]
-                    console.log(meta)
                     newRoute = result
                 }
             }
