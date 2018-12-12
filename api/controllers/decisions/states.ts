@@ -53,14 +53,16 @@ async function shiftStack(req, variables) {
     let matching = false
     let currentItem
 
-    const currentStack = await store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`) || {}
+    const currentStack =  await  store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`)
+    console.log('stack')
+    console.log(currentStack)
     while (!matching && currentStack.length) {
 
         logger.info(`popped stack ${currentStack}`)
         currentItem = currentStack.shift()
         logger.info(`Got item ${currentItem}`)
         logger.info(currentItem)
-        await store.set(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`, currentStack)
+        store.set(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`, currentStack)
 
         if (isObject(currentItem)) {
             const key = Object.keys(currentItem)[0]
@@ -151,12 +153,12 @@ async function process(req, res, mapping, payload, templates, store) {
                 logger.info(`result ${result}`)
                 if (Array.isArray(result)) {
                     logger.info('Pushing stack')
-                    pushStack(req, result)
-                    result = shiftStack(req, variables)
+                    await pushStack(req, result)
+                    result = await shiftStack(req, variables)
                     logger.info(`Popped stack ${result}`)
                 } else if (result === '...') {
                     console.log('reading from')
-                    result = shiftStack(req, variables)
+                    result = await shiftStack(req, variables)
                     console.log(`result is ${result}`)
                 } else if (result === '[state]') {
                     result = req.params.stateId

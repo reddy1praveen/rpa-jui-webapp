@@ -3,7 +3,6 @@ import { config } from './config';
 import * as globalTunnel from 'global-tunnel-ng';
 
 if (config.proxy) {
-    console.log('okay')
     globalTunnel.initialize({
         host: config.proxy.host,
         port: config.proxy.port,
