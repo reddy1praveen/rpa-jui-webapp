@@ -42,7 +42,7 @@ module.exports = {
                                 }
                             },
                             {
-                                value: '2',
+                                value: '2.0',
                                 text: 'Needs to use an aid or appliance to be able to dress or undress',
                                 hint: {
                                     text: '2 point',
@@ -50,7 +50,7 @@ module.exports = {
                                 }
                             },
                             {
-                                value: '2',
+                                value: '2.1',
                                 text: 'Needs either:',
                                 hint: {
                                     text: '2 points',
@@ -65,7 +65,7 @@ module.exports = {
                                 }
                             },
                             {
-                                value: '2',
+                                value: '2.2',
                                 text: 'Needs assistance to be able to dress or undress their lower body',
                                 hint: {
                                     text: '2 points',
