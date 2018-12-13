@@ -202,6 +202,8 @@ export async function updateOrCreateDecision(caseId, userId) {
  *  'state': 'drafted'
  * }
  *
+ * Swagger : https://hmcts.github.io/reform-api-docs/swagger.html?url=https://hmcts.github.io/reform-api-docs/specs/
+ * rpa-coh-continuous-online-resolution.json#/online-hearing-controller/retrieveOnlineHearingUsingGET
  * TODO: Is it state or online_hearing_state, let's go with the swagger url is fine here
  * TODO: Should we say it's set
  * @see RIUI-652
@@ -211,24 +213,50 @@ export async function updateOrCreateDecision(caseId, userId) {
 export async function relistHearing(caseId, userId) {
 
     console.log('relistHearing')
-    console.log(caseId)
+
     // Gets hearingID
     const hearingId = await getOrCreateHearing(caseId, userId)
     let response
-    console.log('hearingId')
-    console.log(hearingId)
+
+    // hearingId is returned correctly
     if (!hearingId) {
-        //TODO: This case may not have a hearing
-        return 'Return no hearing Id error'
+        //TODO: This case may not have a hearing. ie. an FR case, therefore throw an error back to
+        //the user.
+        return 'Return no hearing Id error, maybe because its an FR case.'
     }
-    try {
-        //TODO: We need to pass in the { reason:'string', state:'drafted' }
-        response = await http.put(`${url}/continuous-online-hearings/${hearingId}/relist`)
-        logger.info(response)
-    } catch (error) {
-        logger.info(`Can't find decision`)
-    }
-    return response
+
+    // The state property is correct as if state is not set a 422 Unprocessable Entity
+    // is thrown by the COH Api.
+    // A GET Request works correctly ie. a GET request to ${url}/continuous-online-hearings/${hearingId}
+    // response = await http.get(`${url}/continuous-online-hearings/${hearingId}`)
+
+    // The following PUT Request, with what I think is the correct body returns a 400.
+    response = await http.put(`${url}/continuous-online-hearings/${hearingId}/relist`,
+        {state: 'continuous_online_hearing_relisted', reason: 'Test Reason'})
+
+    //TODO: Posed the question to CoH [13thDec4.30pm]:
+    //Hi, I’m trying to relist a hearing by exercising the PUT /continuous-online-hearings/{onlineHearingId}/relist
+    // route. I’m passing in the state property as ‘continuous_online_hearing_relisted’ and the reason as
+    // a string. But I’m receiving back a 400 from this PUT route. I know the service works for other calls
+    // as I can exercise a GET request and the service returns data fine. I’ve looked at Swagger for the PUT
+    // request and I’m passing everything in correctly. Any ideas?
+
+    console.log('response')
+    console.log(response)
+
+    //TODO: Add try catch back in when PUT request returns a success response.
+    // try {
+    //     //TODO: We need to pass in the { reason:'string', state:'drafted' }
+    //     response = await http.put(`${url}/continuous-online-hearings/${hearingId}/relist`)
+    //     console.log('response')
+    //     console.log(response)
+    //
+    //     logger.info(response)
+    // } catch (error) {
+    //     logger.info(`Can't find decision`)
+    // }
+
+    // return response
 }
 
 export class Store {
