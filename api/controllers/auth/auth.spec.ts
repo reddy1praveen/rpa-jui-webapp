@@ -1,14 +1,14 @@
-import 'mocha'
-import * as sinon from 'sinon'
 import * as chai from 'chai'
 import { expect } from 'chai'
+import 'mocha'
+import * as sinon from 'sinon'
 import * as sinonChai from 'sinon-chai'
 import { mockReq, mockRes } from 'sinon-express-mock'
 chai.use(sinonChai)
 
 import { config } from '../../../config'
 import * as idam from '../../services/idam-api/idam-api'
-import { logout, authFn } from './index'
+import { authFn, logout } from './index'
 
 describe('Auth', () => {
 
@@ -37,19 +37,16 @@ describe('Auth', () => {
             req = mockReq({
                 get: () => 'localhost',
                 query: {
-                    code: 1
-                }
+                    code: 1,
+                },
             })
             res = mockRes()
         })
 
-
-        it('should set the authorisation header', done => {
-            authFn(req, res, null)
+        it('should set the authorisation header', async () => {
+            await authFn(req, res, null)
             expect(idam.postOauthToken).to.be.calledWith(1, 'localhost')
-            // expect(idam.getDetails).to.have.been.calledWith(sinon.match({ headers: { Authorization: 'Bearer access' } }))
-            expect(idam.getDetails).to.have.been.called()
-            done()
+            expect(idam.getDetails).to.have.been.calledWith(sinon.match({ headers: { Authorization: 'Bearer access' } }))
         })
     })
 })
