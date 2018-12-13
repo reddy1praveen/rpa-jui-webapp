@@ -39,6 +39,7 @@ import { ValidationHeaderComponent } from './components/validation-header/valida
 import { JuiFormElementsComponent } from './components/jui-form-elements/jui-form-elements.component';
 import { InputsComponent } from './components/inputs/inputs.component';
 import { HmctsEmViewerUiModule } from './components/hmcts-em-viewer-ui/hmcts-em-viewer-ui.module';
+import { CustombuttonsComponent } from './components/custombuttons/custombuttons.component';
 
 @NgModule({
     imports: [
@@ -85,6 +86,7 @@ import { HmctsEmViewerUiModule } from './components/hmcts-em-viewer-ui/hmcts-em-
         ValidationHeaderComponent,
         JuiFormElementsComponent,
         InputsComponent,
+        CustombuttonsComponent,
     ],
     exports: [
         JuiFormElementsComponent,
