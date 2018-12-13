@@ -6,6 +6,10 @@
 
 
             <div *ngIf="pageitems" class="govuk-grid-column-two-thirds">
+                <ng-container *ngIf="useValidation && form.invalid">
+                    <app-validation-header [validationHeaderErrorMessages]="pageitems.validationHeaderErrorMessages" [formGroup]="form">
+                    </app-validation-header>
+                </ng-container>
                 <h1 class="govuk-heading-xl">{{pageitems.header}}</h1>
 
                 <form *ngIf="pageitems" [formGroup]="form" (ngSubmit)="onSubmit()">

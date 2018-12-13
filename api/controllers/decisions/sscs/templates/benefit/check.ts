@@ -2,6 +2,15 @@ module.exports = {
     idPrefix: 'check',
     header: 'Explain the tribunal’s view',
     name: 'check',
+    formGroupValidators: [],
+    validationHeaderErrorMessages: [
+        {
+            validationLevel: 'formControl',
+            controlId: 'reasonsTribunalView',
+            text: 'Enter the Reasons for the tribunal’s view',
+            href: '#'
+        },
+    ],
     groups: [
         {
             inset: {

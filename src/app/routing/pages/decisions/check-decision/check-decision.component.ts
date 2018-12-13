@@ -7,6 +7,7 @@ import { NpaService } from '../../../../shared/components/hmcts-em-viewer-ui/dat
 import { IDocumentTask } from '../../../../shared/components/hmcts-em-viewer-ui/data/document-task.model';
 import { AnnotationStoreService } from '../../../../shared/components/hmcts-em-viewer-ui/data/annotation-store.service';
 import { ConfigService } from '../../../../config.service';
+import { ValidationService } from '../../../../shared/services/validation.service';
 
 
 @Component({
@@ -35,9 +36,13 @@ export class CheckDecisionComponent implements OnInit {
         private formsService: FormsService,
         private npaService: NpaService,
         private configService: ConfigService,
-        private annotationStoreService: AnnotationStoreService) { }
+        private annotationStoreService: AnnotationStoreService,
+        private validationService: ValidationService
+    ) { }
     createForm(pageitems, pageValues) {
         this.form = new FormGroup(this.formsService.defineformControls(pageitems, pageValues));
+        const formGroupValidators = this.validationService.createFormGroupValidators(this.form, pageitems.formGroupValidators);
+        this.form.setValidators(formGroupValidators);
     }
 
     //pawel-k [1:35 PM]
@@ -127,16 +132,25 @@ export class CheckDecisionComponent implements OnInit {
 
         console.log('Submitting properties =>', this.pageitems.name, this.request);
 
-        this.decisionService.submitDecisionDraft(
-            this.jurId,
-            this.activatedRoute.snapshot.parent.data.caseData.id,
-            this.pageitems.name,
-            this.typeId,
-            this.request)
-            .subscribe(decision => {
-                console.log(decision.newRoute);
-                this.router.navigate([`../${decision.newRoute}`], { relativeTo: this.activatedRoute });
-            });
+        console.log('IsValid :', this.useValidation);
+        console.log('formDraft:', this.form);
+        console.log('Form is valid:', this.form.valid);
+
+        if (this.form.invalid) {
+            this.useValidation = true;
+            return;
+        } else {
+            this.decisionService.submitDecisionDraft(
+                this.jurId,
+                this.activatedRoute.snapshot.parent.data.caseData.id,
+                this.pageitems.name,
+                this.typeId,
+                this.request)
+                .subscribe(decision => {
+                    console.log(decision.newRoute);
+                    this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
+                });
+        }
     }
 
     burnAnnotatedDocument() {
