@@ -119,17 +119,17 @@ export class CheckDecisionComponent implements OnInit {
         }
         delete this.form.value.createButton;
 
-        console.log('FORM VALUE==>', Object.keys(this.form.value).length);
+        //console.log('FORM VALUE==>', Object.keys(this.form.value).length);
 
-        this.request = { formValues: this.form.value, event: event };
+        this.request = { formValues: { ...this.pageValues, ...this.form.value }, event: event };
 
         // For final submission to server use other request below
         // Temporary hack for Preliminary view, has to be fixed later
         // Don't delete this comment!!
 
-        if (Object.keys(this.form.value).length <= 1){
-            this.request = { formValues: this.pageValues, event: event };
-        }
+        // if (Object.keys(this.form.value).length <= 1){
+        //     this.request = { formValues: this.pageValues, event: event };
+        // }
 
         if (this.npaDocumentTask) {
             if (this.npaDocumentTask.outputDocumentId) {
