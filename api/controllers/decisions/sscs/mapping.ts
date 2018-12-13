@@ -9,17 +9,18 @@
 // event  --> state/states | result
 // state/states ---> condition/conditions -> result
 
-// [state] and [end] are special casess
+// [state] and . and ... are special casess
 
 // result:
 // string , "some- page" , a page to go to
 // array , a list of pages to add to a register and the next page is first on register stack
-// string , "." pop next page of register stack
+// string , "..." pop next page of register stack
 
 /*tslint:disable */
 export const mapping = [
     {
         event: 'change',
+        state: 'check',
         result: '[state]',
     },
     {
@@ -67,6 +68,10 @@ export const mapping = [
                     { washingBathing: 'washing-bathing' },
                     'check',
                 ]
+            },
+            {
+                state: 'check',
+                result: 'check-tribunal'
             },
             {
                 state: 'communicating-verbally',

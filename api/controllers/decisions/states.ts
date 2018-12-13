@@ -26,14 +26,13 @@ function some(array, predicate) {
     return null
 }
 
-async function pushStack(req, stack) {
+async function pushStack(req, stack, store) {
     logger.info('Pushing stack')
     const jurisdiction = req.params.jurId
     const caseId = req.params.caseId
     const caseTypeId = req.params.caseTypeId.toLowerCase()
     let newStack = [...stack]
 
-    const store = new Store(req)
     const currentStack = await store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`)
     if (currentStack === '' || currentStack === null) {
         newStack = [...currentStack, stack]
@@ -41,12 +40,10 @@ async function pushStack(req, stack) {
     store.set(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`, newStack)
 }
 
-async function shiftStack(req, variables) {
+async function shiftStack(req, variables, store) {
     const jurisdiction = req.params.jurId
     const caseId = req.params.caseId
     const caseTypeId = req.params.caseTypeId.toLowerCase()
-
-    const store = new Store(req)
 
     let matching = false
     let currentItem
@@ -113,6 +110,10 @@ function handleInstruction(instruction, stateId, variables) {
 
             return false
         })
+    } else {
+        // no states
+        logger.info(`Instruction result without state: ${instruction.result} `)
+        return instruction.result
     }
     return null
 }
@@ -139,21 +140,19 @@ async function process(req, res, mapping, payload, templates, store) {
     }
 
     if (req.method === 'POST') {
-        console.log('event', event)
         await map(mapping, async (instruction: any) => {
             if (instruction.event === event) {
                 // event is the main index and so there can only be one instruction per event - exit after finding
-                logger.info(`Found matching event for ${event}`)
+                logger.info(`Found matching event for ${event} `)
+                console.log(instruction)
                 let result = handleInstruction(instruction, stateId, variables)
                 logger.info(`result ${result}`)
                 if (Array.isArray(result)) {
-                    await pushStack(req, result)
-                    result = await shiftStack(req, variables)
+                    await pushStack(req, result, store)
+                    result = await shiftStack(req, variables, store)
                     logger.info(`Popped stack ${result}`)
                 } else if (result === '...') {
-                    console.log('reading from')
-                    result = await shiftStack(req, variables)
-                    console.log(`result is ${result}`)
+                    result = await shiftStack(req, variables, store)
                 } else if (result === '[state]') {
                     result = req.params.stateId
                 } else if (result === '.') {
@@ -168,7 +167,6 @@ async function process(req, res, mapping, payload, templates, store) {
             return false
         })
     } else {
-        console.log(caseTypeId)
         meta = templates[caseTypeId][stateId]
     }
 
@@ -179,11 +177,11 @@ async function process(req, res, mapping, payload, templates, store) {
         meta,
         newRoute,
     }
+
     req.session.save(() => res.send(JSON.stringify(response)))
 }
 
 async function handleStateRoute(req, res) {
-    console.log(req.method)
 
     const jurisdiction = req.params.jurId
 
@@ -191,11 +189,9 @@ async function handleStateRoute(req, res) {
 
     switch (jurisdiction) {
         case divorceType:
-            console.log("divorce")
             process(req, res, divorce.mapping, divorce.payload, divorce.templates, new Store(req))
             break
         case sscsType:
-            console.log('SSCS')
             const hearingId = await sscs.init(req, res)
             process(req, res, sscs.mapping, sscs.payload, sscs.templates, new coh.Store(hearingId))
             break
