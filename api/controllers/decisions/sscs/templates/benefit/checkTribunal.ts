@@ -1,5 +1,5 @@
 module.exports = {
-    idPrefix: 'check',
+    idPrefix: 'check-tribunal',
     header: 'Check view before sending',
     name: 'check-tribunal',
     formGroupValidators: [],
@@ -15,6 +15,13 @@ module.exports = {
                 text: 'The tribunal’s view on your appeal',
                 classes: 'govuk-heading-l'
             }
+        }
+    ],
+    buttons: [
+        {
+            control: 'createButton',
+            value: 'Submit',
+            onEvent: 'submit'
         }
     ]
 }

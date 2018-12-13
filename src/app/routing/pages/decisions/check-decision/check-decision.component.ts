@@ -118,7 +118,18 @@ export class CheckDecisionComponent implements OnInit {
             event = 'change';
         }
         delete this.form.value.createButton;
-        this.request = { formValues: this.pageValues, event: event };
+
+        //console.log('FORM VALUE==>', Object.keys(this.form.value).length);
+
+        this.request = { formValues: { ...this.pageValues, ...this.form.value }, event: event };
+
+        // For final submission to server use other request below
+        // Temporary hack for Preliminary view, has to be fixed later
+        // Don't delete this comment!!
+
+        // if (Object.keys(this.form.value).length <= 1){
+        //     this.request = { formValues: this.pageValues, event: event };
+        // }
 
         if (this.npaDocumentTask) {
             if (this.npaDocumentTask.outputDocumentId) {
@@ -136,7 +147,7 @@ export class CheckDecisionComponent implements OnInit {
         console.log('formDraft:', this.form);
         console.log('Form is valid:', this.form.valid);
 
-        if (this.form.invalid) {
+        if (this.form.invalid && event === 'continue') {
             this.useValidation = true;
             return;
         } else {
