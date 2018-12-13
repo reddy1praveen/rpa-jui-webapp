@@ -26,12 +26,14 @@ function some(array, predicate) {
     return null
 }
 
-async function pushStack(req, stack, store) {
+async function pushStack(req, stack) {
     logger.info('Pushing stack')
     const jurisdiction = req.params.jurId
     const caseId = req.params.caseId
     const caseTypeId = req.params.caseTypeId.toLowerCase()
     let newStack = [...stack]
+
+    const store = new Store(req)
 
     const currentStack = await store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`)
     if (currentStack === '' || currentStack === null) {
@@ -40,7 +42,7 @@ async function pushStack(req, stack, store) {
     await store.set(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`, newStack)
 }
 
-async function shiftStack(req, variables, store) {
+async function shiftStack(req, variables) {
     const jurisdiction = req.params.jurId
     const caseId = req.params.caseId
     const caseTypeId = req.params.caseTypeId.toLowerCase()
@@ -48,7 +50,9 @@ async function shiftStack(req, variables, store) {
     let matching = false
     let currentItem
 
-    const currentStack =  await  store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`) || []
+    const store = new Store(req)
+
+    const currentStack =  await  store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`) 
 
     while (!matching && currentStack.length) {
 
@@ -149,11 +153,11 @@ async function process(req, res, mapping, payload, templates, store) {
                 let result = handleInstruction(instruction, stateId, variables)
                 logger.info(`result ${result}`)
                 if (Array.isArray(result)) {
-                    await pushStack(req, result, store)
-                    result = await shiftStack(req, variables, store)
+                    await pushStack(req, result)
+                    result = await shiftStack(req, variables)
                     logger.info(`Popped stack ${result}`)
                 } else if (result === '...') {
-                    result = await shiftStack(req, variables, store)
+                    result = await shiftStack(req, variables)
                 } else if (result === '[state]') {
                     result = req.params.stateId
                 } else if (result === '.') {
