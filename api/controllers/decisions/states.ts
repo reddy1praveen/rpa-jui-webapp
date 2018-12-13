@@ -37,7 +37,7 @@ async function pushStack(req, stack, store) {
     if (currentStack === '' || currentStack === null) {
         newStack = [...currentStack, stack]
     }
-    store.set(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`, newStack)
+    await store.set(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`, newStack)
 }
 
 async function shiftStack(req, variables, store) {
@@ -48,7 +48,7 @@ async function shiftStack(req, variables, store) {
     let matching = false
     let currentItem
 
-    const currentStack =  await  store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`)
+    const currentStack =  await  store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`) || []
 
     while (!matching && currentStack.length) {
 
@@ -57,6 +57,8 @@ async function shiftStack(req, variables, store) {
         logger.info(`Got item ${currentItem}`)
         logger.info(currentItem)
         await store.set(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`, currentStack)
+    
+        const currentStack2 =  await  store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`)
 
         if (isObject(currentItem)) {
             const key = Object.keys(currentItem)[0]
@@ -144,7 +146,6 @@ async function process(req, res, mapping, payload, templates, store) {
             if (instruction.event === event) {
                 // event is the main index and so there can only be one instruction per event - exit after finding
                 logger.info(`Found matching event for ${event} `)
-                console.log(instruction)
                 let result = handleInstruction(instruction, stateId, variables)
                 logger.info(`result ${result}`)
                 if (Array.isArray(result)) {
