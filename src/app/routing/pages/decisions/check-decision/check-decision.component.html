@@ -100,6 +100,20 @@
                                 </tbody>
                             </table>
 
+                            <!--Formbuilder code to render textarea--->
+                            <ng-container *ngIf="group.textarea">
+                                <div class="govuk-form-group" *ngFor="let group of pageitems.groups">
+                                    <app-fieldset *ngIf="group.fieldset"
+                                                  [classes]="'govuk-fieldset'"
+                                                  [group]="form"
+                                                  [data]="group.fieldset"
+                                                  [validate]="useValidation">
+                                    </app-fieldset>
+                                    <app-jui-form-elements [group]="form" [validate]="useValidation" [data]="group"></app-jui-form-elements>
+                                </div>
+                            </ng-container>
+                            <!--End of formbuilder -->
+
                         </ng-container>
                         <!--End of Preliminary Vew-->
 

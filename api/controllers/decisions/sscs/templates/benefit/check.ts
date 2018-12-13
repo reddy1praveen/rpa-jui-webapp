@@ -429,15 +429,7 @@ module.exports = {
                                 score: 6
                             }
                         ]
-                    },
-                    // {
-                    //     type: 'planningFollowingJourneys',
-                    //     name: 'Planning and following journeys'
-                    // },
-                    // {
-                    //     type: 'movingAround',
-                    //     name: 'Moving around'
-                    // }
+                    }
                 ]
             }
         },
@@ -542,13 +534,30 @@ module.exports = {
                     }
                 ]
             }
+        },
+        {
+            heading: {
+                text: 'Reasons for the tribunal’s view',
+                classes: 'govuk-heading-l'
+            }
+        },
+        {
+            textarea: {
+                validationError: {
+                    value: 'Reasons for the tribunal’s view is mandatory field',
+                    controlId: 'reasonsTribunalView'
+                },
+                control: 'reasonsTribunalView',
+                value: '',
+                validators: ['required']
+            }
         }
     ],
     buttons: [
         {
             control: 'createButton',
-            value: 'Submit',
-            onEvent: 'submit'
+            value: 'Continue',
+            onEvent: 'continue'
         }
     ]
 }
