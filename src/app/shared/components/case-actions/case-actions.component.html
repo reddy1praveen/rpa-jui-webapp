@@ -1,7 +1,4 @@
-<div class="hmcts-page-heading">
-    <div class="hmcts-page-heading__title-wrapper">
-        <h1 data-selector="heading" role="heading" aria-level="1" class="hmcts-page-heading__title govuk-heading-xl">{{header}}</h1>
-    </div>
+<div class="hmcts-identity-bar__actions">
     <div *ngIf="actionPrimaryButton || actionSecondaryButton" class="hmcts-page-heading__actions-wrapper">
         <a *ngIf="actionPrimaryButton" [routerLink]="actionPrimaryButton.href" role="button" class="govuk-button hmcts-page-heading__button">
             {{actionPrimaryButton.text}}
