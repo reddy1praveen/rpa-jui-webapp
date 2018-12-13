@@ -19,6 +19,23 @@
 /*tslint:disable */
 export const mapping = [
     {
+        register:[
+            { communicatingVerbally: 'communicating-verbally' },
+            { dressingUndressing: 'dressing-undressing' },
+            { engagingWithOtherPeople: 'engaging-face' },
+            { makingBudgetingDecisions: 'budgeting-decisions' },
+            { managingTherapy: 'managing-therapy' },
+            { managingToilet: 'managing-toilet' },
+            { movingAround: 'moving-around' },
+            { planningFollowingJourneys: 'planning-journeys' },
+            { preparingFood: 'preparing-food' },
+            { readingAndUnderstanding: 'reading-signs' },
+            { takingNutrition: 'taking-nutrition' },
+            { washingBathing: 'washing-bathing' },
+            'check',
+        ]
+    },
+    {
         event: 'change',
         state: 'check',
         result: '[state]',
@@ -53,21 +70,7 @@ export const mapping = [
             },
             {
                 state: 'scores',
-                result: [
-                    { communicatingVerbally: 'communicating-verbally' },
-                    { dressingUndressing: 'dressing-undressing' },
-                    { engagingWithOtherPeople: 'engaging-face' },
-                    { makingBudgetingDecisions: 'budgeting-decisions' },
-                    { managingTherapy: 'managing-therapy' },
-                    { managingToilet: 'managing-toilet' },
-                    { movingAround: 'moving-around' },
-                    { planningFollowingJourneys: 'planning-journeys' },
-                    { preparingFood: 'preparing-food' },
-                    { readingAndUnderstanding: 'reading-signs' },
-                    { takingNutrition: 'taking-nutrition' },
-                    { washingBathing: 'washing-bathing' },
-                    'check',
-                ]
+                result: '<register>'
             },
             {
                 state: 'check',

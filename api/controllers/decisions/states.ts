@@ -1,3 +1,4 @@
+import * as camelcase from 'camelcase'
 import * as express from 'express'
 import * as log4js from 'log4js'
 import { map } from 'p-iteration'
@@ -26,6 +27,7 @@ function some(array, predicate) {
     return null
 }
 
+
 async function pushStack(req, stack) {
     logger.info('Pushing stack')
     const jurisdiction = req.params.jurId
@@ -52,7 +54,8 @@ async function shiftStack(req, variables) {
 
     const store = new Store(req)
 
-    const currentStack =  await  store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`) 
+    const currentStack =  await  store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`)
+
 
     while (!matching && currentStack.length) {
 
@@ -124,6 +127,29 @@ function handleInstruction(instruction, stateId, variables) {
     return null
 }
 
+async function stackEmpty(req) {
+    const store = new Store(req)
+    const jurisdiction = req.params.jurId
+    const caseId = req.params.caseId
+    const caseTypeId = req.params.caseTypeId.toLowerCase()
+
+    const currentStack =  await  store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`)
+    console.log('current', currentStack)
+    return !currentStack.length
+}
+
+function forwardStack(register, stateId) {
+    console.log(stateId)
+    const index = register.map(x =>   Object.keys(x)[0] ).indexOf(camelcase(stateId))
+    logger.info(`Forwarding stack at ${index}`)
+    console.log(register.slice(index + 1))
+    return register.slice(index + 1)
+}
+
+function getRegister(mapping) {
+    return mapping.filter(mapInstruction => mapInstruction.register)
+}
+
 async function process(req, res, mapping, payload, templates, store) {
     const jurisdiction = req.params.jurId
     const caseId = req.params.caseId
@@ -152,11 +178,18 @@ async function process(req, res, mapping, payload, templates, store) {
                 logger.info(`Found matching event for ${event} `)
                 let result = handleInstruction(instruction, stateId, variables)
                 logger.info(`result ${result}`)
-                if (Array.isArray(result)) {
-                    await pushStack(req, result)
+                if (result === '<register>') {
+                    const registerInstruction = getRegister(mapping)
+                    await pushStack(req, registerInstruction[0].register)
                     result = await shiftStack(req, variables)
-                    logger.info(`Popped stack ${result}`)
+                    logger.info(`Popped stack ${registerInstruction[0].register}`)
                 } else if (result === '...') {
+                    if (await stackEmpty(req)) {
+                            logger.info('Recalculating route ...')
+                            const registerInstruction = getRegister(mapping)
+                            await pushStack(req, forwardStack(registerInstruction[0].register, stateId))
+                        }
+
                     result = await shiftStack(req, variables)
                 } else if (result === '[state]') {
                     result = req.params.stateId
