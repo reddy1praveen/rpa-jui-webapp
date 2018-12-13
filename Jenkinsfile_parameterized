@@ -43,7 +43,7 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     ]
 }
 
-withParameterizedPipeline('java', product, component, params.ENVIRONMENT, 'sandbox') {
+withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox') {
     enableSlackNotifications(channel)
     loadVaultSecrets(secrets)
     setVaultName(vault)
