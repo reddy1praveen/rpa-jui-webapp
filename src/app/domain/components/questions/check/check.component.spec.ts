@@ -27,8 +27,6 @@ describe('CheckQuestionsComponent', () => {
         TestBed.configureTestingModule({
             declarations: [CheckQuestionsComponent],
             imports: [
-                // DomainModule,
-                // SharedModule,
                 BrowserTransferStateModule,
                 HttpClientTestingModule,
                 RouterTestingModule
@@ -82,6 +80,7 @@ describe('CheckQuestionsComponent', () => {
         xit('should have filtered out the issued questions', () => {
             expect(nativeElement.querySelectorAll(Selector.selector('question-check')).length).toBe(1);
         });
+
 
         describe('when we click send questions', () => {
             // beforeEach(() => {

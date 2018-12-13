@@ -2,10 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CaseViewerModule } from '../../case-viewer.module';
 import { TimelinePanelComponent } from './timeline-panel.component';
 import {Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, Input, ViewChild} from '@angular/core';
-import {Selector} from '../../../../shared/selector-helper';
-import {SentenceCasePipe} from '../../../../shared/pipes/sentence-case/sentence-case-pipe';
-import {HmctsTimelineComponent} from '../../../../hmcts/components/hmcts-timeline/hmcts-timeline.component';
-import {TimelineComponent} from '../../../../shared/components/timeline/timeline.component';
 import {mockPanelDataTimeline} from '../summary-panel/mock/summary-panel.mock';
 import {PageDateWithFields} from '../../../models/section_fields';
 

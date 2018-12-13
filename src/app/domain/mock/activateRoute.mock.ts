@@ -47,7 +47,7 @@ export const mockQuestionCheckActivatedRoute = {
         }
     },
     queryParams: of({}),
-}
+};
 export const mockQuestionCreateActivateRoute = {
     snapshot: {
         _lastPathIndex: 0,
@@ -72,7 +72,7 @@ export const mockQuestionCreateActivateRoute = {
     },
     queryParams: of({}),
     fragment: of(['question-fragment', 'subject-fragment'])
-}
+};
 export const mockQuestionDeleteActivateRoute = {
     params: of({
         'question_id': '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
@@ -83,4 +83,27 @@ export const mockQuestionDeleteActivateRoute = {
             'case_id': '99eb9981-9360-4d4b-b9fd-506b5818e7ff'
         }),
     }
-}
+};
+export const mockQuestionViewActivateRoute = {
+    snapshot: {
+        _lastPathIndex: 0,
+        params: of({
+            'question_id': '43eb9981-9360-4d4b-b9fd-506b5818e7ff'
+        }),
+    },
+    parent: {
+        params: of({
+            'case_id': '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
+        }),
+        snapshot: {
+            params: {
+                'case_id': '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
+            },
+            queryParams: {}
+        }
+    },
+    params: of({
+        'question_id': '43eb9981-9360-4d4b-b9fd-506b5818e7ff'
+    }),
+    fragment: of(['question-fragment', 'subject-fragment'])
+};

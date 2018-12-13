@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges} from '@angular/core';
-import {timeDataStamp} from './mock/timeline.mock';
+import {TimeDataStamp} from './mock/timeline.mock';
 
 @Component({
     selector: 'app-timeline',
@@ -7,7 +7,7 @@ import {timeDataStamp} from './mock/timeline.mock';
     styleUrls: ['./timeline.component.scss']
 })
 export class TimelineComponent implements OnChanges {
-    @Input() events: Array<timeDataStamp>;
+    @Input() events: Array<TimeDataStamp>;
     @Input() maxHistory: number;
 
     ngOnChanges(): void {

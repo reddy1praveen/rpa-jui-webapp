@@ -1,4 +1,4 @@
-export interface timeDataStamp {
+export interface TimeDataStamp {
     title: string;
     by: string;
     dateUtc: string;
@@ -6,7 +6,7 @@ export interface timeDataStamp {
     time: string;
     documents: Array<any>;
 }
-export const mockData: Array<timeDataStamp> = [
+export const mockData: Array<TimeDataStamp> = [
     {
         title: 'HEARING',
         by: 'John Smith',

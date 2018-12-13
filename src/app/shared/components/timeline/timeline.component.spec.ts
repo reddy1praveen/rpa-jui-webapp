@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, ViewChild} from '@angular/core';
 import {TimelineComponent} from './timeline.component';
-import {mockData, timeDataStamp} from './mock/timeline.mock';
+import {mockData, TimeDataStamp} from './mock/timeline.mock';
 
 describe('TimelineComponent Component: Testing Input & Output', () => {
     @Component({
@@ -9,7 +9,7 @@ describe('TimelineComponent Component: Testing Input & Output', () => {
         template: `<app-timeline [events]="data" [maxHistory]="maxHistory"></app-timeline>`
     })
     class TestDummyHostComponent {
-        public data: Array<timeDataStamp> = mockData;
+        public data: Array<TimeDataStamp> = mockData;
         public maxHistory: number;
         @ViewChild(TimelineComponent)
         public timelineComponent: TimelineComponent;

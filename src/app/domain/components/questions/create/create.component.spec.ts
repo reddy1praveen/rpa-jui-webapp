@@ -30,9 +30,6 @@ describe('CreateQuestionsComponent', () => {
                 CreateQuestionsComponent
             ],
             imports: [
-                // JUIFormsModule,
-                // DomainModule,
-                // SharedModule,
                 BrowserTransferStateModule,
                 HttpClientTestingModule,
                 RouterTestingModule,
