@@ -232,7 +232,7 @@ export async function relistHearing(caseId, userId) {
 
     // The following PUT Request, with what I think is the correct body returns a 400.
     response = await http.put(`${url}/continuous-online-hearings/${hearingId}/relist`,
-        {state: 'continuous_online_hearing_relisted', reason: 'Test Reason'})
+        {state: 'issued', reason: 'Test Reason'})
 
     //TODO: Posed the question to CoH [13thDec4.30pm]:
     //Hi, I’m trying to relist a hearing by exercising the PUT /continuous-online-hearings/{onlineHearingId}/relist
@@ -240,6 +240,14 @@ export async function relistHearing(caseId, userId) {
     // a string. But I’m receiving back a 400 from this PUT route. I know the service works for other calls
     // as I can exercise a GET request and the service returns data fine. I’ve looked at Swagger for the PUT
     // request and I’m passing everything in correctly. Any ideas?
+
+    // Received Reply
+    //state works with a string of issued
+    //and not continuous_online_hearing_relisted ! This is a bug on CoH side, but not their top
+    //priority to be fixed, therefore let's carry on and use 'issued' / 'drafted'
+
+    //We might need to pass through issued/draft depending on what page we are on. Mi has more knowledge
+    //around the implementation here.
 
     console.log('response')
     console.log(response)
