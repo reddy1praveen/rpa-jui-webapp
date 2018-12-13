@@ -86,7 +86,6 @@ import { DateComponent } from './components/date/date.component';
         ValidationHeaderComponent,
         JuiFormElementsComponent,
         InputsComponent,
-        DateComponent,
     ],
     exports: [
         JuiFormElementsComponent,
