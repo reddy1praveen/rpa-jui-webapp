@@ -28,15 +28,15 @@ import { JUIFormsModule } from '../forms/forms.module';
 import { TermsAndConditionsComponent } from './pages/terms-and-conditions/terms-and-conditions.component';
 import { CookiesComponent } from './pages/cookies/cookies.component';
 import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.component';
-import {DemoComponent} from './pages/demo/demo.component';
-import {GovukModule} from '../govuk/govuk.module';
-import {HmctsModule} from '../hmcts/hmcts.module';
+import { DemoComponent } from './pages/demo/demo.component';
+import { GovukModule } from '../govuk/govuk.module';
+import { HmctsModule } from '../hmcts/hmcts.module';
 
 const routes: Routes = [
     {
         path: '',
         component: DashboardComponent,
-        canActivate: [AuthGuardService],
+        //canActivate: [AuthGuardService],
     },
     {
         path: 'demo',
@@ -61,17 +61,17 @@ const routes: Routes = [
         },
         children: [
             {
-                path: 'decision', component: DecisionRootComponent, resolve: {decision: DecisionResolve}, children: [
-                    {path: 'create', component: CreateDecisionComponent},
-                    {path: 'check', component: CheckDecisionComponent},
-                    {path: 'confirm', component: DecisionConfirmationComponent}
+                path: 'decision', component: DecisionRootComponent, resolve: { decision: DecisionResolve }, children: [
+                    { path: 'create', component: CreateDecisionComponent },
+                    { path: 'check', component: CheckDecisionComponent },
+                    { path: 'confirm', component: DecisionConfirmationComponent }
                 ]
             },
             {
-                    path: 'hearing', component: HearingRootComponent, children: [
-                    {path: 'list', component: CreateHearingComponent},
-                    {path: 'check', component: CheckHearingComponent},
-                    {path: 'confirm', component: HearingConfirmationComponent}
+                path: 'hearing', component: HearingRootComponent, children: [
+                    { path: 'list', component: CreateHearingComponent },
+                    { path: 'check', component: CheckHearingComponent },
+                    { path: 'confirm', component: HearingConfirmationComponent }
                 ]
             },
             {

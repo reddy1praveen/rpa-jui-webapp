@@ -1,6 +1,8 @@
 <div class="jui-width-container">
     <main id="content" role="main" class="govuk-main-wrapper">
         <h1 class="govuk-heading-xl">Dashboard</h1>
+        <h3 *roleAccess="'caseworker-probate,b,c'">testRole access - display if user has role </h3>
+        <h3 unlessRole="caseworker-probate,b,c">test unlessrole directive - display if user does not have role</h3>
         <app-search-result></app-search-result>
     </main>
 </div>

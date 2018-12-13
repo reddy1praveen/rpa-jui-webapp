@@ -1,8 +1,8 @@
-import {Inject, Injectable} from '@angular/core';
-import {CookieService} from 'ngx-cookie';
+import { Inject, Injectable } from '@angular/core';
+import { CookieService } from 'ngx-cookie';
 import * as jwtDecode from 'jwt-decode';
-import {ConfigService} from '../config.service';
-import { RedirectionService} from '../routing/redirection.service';
+import { ConfigService } from '../config.service';
+import { RedirectionService } from '../routing/redirection.service';
 
 @Injectable({
     providedIn: 'root'
@@ -10,13 +10,15 @@ import { RedirectionService} from '../routing/redirection.service';
 export class AuthService {
 
     COOKIE_KEYS;
+    user
 
     constructor(private configService: ConfigService,
-                private cookieService: CookieService,
-                private redirectionService: RedirectionService) {
+        private cookieService: CookieService,
+        private redirectionService: RedirectionService) {
         this.COOKIE_KEYS = {
             TOKEN: this.configService.config.cookies.token,
-            USER: this.configService.config.cookies.userId
+            USER: this.configService.config.cookies.userId,
+            ROLE: this.configService.config.cookies.roles,
         };
     }
 
@@ -54,4 +56,41 @@ export class AuthService {
         // do stuff!!
         return !expired;
     }
+
+
+    public getUserRoles(): string[] {
+
+        // if (this.user) {
+        //     return this.user
+        // } else {
+        // this.user = this.httpCilent.get('/api/user').map(response => {
+        //     return response
+        // })
+        //mock it while idam is down
+        // this.user = of({ roles: ['caseworker-probatex', 'xadmin'] })
+
+
+        //return this.user
+
+        let roles = this.cookieService.get(this.COOKIE_KEYS.ROLE).split(',');
+        console.log('@@COOKIE:', roles)
+        return roles
+        //}
+    }
+
+
+    isRoleAuthorised(guardRoles: string[]) {
+        // return this.getUser().toPromise().then(user => {
+        //     let roleExists = user.roles.some(r => guardRoles.includes(r))
+        //     return roleExists;
+        // })
+
+
+        // return this.getUserRoles().toPromise().then(user => {
+        let roleExists = this.getUserRoles().some(r => guardRoles.includes(r))
+        return roleExists;
+        //})
+        // return true;
+    }
+
 }

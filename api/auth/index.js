@@ -16,6 +16,7 @@ module.exports = app => {
                 getUserDetails(data.access_token).then(details => {
                     res.cookie(config.cookies.token, data.access_token);
                     res.cookie(config.cookies.userId, details.id);
+                    res.cookie(config.cookies.roles, details.roles.join());
                     res.redirect('/');
                 });
             }

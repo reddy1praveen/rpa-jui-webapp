@@ -1,7 +1,8 @@
 module.exports = {
     cookies: {
         token: '__auth__',
-        userId: '__userid__'
+        userId: '__userid__',
+        roles: '__roles__',
     },
     microservice: 'jui_webapp',
     idam_client: 'juiwebapp',
