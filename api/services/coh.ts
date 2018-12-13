@@ -107,12 +107,19 @@ export async function getHearingId(caseId) {
 }
 
 export async function getOrCreateHearing(caseId, userId) {
+    console.log('getOrCreateHearing')
+
     const hearing = await getHearing(caseId)
     let hearingId
 
+    console.log('hearing')
+    console.log(hearing)
+
+    //This case does not have a hearing, perhaps because it is not an SCSS case.
     if (hearing) {
         hearingId = hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : null
     } else {
+        console.log('In create hearing')
         hearingId = await createHearing(caseId, userId)
     }
 
@@ -201,12 +208,12 @@ export async function updateOrCreateDecision(caseId, userId) {
  * @param hearingId
  * @return {Promise}
  */
-export async function relistHearing(caseId) {
+export async function relistHearing(caseId, userId) {
 
     console.log('relistHearing')
     console.log(caseId)
     // Gets hearingID
-    const hearingId = await getHearingId(caseId)
+    const hearingId = await getOrCreateHearing(caseId, userId)
     let response
     console.log('hearingId')
     console.log(hearingId)

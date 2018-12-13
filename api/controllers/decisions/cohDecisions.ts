@@ -73,7 +73,7 @@ export default app => {
 
         // TODO: You might have to make sure that the Authorisation, and
         // ServiceAuth is being set on the request
-        relistHearing(caseId)
+        relistHearing(caseId, userId)
             .then(response => {
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.setHeader('content-type', 'application/json')
