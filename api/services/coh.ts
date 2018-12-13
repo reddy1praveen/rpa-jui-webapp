@@ -140,10 +140,14 @@ export async function getData(hearingId) {
         logger.info(`No decision for hearing ${hearingId} found`)
     }
     const data = response.data.decision_text || {}
-    return JSON.parse(data)
+    try {
+        return JSON.parse(data)
+    } catch {
+        return {}
+    }
 }
 
-export async function updateOrCreateDecision(caseId, userId) {
+export async function getOrCreateDecision(caseId, userId) {
     let decisionId
     let decision
 

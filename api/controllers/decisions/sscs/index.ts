@@ -12,7 +12,7 @@ export async function init(req, res) {
     const caseId = req.params.caseId
     const caseTypeId = req.params.caseTypeId.toLowerCase()
 
-    const hearingId = await coh.getOrCreateHearing(req.params.caseId, req.auth.userId)
+    const hearingId = await coh.getOrCreateDecision(req.params.caseId, req.auth.userId)
 
     return hearingId
 }
