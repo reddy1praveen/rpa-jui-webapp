@@ -3,7 +3,6 @@ import * as log4js from 'log4js'
 import { config } from '../../config'
 import { shorten, valueOrNull } from '../lib/util'
 
-
 const exceptionOptions = {
     maxLines: 1,
 }

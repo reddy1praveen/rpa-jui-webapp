@@ -65,6 +65,7 @@ export async function process(req, res, mapping, payload, templates, store) {
 
     const event = req.body.event
     let variables = req.body.formValues
+    let result = null
 
     let meta = {}
     let newRoute = null
@@ -83,7 +84,7 @@ export async function process(req, res, mapping, payload, templates, store) {
             if (instruction.event === event) {
                 // event is the main index and so there can only be one instruction per event - exit after finding
                 logger.info(`Found matching event for ${event} `)
-                let result = handleInstruction(instruction, stateId, variables)
+                result = handleInstruction(instruction, stateId, variables)
                 logger.info(`result ${result}`)
                 if (result === '<register>') {
                     const registerInstruction = getRegister(mapping)
@@ -102,6 +103,9 @@ export async function process(req, res, mapping, payload, templates, store) {
                     result = req.params.stateId
                 } else if (result === '.') {
                     result = await payload(req, res, variables)
+                    if (!result) {
+                        return
+                    }
                 }
 
                 if (result) {
@@ -109,19 +113,24 @@ export async function process(req, res, mapping, payload, templates, store) {
                     newRoute = result
                 }
             }
+            result = true
             return false
         })
     } else {
         meta = templates[caseTypeId][stateId]
+        result = true
     }
 
-    variables = await store.get(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`) || {}
+    if (result) {
+        variables = await store.get(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`) || {}
 
-    const response = {
-        formValues: variables,
-        meta,
-        newRoute,
+        const response = {
+            formValues: variables,
+            meta,
+            newRoute,
+        }
+        console.log('reached')
+
+        req.session.save(() => res.send(JSON.stringify(response)))
     }
-
-    req.session.save(() => res.send(JSON.stringify(response)))
 }

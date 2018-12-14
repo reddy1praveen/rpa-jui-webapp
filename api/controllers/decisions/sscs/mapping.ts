@@ -57,6 +57,10 @@ export const mapping = [
             },
             {
                 state: 'final-decision',
+                result: 'check-final-decision'
+            },
+            {
+                state: 'check-final-decision',
                 result: '.'
             },
             {
