@@ -64,8 +64,65 @@
                             <app-govuk-inset-text  *ngIf="group.inset"
                                                    [text]="group.inset.text">
                             </app-govuk-inset-text>
+
+                            <hr *ngIf="pageitems.name === 'check-tribunal' && group.hr" class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+                            <div *ngIf="group.information" class="panel panel--information">
+                                <ng-container *ngFor="let item of group.information">
+                                    <p *ngIf="item.text">{{ item.text }}</p>
+
+                                </ng-container>
+
+
+                                <table class="govuk-table">
+
+
+                                    <tbody class="govuk-table__body">
+
+                                    <tr class="govuk-table__row">
+
+
+                                        <th class="govuk-table__header" scope="row">Daily living</th>
+
+
+
+                                        <td class="govuk-table__cell">Standard rate</td>
+
+
+
+                                        <td class="govuk-table__cell govuk-table__cell--numeric"><a href="/app/cases/SC1231612324/pip/decision/preliminary-advanced">Change<span class="govuk-visually-hidden"> daily living award for appellant</span></a></td>
+
+
+                                    </tr>
+
+                                    <tr class="govuk-table__row">
+
+
+                                        <th class="govuk-table__header" scope="row">Mobility</th>
+
+
+
+                                        <td class="govuk-table__cell">No award</td>
+
+
+
+                                        <td class="govuk-table__cell govuk-table__cell--numeric"><a href="/app/cases/SC1231612324/pip/decision/preliminary-advanced">Change<span class="govuk-visually-hidden"> mobility award for appellant</span></a></td>
+
+
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+
+
+                                <p>This is the same DWP initially awarded you.</p>
+
+                                <p>If both you and DWP accept this view, you’ll be awarded PIP at the above rate.</p>
+
+                            </div>
+
                             <h2 *ngIf="group.heading" [class]="group.heading.classes">{{ group.heading.text }}</h2>
-                            <table *ngIf="group.table" [class]="'govuk-table ' + group.table.classes">
+                            <table *ngIf="group.table && hasActivities(group.table.activities)" [class]="'govuk-table ' + group.table.classes">
 
                                 <caption *ngIf="group.table.caption" [class]="'govuk-table__caption ' + group.table.caption.classes">{{group.table.caption.text}}</caption>
 
