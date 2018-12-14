@@ -126,7 +126,7 @@ export async function payload(req, res, data) {
     logger.info('Posted to CCD', result)
 
     if (result) {
-        return 'checkFinalDecision'
+        return 'check-final-decision'
     }
 
     res.status(ERROR400)
