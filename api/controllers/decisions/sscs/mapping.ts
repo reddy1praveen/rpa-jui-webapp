@@ -19,7 +19,7 @@
 /*tslint:disable */
 export const mapping = [
     {
-        register:[
+        register: [
             { communicatingVerbally: 'communicating-verbally' },
             { dressingUndressing: 'dressing-undressing' },
             { engagingWithOtherPeople: 'engaging-face' },
@@ -37,7 +37,6 @@ export const mapping = [
     },
     {
         event: 'change',
-        state: 'check',
         result: '[state]',
     },
     {

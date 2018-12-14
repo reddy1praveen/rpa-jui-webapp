@@ -29,6 +29,7 @@ export function handleState(stateNode, variables) {
         logger.info(`State result without conditional: ${stateNode.result}`)
         return stateNode.result
     }
+
     return null
 }
 
@@ -44,6 +45,10 @@ export function handleInstruction(instruction, stateId, variables) {
 
             return false
         })
+    } else {
+        // no states
+        logger.info(`Instruction result without state: ${instruction.result} `)
+        return instruction.result
     }
     return null
 }

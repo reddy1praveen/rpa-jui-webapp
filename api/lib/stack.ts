@@ -23,6 +23,7 @@ export async function pushStack(req, stack) {
 }
 
 export async function shiftStack(req, variables) {
+
     const jurisdiction = req.params.jurId
     const caseId = req.params.caseId
     const caseTypeId = req.params.caseTypeId.toLowerCase()
@@ -45,6 +46,7 @@ export async function shiftStack(req, variables) {
         if (isObject(currentItem)) {
             const key = Object.keys(currentItem)[0]
             if (Object.keys(currentItem).length) { // item is an object with variable to evaluate
+                console.log('key:', key, variables[key])
                 matching = (variables[key]) ? currentItem[key] : null
                 currentItem = currentItem[key]
             }
@@ -62,16 +64,15 @@ export async function stackEmpty(req) {
     const jurisdiction = req.params.jurId
     const caseId = req.params.caseId
     const caseTypeId = req.params.caseTypeId.toLowerCase()
-
     const currentStack = await store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`)
-    console.log('current', currentStack)
+
     return !currentStack.length
 }
 
 export function forwardStack(register, stateId) {
-    console.log(stateId)
-    const index = register.map(x => Object.keys(x)[0]).indexOf(camelcase(stateId))
-    logger.info(`Forwarding stack at ${index}`)
+
+    const index = register.map(x => (Object.values(x)[0] as any)).indexOf(stateId)
+    logger.info(`Forwarding stack at ${index} for ${stateId}`)
     console.log(register.slice(index + 1))
     return register.slice(index + 1)
 }
