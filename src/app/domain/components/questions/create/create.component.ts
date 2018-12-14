@@ -14,7 +14,9 @@ export class CreateQuestionsComponent implements OnInit {
     caseId: string;
     jurisdiction: string;
     caseType: string;
-    asyncResolved: boolean = false;
+    asyncResolved: boolean = true;
+    asynctext: string = 'Save question'
+
 
     eventEmitter: EventEmitter<any> = new EventEmitter();
     callback_options = {
@@ -68,15 +70,17 @@ export class CreateQuestionsComponent implements OnInit {
         values.rounds = this.roundNumber;
 
         if (this.form.valid) {
-            this.asyncResolved = true;
+            this.asyncResolved = false;
+            this.asynctext = 'saving...';
             this.questionService.create(this.caseId, values)
                 .subscribe(res => {
                     console.log(res)
-                    //this.asyncResolved = false;
+                    //this.asyncResolved = true;
                     this.redirectionService.redirect(`/case/${this.jurisdiction}/${this.caseType}/${this.caseId}/questions?created=success`);
                 }, err => {
                     console.log('err')
-                    //this.asyncResolved = true;
+                    this.asyncResolved = true;
+                    this.asynctext = 'Save question'
                 });
         } else {
             this.error.subject = !this.form.controls.subject.valid;
