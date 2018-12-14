@@ -136,11 +136,13 @@ export async function getData(hearingId) {
 
     try {
         response = await http.get(`${url}/continuous-online-hearings/${hearingId}/decisions`)
+
+        const data = response.data.decision_text || {}
+        return JSON.parse(data)
     } catch {
         logger.info(`No decision for hearing ${hearingId} found`)
+        return false
     }
-    const data = response.data.decision_text || {}
-    return JSON.parse(data)
 }
 
 export async function updateOrCreateDecision(caseId, userId) {
