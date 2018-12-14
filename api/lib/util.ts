@@ -1,6 +1,8 @@
 import * as express from 'express'
 import { Logger } from 'log4js'
 
+import { config } from '../../config'
+
 export function asyncReturnOrError(promise: any, message: string, res: express.Response, logger: Logger): any {
     return promise
         .then(data => {
@@ -12,6 +14,18 @@ export function asyncReturnOrError(promise: any, message: string, res: express.R
             res.status(err.statusCode || 500).send(msg)
             return null
         })
+}
+
+export function some(array, predicate) {
+    for (const item in array) {
+        if (array[item]) {
+            const result = predicate(array[item])
+            if (result) {
+                return result
+            }
+        }
+    }
+    return null
 }
 
 export function dotNotation(nestled: string) {

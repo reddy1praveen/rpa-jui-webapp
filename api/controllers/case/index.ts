@@ -28,6 +28,7 @@ function getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId, o
 }
 
 function appendDocuments(caseData, schema, options) {
+    console.log(caseData)
     return new Promise(resolve => {
         getDocuments(getDocIdList(caseData.documents), options)
             .then(appendDocIdToDocument)
