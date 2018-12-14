@@ -3,7 +3,7 @@ import { map } from 'p-iteration'
 import { config } from '../../config'
 import { some } from './util'
 
-import { pushStack, shiftStack } from '../lib/stack'
+import { forwardStack, pushStack, shiftStack, stackEmpty } from '../lib/stack'
 
 const logger = log4js.getLogger('state engine')
 logger.level = config.logging ? config.logging : 'OFF'
@@ -48,6 +48,10 @@ export function handleInstruction(instruction, stateId, variables) {
     return null
 }
 
+export function getRegister(mapping) {
+    return mapping.filter(mapInstruction => mapInstruction.register)
+}
+
 export async function process(req, res, mapping, payload, templates, store) {
     const jurisdiction = req.params.jurId
     const caseId = req.params.caseId
@@ -70,19 +74,24 @@ export async function process(req, res, mapping, payload, templates, store) {
     }
 
     if (req.method === 'POST') {
-        console.log('event', event)
         await map(mapping, async (instruction: any) => {
             if (instruction.event === event) {
                 // event is the main index and so there can only be one instruction per event - exit after finding
-                logger.info(`Found matching event for ${event}`)
-
+                logger.info(`Found matching event for ${event} `)
                 let result = handleInstruction(instruction, stateId, variables)
-
-                if (Array.isArray(result)) {
-                    await pushStack(req, result)
+                logger.info(`result ${result}`)
+                if (result === '<register>') {
+                    const registerInstruction = getRegister(mapping)
+                    await pushStack(req, registerInstruction[0].register)
                     result = await shiftStack(req, variables)
-                    logger.info(`Popped stack ${result}`)
+                    logger.info(`Popped stack ${registerInstruction[0].register}`)
                 } else if (result === '...') {
+                    if (await stackEmpty(req)) {
+                        logger.info('Recalculating route ...')
+                        const registerInstruction = getRegister(mapping)
+                        await pushStack(req, forwardStack(registerInstruction[0].register, stateId))
+                    }
+
                     result = await shiftStack(req, variables)
                 } else if (result === '[state]') {
                     result = req.params.stateId
@@ -91,17 +100,13 @@ export async function process(req, res, mapping, payload, templates, store) {
                 }
 
                 if (result) {
-                    logger.info(`result is ${result}`)
                     meta = templates[caseTypeId][result]
                     newRoute = result
-                } else {
-                    logger.error(`No result found`)
                 }
             }
             return false
         })
     } else {
-        console.log(caseTypeId)
         meta = templates[caseTypeId][stateId]
     }
 
@@ -112,5 +117,6 @@ export async function process(req, res, mapping, payload, templates, store) {
         meta,
         newRoute,
     }
+
     req.session.save(() => res.send(JSON.stringify(response)))
 }

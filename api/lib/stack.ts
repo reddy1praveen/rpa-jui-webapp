@@ -1,3 +1,4 @@
+import * as camelcase from 'camelcase'
 import * as log4js from 'log4js'
 import { config } from '../../config'
 import { Store } from './store/store'
@@ -54,4 +55,23 @@ export async function shiftStack(req, variables) {
     }
 
     return currentItem
+}
+
+export async function stackEmpty(req) {
+    const store = new Store(req)
+    const jurisdiction = req.params.jurId
+    const caseId = req.params.caseId
+    const caseTypeId = req.params.caseTypeId.toLowerCase()
+
+    const currentStack = await store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`)
+    console.log('current', currentStack)
+    return !currentStack.length
+}
+
+export function forwardStack(register, stateId) {
+    console.log(stateId)
+    const index = register.map(x => Object.keys(x)[0]).indexOf(camelcase(stateId))
+    logger.info(`Forwarding stack at ${index}`)
+    console.log(register.slice(index + 1))
+    return register.slice(index + 1)
 }
