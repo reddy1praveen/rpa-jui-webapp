@@ -68,60 +68,68 @@
                             <hr *ngIf="pageitems.name === 'check-tribunal' && group.hr" class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
 
                             <div *ngIf="group.information" class="panel panel--information">
-                                <ng-container *ngFor="let item of group.information">
-                                    <p *ngIf="item.text">{{ item.text }}</p>
-
-                                </ng-container>
-
-
+                                <p>The tribunal have considered all the information submitted by you and DWP.</p>
+                                <p *ngIf="pageValues.approveDraftConsent === 'endDate'">Their view is that you’re entitled to PIP at the rate below from
+                                    {{ pageValues['awardStartDateDay']+'/'+pageValues['awardStartDateMonth']+'/'+pageValues['awardStartDateYear'] | date: 'dd MMMM yyyy' }}
+                                    until
+                                    {{ pageValues['awardEndDateDay']+'/'+pageValues['awardEndDateMonth']+'/'+pageValues['awardEndDateYear'] | date: 'dd MMMM yyyy' }}.</p>
+                                <p *ngIf="pageValues.approveDraftConsent === 'indefinite'">Their view is that you’re entitled to PIP at the rate below from
+                                    {{ pageValues['awardStartDateDay']+'/'+pageValues['awardStartDateMonth']+'/'+pageValues['awardStartDateYear'] | date: 'dd MMMM yyyy' }}
+                                    until indefinite award date.</p>
                                 <table class="govuk-table">
-
-
                                     <tbody class="govuk-table__body">
-
-                                    <tr class="govuk-table__row">
-
-
-                                        <th class="govuk-table__header" scope="row">Daily living</th>
-
-
-
-                                        <td class="govuk-table__cell">Standard rate</td>
-
-
-
-                                        <td class="govuk-table__cell govuk-table__cell--numeric"><a href="/app/cases/SC1231612324/pip/decision/preliminary-advanced">Change<span class="govuk-visually-hidden"> daily living award for appellant</span></a></td>
-
-
-                                    </tr>
-
-                                    <tr class="govuk-table__row">
-
-
-                                        <th class="govuk-table__header" scope="row">Mobility</th>
-
-
-
-                                        <td class="govuk-table__cell">No award</td>
-
-
-
-                                        <td class="govuk-table__cell govuk-table__cell--numeric"><a href="/app/cases/SC1231612324/pip/decision/preliminary-advanced">Change<span class="govuk-visually-hidden"> mobility award for appellant</span></a></td>
-
-
-                                    </tr>
-
+                                        <tr *ngIf="pageValues['forDailyLiving']" class="govuk-table__row">
+                                            <th class="govuk-table__header" scope="row">Daily living</th>
+                                            <td class="govuk-table__cell">{{group.information[pageValues['forDailyLiving']]}}</td>
+                                            <td class="govuk-table__cell govuk-table__cell--numeric">
+                                                <a style="cursor:pointer; color: #005ea5; text-decoration: underline"
+                                                   (click) = "onSubmit('preliminary-advanced')"
+                                                   title="Edit preliminary-advanced page">Change
+                                                    <span class="govuk-visually-hidden">daily living award for appellant</span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr *ngIf="pageValues['forMobility']" class="govuk-table__row">
+                                            <th class="govuk-table__header" scope="row">Mobility</th>
+                                            <td class="govuk-table__cell">{{group.information[pageValues['forMobility']]}}</td>
+                                            <td class="govuk-table__cell govuk-table__cell--numeric">
+                                                <a style="cursor:pointer; color: #005ea5; text-decoration: underline"
+                                                   (click) = "onSubmit('preliminary-advanced')"
+                                                   title="Edit preliminary-advanced page">Change
+                                                    <span class="govuk-visually-hidden">mobility award for appellant</span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <!-- DO NOT DELETE THIS COMMENTED CODE BELOW - TO BE APPROVED BY JUDGE'S --->
+                                        <!--<tr *ngIf="pageValues['compareToDWPAward']" class="govuk-table__row">-->
+                                            <!--<th class="govuk-table__header" scope="row">DWP award</th>-->
+                                            <!--<td class="govuk-table__cell">{{pageValues['compareToDWPAward']}}</td>-->
+                                            <!--<td class="govuk-table__cell govuk-table__cell&#45;&#45;numeric">-->
+                                                <!--<a style="cursor:pointer; color: #005ea5; text-decoration: underline"-->
+                                                   <!--(click) = "onSubmit('preliminary-advanced')"-->
+                                                   <!--title="Edit preliminary-advanced page">Change-->
+                                                    <!--<span class="govuk-visually-hidden">DWP award for appellant</span>-->
+                                                <!--</a>-->
+                                            <!--</td>-->
+                                        <!--</tr>-->
                                     </tbody>
                                 </table>
-
-
-                                <p>This is the same DWP initially awarded you.</p>
-
+                                <p *ngIf="pageValues['compareToDWPAward']">This is the {{pageValues['compareToDWPAward'] | lowercase }} DWP initially awarded you.</p>
                                 <p>If both you and DWP accept this view, you’ll be awarded PIP at the above rate.</p>
-
                             </div>
-
+                            <ng-container *ngIf="group.reasons">
+                                <p>{{ pageValues.reasonsTribunalView }}</p>
+                                <p>
+                                    <a style="cursor:pointer; color: #005ea5; text-decoration: underline"
+                                       (click) = "onSubmit('check')"
+                                       title="Edit preliminary-advanced page">Change
+                                        <span class="govuk-visually-hidden"> the reasons for the tribunal’s view</span>
+                                    </a>
+                                </p>
+                            </ng-container>
+                            <p *ngIf="group.statictext">{{ group.statictext.text }}</p>
                             <h2 *ngIf="group.heading" [class]="group.heading.classes">{{ group.heading.text }}</h2>
+
                             <table *ngIf="group.table && hasActivities(group.table.activities)" [class]="'govuk-table ' + group.table.classes">
 
                                 <caption *ngIf="group.table.caption" [class]="'govuk-table__caption ' + group.table.caption.classes">{{group.table.caption.text}}</caption>
