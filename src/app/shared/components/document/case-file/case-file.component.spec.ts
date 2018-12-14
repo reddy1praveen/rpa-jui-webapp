@@ -75,6 +75,6 @@ describe('CaseFileComponent', () => {
         testHostFixture.detectChanges();
         expect(typeof testHostComponent.caseFileComponent.documents === 'object').toBeTruthy();
         expect(typeof testHostComponent.caseFileComponent.documentUrl === 'string').toBeFalsy();
-        expect(typeof testHostComponent.caseFileComponent.caseFileType === 'string').toBeTruthy();
+        expect(typeof testHostComponent.caseFileComponent.caseFileType === 'string').toBeFalsy();
     });
 });
