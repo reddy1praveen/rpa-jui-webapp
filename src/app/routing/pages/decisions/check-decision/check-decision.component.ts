@@ -25,6 +25,7 @@ export class CheckDecisionComponent implements OnInit {
     typeId: string;
     jurId: string;
     consentOrderDocumentId: string;
+    useValidation: boolean = false;
     // will hold results of NPA
     annotations: any = null;
     npaDocumentTask: IDocumentTask;
@@ -62,6 +63,7 @@ export class CheckDecisionComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.useValidation = false;
         this.activatedRoute.parent.data.subscribe(data => {
             this.case = data.caseData;
             this.jurId = this.case.case_jurisdiction;
@@ -110,6 +112,14 @@ export class CheckDecisionComponent implements OnInit {
             this.createForm(this.pageitems, this.pageValues);
         });
     }
+
+    // For preliminary view only
+    hasActivities(activities) {
+        for (let activity of activities) {
+            if ( this.pageValues[activity.type] === true ) return true;
+        }
+    }
+
     onSubmit(pagename) {
         let event = 'continue';
 
