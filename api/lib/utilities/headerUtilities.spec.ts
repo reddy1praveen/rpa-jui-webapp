@@ -10,8 +10,8 @@ describe('shouldReturn', () => {
         shouldReturn = module.shouldReturn
     })
 
-    it('should expose function', () => {
-        expect(shouldReturn).to.be.ok
+    it('should return false', () => {
+        expect(shouldReturn()).to.be.equal(false)
     })
 })
 
@@ -22,8 +22,22 @@ describe('getAuthHeaders', () => {
         getAuthHeaders = module.getAuthHeaders
     })
 
-    it('should expose function', () => {
-        expect(getAuthHeaders).to.be.ok
+    it('should return headers', () => {
+        const req = {
+            auth: {
+                token: 'x'
+            },
+            headers: {
+                ServiceAuthorization: 'z'
+            }
+        }
+        const res = {
+            headers: {
+                Authorization: 'Bearer x',
+                ServiceAuthorization: 'z'
+            }
+        }
+        expect(getAuthHeaders(req)).to.deep.equal(res)
     })
 })
 
@@ -34,8 +48,22 @@ describe('getAuthHeadersWithS2SBearer', () => {
         getAuthHeadersWithS2SBearer = module.getAuthHeadersWithS2SBearer
     })
 
-    it('should expose function', () => {
-        expect(getAuthHeadersWithS2SBearer).to.be.ok
+    it('should return S2SBearer header', () => {
+        const req = {
+            auth: {
+                token: 'x'
+            },
+            headers: {
+                ServiceAuthorization: 'z'
+            }
+        }
+        const res = {
+            headers: {
+                Authorization: 'Bearer x',
+                ServiceAuthorization: 'Bearer z'
+            }
+        }
+        expect(getAuthHeadersWithS2SBearer(req)).to.deep.equal(res)
     })
 })
 
@@ -46,8 +74,24 @@ describe('getAuthHeadersWithUserRoles', () => {
         getAuthHeadersWithUserRoles = module.getAuthHeadersWithUserRoles
     })
 
-    it('should expose function', () => {
-        expect(getAuthHeadersWithUserRoles).to.be.ok
+    it('should return header with user roles', () => {
+        const req = {
+            auth: {
+                token: 'x',
+                data: 'y'
+            },
+            headers: {
+                ServiceAuthorization: 'z'
+            }
+        }
+        const res = {
+            headers: {
+                Authorization: 'Bearer x',
+                ServiceAuthorization: 'z',
+                'user-roles': 'y'
+            }
+        }
+        expect(getAuthHeadersWithUserRoles(req)).to.deep.equal(res)
     })
 })
 
@@ -58,8 +102,23 @@ describe('getAuthHeadersWithUserIdAndRoles', () => {
         getAuthHeadersWithUserIdAndRoles = module.getAuthHeadersWithUserIdAndRoles
     })
 
-    it('should expose function', () => {
-        expect(getAuthHeadersWithUserIdAndRoles).to.be.ok
+    it('should return header with user ID and roles', () => {
+        const req = {
+            auth: {
+                userId: 'x'
+            },
+            headers: {
+                ServiceAuthorization: 'z'
+            }
+        }
+        const res = {
+            headers: {
+                ServiceAuthorization: 'z',
+                'user-id': 'x',
+                'user-roles': 'x'
+            }
+        }
+        expect(getAuthHeadersWithUserIdAndRoles(req)).to.deep.equal(res)
     })
 })
 
@@ -70,7 +129,46 @@ describe('getAuthHeadersWithBody', () => {
         getAuthHeadersWithBody = module.getAuthHeadersWithBody
     })
 
-    it('should expose function', () => {
-        expect(getAuthHeadersWithBody).to.be.ok
+    it('should return header with empty body', () => {
+        const req = {
+            auth: {
+                token: 'x'
+            },
+            headers: {
+                ServiceAuthorization: 'z'
+            }
+        }
+        const res = {
+            headers: {
+                Authorization: 'Bearer x',
+                ServiceAuthorization: 'z'
+            },
+            body: {}
+        }
+        expect(getAuthHeadersWithBody(req)).to.deep.equal(res)
+    })
+
+    it('should return header with body from req', () => {
+        const req = {
+            auth: {
+                token: 'x'
+            },
+            headers: {
+                ServiceAuthorization: 'z'
+            },
+            body: {
+                id: 'y'
+            }
+        }
+        const res = {
+            headers: {
+                Authorization: 'Bearer x',
+                ServiceAuthorization: 'z'
+            },
+            body: {
+                id:'y'
+            }
+        }
+        expect(getAuthHeadersWithBody(req)).to.deep.equal(res)
     })
 })
