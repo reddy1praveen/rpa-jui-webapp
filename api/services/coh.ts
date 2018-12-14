@@ -136,16 +136,18 @@ export async function getData(hearingId) {
 
     try {
         response = await http.get(`${url}/continuous-online-hearings/${hearingId}/decisions`)
-
-        const data = response.data.decision_text || {}
-        return JSON.parse(data)
     } catch {
         logger.info(`No decision for hearing ${hearingId} found`)
-        return false
+    }
+    const data = response.data.decision_text || {}
+    try {
+        return JSON.parse(data)
+    } catch {
+        return {}
     }
 }
 
-export async function updateOrCreateDecision(caseId, userId) {
+export async function getOrCreateDecision(caseId, userId) {
     let decisionId
     let decision
 
@@ -165,7 +167,8 @@ export async function updateOrCreateDecision(caseId, userId) {
 
         if (decision) {
             decisionId = decision.decision_id ? decision.decision_id : null
-        } else {
+        }
+        if (!(decision && decisionId)) {
             logger.info(`Can't find decision, creating`)
             decisionId = await createDecision(hearingId)
         }

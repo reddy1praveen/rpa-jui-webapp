@@ -6,6 +6,10 @@
 
 
             <div *ngIf="pageitems" class="govuk-grid-column-two-thirds">
+                <ng-container *ngIf="useValidation && form.invalid">
+                    <app-validation-header [validationHeaderErrorMessages]="pageitems.validationHeaderErrorMessages" [formGroup]="form">
+                    </app-validation-header>
+                </ng-container>
                 <h1 class="govuk-heading-xl">{{pageitems.header}}</h1>
 
                 <form *ngIf="pageitems" [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -99,6 +103,20 @@
 
                                 </tbody>
                             </table>
+
+                            <!--Formbuilder code to render textarea--->
+                            <ng-container *ngIf="group.textarea">
+                                <div class="govuk-form-group" *ngFor="let group of pageitems.groups">
+                                    <app-fieldset *ngIf="group.fieldset"
+                                                  [classes]="'govuk-fieldset'"
+                                                  [group]="form"
+                                                  [data]="group.fieldset"
+                                                  [validate]="useValidation">
+                                    </app-fieldset>
+                                    <app-jui-form-elements [group]="form" [validate]="useValidation" [data]="group"></app-jui-form-elements>
+                                </div>
+                            </ng-container>
+                            <!--End of formbuilder -->
 
                         </ng-container>
                         <!--End of Preliminary Vew-->

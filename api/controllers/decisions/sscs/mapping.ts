@@ -9,17 +9,35 @@
 // event  --> state/states | result
 // state/states ---> condition/conditions -> result
 
-// [state] and [end] are special casess
+// [state] and . and ... are special casess
 
 // result:
 // string , "some- page" , a page to go to
 // array , a list of pages to add to a register and the next page is first on register stack
-// string , "." pop next page of register stack
+// string , "..." pop next page of register stack
 
 /*tslint:disable */
 export const mapping = [
     {
+        register:[
+            { communicatingVerbally: 'communicating-verbally' },
+            { dressingUndressing: 'dressing-undressing' },
+            { engagingWithOtherPeople: 'engaging-face' },
+            { makingBudgetingDecisions: 'budgeting-decisions' },
+            { managingTherapy: 'managing-therapy' },
+            { managingToilet: 'managing-toilet' },
+            { movingAround: 'moving-around' },
+            { planningFollowingJourneys: 'planning-journeys' },
+            { preparingFood: 'preparing-food' },
+            { readingAndUnderstanding: 'reading-signs' },
+            { takingNutrition: 'taking-nutrition' },
+            { washingBathing: 'washing-bathing' },
+            'check',
+        ]
+    },
+    {
         event: 'change',
+        state: 'check',
         result: '[state]',
     },
     {
@@ -52,21 +70,11 @@ export const mapping = [
             },
             {
                 state: 'scores',
-                result: [
-                    { communicatingVerbally: 'communicating-verbally' },
-                    { dressingUndressing: 'dressing-undressing' },
-                    { engagingWithOtherPeople: 'engaging-face' },
-                    { makingBudgetingDecisions: 'budgeting-decisions' },
-                    { managingTherapy: 'managing-therapy' },
-                    { managingToilet: 'managing-toilet' },
-                    { movingAround: 'moving-around' },
-                    { planningFollowingJourneys: 'planning-journeys' },
-                    { preparingFood: 'preparing-food' },
-                    { readingAndUnderstanding: 'reading-signs' },
-                    { takingNutrition: 'taking-nutrition' },
-                    { washingBathing: 'washing-bathing' },
-                    'check',
-                ]
+                result: '<register>'
+            },
+            {
+                state: 'check',
+                result: 'check-tribunal'
             },
             {
                 state: 'communicating-verbally',

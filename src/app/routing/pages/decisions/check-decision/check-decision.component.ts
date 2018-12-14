@@ -7,6 +7,7 @@ import { NpaService } from '../../../../shared/components/hmcts-em-viewer-ui/dat
 import { IDocumentTask } from '../../../../shared/components/hmcts-em-viewer-ui/data/document-task.model';
 import { AnnotationStoreService } from '../../../../shared/components/hmcts-em-viewer-ui/data/annotation-store.service';
 import { ConfigService } from '../../../../config.service';
+import { ValidationService } from '../../../../shared/services/validation.service';
 
 
 @Component({
@@ -35,9 +36,13 @@ export class CheckDecisionComponent implements OnInit {
         private formsService: FormsService,
         private npaService: NpaService,
         private configService: ConfigService,
-        private annotationStoreService: AnnotationStoreService) { }
+        private annotationStoreService: AnnotationStoreService,
+        private validationService: ValidationService
+    ) { }
     createForm(pageitems, pageValues) {
         this.form = new FormGroup(this.formsService.defineformControls(pageitems, pageValues));
+        const formGroupValidators = this.validationService.createFormGroupValidators(this.form, pageitems.formGroupValidators);
+        this.form.setValidators(formGroupValidators);
     }
 
     //pawel-k [1:35 PM]
@@ -113,7 +118,18 @@ export class CheckDecisionComponent implements OnInit {
             event = 'change';
         }
         delete this.form.value.createButton;
-        this.request = { formValues: this.pageValues, event: event };
+
+        //console.log('FORM VALUE==>', Object.keys(this.form.value).length);
+
+        this.request = { formValues: { ...this.pageValues, ...this.form.value }, event: event };
+
+        // For final submission to server use other request below
+        // Temporary hack for Preliminary view, has to be fixed later
+        // Don't delete this comment!!
+
+        // if (Object.keys(this.form.value).length <= 1){
+        //     this.request = { formValues: this.pageValues, event: event };
+        // }
 
         if (this.npaDocumentTask) {
             if (this.npaDocumentTask.outputDocumentId) {
@@ -127,16 +143,25 @@ export class CheckDecisionComponent implements OnInit {
 
         console.log('Submitting properties =>', this.pageitems.name, this.request);
 
-        this.decisionService.submitDecisionDraft(
-            this.jurId,
-            this.activatedRoute.snapshot.parent.data.caseData.id,
-            this.pageitems.name,
-            this.typeId,
-            this.request)
-            .subscribe(decision => {
-                console.log(decision.newRoute);
-                this.router.navigate([`../${decision.newRoute}`], { relativeTo: this.activatedRoute });
-            });
+        console.log('IsValid :', this.useValidation);
+        console.log('formDraft:', this.form);
+        console.log('Form is valid:', this.form.valid);
+
+        if (this.form.invalid && event === 'continue') {
+            this.useValidation = true;
+            return;
+        } else {
+            this.decisionService.submitDecisionDraft(
+                this.jurId,
+                this.activatedRoute.snapshot.parent.data.caseData.id,
+                this.pageitems.name,
+                this.typeId,
+                this.request)
+                .subscribe(decision => {
+                    console.log(decision.newRoute);
+                    this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
+                });
+        }
     }
 
     burnAnnotatedDocument() {
