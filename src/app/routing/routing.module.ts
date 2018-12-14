@@ -79,6 +79,7 @@ const routes: Routes = [
                     {path: 'create', component: MakeDecisionComponent},
                     {path: 'check', component: CheckDecisionComponent},
                     {path: 'check-tribunal', component: CheckDecisionComponent},
+                    {path: 'check-final-decision', component: CheckDecisionComponent},
                     {path: 'decision-confirmation', component: DecisionConfirmationComponent},
 //Preliminary view routes
                     {path: 'preliminary-advanced', component: MakeDecisionComponent},

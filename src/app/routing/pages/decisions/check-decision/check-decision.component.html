@@ -17,7 +17,7 @@
 
 
                         <!-- Financial Remedy -->
-                        <ng-container *ngIf="isSectionExist(group.page) && this.typeId === 'FinancialRemedyMVP2'">
+                        <ng-container *ngIf="(isSectionExist(group.page) && this.typeId === 'FinancialRemedyMVP2') || (this.typeId === 'Benefit' && pageitems.name === 'check-final-decision')">
                             <h2 class="govuk-heading-m">{{ group.header }}</h2>
                             <dl class="app-check-your-answers app-check-your-answers--short govuk-!-margin-bottom-8">
                                 <div class="app-check-your-answers__contents" *ngFor="let content of group.contents; let c = index">

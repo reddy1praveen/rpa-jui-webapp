@@ -9,7 +9,7 @@ module.exports = {
             controlId: 'reasonsTribunalView',
             text: 'Enter the Reasons for the tribunal’s view',
             href: '#'
-        },
+        }
     ],
     groups: [
         {
