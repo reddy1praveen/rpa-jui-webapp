@@ -18,13 +18,11 @@ export class CacheInteceptor implements HttpInterceptor  {
 
         const cacheReq = request.clone({
             headers: new HttpHeaders({
-                'Cache-control': 'no-cache, no-store, must-revalidate',
+                'Cache-control': ['no-cache', 'no-store', 'must-revalidate'],
                 'Pragma': 'no-cache',
                 'Expires': '0'
             })
         });
-
-        console.log('Intercepted HTTP call', cacheReq);
 
         return next.handle(cacheReq);
     }
