@@ -62,8 +62,8 @@ describe('CaseFileToolBarComponent', () => {
     });
     it('should display the title', () => {
         testHostFixture.detectChanges();
-        expect(testHostFixture.debugElement.nativeElement.querySelector(Selector.selector('button-items')).textContent).toBe('All items');
-        expect(testHostFixture.debugElement.nativeElement.querySelector(Selector.selector('button-comments')).textContent).toBe('Comments');
+        expect(testHostFixture.debugElement.nativeElement.querySelector(Selector.selector('button-items')).textContent).toBe(' All items ');
+        expect(testHostFixture.debugElement.nativeElement.querySelector(Selector.selector('button-comments')).textContent).toBe(' Comments ');
     });
     it('test if listViewRedirect.extra data works', () => {
         testHostComponent.caseFileToolBarComponent.commentViewRedirect = {

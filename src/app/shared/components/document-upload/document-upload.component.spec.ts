@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DocumentUploadComponent } from './document-upload.component';
 
-describe('DocumentUploadComponent', () => {
+fdescribe('DocumentUploadComponent', () => {
   let component: DocumentUploadComponent;
   let fixture: ComponentFixture<DocumentUploadComponent>;
 
