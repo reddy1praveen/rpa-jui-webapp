@@ -16,7 +16,7 @@ describe('CaseActionAlertComponent', () => {
     class TestDummyHostComponent {
         title = 'Decision needed';
         href = '#';
-        status = { name: 'Some action', actionGoTo: '#', ID: ''};
+        status = { name: 'Some action', actionGoTo: '#', ID: '123'};
         state = '';
         @ViewChild(CaseActionAlertComponent)
         public caseActionAlertComponent: CaseActionAlertComponent;
@@ -64,8 +64,8 @@ describe('CaseActionAlertComponent', () => {
     it('should load data', () => {
         testHostFixture.detectChanges();
         expect(testHostComponent.caseActionAlertComponent.title).toEqual('Decision needed');
-        expect(testHostComponent.caseActionAlertComponent.status).toEqual( { name: 'Some action', actionGoTo: '#', ID: ''});
-        expect(testHostComponent.caseActionAlertComponent.href).toEqual( '../#');
+        expect(testHostComponent.caseActionAlertComponent.status).toEqual( { name: 'Some action', actionGoTo: '#', ID: '123'});
+        expect(testHostComponent.caseActionAlertComponent.href).toEqual( '../#/123');
     });
     it('should display the title', () => {
         testHostFixture.detectChanges();
@@ -74,6 +74,19 @@ describe('CaseActionAlertComponent', () => {
     it('should display the actionPrimaryButton', () => {
         testHostFixture.detectChanges();
         expect(testHostFixture.debugElement.nativeElement.querySelector(Selector.selector('primary-button')).textContent).toContain(testHostComponent.caseActionAlertComponent.status.name);
+    });
+    it('should load have ID in URL` ', () => {
+        testHostFixture.detectChanges();
+        expect(testHostComponent.caseActionAlertComponent.href).toEqual(`../#/123`);
+    });
+    it('should load  `../${this.status.actionGoTo}` ', () => {
+        testHostComponent.caseActionAlertComponent.status = {};
+        const tempStatus = { name: 'Some action', actionGoTo: '#', ID: ''};
+        testHostComponent.caseActionAlertComponent.status = tempStatus;
+        testHostComponent.caseActionAlertComponent.ngOnInit();
+        expect(testHostComponent.caseActionAlertComponent.status).toEqual({ name: 'Some action', actionGoTo: '#', ID: '' });
+        expect(testHostComponent.caseActionAlertComponent.href).toEqual(`../#`);
+        expect(testHostComponent.caseActionAlertComponent.state).toEqual(testHostComponent.caseActionAlertComponent.status.name);
     });
     it('should display the actionSecondaryButton', () => {
         testHostFixture.detectChanges();

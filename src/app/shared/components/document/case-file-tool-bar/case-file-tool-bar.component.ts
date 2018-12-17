@@ -14,16 +14,13 @@ export interface ListView {
     templateUrl: './case-file-tool-bar.component.html',
     styleUrls: ['./case-file-tool-bar.component.scss']
 })
-export class CaseFileToolBarComponent implements OnInit {
+export class CaseFileToolBarComponent {
     isCommentView = false;
 
     @Input() commentViewRedirect: ListView;
     @Input() listViewRedirect: ListView;
 
     constructor(private router: Router) { }
-
-    ngOnInit() {
-    }
 
     commentView() {
         this.isCommentView = true;

@@ -7,8 +7,8 @@ import { Observable, EMPTY } from 'rxjs';
   styleUrls: ['./fieldset.component.scss']
 })
 export class FieldsetComponent {
-    @Input() classes;
+       @Input() classes;
     @Input() validate;
     @Input() group;
-    @Input() data;
+    @Input() data: Array<any>;
 }

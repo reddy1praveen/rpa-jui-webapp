@@ -4,6 +4,7 @@ import { CaseFileComponent } from './case-file.component';
 import {Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, Input, ViewChild} from '@angular/core';
 import {Selector} from '../../../selector-helper';
 import {RouterTestingModule} from '@angular/router/testing';
+import {By} from '@angular/platform-browser';
 
 describe('CaseFileComponent', () => {
     @Component({
@@ -76,5 +77,15 @@ describe('CaseFileComponent', () => {
         expect(typeof testHostComponent.caseFileComponent.documents === 'object').toBeTruthy();
         expect(typeof testHostComponent.caseFileComponent.documentUrl === 'string').toBeFalsy();
         expect(typeof testHostComponent.caseFileComponent.caseFileType === 'string').toBeFalsy();
+    });
+
+    it('testing update() function to change allowAnnotations value', () => {
+        component.caseFileType = 'comment';
+        component.ngOnInit();
+        expect( component.caseFileType).toEqual('comment');
+        expect( component.allowAnnotations).toEqual(true);
+        component.caseFileType = 'something';
+        component.ngOnChanges({});
+        expect( component.allowAnnotations).toEqual(false);
     });
 });
