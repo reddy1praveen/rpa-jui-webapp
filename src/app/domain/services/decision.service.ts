@@ -28,14 +28,13 @@ export class DecisionService {
         return this.httpClient.get(url);
     }
 
-    submitDecisionDraft(jurId: string, caseId: string, pageId: string, body: any): Observable<any> {
-        const url = this.generateDecisionUrl(jurId, caseId, pageId);
-        console.log('Submit', url, jurId, caseId, pageId, body);
+    submitDecisionDraft(jurId: string, caseId: string, pageId: string, caseType: string, body: any): Observable<any> {
+        const url = this.generateDecisionUrl(jurId, caseId, pageId, caseType);
         return this.httpClient.post(url, body);
     }
 
     issueDecision(decision: any): void  {
-        console.log("Decisin", decision);
+
         //this.router.navigate([`/demo`], {relativeTo: this.activatedRoute});
         // const url = this.generateDecisionUrl('fr', caseId, 'create');
         //

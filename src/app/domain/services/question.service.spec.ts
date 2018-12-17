@@ -4,10 +4,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {BrowserTransferStateModule, TransferState} from '@angular/platform-browser';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
-import {CaseDataService} from '../../routing/pages/view-case/view-case.services';
-import {Observable} from 'rxjs';
 import {configMock, MockConfigService, MockTransferStateService} from './mock/config.env.mock';
-import {DecisionService} from './decision.service';
 import {ConfigService} from '../../config.service';
 
 
@@ -56,21 +53,22 @@ describe('QuestionService', () => {
         expect(service.fetchRound(caseId, roundId)).toBeTruthy();
     }));
 
-    it('should method contain create var', inject([QuestionService], (
-        configService: ConfigService, service: QuestionService, state: MockTransferStateService
-    ) => {
+    it('should method contain create var', inject([QuestionService], () => {
 
         const mockDummyData = [{ id: 1 }, { id: 2 }];
         const caseId = '123';
-        const question = '123';
+        const body = '123';
 
-        questionService.create(caseId, question).subscribe(data => {
+        questionService.create(caseId, body).subscribe(data => {
             expect(data).toEqual(mockDummyData);
         });
 
         const mockReq = httpMock.expectOne(`${configMock.config.api_base_url}/api/caseQ/${caseId}/questions`);
         expect(mockReq.request.method).toBe('POST');
         expect(mockReq.request.responseType).toEqual('json');
+        expect(mockReq.request.body).toBe(body);
+        expect(mockReq.request.url).toBe( '/api/caseQ/${caseId}/questions');
+
 
         mockReq.flush(mockDummyData);
         httpMock.verify();
@@ -78,7 +76,8 @@ describe('QuestionService', () => {
     }));
 
 
-    // it('should method contain fetchAll var', inject([QuestionService], (service: QuestionService, state: MockTransferStateService) => {
+    // it('should method contain fetchAll var', inject([QuestionService], (
+    //     service: QuestionService, state: MockTransferStateService) => {
     //     const id = 'abc123';
     //     const question = 'abc123';
     //     expect(service.create(id, question)).toContain(id);
