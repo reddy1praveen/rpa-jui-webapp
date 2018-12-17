@@ -1,7 +1,8 @@
 import * as log4js from 'log4js'
 import * as moment from 'moment'
-import { config } from '../../config'
-import { http } from '../lib/http'
+import {config} from '../../config'
+import {http} from '../lib/http'
+import {RELIST_HEARING_ISSUED} from '../constants/cohConstants'
 
 export const url = config.services.coh_cor_api
 
@@ -20,7 +21,7 @@ function convertDateTime(dateObj: string): DateTimeObject {
     const date = conDateTime.format('D MMMM YYYY')
     const time = conDateTime.format('h:mma')
 
-    return { date, dateUtc, time }
+    return {date, dateUtc, time}
 }
 
 function mergeCohEvents(eventsJson: any): any[] {
@@ -43,7 +44,7 @@ export async function createHearing(caseId: string, userId: string, jurisdiction
     const response = await http.post(`${url}/continuous-online-hearings`, {
         case_id: caseId,
         jurisdiction: jurisdictionId,
-        panel: [{ identity_token: 'string', name: userId }],
+        panel: [{identity_token: 'string', name: userId}],
         start_date: new Date().toISOString(),
     })
 
@@ -154,8 +155,10 @@ export async function getData(hearingId) {
     try {
         response = await http.get(`${url}/continuous-online-hearings/${hearingId}/decisions`)
     } catch {
-        logger.info(`No decision for hearing ${hearingId} found`)
-    }
+        logger
+.
+    info(`No decision for hearing ${hearingId} found`)
+}
     const data = response.data.decision_text || {}
     return JSON.parse(data)
 }
@@ -175,8 +178,10 @@ export async function updateOrCreateDecision(caseId, userId) {
             decision = await getDecision(hearingId)
             logger.info(decision)
         } catch {
-            logger.info(`Can't find decision`)
-        }
+            logger
+    .
+        info(`Can't find decision`)
+    }
 
         if (decision) {
             decisionId = decision.decision_id ? decision.decision_id : null
@@ -210,13 +215,13 @@ export async function updateOrCreateDecision(caseId, userId) {
  * @param hearingId
  * @return {Promise}
  */
-export async function relistHearing(caseId, userId) {
+export async function relistHearing(caseId, userId, state, reason) {
 
     console.log('relistHearing')
 
     // Gets hearingID
     const hearingId = await getOrCreateHearing(caseId, userId)
-    let response
+    // let response
 
     // hearingId is returned correctly
     if (!hearingId) {
@@ -225,46 +230,19 @@ export async function relistHearing(caseId, userId) {
         return 'Return no hearing Id error, maybe because its an FR case.'
     }
 
-    // The state property is correct as if state is not set a 422 Unprocessable Entity
-    // is thrown by the COH Api.
-    // A GET Request works correctly ie. a GET request to ${url}/continuous-online-hearings/${hearingId}
-    // response = await http.get(`${url}/continuous-online-hearings/${hearingId}`)
+    try {
+        const response = await http.put(`${url}/continuous-online-hearings/${hearingId}/relist`,
+            {state, reason})
+        return response
+    } catch (error) {
 
-    // The following PUT Request, with what I think is the correct body returns a 400.
-    response = await http.put(`${url}/continuous-online-hearings/${hearingId}/relist`,
-        {state: 'issued', reason: 'Test Reason'})
-
-    //TODO: Posed the question to CoH [13thDec4.30pm]:
-    //Hi, I’m trying to relist a hearing by exercising the PUT /continuous-online-hearings/{onlineHearingId}/relist
-    // route. I’m passing in the state property as ‘continuous_online_hearing_relisted’ and the reason as
-    // a string. But I’m receiving back a 400 from this PUT route. I know the service works for other calls
-    // as I can exercise a GET request and the service returns data fine. I’ve looked at Swagger for the PUT
-    // request and I’m passing everything in correctly. Any ideas?
-
-    // Received Reply
-    //state works with a string of issued
-    //and not continuous_online_hearing_relisted ! This is a bug on CoH side, but not their top
-    //priority to be fixed, therefore let's carry on and use 'issued' / 'drafted'
-
-    //We might need to pass through issued/draft depending on what page we are on. Mi has more knowledge
-    //around the implementation here.
-
-    console.log('response')
-    console.log(response)
-
-    //TODO: Add try catch back in when PUT request returns a success response.
-    // try {
-    //     //TODO: We need to pass in the { reason:'string', state:'drafted' }
-    //     response = await http.put(`${url}/continuous-online-hearings/${hearingId}/relist`)
-    //     console.log('response')
-    //     console.log(response)
-    //
-    //     logger.info(response)
-    // } catch (error) {
-    //     logger.info(`Can't find decision`)
-    // }
-
-    // return response
+        //TODO: Have an interface for a third party error
+        return Promise.reject({
+            humanReadableError: `Relist not successful`,
+            message: error.response.data,
+            status: error.response.status,
+        })
+    }
 }
 
 export class Store {

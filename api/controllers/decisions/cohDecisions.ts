@@ -1,6 +1,6 @@
 import * as express from 'express'
-const { getHearingIdOrCreateHearing, getDecision, postDecision, putDecision } = require('../../services/coh-cor-api/coh-cor-api')
-const { relistHearing } = require('../../services/coh')
+const {getHearingIdOrCreateHearing, getDecision, postDecision, putDecision} = require('../../services/coh-cor-api/coh-cor-api')
+const {relistHearing} = require('../../services/coh')
 const headerUtilities = require('../../lib/utilities/headerUtilities')
 
 function getOptions(req) {
@@ -8,7 +8,7 @@ function getOptions(req) {
 }
 
 export default app => {
-    const router = express.Router({ mergeParams: true })
+    const router = express.Router({mergeParams: true})
     app.use('/decisions', router)
 
     router.get('/:case_id', (req: any, res, next) => {
@@ -64,26 +64,37 @@ export default app => {
             })
     })
 
-    router.put('/:case_id/hearing/relist', (req: any, res, next) => {
+    //TODO: Is this the correct place for this route?
+    /**
+     * Relist a Hearing.
+     *
+     * Note that I've moved away from the older promise structure in favor of async await, so as to move
+     * forward.
+     *
+     * The state should either be 'issued' or 'draft'
+     */
+    router.put('/:case_id/hearing/relist', async (req: any, res, next) => {
 
         console.log('relist')
         const userId = req.auth.userId
         const caseId = req.params.case_id
-        const options = getOptions(req)
 
-        // TODO: You might have to make sure that the Authorisation, and
-        // ServiceAuth is being set on the request
-        relistHearing(caseId, userId)
-            .then(response => {
-                res.setHeader('Access-Control-Allow-Origin', '*')
-                res.setHeader('content-type', 'application/json')
-                console.log('response')
-                console.log(response)
-                res.status(200).send(JSON.stringify(response))
-            })
-            .catch(response => {
-                console.log(response.error || response)
-                res.status(response.error.status).send(response.error.message)
-            })
+        const state = req.body.state
+        const reason = req.body.reason
+
+        //TODO: Validate state and reason are coming through, otherwise we should throw something back to
+        //the user?
+
+        try {
+            const response = await relistHearing(caseId, userId, state, reason)
+
+            res.setHeader('Access-Control-Allow-Origin', '*')
+            res.setHeader('content-type', 'application/json')
+
+            res.status(200).send(JSON.stringify(response))
+        } catch (error) {
+
+            res.status(error.status).send(error.message)
+        }
     })
 }
