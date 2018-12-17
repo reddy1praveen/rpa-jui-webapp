@@ -11,7 +11,6 @@ describe('FieldsetComponent', () => {
             [validate]="validate"
             [group]="group"
             [data]="data"
-            [childrenOf]="childrenOf"
         ></app-fieldset>`
     })
     class TestDummyHostComponent {
@@ -19,7 +18,7 @@ describe('FieldsetComponent', () => {
         validate = '';
         group = '';
         data: Array<any>;
-        childrenOf;
+
 
         @ViewChild(FieldsetComponent)
         public fieldsetComponent: FieldsetComponent;
