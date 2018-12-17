@@ -1,7 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DeleteQuestionComponent } from './delete.component';
-import { SharedModule } from '../../../../shared/shared.module';
-import { DomainModule } from '../../../domain.module';
 import { QuestionService } from '../../../services/question.service';
 import { Selector } from '../../../../shared/selector-helper';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
@@ -12,7 +10,6 @@ import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RedirectionService } from '../../../../routing/redirection.service';
 import { CaseService } from '../../../services/case.service';
-import { Observable, of } from 'rxjs';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {mockConfigService} from '../../../mock/config.mock';
 import {mockQuestionDeleteActivateRoute} from '../../../mock/activateRoute.mock';
@@ -31,8 +28,6 @@ describe('DeleteQuestionComponent', () => {
                 DeleteQuestionComponent
             ],
             imports: [
-                // DomainModule,
-                // SharedModule,
                 BrowserTransferStateModule,
                 HttpClientTestingModule,
                 RouterTestingModule,
@@ -83,7 +78,7 @@ describe('DeleteQuestionComponent', () => {
                    });
         }));
 
-        xit('submitting a form emits a delete request', () => {
+        it('submitting a form emits a delete request', () => {
             component.remove();
 
             httpMock

@@ -31,9 +31,6 @@ describe('EditQuestionComponent', () => {
                 EditQuestionComponent
             ],
             imports: [
-                // DomainModule,
-                // SharedModule,
-                //
                 BrowserTransferStateModule,
                 HttpClientTestingModule,
                 RouterTestingModule,

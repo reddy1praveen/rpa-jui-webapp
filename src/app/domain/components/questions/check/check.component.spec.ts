@@ -1,14 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CheckQuestionsComponent } from './check.component';
-import { DomainModule } from '../../../domain.module';
-import { SharedModule } from '../../../../shared/shared.module';
 import { QuestionService } from '../../../services/question.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ConfigService } from '../../../../config.service';
 import { BrowserTransferStateModule} from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {ActivatedRoute} from '@angular/router';
-import {of} from 'rxjs';
 import {Selector} from '../../../../shared/selector-helper';
 import {RedirectionService} from '../../../../routing/redirection.service';
 import {mockQuestionCheckActivatedRoute} from '../../../mock/activateRoute.mock';
@@ -77,37 +74,37 @@ describe('CheckQuestionsComponent', () => {
                 .toBeTruthy();
         });
 
-        xit('should have filtered out the issued questions', () => {
-            expect(nativeElement.querySelectorAll(Selector.selector('question-check')).length).toBe(1);
+        it('should have filtered out the issued questions', () => {
+            expect(nativeElement.querySelectorAll(Selector.selector('question-check')).length).toBe(0);
         });
 
 
         describe('when we click send questions', () => {
-            // beforeEach(() => {
-            //     nativeElement.querySelector(Selector.selector('send-questions')).click();
-            // });
+            beforeEach(() => {
+                nativeElement.querySelector(Selector.selector('send-questions')).click();
+            });
 
-            // describe('and it succeeds', () => {
-            //     beforeEach(() => {
-            //         const req = httpMock.expectOne('/api/caseQ/123456789/rounds/1');
-            //         req.flush({});
-            //     });
-            //
-            //     it('should redirect with success', () => {
-            //         expect(redirectionService.redirect).toHaveBeenCalledWith('/SSCS/Benefit/123456789/questions?sent=success');
-            //     });
-            // });
+            describe('and it succeeds', () => {
+                beforeEach(() => {
+                    const req = httpMock.expectOne('/api/caseQ/123456789/rounds/1');
+                    req.flush({});
+                });
 
-            // describe('and it fails', () => {
-            //     beforeEach(() => {
-            //         const req = httpMock.expectOne('/api/caseQ/123456789/rounds/1');
-            //         req.flush({}, {status: 500, statusText: 'It broke'});
-            //     });
-            //
-            //     it('should redirect with failure', () => {
-            //         expect(redirectionService.redirect).toHaveBeenCalledWith('/SSCS/Benefit/123456789/questions?sent=failure');
-            //     });
-            // });
+                it('should redirect with success', () => {
+                    expect(redirectionService.redirect).toHaveBeenCalledWith('/case/SSCS/Benefit/123456789/questions?sent=success');
+                });
+            });
+
+            describe('and it fails', () => {
+                beforeEach(() => {
+                    const req = httpMock.expectOne('/api/caseQ/123456789/rounds/1');
+                    req.flush({}, {status: 500, statusText: 'It broke'});
+                });
+
+                it('should redirect with failure', () => {
+                    expect(redirectionService.redirect).toHaveBeenCalledWith('/case/SSCS/Benefit/123456789/questions?sent=failure');
+                });
+            });
 
         });
     });

@@ -1,7 +1,5 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {CreateQuestionsComponent} from './create.component';
-import {SharedModule} from '../../../../shared/shared.module';
-import {DomainModule} from '../../../domain.module';
 import {QuestionService} from '../../../services/question.service';
 import {Selector} from '../../../../shared/selector-helper';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
@@ -12,8 +10,6 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {RedirectionService} from '../../../../routing/redirection.service';
 import {CaseService} from '../../../services/case.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {of} from 'rxjs';
-import {JUIFormsModule} from '../../../../forms/forms.module';
 import {mockQuestionCreateActivateRoute} from '../../../mock/activateRoute.mock';
 import {mockConfigService} from '../../../mock/config.mock';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
@@ -122,7 +118,7 @@ describe('CreateQuestionsComponent', () => {
                 });
         }));
 
-        xit('should send a request for a valid form', () => {
+        it('should send a request for a valid form', () => {
             expect(component.form.valid).toBeFalsy();
             component.form.controls['subject'].setValue('Example subject');
             component.form.controls['question'].setValue('Example question');
