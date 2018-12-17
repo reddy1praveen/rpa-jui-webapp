@@ -14,6 +14,7 @@ export class CheckHearingComponent implements OnInit {
     case: any;
 
     relistReasonText: string;
+    cohErrorMessage = 'Server Error';
 
     error: boolean;
 
@@ -22,12 +23,12 @@ export class CheckHearingComponent implements OnInit {
         eventEmitter: this.eventEmitter
     };
 
-
     constructor(private fb: FormBuilder,
                 private route: ActivatedRoute,
                 private hearingService: HearingService,
                 private redirectionService: RedirectionService,
-                private cdRef: ChangeDetectorRef) {}
+                private cdRef: ChangeDetectorRef) {
+    }
 
     createForm() {
         this.form = this.fb.group({});
@@ -42,7 +43,6 @@ export class CheckHearingComponent implements OnInit {
     }
 
 
-
     submitCallback(values) {
         if (this.form.valid) {
             this.hearingService.listForHearing(this.case.id, this.relistReasonText)
@@ -50,7 +50,8 @@ export class CheckHearingComponent implements OnInit {
                         this.redirectionService.redirect(`/case/${this.case.case_jurisdiction}/${this.case.case_type_id}/${this.case.id}/hearing/confirm`);
                     }, error => {
                         this.error = true;
-                        console.error('Something went wrong', error);
+                        this.cohErrorMessage = error.error;
+                        console.error('Unable to relist', error);
                     }
                 );
         }

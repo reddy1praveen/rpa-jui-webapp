@@ -2,7 +2,7 @@ import * as log4js from 'log4js'
 import * as moment from 'moment'
 import {config} from '../../config'
 import {http} from '../lib/http'
-import {RELIST_HEARING_ISSUED} from '../constants/cohConstants'
+import {ERROR_NO_HEARING_IDENTIFIER, ERROR_UNABLE_TO_RELIST_HEARING} from '../constants/cohConstants'
 
 export const url = config.services.coh_cor_api
 
@@ -217,17 +217,13 @@ export async function updateOrCreateDecision(caseId, userId) {
  */
 export async function relistHearing(caseId, userId, state, reason) {
 
-    console.log('relistHearing')
-
-    // Gets hearingID
     const hearingId = await getOrCreateHearing(caseId, userId)
-    // let response
 
-    // hearingId is returned correctly
     if (!hearingId) {
-        //TODO: This case may not have a hearing. ie. an FR case, therefore throw an error back to
-        //the user.
-        return 'Return no hearing Id error, maybe because its an FR case.'
+        return Promise.reject({
+            humanMessage: ERROR_NO_HEARING_IDENTIFIER,
+            status: 400,
+        })
     }
 
     try {
@@ -235,12 +231,12 @@ export async function relistHearing(caseId, userId, state, reason) {
             {state, reason})
         return response
     } catch (error) {
-
-        //TODO: Have an interface for a third party error
         return Promise.reject({
-            humanReadableError: `Relist not successful`,
-            message: error.response.data,
-            status: error.response.status,
+            humanMessage: ERROR_UNABLE_TO_RELIST_HEARING,
+            serviceError: {
+                message: error.response.data,
+                status: error.response.status,
+            },
         })
     }
 }
