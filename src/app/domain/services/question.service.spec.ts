@@ -75,13 +75,4 @@ describe('QuestionService', () => {
 
     }));
 
-
-    // it('should method contain fetchAll var', inject([QuestionService], (
-    //     service: QuestionService, state: MockTransferStateService) => {
-    //     const id = 'abc123';
-    //     const question = 'abc123';
-    //     expect(service.create(id, question)).toContain(id);
-    // }));
-
-
 });

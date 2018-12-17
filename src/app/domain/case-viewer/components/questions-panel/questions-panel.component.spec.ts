@@ -11,6 +11,7 @@ import {Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, ViewChild} from '@angul
 import {ActivatedRoute, Router} from '@angular/router';
 import {PageDateQuestion} from '../../../models/section_fields';
 import {mockActiveRouteQuestionsPanel} from './mock/activeRoute.mock';
+
 @Component({
     selector: `app-host-dummy-component`,
     template: `<app-questions-panel [panelData]="data"></app-questions-panel>`
@@ -51,7 +52,9 @@ describe('Testing @input', () => {
 })
 
 
-describe('QuestionsPanelComponent', () => {
+
+
+describe('QuestionsPanelComponent: testing route.queryParams', () => {
     let component: QuestionsPanelComponent;
     let fixture: ComponentFixture<QuestionsPanelComponent>;
     let nativeElement;
