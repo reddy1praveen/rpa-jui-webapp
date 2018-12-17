@@ -64,26 +64,23 @@ export default app => {
             })
     })
 
-    //TODO: Is this the correct place for this route?
     /**
-     * Relist a Hearing.
+     * PUT Relist a Hearing.
      *
-     * Note that I've moved away from the older promise structure in favor of async await, so as to move
-     * forward.
+     * A Judge can relist a hearing at any time.
      *
-     * The state should either be 'issued' or 'draft'
+     * Relisting is done by hand, and we just need to send a message to CoH to re-list a hearing.
+     *
+     * The state that needs to be passed to CoH should either be 'issued' or 'draft', and not 'continuous_online_hearing_relisted'
+     * as suggested by the wiki documentation.
+     * [17.12.2018]
      */
     router.put('/:case_id/hearing/relist', async (req: any, res, next) => {
-
-        console.log('relist')
         const userId = req.auth.userId
         const caseId = req.params.case_id
 
         const state = req.body.state
         const reason = req.body.reason
-
-        //TODO: Validate state and reason are coming through, otherwise we should throw something back to
-        //the user?
 
         try {
             const response = await relistHearing(caseId, userId, state, reason)
