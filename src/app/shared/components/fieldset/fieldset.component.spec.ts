@@ -62,7 +62,6 @@ describe('FieldsetComponent', () => {
         expect(testHostComponent.fieldsetComponent.classes).toBeUndefined();
         expect(testHostComponent.fieldsetComponent.data).toBeUndefined();
         expect(testHostComponent.fieldsetComponent.group).toBeUndefined();
-        expect(testHostComponent.fieldsetComponent.childrenOf).toBeUndefined();
         expect(testHostComponent.fieldsetComponent.validate).toBeUndefined();
     });
     it('should display the actionSecondaryButton', () => {

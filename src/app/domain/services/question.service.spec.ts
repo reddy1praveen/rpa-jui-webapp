@@ -67,7 +67,7 @@ describe('QuestionService', () => {
         expect(mockReq.request.method).toBe('POST');
         expect(mockReq.request.responseType).toEqual('json');
         expect(mockReq.request.body).toBe(body);
-        expect(mockReq.request.url).toBe( '/api/caseQ/${caseId}/questions');
+        expect(mockReq.request.url).toBe( `/api/caseQ/${caseId}/questions`);
 
 
         mockReq.flush(mockDummyData);
