@@ -47,32 +47,32 @@ describe('QuestionService', () => {
         expect(service.fetch(caseId, questionId)).toBeTruthy();
         expect(service.fetchAll(item)).toBeTruthy();
         expect(service.create(caseId, question)).toBeTruthy();
-        expect(service.update(caseId, questionId, question)).toBeTruthy();
-        expect(service.remove(caseId, questionId)).toBeTruthy();
-        expect(service.sendQuestions(caseId, roundId)).toBeTruthy();
-        expect(service.fetchRound(caseId, roundId)).toBeTruthy();
-    }));
+    expect(service.update(caseId, questionId, question)).toBeTruthy();
+    expect(service.remove(caseId, questionId)).toBeTruthy();
+    expect(service.sendQuestions(caseId, roundId)).toBeTruthy();
+    expect(service.fetchRound(caseId, roundId)).toBeTruthy();
+}));
 
-    it('should method contain create var', inject([QuestionService], () => {
+it('should method contain create var', inject([QuestionService], () => {
 
-        const mockDummyData = [{ id: 1 }, { id: 2 }];
-        const caseId = '123';
-        const body = '123';
+    const mockDummyData = [{ id: 1 }, { id: 2 }];
+    const caseId = '123';
+    const body = '123';
 
-        questionService.create(caseId, body).subscribe(data => {
-            expect(data).toEqual(mockDummyData);
-        });
+    questionService.create(caseId, body).subscribe(data => {
+        expect(data).toEqual(mockDummyData);
+    });
 
-        const mockReq = httpMock.expectOne(`${configMock.config.api_base_url}/api/caseQ/${caseId}/questions`);
-        expect(mockReq.request.method).toBe('POST');
-        expect(mockReq.request.responseType).toEqual('json');
-        expect(mockReq.request.body).toBe(body);
-        expect(mockReq.request.url).toBe( `/api/caseQ/${caseId}/questions`);
+    const mockReq = httpMock.expectOne(`${configMock.config.api_base_url}/api/caseQ/${caseId}/questions`);
+    expect(mockReq.request.method).toBe('POST');
+    expect(mockReq.request.responseType).toEqual('json');
+    expect(mockReq.request.body).toBe(body);
+    expect(mockReq.request.url).toBe( `/api/caseQ/${caseId}/questions`);
 
 
-        mockReq.flush(mockDummyData);
-        httpMock.verify();
+    mockReq.flush(mockDummyData);
+    httpMock.verify();
 
-    }));
+}));
 
 });
