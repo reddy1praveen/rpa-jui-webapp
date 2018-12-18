@@ -1,6 +1,8 @@
 import * as express from 'express'
 import { Logger } from 'log4js'
 
+import { config } from '../../config'
+
 export function asyncReturnOrError(promise: any, message: string, res: express.Response, logger: Logger): any {
     return promise
         .then(data => {
@@ -12,6 +14,18 @@ export function asyncReturnOrError(promise: any, message: string, res: express.R
             res.status(err.statusCode || 500).send(msg)
             return null
         })
+}
+
+export function some(array, predicate) {
+    for (const item in array) {
+        if (array[item]) {
+            const result = predicate(array[item])
+            if (result) {
+                return result
+            }
+        }
+    }
+    return null
 }
 
 export function dotNotation(nestled: string) {
@@ -44,4 +58,8 @@ export function exists(object: any, nestled: string, returnValue = false) {
 
 export function shorten(str: string, maxLen: number): string {
     return str.length > maxLen ? `${str.substring(0, maxLen)}...` : str
+}
+
+export function isObject(o) {
+    return o !== null && typeof o === 'object' && Array.isArray(o) === false
 }

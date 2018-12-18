@@ -43,7 +43,7 @@ module.exports = {
                                 }
                             },
                             {
-                                value: '2',
+                                value: '2.0',
                                 text: 'Needs to use an aid or appliance to be able to wash or bathe',
                                 hint: {
                                     text: '2 point',
@@ -51,7 +51,7 @@ module.exports = {
                                 }
                             },
                             {
-                                value: '2',
+                                value: '2.1',
                                 text: 'Needs supervision or prompting to be able to wash or bathe',
                                 hint: {
                                     text: '2 points',
@@ -59,7 +59,7 @@ module.exports = {
                                 }
                             },
                             {
-                                value: '2',
+                                value: '2.2',
                                 text: 'Needs assistance to be able to wash either their hair or body below the waist',
                                 hint: {
                                     text: '2 points',

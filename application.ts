@@ -34,25 +34,27 @@ app.use(
     })
 );
 
-// appInsights
-//     .setup(appInsightsInstrumentationKey)
-//     .setAutoDependencyCorrelation(true)
-//     .setAutoCollectRequests(true)
-//     .setAutoCollectPerformance(true)
-//     .setAutoCollectExceptions(true)
-//     .setAutoCollectDependencies(true)
-//     .setAutoCollectConsole(true)
-//     .setUseDiskRetryCaching(true)
-//     .start();
+// local logging improves on appInsights
+if (config.configEnv !== 'local') {
+    appInsights
+        .setup(appInsightsInstrumentationKey)
+        .setAutoDependencyCorrelation(true)
+        .setAutoCollectRequests(true)
+        .setAutoCollectPerformance(true)
+        .setAutoCollectExceptions(true)
+        .setAutoCollectDependencies(true)
+        .setAutoCollectConsole(true)
+        .setUseDiskRetryCaching(true)
+        .start();
 
-// const client = appInsights.defaultClient;
-// client.trackTrace({ message: 'Test Message App Insight Activated' });
+    const client = appInsights.defaultClient;
+    client.trackTrace({ message: 'Test Message App Insight Activated' });
 
-// app.use((req, res, next) => {
-//     client.trackNodeHttpRequest({ request: req, response: res });
-//     next();
-// });
-
+    app.use((req, res, next) => {
+        client.trackNodeHttpRequest({ request: req, response: res });
+        next();
+    });
+}
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -70,7 +72,7 @@ app.get(
         checks: {
             ccd_data_api: healthcheckConfig(config.services.ccd_data_api),
             ccd_def_api: healthcheckConfig(config.services.ccd_def_api),
-            idam_web: healthcheckConfig(config.services.idam_web),
+            // idam_web: healthcheckConfig(config.services.idam_web),
             idam_api: healthcheckConfig(config.services.idam_api),
             s2s: healthcheckConfig(config.services.s2s),
             draft_store_api: healthcheckConfig(config.services.draft_store_api),

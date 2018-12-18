@@ -253,7 +253,6 @@ export async function payload(req, res, store) {
         stateId,
     }
 
-
     logger.info('Posting to CCD')
     let result = false
     result = await makeDecision(store.approveDraftConsent, req, state, store)

@@ -59,7 +59,7 @@ module.exports = {
                                 }
                             },
                             {
-                                value: '10',
+                                value: '10.0',
                                 text: 'For reasons other than psychological distress, cannot follow the route of an unfamiliar journey without another person, assistance dog or orientation aid',
                                 hint: {
                                     text: '10 points',
@@ -67,7 +67,7 @@ module.exports = {
                                 }
                             },
                             {
-                                value: '10',
+                                value: '10.1',
                                 text: 'Cannot undertake any journey because it would cause overwhelming psychological distress to the claimant',
                                 hint: {
                                     text: '10 points',

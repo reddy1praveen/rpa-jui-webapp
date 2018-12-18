@@ -1,5 +1,6 @@
 import * as log4js from 'log4js'
 import * as moment from 'moment'
+
 import {config} from '../../config'
 import {http} from '../lib/http'
 import {ERROR_NO_HEARING_IDENTIFIER, ERROR_UNABLE_TO_RELIST_HEARING} from '../constants/cohConstants'
@@ -21,7 +22,7 @@ function convertDateTime(dateObj: string): DateTimeObject {
     const date = conDateTime.format('D MMMM YYYY')
     const time = conDateTime.format('h:mma')
 
-    return {date, dateUtc, time}
+    return { date, dateUtc, time }
 }
 
 function mergeCohEvents(eventsJson: any): any[] {
@@ -97,7 +98,6 @@ export async function getDecision(hearingId: string): Promise<any> {
     return response.data
 }
 
-//TODO: Make dry with getOrCreateHearing
 export async function getHearingId(caseId) {
     const hearing = await getHearing(caseId)
 
@@ -107,8 +107,6 @@ export async function getHearingId(caseId) {
 export async function getOrCreateHearing(caseId, userId) {
     const hearing = await getHearing(caseId)
     let hearingId
-
-    //This case does not have a hearing, perhaps because it is not an SCSS case.
     if (hearing) {
         hearingId = hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : null
     } else {
@@ -153,6 +151,19 @@ export async function getData(hearingId) {
 }
 
 export async function updateOrCreateDecision(caseId, userId) {
+
+    } catch {
+        logger.info(`No decision for hearing ${hearingId} found`)
+    }
+    const data = response.data.decision_text || {}
+    try {
+        return JSON.parse(data)
+    } catch {
+        return {}
+    }
+}
+
+export async function getOrCreateDecision(caseId, userId) {
     let decisionId
     let decision
 
@@ -173,6 +184,9 @@ export async function updateOrCreateDecision(caseId, userId) {
         if (decision) {
             decisionId = decision.decision_id ? decision.decision_id : null
         } else {
+
+        }
+        if (!(decision && decisionId)) {
             logger.info(`Can't find decision, creating`)
             decisionId = await createDecision(hearingId)
         }

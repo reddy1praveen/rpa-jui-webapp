@@ -67,7 +67,7 @@ module.exports = {
                                 }
                             },
                             {
-                                value: '12',
+                                value: '12.0',
                                 text: 'Can stand and then move more than 1 metre but no more than 20 metres, either aided or unaided',
                                 hint: {
                                     text: '12 points',
@@ -75,7 +75,7 @@ module.exports = {
                                 }
                             },
                             {
-                                value: '12',
+                                value: '12.1',
                                 text: 'Cannot, either aided or unaided:',
                                 hint: {
                                     text: '12 points',

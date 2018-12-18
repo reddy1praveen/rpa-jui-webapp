@@ -34,7 +34,7 @@ module.exports = {
                             text: 'Day',
                             classes: 'govuk-date-input__label'
                         },
-                        control: 'awardEndDateDay',
+                        control: 'awardStartDateDay',
                         classes: 'govuk-date-input__input govuk-input--width-2'
                     }
                 },
@@ -44,7 +44,7 @@ module.exports = {
                             text: 'Month',
                             classes: 'govuk-date-input__label'
                         },
-                        control: 'awardEndDateMonth',
+                        control: 'awardStartDateMonth',
                         classes: 'govuk-date-input__input govuk-input--width-2'
                     }
                 },
@@ -54,7 +54,7 @@ module.exports = {
                             text: 'Year',
                             classes: 'govuk-date-input__label'
                         },
-                        control: 'awardEndDateYear',
+                        control: 'awardStartDateYear',
                         classes: 'govuk-date-input__input govuk-input--width-4'
                     }
                 }
