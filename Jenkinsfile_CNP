@@ -20,7 +20,7 @@ def vault = "rpa"
 def channel = '#jui-pipeline'
 
 List<LinkedHashMap<String, Object>> secrets = [
-    'rpa-${env}': [
+    'rpa-hmctsdemo': [
     secret('test-email', 'TEST_EMAIL'),
     secret('test-password', 'TEST_PASSWORD'),
     secret('jui-s2s-token', 'S2S_SECRET'),
