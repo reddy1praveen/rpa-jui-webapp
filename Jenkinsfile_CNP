@@ -19,7 +19,7 @@ def component = "webapp"
 def channel = '#jui-pipeline'
 
 def secrets = [
-    'rpa-hmctsdemo' : [
+    'rpa-${env}' : [
         secret('test-email', 'TEST_EMAIL'),
         secret('test-password', 'TEST_PASSWORD'),
         secret('jui-s2s-token', 'S2S_SECRET'),
