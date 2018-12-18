@@ -82,18 +82,8 @@ export default app => {
         const state = req.body.state
         const reason = req.body.reason
 
-        console.log('caseId, userId, state, reason')
-        console.log(caseId)
-        console.log(userId)
-        console.log(state)
-        console.log(reason)
-
-        const options = getOptions(req)
         try {
             const response = await relistHearing(caseId, userId, state, reason)
-
-            console.log('response')
-            console.log(response)
 
             res.setHeader('Access-Control-Allow-Origin', '*')
             res.setHeader('content-type', 'application/json')
@@ -101,8 +91,6 @@ export default app => {
             res.status(response.status).send(JSON.stringify(response.data))
         } catch (error) {
 
-            console.log('cohDecisions.ts')
-            console.log(error)
             if (error.hasOwnProperty('serviceError')) {
                 return res.status(error.serviceError.status).send(error.serviceError.message)
             } else {

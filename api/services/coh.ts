@@ -99,28 +99,19 @@ export async function getDecision(hearingId: string): Promise<any> {
 
 //TODO: Make dry with getOrCreateHearing
 export async function getHearingId(caseId) {
-
     const hearing = await getHearing(caseId)
-    console.log('hearing')
-    console.log(hearing)
 
     return hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : null
 }
 
 export async function getOrCreateHearing(caseId, userId) {
-    console.log('getOrCreateHearing')
-
     const hearing = await getHearing(caseId)
     let hearingId
-
-    console.log('hearing')
-    console.log(hearing)
 
     //This case does not have a hearing, perhaps because it is not an SCSS case.
     if (hearing) {
         hearingId = hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : null
     } else {
-        console.log('In create hearing')
         hearingId = await createHearing(caseId, userId)
     }
 
@@ -154,11 +145,9 @@ export async function getData(hearingId) {
 
     try {
         response = await http.get(`${url}/continuous-online-hearings/${hearingId}/decisions`)
-    } catch {
-        logger
-.
-    info(`No decision for hearing ${hearingId} found`)
-}
+    } catch (error) {
+        logger.info(`No decision for hearing ${hearingId} found`)
+    }
     const data = response.data.decision_text || {}
     return JSON.parse(data)
 }
@@ -177,11 +166,9 @@ export async function updateOrCreateDecision(caseId, userId) {
         try {
             decision = await getDecision(hearingId)
             logger.info(decision)
-        } catch {
-            logger
-    .
-        info(`Can't find decision`)
-    }
+        } catch (error) {
+            logger.info(`Can't find decision`)
+        }
 
         if (decision) {
             decisionId = decision.decision_id ? decision.decision_id : null

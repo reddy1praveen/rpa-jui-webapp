@@ -25,7 +25,7 @@ export class HearingService {
 
         const body = {
             //TODO: For now let's send in issued from here, these should be in constants here.
-            state: 'issued',
+            state: 'drafted',
             reason: relistReason,
         };
 
