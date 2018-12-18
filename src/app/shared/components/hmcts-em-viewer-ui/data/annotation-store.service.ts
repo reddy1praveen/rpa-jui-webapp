@@ -263,7 +263,7 @@ export class AnnotationStoreService implements OnDestroy {
         this.pdfAnnotateWrapper.getStoreAdapter()
         .deleteAnnotation(this.pdfRenderService.getRenderOptions().documentId, annotationId)
         .then(() => {
-            this.pdfService.render();
+            this.pdfRenderService.render();
         });
     }
 

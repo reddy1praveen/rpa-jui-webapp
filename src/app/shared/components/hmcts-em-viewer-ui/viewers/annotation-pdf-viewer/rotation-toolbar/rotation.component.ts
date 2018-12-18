@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { PdfService } from '../../../data/pdf.service';
 import { PdfRenderService } from '../../../data/pdf-render.service';
-import { PdfAnnotateWrapper } from '../../../data/js-wrapper/pdf-annotate-wrapper';
+import { EmLoggerService } from '../../../logging/em-logger.service';
 
 
 @Component({
@@ -11,12 +10,11 @@ import { PdfAnnotateWrapper } from '../../../data/js-wrapper/pdf-annotate-wrappe
     providers: []
 })
 export class RotationComponent {
-    @Input() page: number;
-    @Input() top: number;
-    @Input() left: number;
+    @Input() pageNumber: number;
 
     constructor(private pdfRenderService: PdfRenderService,
-                private pdfAnnotateWrapper: PdfAnnotateWrapper) {
+                private log: EmLoggerService) {
+        this.log.setClass('RotationComponent');
     }
 
     calculateRotation(rotateVal): number {
@@ -30,23 +28,20 @@ export class RotationComponent {
     onRotateClockwise() {
         const RENDER_OPTIONS = this.pdfRenderService.getRenderOptions();
         const rotation = RENDER_OPTIONS.rotationPages
-            .find(rotatePage => rotatePage.page === this.page).rotate;
+            .find(rotatePage => rotatePage.page === this.pageNumber).rotate;
         RENDER_OPTIONS.rotationPages
-            .find(rotatePage => rotatePage.page === this.page).rotate = this.calculateRotation(rotation + 90);
+            .find(rotatePage => rotatePage.page === this.pageNumber).rotate = this.calculateRotation(rotation + 90);
         this.pdfRenderService.setRenderOptions(RENDER_OPTIONS);
-        // this.pdfService.render();
-
-        this.pdfAnnotateWrapper.renderPage(this.page, RENDER_OPTIONS).then(() => {
-        });
+        this.pdfRenderService.render();
     }
     
      onRotateAntiClockwise() {
         const RENDER_OPTIONS = this.pdfRenderService.getRenderOptions();
         const rotation = RENDER_OPTIONS.rotationPages
-            .find(rotatePage => rotatePage.page === this.page).rotate;
+            .find(rotatePage => rotatePage.page === this.pageNumber).rotate;
         RENDER_OPTIONS.rotationPages
-            .find(rotatePage => rotatePage.page === this.page).rotate = this.calculateRotation(rotation - 90);
+            .find(rotatePage => rotatePage.page === this.pageNumber).rotate = this.calculateRotation(rotation - 90);
         this.pdfRenderService.setRenderOptions(RENDER_OPTIONS);
-        // this.pdfService.render();
+        this.pdfRenderService.render();
     }
 }

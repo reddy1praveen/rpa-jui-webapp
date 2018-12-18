@@ -24,7 +24,7 @@ import { ViewerAnchorDirective } from './document-viewer/viewer-anchor.directive
 import { BrowserModule } from '@angular/platform-browser';
 import { DocumentViewerService } from './document-viewer/document-viewer.service';
 import { RotationComponent } from './viewers/annotation-pdf-viewer/rotation-toolbar/rotation.component';
-import { RotationFactoryService } from './viewers/rotation-factory.service';
+import { RotationFactoryService } from './viewers/annotation-pdf-viewer/rotation-toolbar/rotation-factory.service';
 import { PdfRenderService } from './data/pdf-render.service';
 import { EmLoggerService } from './logging/em-logger.service';
 
