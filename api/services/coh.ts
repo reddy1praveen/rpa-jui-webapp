@@ -1,8 +1,8 @@
 import * as log4js from 'log4js'
 import * as moment from 'moment'
-
 import {config} from '../../config'
 import {http} from '../lib/http'
+
 import {ERROR_NO_HEARING_IDENTIFIER, ERROR_UNABLE_TO_RELIST_HEARING} from '../constants/cohConstants'
 
 export const url = config.services.coh_cor_api
@@ -98,12 +98,6 @@ export async function getDecision(hearingId: string): Promise<any> {
     return response.data
 }
 
-export async function getHearingId(caseId) {
-    const hearing = await getHearing(caseId)
-
-    return hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : null
-}
-
 export async function getOrCreateHearing(caseId, userId) {
     const hearing = await getHearing(caseId)
     let hearingId
@@ -145,20 +139,11 @@ export async function getData(hearingId) {
         response = await http.get(`${url}/continuous-online-hearings/${hearingId}/decisions`)
     } catch (error) {
         logger.info(`No decision for hearing ${hearingId} found`)
-    }
-    const data = response.data.decision_text || {}
-    return JSON.parse(data)
 }
-
-export async function updateOrCreateDecision(caseId, userId) {
-
-    } catch {
-        logger.info(`No decision for hearing ${hearingId} found`)
-    }
     const data = response.data.decision_text || {}
     try {
         return JSON.parse(data)
-    } catch {
+    } catch (error) {
         return {}
     }
 }
@@ -179,12 +164,10 @@ export async function getOrCreateDecision(caseId, userId) {
             logger.info(decision)
         } catch (error) {
             logger.info(`Can't find decision`)
-        }
+    }
 
         if (decision) {
             decisionId = decision.decision_id ? decision.decision_id : null
-        } else {
-
         }
         if (!(decision && decisionId)) {
             logger.info(`Can't find decision, creating`)
