@@ -8,7 +8,7 @@ function getOptions(req) {
 }
 
 export default app => {
-    const router = express.Router({mergeParams: true})
+    const router = express.Router({ mergeParams: true })
     app.use('/decisions', router)
 
     router.get('/:case_id', (req: any, res, next) => {
@@ -64,17 +64,6 @@ export default app => {
             })
     })
 
-    /**
-     * PUT Relist a Hearing.
-     *
-     * A Judge can relist a hearing at any time.
-     *
-     * Relisting is done by hand, and we just need to send a message to CoH to re-list a hearing.
-     *
-     * The state that needs to be passed to CoH should either be 'issued' or 'draft', and not 'continuous_online_hearing_relisted'
-     * as suggested by the wiki documentation.
-     * [17.12.2018]
-     */
     router.put('/:case_id/hearing/relist', async (req: any, res, next) => {
         const userId = req.auth.userId
         const caseId = req.params.case_id

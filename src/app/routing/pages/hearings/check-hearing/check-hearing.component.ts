@@ -27,8 +27,7 @@ export class CheckHearingComponent implements OnInit {
                 private route: ActivatedRoute,
                 private hearingService: HearingService,
                 private redirectionService: RedirectionService,
-                private cdRef: ChangeDetectorRef) {
-    }
+                private cdRef: ChangeDetectorRef) {}
 
     createForm() {
         this.form = this.fb.group({});

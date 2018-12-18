@@ -45,7 +45,7 @@ export async function createHearing(caseId: string, userId: string, jurisdiction
     const response = await http.post(`${url}/continuous-online-hearings`, {
         case_id: caseId,
         jurisdiction: jurisdictionId,
-        panel: [{identity_token: 'string', name: userId}],
+        panel: [{ identity_token: 'string', name: userId }],
         start_date: new Date().toISOString(),
     })
 
@@ -101,6 +101,7 @@ export async function getDecision(hearingId: string): Promise<any> {
 export async function getOrCreateHearing(caseId, userId) {
     const hearing = await getHearing(caseId)
     let hearingId
+
     if (hearing) {
         hearingId = hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : null
     } else {
@@ -182,21 +183,18 @@ export async function getOrCreateDecision(caseId, userId) {
 /**
  * relistHearing
  *
- * Occurs when a re-listing for hearing is requested by a Judge. A Judge is able to relist a hearing at any point.
+ * Occurs when a re-listing for hearing is requested by a Judge.
  *
- * Note the the body of the PUT request should contain 'continuous_online_hearing_relisted',
- * within a signature of:
- * {
- *  'reason': 'string',
- *  'state': 'drafted'
- * }
+ * A Judge is able to re-list a hearing at any point, within a hearings lifecycle. A re-listing
+ * is a manual process by a case worker, therefore we just need to send a message to CoH.
  *
- * Swagger : https://hmcts.github.io/reform-api-docs/swagger.html?url=https://hmcts.github.io/reform-api-docs/specs/
- * rpa-coh-continuous-online-resolution.json#/online-hearing-controller/retrieveOnlineHearingUsingGET
- * TODO: Is it state or online_hearing_state, let's go with the swagger url is fine here
- * TODO: Should we say it's set
  * @see RIUI-652
- * @param hearingId
+ * @param caseId
+ * @param userId
+ * @param state - 'issued' / 'drafted'. A state should either be 'issued' or 'drafted', and not
+ * 'continuous_online_hearing_relisted' as suggested by the CoH Wiki.
+ * [17.12.2018]
+ * @param reason - 'freetext'
  * @return {Promise}
  */
 export async function relistHearing(caseId, userId, state, reason) {

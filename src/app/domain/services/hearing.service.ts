@@ -24,7 +24,6 @@ export class HearingService {
         const url = this.generateHearingsUrl(caseId);
 
         const body = {
-            //TODO: For now let's send in issued from here, these should be in constants here.
             state: 'drafted',
             reason: relistReason,
         };
