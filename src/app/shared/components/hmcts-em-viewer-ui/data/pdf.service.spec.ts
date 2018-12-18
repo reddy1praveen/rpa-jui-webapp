@@ -41,20 +41,8 @@ describe('PdfService', () => {
 
   describe('preRun', () => {
     it('should define pdf variables', inject([PdfService], (service: PdfService) => {
-      spyOn(mockPdfWrapper, 'workerSrc').and.stub();
-
       service.preRun();
-
       expect(service.getPageNumber()).toBeTruthy();
-      expect(mockPdfWrapper.workerSrc).toHaveBeenCalled();
-    }));
-  });
-
-  describe('getPdfPages', () => {
-    it('should set the pageNumber value', inject([PdfService], (service: PdfService) => {
-      service['pdfPages'] = 10;
-      const pdfPages = service.getPdfPages();
-      expect(pdfPages).toBe(10);
     }));
   });
 

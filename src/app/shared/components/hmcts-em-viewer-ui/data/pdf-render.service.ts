@@ -23,8 +23,6 @@ export class PdfRenderService {
         this.log.setClass('PdfRenderService');
         this.dataLoadedSubject = new BehaviorSubject(false);
         this.listPagesSubject = new Subject();
-
-        this.pdfWrapper.workerSrc('/public/javascripts/pdf.worker.js');
     }
 
     getDataLoadedSub(): BehaviorSubject<boolean> {
@@ -56,6 +54,8 @@ export class PdfRenderService {
             this.viewerElementRef = viewerElementRef;
         }
 
+        this.pdfWrapper.workerSrc('/public/javascripts/pdf.worker.js');
+        
         const renderOptions = this.getRenderOptions();
         this.pdfWrapper.getDocument(renderOptions.documentId)
             .then(pdf => {

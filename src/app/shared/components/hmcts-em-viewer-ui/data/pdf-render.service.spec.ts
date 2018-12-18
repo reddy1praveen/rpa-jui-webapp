@@ -68,40 +68,6 @@ describe('PdfService', () => {
     }));
   });
 
-  describe('calculateRotation', () => {
-    let renderOptions = new RenderOptions(null, null, 1.33, 180, []);
-
-    it('should return the sum value of current rotation and new rotation', inject([PdfRenderService], (service: PdfRenderService) => {
-      service.setRenderOptions(renderOptions);
-      const rotationAdd = 90;
-    //   const rotation = service.calculateRotation({rotationAdd});
-      expect(rotation).toBe(renderOptions.rotate + rotationAdd);
-    }));
-
-    it('should return 360 degrees as 0', inject([PdfRenderService], (service: PdfRenderService) => {
-      service.setRenderOptions(renderOptions);
-      const rotationAdd = 180;
-    //   const rotation = service.calculateRotation(new PdfPage(rotationAdd));
-      expect(rotation).toBe(0);
-    }));
-
-    it('should return new rotation in 360 degrees', inject([PdfRenderService], (service: PdfRenderService) => {
-      service.setRenderOptions(renderOptions);
-      const rotationAdd = 270;
-    //   const rotation = service.calculateRotation(new PdfPage(rotationAdd));
-      expect(rotation).toBe(90);
-    }));
-
-    it('should return rotation in 360 degrees if negative', inject([PdfRenderService], (service: PdfRenderService) => {
-      renderOptions = new RenderOptions(null, null, 1.33, -90, null);
-
-      service.setRenderOptions(renderOptions);
-      const rotationSubstract = -90;
-    //   const rotation = service.calculateRotation(new PdfPage(rotationSubstract));
-      expect(rotation).toBe(180);
-    }));
-  });
-
   describe('getDataLoadedSub', () => {
     it('should return dataLoadedSubject', inject([PdfRenderService], (service: PdfRenderService) => {
       service['dataLoadedSubject'] = new BehaviorSubject(true);
@@ -125,6 +91,14 @@ describe('PdfService', () => {
       const mockRenderOptions = new RenderOptions('id', null, 1, 0, []);
       service.setRenderOptions(mockRenderOptions);
       expect(service.getRenderOptions().documentId).toBe(mockRenderOptions.documentId);
+    }));
+  });
+
+  describe('getPdfPages', () => {
+    it('should set the pageNumber value', inject([PdfRenderService], (service: PdfRenderService) => {
+      service['pdfPages'] = 10;
+      const pdfPages = service.getPdfPages();
+      expect(pdfPages).toBe(10);
     }));
   });
 });
