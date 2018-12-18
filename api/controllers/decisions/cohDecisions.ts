@@ -98,7 +98,7 @@ export default app => {
             res.setHeader('Access-Control-Allow-Origin', '*')
             res.setHeader('content-type', 'application/json')
 
-            res.status(200).send(JSON.stringify(response))
+            res.status(response.status).send(JSON.stringify(response.data))
         } catch (error) {
 
             console.log('cohDecisions.ts')
