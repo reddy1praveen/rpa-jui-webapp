@@ -66,7 +66,7 @@ import { EmLoggerService } from './logging/em-logger.service';
     ViewerFactoryService,
     DocumentViewerService,
     RotationFactoryService,
-    PdfRenderService
+    PdfRenderService,
     EmLoggerService
   ],
   exports: [

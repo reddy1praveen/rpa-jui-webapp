@@ -3,7 +3,6 @@ import {BehaviorSubject} from 'rxjs';
 import { PdfWrapper } from './js-wrapper/pdf-wrapper';
 import { PdfAnnotateWrapper } from './js-wrapper/pdf-annotate-wrapper';
 import { EmLoggerService } from '../logging/em-logger.service';
-import { PdfPage } from './js-wrapper/pdf-page';
 import { RenderOptions } from './js-wrapper/renderOptions.model';
 import { RotationFactoryService } from '../viewers/rotation-factory.service';
 import { PdfRenderService } from './pdf-render.service';

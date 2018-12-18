@@ -47,7 +47,7 @@ export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDe
                 private ref: ChangeDetectorRef,
                 private renderer: Renderer2,
                 private pdfAnnotateWrapper: PdfAnnotateWrapper,
-                private pdfRenderService: PdfRenderService) {
+                private pdfRenderService: PdfRenderService,
                 private log: EmLoggerService) {
     }
 
