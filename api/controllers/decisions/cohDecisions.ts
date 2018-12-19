@@ -69,11 +69,7 @@ export default app => {
      * Returns a list of online hearings
      */
     router.get('/:case_id/hearing', async (req: any, res, next) => {
-        const userId = req.auth.userId
         const caseId = req.params.case_id
-
-        console.log('caseId')
-        console.log(caseId)
 
         try {
             const response = await getHearing(caseId)
@@ -81,14 +77,10 @@ export default app => {
             res.setHeader('Access-Control-Allow-Origin', '*')
             res.setHeader('content-type', 'application/json')
 
-            console.log('response')
-            console.log(response)
-
             res.status(200).send(JSON.stringify(response))
         } catch (error) {
 
-            console.log('error')
-            console.log(error)
+            res.status(400).send(JSON.stringify(error))
         }
     })
 

@@ -28,7 +28,7 @@ export class HearingService {
         const url = this.generateHearingsUrl(caseId);
 
         const body = {
-            state: relistState,//'drafted',
+            state: relistState,
             reason: relistReason,
         };
 
