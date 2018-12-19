@@ -16,7 +16,6 @@ export class GovukBackLinkComponent {
     }
 
     back() {
-        console.log(this.location);
         this.location.back();
     }
 
