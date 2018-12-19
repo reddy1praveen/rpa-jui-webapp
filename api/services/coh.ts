@@ -223,10 +223,6 @@ export async function relistHearing(caseId: string, userId: string, state: strin
     }
 }
 
-export function shouldTest() {
-    return true
-}
-
 export class Store {
     hearingId
 
