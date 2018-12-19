@@ -1,7 +1,8 @@
 import * as express from 'express'
+import * as headerUtilities from '../../lib/utilities/headerUtilities'
+import {relistHearing} from '../../services/coh'
+
 const {getHearingIdOrCreateHearing, getDecision, postDecision, putDecision} = require('../../services/coh-cor-api/coh-cor-api')
-const {relistHearing} = require('../../services/coh')
-const headerUtilities = require('../../lib/utilities/headerUtilities')
 
 function getOptions(req) {
     return headerUtilities.getAuthHeaders(req)
@@ -83,7 +84,7 @@ export default app => {
             if (error.hasOwnProperty('serviceError')) {
                 return res.status(error.serviceError.status).send(error.serviceError.message)
             } else {
-                return res.status(error.status).send(error.humanMessage)
+                return res.status(error.status).send(error.message)
             }
         }
     })

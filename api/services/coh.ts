@@ -22,7 +22,7 @@ function convertDateTime(dateObj: string): DateTimeObject {
     const date = conDateTime.format('D MMMM YYYY')
     const time = conDateTime.format('h:mma')
 
-    return { date, dateUtc, time }
+    return {date, dateUtc, time}
 }
 
 function mergeCohEvents(eventsJson: any): any[] {
@@ -45,7 +45,7 @@ export async function createHearing(caseId: string, userId: string, jurisdiction
     const response = await http.post(`${url}/continuous-online-hearings`, {
         case_id: caseId,
         jurisdiction: jurisdictionId,
-        panel: [{ identity_token: 'string', name: userId }],
+        panel: [{identity_token: 'string', name: userId}],
         start_date: new Date().toISOString(),
     })
 
@@ -140,7 +140,7 @@ export async function getData(hearingId) {
         response = await http.get(`${url}/continuous-online-hearings/${hearingId}/decisions`)
     } catch (error) {
         logger.info(`No decision for hearing ${hearingId} found`)
-}
+    }
     const data = response.data.decision_text || {}
     try {
         return JSON.parse(data)
@@ -165,7 +165,7 @@ export async function getOrCreateDecision(caseId, userId) {
             logger.info(decision)
         } catch (error) {
             logger.info(`Can't find decision`)
-    }
+        }
 
         if (decision) {
             decisionId = decision.decision_id ? decision.decision_id : null
@@ -197,13 +197,13 @@ export async function getOrCreateDecision(caseId, userId) {
  * @param reason - 'freetext'
  * @return {Promise}
  */
-export async function relistHearing(caseId, userId, state, reason) {
+export async function relistHearing(caseId: string, userId: string, state: string, reason: string): Promise<any> {
 
     const hearingId = await getOrCreateHearing(caseId, userId)
 
     if (!hearingId) {
         return Promise.reject({
-            humanMessage: ERROR_NO_HEARING_IDENTIFIER,
+            message: ERROR_NO_HEARING_IDENTIFIER,
             status: 400,
         })
     }
@@ -214,13 +214,17 @@ export async function relistHearing(caseId, userId, state, reason) {
         return response
     } catch (error) {
         return Promise.reject({
-            humanMessage: ERROR_UNABLE_TO_RELIST_HEARING,
+            message: ERROR_UNABLE_TO_RELIST_HEARING,
             serviceError: {
                 message: error.response.data,
                 status: error.response.status,
             },
         })
     }
+}
+
+export function shouldTest() {
+    return true
 }
 
 export class Store {
