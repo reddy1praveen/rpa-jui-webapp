@@ -2,27 +2,68 @@ import 'mocha'
 
 import * as chai from 'chai'
 import { expect } from 'chai'
+import * as sinon from 'sinon'
 import * as simonChai from 'sinon-chai'
-import { mockReq, mockRes } from 'sinon-express-mock'
+import * as states from '../lib/stateEngine'
+
 chai.use(simonChai)
 
-import { config } from '../../../config'
-import { logout } from './index'
+const mapping = [
+    {
+        event: 'continue',
+        result: 'test',
+        state: 'test',
+    },
+    {
+    event: 'continue',
+    states: [
+        {
+            conditions: [
+                {
+                    condition: [{ preliminaryView: 'yes' }],
+                    result: 'preliminary-advanced',
+                },
+                {
+                    condition: [{ preliminaryView: 'no' }],
+                    result: 'final-decision',
+                },
+            ],
+            state: 'create',
+        },
+        {
+            result: 'check-final-decision',
+            state: 'final-decision',
+        },
+    ],
+}]
 
 describe('State Engine', () => {
-    describe('logOut', () => {
-        it('should delete auth cookie', () => {
-            const req = mockReq({})
-            const res = mockRes()
-            logout(req, res)
-            expect(res.clearCookie).to.be.calledWith(config.cookies.token)
+    describe('handleCondition', () => {
+
+        it('should evaluate a condition and return a result if true', () => {
+            const variables = {
+                preliminaryView: 'yes',
+            }
+
+            expect(states.handleCondition(mapping[1].states[0].conditions[0], variables)).to.equal('preliminary-advanced')
         })
 
-        it('should redirect to index page', () => {
-            const req = mockReq({})
-            const res = mockRes()
-            logout(req, res)
-            expect(res.redirect).to.be.calledWith('/')
+        it('should evaluate a condition and return null  if false', () => {
+            const variables = {
+                preliminaryView: 'no',
+            }
+            expect(states.handleCondition(mapping[1].states[0].conditions[0], variables)).to.equal(null)
+        })
+    })
+
+    describe('handleInstruction', () => {
+        it('should dispatch a single state in an instruction to handlestate', () => {
+            const variables = {
+                preliminaryView: 'yes',
+            }
+            sinon.spy(states, 'handleState')
+            states.handleInstruction(mapping[0], 'create', variables)
+            expect(states.handleState).to.have.been.called
         })
     })
 })

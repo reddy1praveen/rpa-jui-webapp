@@ -14,7 +14,7 @@ export function logout(req, res) {
     res.redirect(req.query.redirect || '/')
 }
 
-async function authenticateUser(req,res) {
+async function authenticateUser(req, res) {
     postOauthToken(req.query.code, req.get('host'))
             .then(data => {
                 if (data.access_token) {
@@ -37,7 +37,7 @@ export function auth(app) {
 
     app.use('/oauth2/callback', router)
 
-    router.use(authenticateUser(req, res))
+    router.use(authenticateUser)
 
     app.use('/logout', logout)
 }
