@@ -14,13 +14,8 @@ export function logout(req, res) {
     res.redirect(req.query.redirect || '/')
 }
 
-export function auth(app) {
-    const router = express.Router()
-
-    app.use('/oauth2/callback', router)
-
-    router.use((req: any, res, next) => {
-        postOauthToken(req.query.code, req.get('host'))
+async function authenticateUser(req,res) {
+    postOauthToken(req.query.code, req.get('host'))
             .then(data => {
                 if (data.access_token) {
                     const options = { headers: { Authorization: `Bearer ${data.access_token}` } }
@@ -35,7 +30,14 @@ export function auth(app) {
             .catch(e => {
                 res.redirect('/')
             })
-    })
+}
+
+export function auth(app) {
+    const router = express.Router()
+
+    app.use('/oauth2/callback', router)
+
+    router.use(authenticateUser(req, res))
 
     app.use('/logout', logout)
 }
