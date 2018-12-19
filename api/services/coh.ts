@@ -53,6 +53,8 @@ export async function createHearing(caseId: string, userId: string, jurisdiction
 }
 
 export async function getHearing(caseId: string): Promise<any> {
+    console.log('getHearing')
+    console.log(caseId)
     const response = await http.get(`${url}/continuous-online-hearings?case_id=${caseId}`)
     return response.data
 }

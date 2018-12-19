@@ -41,10 +41,11 @@ export class CheckHearingComponent implements OnInit {
         this.createForm();
     }
 
-
+    //TODO: issued should come from constants
     submitCallback(values) {
+
         if (this.form.valid) {
-            this.hearingService.listForHearing(this.case.id, this.relistReasonText)
+            this.hearingService.listForHearing(this.case.id, this.relistReasonText, 'issued')
                 .subscribe(() => {
                         this.redirectionService.redirect(`/case/${this.case.case_jurisdiction}/${this.case.case_type_id}/${this.case.id}/hearing/confirm`);
                     }, error => {

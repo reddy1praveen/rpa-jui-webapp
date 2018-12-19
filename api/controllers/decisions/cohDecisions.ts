@@ -1,6 +1,6 @@
 import * as express from 'express'
 import * as headerUtilities from '../../lib/utilities/headerUtilities'
-import {relistHearing} from '../../services/coh'
+import {getHearing, relistHearing} from '../../services/coh'
 
 const {getHearingIdOrCreateHearing, getDecision, postDecision, putDecision} = require('../../services/coh-cor-api/coh-cor-api')
 
@@ -63,6 +63,33 @@ export default app => {
                 console.log(response.error || response)
                 res.status(response.error.status).send(response.error.message)
             })
+    })
+
+    /**
+     * Returns a list of online hearings
+     */
+    router.get('/:case_id/hearing', async (req: any, res, next) => {
+        const userId = req.auth.userId
+        const caseId = req.params.case_id
+
+        console.log('caseId')
+        console.log(caseId)
+
+        try {
+            const response = await getHearing(caseId)
+
+            res.setHeader('Access-Control-Allow-Origin', '*')
+            res.setHeader('content-type', 'application/json')
+
+            console.log('response')
+            console.log(response)
+
+            res.status(200).send(JSON.stringify(response))
+        } catch (error) {
+
+            console.log('error')
+            console.log(error)
+        }
     })
 
     router.put('/:case_id/hearing/relist', async (req: any, res, next) => {
