@@ -14,7 +14,6 @@ export class CreateHearingComponent implements OnInit {
     form: FormGroup;
     case: CaseDataOther;
 
-    cohErrorMessage = 'Server Error';
     relistReasonText = '';
 
     eventEmitter: EventEmitter<any> = new EventEmitter();
@@ -35,9 +34,9 @@ export class CreateHearingComponent implements OnInit {
                 private cdRef: ChangeDetectorRef) {
     }
 
-    createForm() {
+    createFormWithReason(reason) {
         this.form = this.fb.group({
-            notes: [this.relistReasonText, Validators.required],
+            notes: [reason, Validators.required],
         });
     }
 
@@ -45,8 +44,6 @@ export class CreateHearingComponent implements OnInit {
         this.hearingService.currentMessage.subscribe(message => this.relistReasonText = message);
         this.eventEmitter.subscribe(this.submitCallback.bind(this));
         this.case = this.route.parent.snapshot.data['caseData'];
-
-        this.createForm();
 
         this.getDraftedHearingReason(this.case.id);
     }
@@ -57,18 +54,16 @@ export class CreateHearingComponent implements OnInit {
      * We store the reason for re-listing within CoH therefore we need to retrieve the reason when we display
      * this page to the user.
      *
+     * If we get an error response, for now we will let the user pass through to the continue page.
+     *
      * @param caseId - 1545063650329442
      */
     getDraftedHearingReason(caseId) {
         this.hearingService.getHearing(caseId)
             .subscribe((response) => {
                     this.relistReasonText = response.online_hearings[0].relisting.reason;
-                    console.log('this.relistReasonText');
-                    console.log(this.relistReasonText);
-                    
+                    this.createFormWithReason(this.relistReasonText);
                 }, error => {
-                    console.log('error');
-                    console.log(error);
                 }
             );
     }
@@ -82,32 +77,16 @@ export class CreateHearingComponent implements OnInit {
      * @param relistReason - 'user freetext'
      */
     saveDraftedHearingReason(caseId, relistReason) {
-
-        const relistState = 'drafted';
-
-        this.hearingService.listForHearing(caseId, relistReason, relistState)
+        this.hearingService.listForHearing(caseId, relistReason, 'drafted')
             .subscribe((response) => {
-                    console.log('response');
-                    console.log(response);
                 }, error => {
-                    console.log('error');
-                    console.log(error);
                 }
             );
     }
 
     submitCallback(values) {
         if (this.form.valid) {
-
-            console.log('this.case.id');
-            console.log(this.case.id);
-
-            console.log('values.notes');
-            console.log(values.notes);
-
-            //TODO: Over here we need to send the data across.
             this.saveDraftedHearingReason(this.case.id, values.notes);
-
             this.hearingService.changeMessage(values.notes);
             this.router.navigate(['../check'], {relativeTo: this.route});
         } else {
