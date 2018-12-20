@@ -79,6 +79,42 @@ function postDocument(file, classification, options) {
 }
 
 /**
+ * postDocumentAndAssociateWithCase
+ *
+ * Note that you can navigate to: /demo and see the uploaded document in Document Store. As the component
+ * on demo is hooked into retrieve all documents uploaded by a user.
+ *
+ * @param req
+ * @param caseId
+ * @param file
+ * @param classification
+ * @param options
+ */
+function postDocumentAndAssociateWithCase(req, caseId, file, classification, options) {
+
+    console.log('postDocumentAndAssociateWithCase')
+    console.log(caseId)
+    console.log(classification)
+    console.log(options)
+    console.log(file.name)
+    console.log(file.type)
+
+    console.log(ccdStoreTokenUtilities.getTokenAndMakePayload(req, caseId))
+
+    options.formData = {
+        files: [
+            {
+                value: fs.createReadStream(file.path),
+                options: { filename: file.name, contentType: file.type },
+            },
+        ],
+        classification: getClassification(classification),
+    }
+
+    return generateRequest('POST', `${url}/documents`, options)
+}
+
+/**
  * getClassification
  *
  * If classification has not been entered, we assume that it is public.
@@ -188,6 +224,28 @@ module.exports = app => {
 
         form.on('file', (name, file) => {
             postDocument(file, 'PUBLIC', getOptions(req)).pipe(res)
+        })
+
+        form.parse(req)
+    })
+
+    /**
+     * This route uploads the document and associates the document with a case. This is done in one request,
+     * as it makes sense that the UI doesn't have to do two calls, one to upload and one to associate.
+     *
+     * TODO: Perhaps place uploads in the route so that it's easy to see what this route does.
+     * TODO: Should this be here?
+     * TODO: Should we have two endpoints? should the front end know that it needs to be associated?
+     */
+    router.post('/documents/upload/:caseId', (req, res, next) => {
+
+        console.log('Upload document');
+
+        const form = new formidable.IncomingForm()
+        const caseId = req.params.caseId
+
+        form.on('file', (name, file) => {
+            postDocumentAndAssociateWithCase(req, caseId, file, 'PUBLIC', getOptions(req)).pipe(res)
         })
 
         form.parse(req)

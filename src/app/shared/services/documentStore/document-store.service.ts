@@ -42,7 +42,7 @@ export class DocumentStoreService {
      * @param file
      * @return {Observable<Object>}
      */
-    postFileAndAssociateWithCase(classification: string, metaDate: Map<string, string>, file: File) {
+    postFileAndAssociateWithCase(classification: string, metaDate: Map<string, string>, file: File, caseId: String) {
         const formData: FormData = new FormData();
         formData.append('classification', classification);
         formData.append('files', file, file.name);
@@ -55,7 +55,7 @@ export class DocumentStoreService {
         }
 
         //TODO: Ok so we need caseId
-        return this.http.post<any>(`${this.configService.config.api_base_url}/api/dm-store/documents/1540909451019845`, formData);
+        return this.http.post<any>(`${this.configService.config.api_base_url}/api/dm-store/documents/upload/${caseId}`, formData);
     }
 
     deleteDocument(url: string) {
