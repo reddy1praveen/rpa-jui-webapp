@@ -12,37 +12,37 @@ const mapping = [
     {
         event: 'continue',
         result: 'test',
-        state: 'test',
+        state: 'create'
     },
     {
-    event: 'continue',
-    states: [
-        {
-            conditions: [
-                {
-                    condition: [{ preliminaryView: 'yes' }],
-                    result: 'preliminary-advanced',
-                },
-                {
-                    condition: [{ preliminaryView: 'no' }],
-                    result: 'final-decision',
-                },
-            ],
-            state: 'create',
-        },
-        {
-            result: 'check-final-decision',
-            state: 'final-decision',
-        },
-    ],
-}]
+        event: 'continue',
+        states: [
+            {
+                conditions: [
+                    {
+                        condition: [{ preliminaryView: 'yes' }],
+                        result: 'preliminary-advanced'
+                    },
+                    {
+                        condition: [{ preliminaryView: 'no' }],
+                        result: 'final-decision'
+                    }
+                ],
+                state: 'create'
+            },
+            {
+                result: 'check-final-decision',
+                state: 'final-decision'
+            }
+        ]
+    }
+]
 
 describe('State Engine', () => {
     describe('handleCondition', () => {
-
         it('should evaluate a condition and return a result if true', () => {
             const variables = {
-                preliminaryView: 'yes',
+                preliminaryView: 'yes'
             }
 
             expect(states.handleCondition(mapping[1].states[0].conditions[0], variables)).to.equal('preliminary-advanced')
@@ -50,7 +50,7 @@ describe('State Engine', () => {
 
         it('should evaluate a condition and return null  if false', () => {
             const variables = {
-                preliminaryView: 'no',
+                preliminaryView: 'no'
             }
             expect(states.handleCondition(mapping[1].states[0].conditions[0], variables)).to.equal(null)
         })
@@ -59,11 +59,14 @@ describe('State Engine', () => {
     describe('handleInstruction', () => {
         it('should dispatch a single state in an instruction to handlestate', () => {
             const variables = {
-                preliminaryView: 'yes',
+                preliminaryView: 'yes'
             }
-            sinon.spy(states, 'handleState')
+
+            const stub = sinon.stub(states, 'handleState').resolves()
+
             states.handleInstruction(mapping[0], 'create', variables)
-            expect(states.handleState).to.have.been.called
+
+            expect(states.handleState).to.be.calledOnce()
         })
     })
 })

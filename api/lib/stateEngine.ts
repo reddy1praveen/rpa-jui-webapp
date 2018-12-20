@@ -20,6 +20,7 @@ export function handleCondition(conditionNode, variables) {
 }
 
 export function handleState(stateNode, variables) {
+    console.log('called')
     if (stateNode.condition) {
         return handleCondition(stateNode, variables)
     } else if (stateNode.conditions) {
@@ -34,7 +35,9 @@ export function handleState(stateNode, variables) {
 }
 
 export function handleInstruction(instruction, stateId, variables) {
+    console.log(instruction.state === stateId)
     if (instruction.state && instruction.state === stateId) {
+        console.log('okay')
         return handleState(instruction, variables)
     } else if (instruction.states) {
         logger.info(`Found multiple states for ${instruction.event}`)
@@ -122,12 +125,12 @@ export async function process(req, res, mapping, payload, templates, store) {
     }
 
     if (result) {
-        variables = await store.get(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`) || {}
+        variables = (await store.get(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`)) || {}
 
         const response = {
             formValues: variables,
             meta,
-            newRoute,
+            newRoute
         }
         console.log('reached')
 
