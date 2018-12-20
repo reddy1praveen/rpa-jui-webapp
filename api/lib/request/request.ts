@@ -1,4 +1,4 @@
-import { config } from '../../../config'
+import {config} from '../../../config'
 const proxy = require('./proxy')
 const request = require('request-promise')
 
@@ -15,23 +15,28 @@ module.exports = (method, url, params) => {
     let options = {
         body: '',
         formData: '',
-        method,
-        url,
         headers: {
             ...headers,
-            'Content-Type': params.headers['Content-Type'] || 'application/json'
-
+            'Content-Type': params.headers['Content-Type'] || 'application/json',
         },
-        json: true
+        json: true,
+        method,
+        url,
     }
 
-    if (params.body) options.body = params.body
-    if (params.formData) options.formData = params.formData
+    if (params.body) {
+        options.body = params.body
+    }
+    if (params.formData) {
+        options.formData = params.formData
+    }
 
     // if (config.configEnv !== 'mock') {
     //     if (config.useProxy) options = proxy(options)
     // }
     // N.B. Not needed - AJ
 
+    console.log('Make request with options')
+    console.log(options)
     return request(options)
 }
