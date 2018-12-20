@@ -7,12 +7,6 @@ import * as simonChai from 'sinon-chai'
 import { handleInstruction, handleState } from '../lib/stateEngine'
 import * as states from '../lib/stateEngine'
 
-import { mockReq, mockRes } from 'sinon-express-mock'
-
-import * as idam from '../services/idam-api/idam-api'
-
-import { authenticateUser } from '../controllers/auth'
-
 chai.use(simonChai)
 
 const mapping = [
@@ -38,10 +32,22 @@ const mapping = [
                 state: 'create',
             },
             {
+                condition: [{ test2: 'yes' }],
+                result: 'test2-page',
+                state: 'create',
+            },
+            {
                 result: 'check-final-decision',
-                state: 'final-decision',
+                state: 'another',
             },
         ],
+    },
+    {
+        event: 'continue',
+        result: 'no-state',
+    },
+    {
+        register: [],
     },
 ]
 
@@ -63,49 +69,55 @@ describe('State Engine', () => {
         })
     })
 
-    // describe('handleInstruction', () => {
-    //     it('should dispatch a single state in an instruction to handlestate', () => {
-    //         const variables = {
-    //             preliminaryView: 'yes',
-    //         }
-
-    //         sinon.stub(states, 'handleState').returns([])
-
-    //         states.handleInstruction(mapping[0], 'create', variables)
-
-    //         expect(handleState).to.be.calledOnce()
-    //     })
-    // })
-
-    describe('authenticate user', () => {
-        let req
-        let res
-        let sandbox
-        const accessToken = 'access'
-        const details = { id: 1, name: 'testuser' }
-        beforeEach(() => {
-            sandbox = sinon.createSandbox()
-            sandbox.stub(idam, 'postOauthToken').resolves({ access_token: `${accessToken}` })
-
-            req = mockReq({
-                get: () => 'localhost',
-                query: {
-                    code: 1,
-                },
-                session: {
-                    user: null,
-                },
-            })
-            res = mockRes()
+    describe('handleInstruction', () => {
+        it('should resolve a result for a single matching state', () => {
+            expect(states.handleInstruction(mapping[0], 'create', {})).to.equal('test')
         })
 
-        afterEach(() => {
-            sandbox.restore()
+        it('should not resolve a result for a single non-matching state', () => {
+            expect(states.handleInstruction(mapping[0], 'test', {})).to.equal(null)
         })
 
-        it('should set the authorisation header', async () => {
-            await authenticateUser(req, res)
-            expect(idam.postOauthToken).to.be.calledWith(1, 'localhost')
+        it('should not resolve a result for a one match from multiple states', () => {
+            expect(states.handleInstruction(mapping[1], 'another', {})).to.equal('check-final-decision')
+        })
+
+        it('should  resolve a result for no states', () => {
+            expect(states.handleInstruction(mapping[2], '', {})).to.equal('no-state')
+        })
+    })
+
+    describe('handleState', () => {
+        it('should resolve a result for a single condition', () => {
+            expect(
+                states.handleState(mapping[1].states[1], {
+                    test2: 'yes',
+                })
+            ).to.equal('test2-page')
+        })
+
+        it('should resolve a results for a multiple conditions', () => {
+            expect(
+                states.handleState(mapping[1].states[0], {
+                    preliminaryView: 'yes',
+                })
+            ).to.equal('preliminary-advanced')
+
+            expect(
+                states.handleState(mapping[1].states[0], {
+                    preliminaryView: 'no',
+                })
+            ).to.equal('final-decision')
+        })
+
+        it('should resolve a results without a condition', () => {
+            expect(states.handleState(mapping[1].states[2], {})).to.equal('check-final-decision')
+        })
+    })
+
+    describe('getRegister', () => {
+        it('should be able to find the register in a mapping if it has one', () => {
+            expect(states.getRegister(mapping).length).to.equal(1)
         })
     })
 })

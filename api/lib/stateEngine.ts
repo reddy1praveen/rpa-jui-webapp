@@ -20,7 +20,7 @@ export function handleCondition(conditionNode, variables) {
 }
 
 export function handleState(stateNode, variables) {
-    console.log('called')
+    console.log(stateNode)
     if (stateNode.condition) {
         return handleCondition(stateNode, variables)
     } else if (stateNode.conditions) {
@@ -36,9 +36,10 @@ export function handleState(stateNode, variables) {
 
 export function handleInstruction(instruction, stateId, variables) {
     console.log(instruction.state === stateId)
-    if (instruction.state && instruction.state === stateId) {
-        console.log('okay')
-        return handleState(instruction, variables)
+    if (instruction.state) {
+        if (instruction.state === stateId) {
+            return handleState(instruction, variables)
+        }
     } else if (instruction.states) {
         logger.info(`Found multiple states for ${instruction.event}`)
         return some(instruction.states, stateNode => {
@@ -130,7 +131,7 @@ export async function process(req, res, mapping, payload, templates, store) {
         const response = {
             formValues: variables,
             meta,
-            newRoute
+            newRoute,
         }
         console.log('reached')
 
