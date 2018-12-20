@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {DocumentStoreService} from '../../../shared/services/documentStore/document-store.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
     selector: 'app-upload',
@@ -8,10 +9,10 @@ import {DocumentStoreService} from '../../../shared/services/documentStore/docum
     styleUrls: ['./upload.component.scss']
 })
 export class UploadComponent implements OnInit {
-
     redirect = '/';
     uploadForm: FormGroup;
     inputFile: File = null;
+    caseId: string;
 
     userNotSelectedFileError: boolean;
 
@@ -20,10 +21,14 @@ export class UploadComponent implements OnInit {
      */
     systemFailedToUploadError: boolean;
 
-    constructor(private documentService: DocumentStoreService) {
+    constructor(private documentService: DocumentStoreService,
+                private route: ActivatedRoute) {
     }
 
     ngOnInit(): void {
+        this.route.parent.params.subscribe(parentParams => {
+            this.caseId = parentParams['case_id'];
+        });
     }
 
     /**
@@ -64,7 +69,7 @@ export class UploadComponent implements OnInit {
 
         const metadataObj: Map<string, string> = new Map<string, string>();
 
-        this.documentService.postFileAndAssociateWithCase('PRIVATE', metadataObj, file)
+        this.documentService.postFileAndAssociateWithCase('PRIVATE', metadataObj, file, this.caseId)
             .subscribe((response) => {
                     console.log(response);
                     //TODO: Where should we redirect to on success?

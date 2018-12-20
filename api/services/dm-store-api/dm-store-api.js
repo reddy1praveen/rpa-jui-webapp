@@ -82,8 +82,26 @@ function postDocument(req, file, classification, options) {
 }
 
 //TODO: is this the proper place for this?
+/**
+ * postDocumentAndAssociateWithCase
+ *
+ * Note that you can navigate to: /demo and see the uploaded document in Document Store. As the component
+ * on demo is hooked into retrieve all documents uploaded by a user.
+ *
+ * @param req
+ * @param caseId
+ * @param file
+ * @param classification
+ * @param options
+ */
 function postDocumentAndAssociateWithCase(req, caseId, file, classification, options) {
 
+    console.log('postDocumentAndAssociateWithCase')
+    console.log(caseId)
+    console.log(classification)
+    console.log(options)
+    console.log(file.name)
+    console.log(file.type)
 
     console.log(ccdStoreTokenUtilities.getTokenAndMakePayload(req, caseId))
 
@@ -221,10 +239,13 @@ module.exports = app => {
      * This route uploads the document and associates the document with a case. This is done in one request,
      * as it makes sense that the UI doesn't have to do two calls, one to upload and one to associate.
      *
+     * TODO: Perhaps place uploads in the route so that it's easy to see what this route does.
      * TODO: Should this be here?
      * TODO: Should we have two endpoints? should the front end know that it needs to be associated?
      */
-    router.post('/documents/:caseId', (req, res, next) => {
+    router.post('/documents/upload/:caseId', (req, res, next) => {
+
+        console.log('Upload document');
 
         const form = new formidable.IncomingForm()
         const caseId = req.params.caseId;

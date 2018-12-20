@@ -102,6 +102,12 @@ async function postCaseWithEventToken(userId, caseId, jurisdiction, caseType, pa
  */
 async function getEventTokenAndCase(userId, caseId, jurisdiction, caseType, eventId, authHeaders) {
     console.log('getEventTokenAndCase')
+    console.log(userId)
+    console.log(caseId)
+    console.log(jurisdiction)
+    console.log(caseType)
+    console.log(eventId)
+    console.log(authHeaders)
     try {
         const eventTokenAndCase = await ccdStore.getEventTokenAndCase(
             userId,
