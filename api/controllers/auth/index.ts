@@ -14,22 +14,22 @@ export function logout(req, res) {
     res.redirect(req.query.redirect || '/')
 }
 
-async function authenticateUser(req, res) {
+export async function authenticateUser(req, res) {
     postOauthToken(req.query.code, req.get('host'))
-            .then(data => {
-                if (data.access_token) {
-                    const options = { headers: { Authorization: `Bearer ${data.access_token}` } }
-                    getDetails(options).then(details => {
-                        req.session.user = details
-                        res.cookie(cookieToken, data.access_token)
-                        res.cookie(cookieUserId, details.id)
-                        res.redirect('/')
-                    })
-                }
-            })
-            .catch(e => {
-                res.redirect('/')
-            })
+        .then(data => {
+            if (data.access_token) {
+                const options = { headers: { Authorization: `Bearer ${data.access_token}` } }
+                getDetails(options).then(details => {
+                    req.session.user = details
+                    res.cookie(cookieToken, data.access_token)
+                    res.cookie(cookieUserId, details.id)
+                    res.redirect('/')
+                })
+            }
+        })
+        .catch(e => {
+            res.redirect('/')
+        })
 }
 
 export function auth(app) {

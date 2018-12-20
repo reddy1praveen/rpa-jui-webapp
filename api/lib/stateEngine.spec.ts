@@ -7,6 +7,10 @@ import * as simonChai from 'sinon-chai'
 import { handleInstruction, handleState } from '../lib/stateEngine'
 import * as states from '../lib/stateEngine'
 
+import * as idam from '../services/idam-api/idam-api'
+
+import { authenticateUser } from '../controllers/auth'
+
 chai.use(simonChai)
 
 const mapping = [
@@ -57,17 +61,31 @@ describe('State Engine', () => {
         })
     })
 
-    describe('handleInstruction', () => {
-        it('should dispatch a single state in an instruction to handlestate', () => {
-            const variables = {
-                preliminaryView: 'yes',
-            }
+    // describe('handleInstruction', () => {
+    //     it('should dispatch a single state in an instruction to handlestate', () => {
+    //         const variables = {
+    //             preliminaryView: 'yes',
+    //         }
 
-            sinon.stub(states, 'handleState').returns([])
+    //         sinon.stub(states, 'handleState').returns([])
 
-            states.handleInstruction(mapping[0], 'create', variables)
+    //         states.handleInstruction(mapping[0], 'create', variables)
 
-            expect(handleState).to.be.calledOnce()
+    //         expect(handleState).to.be.calledOnce()
+    //     })
+    // })
+
+    describe('auth', () => {
+        const req
+        const res
+
+        beforeEach(() => {
+            sinon.stub(idam, 'postOauthToken').resolves({ access_token: 'access' })
+        })
+
+        it('should set the authorisation header', async () => {
+            await authenticateUser(req, res)
+            expect(idam.postOauthToken).to.be.calledWith(1, 'localhost')
         })
     })
 })

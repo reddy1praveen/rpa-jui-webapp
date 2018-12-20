@@ -1,5 +1,5 @@
 import * as express from 'express'
-import {config} from '../../../config'
+import { config } from '../../../config'
 const generateRequest = require('../../lib/request/request')
 const headerUtilities = require('../../lib/utilities/headerUtilities')
 
@@ -13,15 +13,15 @@ function getDetails(options) {
     return generateRequest('GET', `${url}/details`, options)
 }
 
-function postOauthToken(code, host) {
+export function postOauthToken(code, host) {
     const redirectUri = `${idamProtocol}://${host}/${oauthCallbackUrl}`
     const urlX = `${url}/oauth2/token?grant_type=authorization_code&code=${code}&redirect_uri=${redirectUri}`
 
     const options = {
         headers: {
             Authorization: `Basic ${Buffer.from(`${idamClient}:${idamSecret}`).toString('base64')}`,
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
     }
 
     return generateRequest('POST', `${urlX}`, options)
