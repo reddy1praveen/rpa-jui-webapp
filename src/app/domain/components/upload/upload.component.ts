@@ -62,6 +62,7 @@ export class UploadComponent implements OnInit {
      * postFile
      *
      * We currently POST the file to the DM Store.
+     * TODO: Where should we redirect the user to on success?
      *
      * @param file
      */
@@ -72,7 +73,6 @@ export class UploadComponent implements OnInit {
         this.documentService.postFileAndAssociateWithCase('PRIVATE', metadataObj, file, this.caseId)
             .subscribe((response) => {
                     console.log(response);
-                    //TODO: Where should we redirect to on success?
                 },
                 (error) => {
                     console.log(error);
@@ -80,17 +80,4 @@ export class UploadComponent implements OnInit {
                 }
             );
     }
-
-    testFunction() {
-        return false;
-    }
-
-    // gotoRedirect() {
-    //     console.log('Uploaded?');
-    //     // this.redirectionService.redirect(this.redirect);
-    // }
-
-    // cancelUpload() {
-    //     this.gotoRedirect();
-    // }
 }

@@ -1,7 +1,10 @@
 import * as express from 'express'
 import { config } from '../../../config'
+
 const generateRequest = require('../../lib/request/request')
 const headerUtilities = require('../../lib/utilities/headerUtilities')
+const ccdStoreTokenUtilities = require('../../lib/utilities/ccdStoreTokenUtilities')
+
 const fs = require('fs')
 const formidable = require('formidable')
 
@@ -98,17 +101,18 @@ function postDocumentAndAssociateWithCase(req, caseId, file, classification, opt
     console.log(options)
     console.log(file.name)
     console.log(file.type)
+    console.log(file.path)
 
-    console.log(ccdStoreTokenUtilities.getTokenAndMakePayload(req, caseId))
+    // console.log(ccdStoreTokenUtilities.getTokenAndMakePayload(req, caseId))
 
     options.formData = {
+        classification: getClassification(classification),
         files: [
             {
-                value: fs.createReadStream(file.path),
                 options: { filename: file.name, contentType: file.type },
+                value: fs.createReadStream(file.path),
             },
         ],
-        classification: getClassification(classification),
     }
 
     return generateRequest('POST', `${url}/documents`, options)
@@ -239,7 +243,7 @@ module.exports = app => {
      */
     router.post('/documents/upload/:caseId', (req, res, next) => {
 
-        console.log('Upload document');
+        console.log('Upload document')
 
         const form = new formidable.IncomingForm()
         const caseId = req.params.caseId

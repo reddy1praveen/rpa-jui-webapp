@@ -54,7 +54,10 @@ export class DocumentStoreService {
             });
         }
 
-        //TODO: Ok so we need caseId
+        console.log('UI: postFileAndAssociateWithCase');
+        console.log(caseId);
+        console.log(formData);
+
         return this.http.post<any>(`${this.configService.config.api_base_url}/api/dm-store/documents/upload/${caseId}`, formData);
     }
 

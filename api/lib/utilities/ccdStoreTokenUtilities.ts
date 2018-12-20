@@ -161,7 +161,7 @@ function prepareCaseForApproval(eventToken, eventId, user, directionComments) {
             orderDirectionDate: moment(new Date()).format('YYYY-MM-DD'),
             orderDirectionJudge: 'District Judge',
             orderDirectionJudgeName: `${user.forename} ${user.surname} `,
-            orderDirectionAddComments: directionComments
+            orderDirectionAddComments: directionComments,
         },
         event: {
             id: eventId
