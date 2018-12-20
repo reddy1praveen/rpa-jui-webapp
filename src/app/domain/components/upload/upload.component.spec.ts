@@ -3,23 +3,24 @@ import {HttpClientTestingModule, HttpTestingController} from '@angular/common/ht
 import {HttpClientModule} from '@angular/common/http';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
-import {DocumentStoreService} from '../../../shared/services/documentStore/document-store.service';
+import {DocumentStoreService} from '../../../shared/services/documentStore/documentstore.service';
 
 import {UploadComponent} from './upload.component';
+import {Observable} from 'rxjs/Rx';
 
 class MockDocumentStoreService {
     postFile() {
     }
 }
 
-fdescribe('UploadComponent', () => {
+describe('UploadComponent', () => {
 
     let component: UploadComponent;
     let fixture: ComponentFixture<UploadComponent>;
 
     const mockDocumentStoreService = new MockDocumentStoreService();
 
-    const blob = new Blob([''], { type: 'text/html' });
+    const blob = new Blob([''], {type: 'text/html'});
     blob['lastModifiedDate'] = '';
     blob['name'] = 'filename';
 
@@ -31,7 +32,8 @@ fdescribe('UploadComponent', () => {
             schemas: [CUSTOM_ELEMENTS_SCHEMA],
             providers: [
                 UploadComponent,
-                {provide: DocumentStoreService, useFactory: () => mockDocumentStoreService }
+
+                {provide: DocumentStoreService, useFactory: () => mockDocumentStoreService}
             ],
         })
             .compileComponents();
@@ -63,21 +65,30 @@ fdescribe('UploadComponent', () => {
     //
     //     expect(component.inputFile).toBe(fakeFile);
     // });
+    it('should send file to document service.', () => {
 
+        spyOn(mockDocumentStoreService, 'postFile').and.returnValue(Observable.of(true));
 
-    // Works
-    it('should hook into component class function', () => {
+        // Works
+        it('should hook into component class function', () => {
+            component.postFile(fakeFile);
 
-        expect(component.testFunction()).toBeFalsy();
+            expect(component.testFunction()).toBeFalsy();
+            expect(mockDocumentStoreService.postFile).toHaveBeenCalledTimes(1);
+        });
+
+        // Works
+        it('should contain upload new item', () => {
+            const inputElement: HTMLElement = fixture.nativeElement;
+            expect(inputElement.textContent).toContain('Upload new item');
+        });
     });
 
     // Works
-    it('should contain upload new item', () => {
-        const inputElement: HTMLElement = fixture.nativeElement;
-        expect(inputElement.textContent).toContain('Upload new item');
-    });
-});
-
+    // it('should hook into component class function', () => {
+    //
+    //     expect(component.testFunction()).toBeFalsy();
+    // });
 
 // describe('LightswitchComp', () => {
 //     it('#clicked() should toggle #isOn', () => {
@@ -96,3 +107,9 @@ fdescribe('UploadComponent', () => {
 //         expect(comp.message).toMatch(/is on/i, 'on after clicked');
 //     });
 // });
+    // Works
+    // it('should contain upload new item', () => {
+    //     const inputElement: HTMLElement = fixture.nativeElement;
+    //     expect(inputElement.textContent).toContain('Upload new item');
+    // });
+});
