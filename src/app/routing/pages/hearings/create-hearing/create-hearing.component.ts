@@ -34,9 +34,9 @@ export class CreateHearingComponent implements OnInit {
                 private cdRef: ChangeDetectorRef) {
     }
 
-    createFormWithReason(reason) {
+    createForm() {
         this.form = this.fb.group({
-            notes: [reason, Validators.required],
+            notes: [this.relistReasonText, Validators.required],
         });
     }
 
@@ -44,6 +44,8 @@ export class CreateHearingComponent implements OnInit {
         this.hearingService.currentMessage.subscribe(message => this.relistReasonText = message);
         this.eventEmitter.subscribe(this.submitCallback.bind(this));
         this.case = this.route.parent.snapshot.data['caseData'];
+
+        this.createForm();
 
         this.getDraftedHearingReason(this.case.id);
     }
@@ -62,7 +64,6 @@ export class CreateHearingComponent implements OnInit {
         this.hearingService.getHearing(caseId)
             .subscribe((response) => {
                     this.relistReasonText = response.online_hearings[0].relisting.reason;
-                    this.createFormWithReason(this.relistReasonText);
                 }, error => {
                 }
             );
