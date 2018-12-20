@@ -77,26 +77,35 @@ describe('State Engine', () => {
     //     })
     // })
 
-    describe('auth', () => {
-        const req = mockReq({
-            get: () => 'localhost',
-            query: {
-                code: 1,
-            },
-            session: {
-                user: null,
-            },
+    describe('authenticate user', () => {
+        let req
+        let res
+        let sandbox
+        const accessToken = 'access'
+        const details = { id: 1, name: 'testuser' }
+        beforeEach(() => {
+            sandbox = sinon.createSandbox()
+            sandbox.stub(idam, 'postOauthToken').resolves({ access_token: `${accessToken}` })
+
+            req = mockReq({
+                get: () => 'localhost',
+                query: {
+                    code: 1,
+                },
+                session: {
+                    user: null,
+                },
+            })
+            res = mockRes()
         })
 
-        const res = mockRes()
-
-        beforeEach(() => {
-            sinon.stub(idam, 'postOauthToken').resolves({ access_token: 'access' })
+        afterEach(() => {
+            sandbox.restore()
         })
 
         it('should set the authorisation header', async () => {
             await authenticateUser(req, res)
-            expect(idam.postOauthToken).to.be.calledOnce()
+            expect(idam.postOauthToken).to.be.calledWith(1, 'localhost')
         })
     })
 })
