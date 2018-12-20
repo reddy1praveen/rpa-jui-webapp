@@ -73,7 +73,7 @@ module.exports = {
                         radioGroup: [
                             {
                                 value: 'endDate',
-                                text: 'Award end date',
+                                text: 'Set end date',
                                 hiddenAccessibilityText: 'some hidden text',
                                 groups: [
                                     {
