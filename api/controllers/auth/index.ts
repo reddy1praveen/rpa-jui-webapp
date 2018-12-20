@@ -1,5 +1,6 @@
 import * as express from 'express'
 import { config } from '../../../config/index'
+import { asyncReturnOrError, exists } from '../../lib/util'
 
 const { getDetails, postOauthToken } = require('../../services/idam-api/idam-api')
 
