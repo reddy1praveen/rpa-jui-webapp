@@ -7,6 +7,8 @@ import * as simonChai from 'sinon-chai'
 import { handleInstruction, handleState } from '../lib/stateEngine'
 import * as states from '../lib/stateEngine'
 
+import { mockReq, mockRes } from 'sinon-express-mock'
+
 import * as idam from '../services/idam-api/idam-api'
 
 import { authenticateUser } from '../controllers/auth'
@@ -94,7 +96,7 @@ describe('State Engine', () => {
 
         it('should set the authorisation header', async () => {
             await authenticateUser(req, res)
-            expect(idam.postOauthToken).to.be.calledWith(1, 'localhost')
+            expect(idam.postOauthToken).to.be.calledOnce()
         })
     })
 })
