@@ -76,8 +76,17 @@ describe('State Engine', () => {
     // })
 
     describe('auth', () => {
-        const req
-        const res
+        const req = mockReq({
+            get: () => 'localhost',
+            query: {
+                code: 1,
+            },
+            session: {
+                user: null,
+            },
+        })
+
+        const res = mockRes()
 
         beforeEach(() => {
             sinon.stub(idam, 'postOauthToken').resolves({ access_token: 'access' })
