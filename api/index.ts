@@ -1,14 +1,16 @@
 import * as express from 'express'
 import * as config from '../config'
-import {auth} from './controllers/auth'
+import { auth } from './controllers/auth'
 
 const router = express.Router()
+
+import decisionRoutes from './controllers/decisions'
 
 const authInterceptor = require('./lib/middleware/auth')
 const serviceTokenMiddleware = require('./lib/middleware/service-token')
 const caseRoutes = require('./controllers/case')
 const caseListRoute = require('./controllers/case-list')
-const decisionRoutes = require('./controllers/decisions')
+
 const questionsRoutes = require('./controllers/questions')
 const eventsRoutes = require('./controllers/events')
 const documentsRoutes = require('./controllers/documents')

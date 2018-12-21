@@ -2,6 +2,7 @@ import {ElementRef, Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import { PdfWrapper } from './js-wrapper/pdf-wrapper';
 import { PdfAnnotateWrapper } from './js-wrapper/pdf-annotate-wrapper';
+import { EmLoggerService } from '../logging/em-logger.service';
 
 @Injectable()
 export class PdfService {
@@ -13,13 +14,17 @@ export class PdfService {
     private viewerElementRef: ElementRef;
     private annotationWrapper: ElementRef;
 
-    constructor(private pdfWrapper: PdfWrapper,
+    constructor(private log: EmLoggerService,
+                private pdfWrapper: PdfWrapper,
                 private pdfAnnotateWrapper: PdfAnnotateWrapper) {
         this.dataLoadedSubject = new BehaviorSubject(false);
+        log.setClass('PdfService');
     }
 
     preRun() {
-        this.pdfWrapper.workerSrc('/public/javascripts/pdf.worker.js');
+        const workerLocation = '/public/javascripts/pdf.worker.js';
+        this.log.info('point to workSrc file:' + workerLocation);
+        this.pdfWrapper.workerSrc(workerLocation);
         this.pageNumber = new BehaviorSubject(1);
     }
 
@@ -67,7 +72,7 @@ export class PdfService {
         if (viewerElementRef != null) {
             this.viewerElementRef = viewerElementRef;
         }
-
+        this.log.info('Rendering PDF document');
         this.pdfWrapper.getDocument(this.RENDER_OPTIONS.documentId)
             .then(pdf => {
                 this.RENDER_OPTIONS.pdfDocument = pdf;
@@ -93,7 +98,7 @@ export class PdfService {
             (error) => {
                 const errorMessage = new Error('Unable to render your supplied PDF. ' +
                     this.RENDER_OPTIONS.documentId + '. Error is: ' + error);
-                console.log(errorMessage);
+                this.log.error(errorMessage);
             }
         );
     }
