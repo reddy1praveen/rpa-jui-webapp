@@ -35,26 +35,26 @@ app.use(
 );
 
 // local logging improves on appInsights
-// if (config.configEnv !== 'local') {
-//     appInsights
-//         .setup(appInsightsInstrumentationKey)
-//         .setAutoDependencyCorrelation(true)
-//         .setAutoCollectRequests(true)
-//         .setAutoCollectPerformance(true)
-//         .setAutoCollectExceptions(true)
-//         .setAutoCollectDependencies(true)
-//         .setAutoCollectConsole(true)
-//         .setUseDiskRetryCaching(true)
-//         .start();
+if (config.configEnv !== "local") {
+    appInsights
+        .setup(appInsightsInstrumentationKey)
+        .setAutoDependencyCorrelation(true)
+        .setAutoCollectRequests(true)
+        .setAutoCollectPerformance(true)
+        .setAutoCollectExceptions(true)
+        .setAutoCollectDependencies(true)
+        .setAutoCollectConsole(true)
+        .setUseDiskRetryCaching(true)
+        .start();
 
-//     const client = appInsights.defaultClient;
-//     client.trackTrace({ message: 'Test Message App Insight Activated' });
+    const client = appInsights.defaultClient;
+    client.trackTrace({ message: "Test Message App Insight Activated" });
 
-//     app.use((req, res, next) => {
-//         client.trackNodeHttpRequest({ request: req, response: res });
-//         next();
-//     });
-// }
+    app.use((req, res, next) => {
+        client.trackNodeHttpRequest({ request: req, response: res });
+        next();
+    });
+}
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
