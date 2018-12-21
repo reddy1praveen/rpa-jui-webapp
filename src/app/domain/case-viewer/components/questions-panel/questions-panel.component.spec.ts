@@ -11,7 +11,7 @@ import {Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, ViewChild} from '@angul
 import {ActivatedRoute, Router} from '@angular/router';
 import {PageDateQuestion} from '../../../models/section_fields';
 import {mockActiveRouteQuestionsPanel} from './mock/activeRoute.mock';
-
+import {mockConfigService} from '../../../mock/config.mock';
 @Component({
     selector: `app-host-dummy-component`,
     template: `<app-questions-panel [panelData]="data"></app-questions-panel>`
@@ -21,7 +21,7 @@ class TestQuestionsPanelDummyHostComponent {
     @ViewChild(QuestionsPanelComponent)
     public QuestionsPanelComponent: QuestionsPanelComponent;
 }
-describe('Testing @input', () => {
+fdescribe('Testing @input', () => {
     let testHostComponent: TestQuestionsPanelDummyHostComponent;
     let testHostFixture: ComponentFixture<TestQuestionsPanelDummyHostComponent>;
     beforeEach(async(() => {
@@ -60,13 +60,13 @@ describe('QuestionsPanelComponent: testing route.queryParams', () => {
     let nativeElement;
     let mockConfigService;
 
-    beforeEach(() => {
-        mockConfigService = {
-            config: {
-                api_base_url: api_base_url
-            }
-        };
-    });
+    // beforeEach(() => {
+    //     mockConfigService = {
+    //         config: {
+    //             api_base_url: api_base_url
+    //         }
+    //     };
+    // });
 
     describe('when no create param is in the url', () => {
         describe('When there is one round of draft questions to appellant', () => {
@@ -74,7 +74,6 @@ describe('QuestionsPanelComponent: testing route.queryParams', () => {
                 TestBed
                     .configureTestingModule({
                         imports: [
-                            // CaseViewerModule,
                             RouterTestingModule
                         ],
                         schemas: [CUSTOM_ELEMENTS_SCHEMA],
