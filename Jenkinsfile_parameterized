@@ -11,7 +11,7 @@ properties([
     ]),
     ,
     parameters([
-        choice(name: 'ENVIORNMENT', choices: 'sprod\nsandbox\nsaat', description: 'Environment where code should be build and deployed')
+        choice(name: 'ENVIRONMENT', choices: 'sprod\nsandbox\nsaat', description: 'Environment where code should be build and deployed')
     ])
 ])
 
@@ -43,7 +43,7 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     ]
 }
 
-withParameterizedPipeline(type, product, component, 'sandbox', 'sandbox') {
+withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox') {
     enableSlackNotifications(channel)
     loadVaultSecrets(secrets)
     setVaultName(vault)
