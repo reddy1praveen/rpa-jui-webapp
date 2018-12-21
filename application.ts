@@ -1,21 +1,21 @@
-const healthcheck = require('@hmcts/nodejs-healthcheck');
-const { InfoContributor, infoRequestHandler } = require('@hmcts/info-provider');
-import * as express from 'express';
-const apiRoute = require('./api');
-import { config } from './config';
+const healthcheck = require("@hmcts/nodejs-healthcheck");
+const { InfoContributor, infoRequestHandler } = require("@hmcts/info-provider");
+import * as express from "express";
+const apiRoute = require("./api");
+import { config } from "./config";
 
 const app = express();
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const appInsights = require('applicationinsights');
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const appInsights = require("applicationinsights");
 
-const session = require('express-session');
-const sessionFileStore = require('session-file-store');
+const session = require("express-session");
+const sessionFileStore = require("session-file-store");
 
 const FileStore = sessionFileStore(session);
 
 const appInsightsInstrumentationKey =
-    process.env.APPINSIGHTS_INSTRUMENTATIONKEY || 'AAAAAAAAAAAAAAAA';
+    process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "AAAAAAAAAAAAAAAA";
 
 app.use(
     session({
@@ -24,37 +24,37 @@ app.use(
             maxAge: 31536000,
             secure: config.secureCookie !== false
         },
-        name: 'jui-webapp',
+        name: "jui-webapp",
         resave: true,
         saveUninitialized: true,
         secret: config.sessionSecret,
         store: new FileStore({
-            path: process.env.NOW ? '/tmp/sessions' : '.sessions'
+            path: process.env.NOW ? "/tmp/sessions" : ".sessions"
         })
     })
 );
 
 // local logging improves on appInsights
-if (config.configEnv !== 'local') {
-    appInsights
-        .setup(appInsightsInstrumentationKey)
-        .setAutoDependencyCorrelation(true)
-        .setAutoCollectRequests(true)
-        .setAutoCollectPerformance(true)
-        .setAutoCollectExceptions(true)
-        .setAutoCollectDependencies(true)
-        .setAutoCollectConsole(true)
-        .setUseDiskRetryCaching(true)
-        .start();
+// if (config.configEnv !== 'local') {
+//     appInsights
+//         .setup(appInsightsInstrumentationKey)
+//         .setAutoDependencyCorrelation(true)
+//         .setAutoCollectRequests(true)
+//         .setAutoCollectPerformance(true)
+//         .setAutoCollectExceptions(true)
+//         .setAutoCollectDependencies(true)
+//         .setAutoCollectConsole(true)
+//         .setUseDiskRetryCaching(true)
+//         .start();
 
-    const client = appInsights.defaultClient;
-    client.trackTrace({ message: 'Test Message App Insight Activated' });
+//     const client = appInsights.defaultClient;
+//     client.trackTrace({ message: 'Test Message App Insight Activated' });
 
-    app.use((req, res, next) => {
-        client.trackNodeHttpRequest({ request: req, response: res });
-        next();
-    });
-}
+//     app.use((req, res, next) => {
+//         client.trackNodeHttpRequest({ request: req, response: res });
+//         next();
+//     });
+// }
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -67,7 +67,7 @@ function healthcheckConfig(msUrl) {
 }
 
 app.get(
-    '/health',
+    "/health",
     healthcheck.configure({
         checks: {
             ccd_data_api: healthcheckConfig(config.services.ccd_data_api),
@@ -90,7 +90,7 @@ function infocheckConfig(msUrl) {
 }
 
 app.get(
-    '/info',
+    "/info",
     infoRequestHandler({
         info: {
             ccd_data_api: infocheckConfig(config.services.dm_store_api),
@@ -112,9 +112,8 @@ app.get(
     })
 );
 
-
-app.get('/oauth2/callback', apiRoute);
-app.get('/logout', apiRoute);
-app.use('/api', apiRoute);
+app.get("/oauth2/callback", apiRoute);
+app.get("/logout", apiRoute);
+app.use("/api", apiRoute);
 
 module.exports = app;
