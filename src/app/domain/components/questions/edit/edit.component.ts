@@ -29,10 +29,16 @@ export class EditQuestionComponent implements OnInit {
         private route: ActivatedRoute
     ) { }
 
+    public noWhitespaceValidator(control: FormControl) {
+      const isWhitespace = (control.value || '').trim().length === 0;
+      const isValid = !isWhitespace;
+      return isValid ? null : { 'whitespace': true };
+  }
+
     createForm(subject, question) {
         this.form = this.fb.group({
-            subject: [subject, Validators.required],
-            question: [question, Validators.required],
+            subject: [subject, Validators.compose([Validators.required, this.noWhitespaceValidator])],
+            question: [question, Validators.compose([Validators.required, this.noWhitespaceValidator])],
         });
     }
 
@@ -69,9 +75,9 @@ export class EditQuestionComponent implements OnInit {
                 rounds: this.roundNumber
             };
             this.questionService.update(this.caseId, this.questionId, values)
-                .subscribe(res => {
+                .subscribe((res: any) => {
                     this.redirectionService.redirect(`/case/${this.jurisdiction}/${this.caseType}/${this.caseId}/questions?updated=success`);
-                }, err => console.log(err));
+                }, (err: any) => {});
         }
         this.submitted = true;
     }

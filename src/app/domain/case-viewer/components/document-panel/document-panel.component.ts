@@ -4,8 +4,7 @@ import {ConfigService} from '../../../../config.service';
 
 @Component({
     selector: 'app-document-panel',
-    templateUrl: './document-panel.component.html',
-    styleUrls: ['./document-panel.component.scss']
+    templateUrl: './document-panel.component.html'
 })
 export class DocumentPanelComponent implements OnInit {
 
@@ -71,7 +70,8 @@ export class DocumentPanelComponent implements OnInit {
             return {
                 id: doc.id,
                 name: doc.originalDocumentName,
-                url: doc._links.self.href
+                url: doc._links.self.href,
+                modifiedOn: doc.modifiedOn,
             };
         });
 

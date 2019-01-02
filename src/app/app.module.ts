@@ -10,16 +10,17 @@ import { ConfigService } from './config.service';
 import {AuthModule} from './auth/auth.module';
 import {HmctsModule} from './hmcts/hmcts.module';
 import {GovukModule} from './govuk/govuk.module';
+import {RouterModule} from '@angular/router';
 
 @NgModule({
     declarations: [
         AppComponent
     ],
     imports: [
+        RouterModule,
         BrowserModule.withServerTransition({appId: 'jui'}),
         BrowserTransferStateModule,
         RoutingModule,
-        // RouterModule.forRoot(routes),
         HttpClientModule,
         SharedModule,
         DomainModule,
@@ -35,8 +36,5 @@ import {GovukModule} from './govuk/govuk.module';
 export class AppModule {
   constructor(@Inject(PLATFORM_ID) private platformId: Object,
               @Inject(APP_ID) private appId: string) {
-
-        // const platform = isPlatformBrowser(platformId) ? 'in the browser' : 'on the server';
-        // console.log(`Running ${platform} with appId=${appId}`);
     }
 }

@@ -1,18 +1,18 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { DecisionService } from '../../../../domain/services/decision.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsService } from '../../../../shared/services/forms.service';
 import { FormGroup } from '@angular/forms';
-import { NpaService } from '../../../../shared/components/hmcts-annotation-ui-lib/data/npa.service';
-import { IDocumentTask } from '../../../../shared/components/hmcts-annotation-ui-lib/data/document-task.model';
-import { ApiHttpService } from '../../../../shared/components/hmcts-annotation-ui-lib/data/api-http.service';
-import { AnnotationStoreService } from '../../../../shared/components/hmcts-annotation-ui-lib/data/annotation-store.service';
-import { ViewerFactoryService } from '../../../../shared/components/document-viewer/viewers/viewer-factory.service';
+import { NpaService } from '../../../../shared/components/hmcts-em-viewer-ui/data/npa.service';
+import { IDocumentTask } from '../../../../shared/components/hmcts-em-viewer-ui/data/document-task.model';
+import { AnnotationStoreService } from '../../../../shared/components/hmcts-em-viewer-ui/data/annotation-store.service';
+import { ConfigService } from '../../../../config.service';
+import { ValidationService } from '../../../../shared/services/validation.service';
+
 
 @Component({
     selector: 'app-check-decision',
-    templateUrl: './check-decision.component.html',
-    styleUrls: ['./check-decision.component.scss']
+    templateUrl: './check-decision.component.html'
 })
 export class CheckDecisionComponent implements OnInit {
     form: FormGroup;
@@ -21,7 +21,10 @@ export class CheckDecisionComponent implements OnInit {
     request: any;
     pageValues: any = null;
     case: any;
+    typeId: string;
+    jurId: string;
     consentOrderDocumentId: string;
+    useValidation: boolean = false;
     // will hold results of NPA
     annotations: any = null;
     npaDocumentTask: IDocumentTask;
@@ -32,21 +35,16 @@ export class CheckDecisionComponent implements OnInit {
         private decisionService: DecisionService,
         private formsService: FormsService,
         private npaService: NpaService,
-        private apiHttpService: ApiHttpService,
-        private annotationStoreService: AnnotationStoreService) { }
+        private configService: ConfigService,
+        private annotationStoreService: AnnotationStoreService,
+        private validationService: ValidationService
+    ) { }
     createForm(pageitems, pageValues) {
         this.form = new FormGroup(this.formsService.defineformControls(pageitems, pageValues));
+        const formGroupValidators = this.validationService.createFormGroupValidators(this.form, pageitems.formGroupValidators);
+        this.form.setValidators(formGroupValidators);
     }
 
-    //pawel-k [1:35 PM]
-    //Dont delete this comment
-    // we have to check if annotations exist onInit by reuest this service  - api-http.service.ts
-    //
-    // fetch - to get all the annotations
-    // Then render them on summary
-    // If there is no annotations don't call burnAnnotatedDocument
-    // If there is annotations call burnAnnotatedDocument - to create new document
-    // Pass data from call to Alan to back end to CCD store
     isSectionExist(value) {
         if ( this.pageValues.visitedPages[value] === true ) {
             return true;
@@ -54,36 +52,46 @@ export class CheckDecisionComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.useValidation = false;
         this.activatedRoute.parent.data.subscribe(data => {
             this.case = data.caseData;
-            this.consentOrderDocumentId = this.decisionService.findConsentOrderDocumentId(this.case);
-        });
-        const caseId = this.case.id;
-        const pageId = 'check';
-        const jurId = 'fr';
+            this.jurId = this.case.case_jurisdiction;
+            this.typeId = this.case.case_type_id;
 
-        console.log('docId=>', this.consentOrderDocumentId);
-
-        this.annotationStoreService.fetchData('/api', this.consentOrderDocumentId).subscribe((results) => {
-            this.annotations = results.body.annotations;
-            console.log('annotations => ', this.annotations);
-            //If document has bee annotated then burn new document
-
-            if (this.annotations !== null) {
-                this.burnAnnotatedDocument();
+            // if Financial Remedy then call document annotation service
+            if ( this.jurId === 'DIVORCE' && this.typeId === 'FinancialRemedyMVP2' ) {
+                this.consentOrderDocumentId = this.decisionService.findConsentOrderDocumentId(this.case);
             }
-        });
 
-        this.decisionService.fetch(jurId, caseId, pageId).subscribe(decision => {
+        });
+        const pageId = this.activatedRoute.snapshot.url[0].path;
+        const caseId = this.case.id;
+        // if Financial Remedy then call document annotation service
+        if ( this.jurId === 'DIVORCE' && this.typeId === 'FinancialRemedyMVP2' ) {
+            this.annotationStoreService.fetchData('/api', this.consentOrderDocumentId).subscribe((results) => {
+                this.annotations = results.body.annotations;
+                //If document has bee annotated then burn new document
+                if (this.annotations !== null) {
+                    this.burnAnnotatedDocument();
+                }
+            });
+        }
+
+        this.decisionService.fetch(this.jurId, caseId, pageId, this.typeId).subscribe(decision => {
             this.decision = decision;
             this.pageitems = this.decision.meta;
             this.pageValues = this.decision.formValues;
-
-            console.log('pageitems', this.pageitems);
-            console.log('pageValues', this.pageValues);
             this.createForm(this.pageitems, this.pageValues);
         });
     }
+
+    // For preliminary view only
+    hasActivities(activities) {
+        for (const activity of activities) {
+            if ( this.pageValues[activity.type] === true ) return true;
+        }
+    }
+
     onSubmit(pagename) {
         let event = 'continue';
 
@@ -91,46 +99,34 @@ export class CheckDecisionComponent implements OnInit {
             this.pageitems.name = pagename;
             event = 'change';
         }
-        // else {
-        //     event = this.form.value.createButton.toLowerCase();
-        // }
         delete this.form.value.createButton;
-        this.request = { formValues: this.pageValues, event: event };
+        this.request = { formValues: { ...this.pageValues, ...this.form.value }, event: event };
         if (this.npaDocumentTask) {
             if (this.npaDocumentTask.outputDocumentId) {
                 this.request.formValues.documentAnnotationId = this.npaDocumentTask.outputDocumentId;
-            } else {
-                console.log( 'No Document ID generated =', this.npaDocumentTask.outputDocumentId );
             }
-        } else {
-            console.log( 'Document hasn\'t generated =', this.npaDocumentTask );
         }
-        console.log('Submitting properties =>', this.pageitems.name, this.request);
-        this.decisionService.submitDecisionDraft('fr',
-            this.activatedRoute.snapshot.parent.data.caseData.id,
-            this.pageitems.name,
-            this.request)
-            .subscribe(decision => {
-                console.log(decision.newRoute);
-                this.router.navigate([`../${decision.newRoute}`], { relativeTo: this.activatedRoute });
-            });
+        if (this.form.invalid && event === 'continue') {
+            this.useValidation = true;
+            return;
+        } else {
+            this.decisionService.submitDecisionDraft(
+                this.jurId,
+                this.activatedRoute.snapshot.parent.data.caseData.id,
+                this.pageitems.name,
+                this.typeId,
+                this.request)
+                .subscribe(decision => {
+                    this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
+                });
+        }
     }
 
     burnAnnotatedDocument() {
         if (this.consentOrderDocumentId != null) {
-            // this will generate a new document each time it's called.
-            // provide second argument to upload the document as a next version of this document
-            this.npaService.exportPdf(this.consentOrderDocumentId /*, second arg - already existing doc id*/).subscribe(
-                (response) => {
+            this.npaService.exportPdf(this.consentOrderDocumentId, null, this.configService.config.api_base_url /*, second arg - already existing doc id*/).subscribe(
+                (response: any) => {
                     this.npaDocumentTask = response.body;
-                    if (this.npaDocumentTask.taskState === 'FAILED') {
-                        console.log('ERROR: ', this.npaDocumentTask.failureDescription);
-                       // this.handleNpaError(this.npaDocumentTask.failureDescription);
-                    }
-                },
-                response => {
-                    console.log('ERROR: Could not create annotated PDF.');
-                    //this.handleNpaError('Could not create annotated PDF.');
                 });
         }
     }

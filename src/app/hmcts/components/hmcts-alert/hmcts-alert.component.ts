@@ -1,17 +1,15 @@
 import {Component, Input} from '@angular/core';
 
+export type alertType =  'success' | 'information' | 'warning';
+
 @Component({
   selector: 'app-hmcts-alert',
-  templateUrl: './hmcts-alert.component.html',
-  styleUrls: ['./hmcts-alert.component.scss']
+  templateUrl: './hmcts-alert.component.html'
 })
 export class HmctsAlertComponent {
-
-    @Input() classes = '';
-
-    @Input() type =  'success'; // success, information, warning
-    @Input() text = 'You have successfully added 1 question.';
-    @Input() iconFallbackText = 'Success';
+    @Input() type: alertType; // success, information, warning
+    @Input() text: string
+    @Input() iconFallbackText: string;
 
   constructor() { }
 

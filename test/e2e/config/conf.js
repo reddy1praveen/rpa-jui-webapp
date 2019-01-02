@@ -62,7 +62,6 @@ const config = {
         sscs_username: process.env.SSCS_EMAIL,
         sscs_password: process.env.SSCS_PASSWORD
 
-
     },
     directConnect: true,
     // seleniumAddress: 'http://localhost:4444/wd/hub',
@@ -84,8 +83,8 @@ const config = {
     cucumberOpts: {
         strict: true,
         // format: ['node_modules/cucumber-pretty'],
-        format: 'json:reports_json/results.json',
-        tags: ['@ignore'],
+        format: ['node_modules/cucumber-pretty','json:reports_json/results.json'],
+        tags: ['@all'],
         require: [
             '../support/world.js',
             '../support/*.js',

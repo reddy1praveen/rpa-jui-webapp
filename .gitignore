@@ -6,9 +6,12 @@
 /tmp
 /out-tsc
 /documentation
+/reports
 
 # dependencies
 /node_modules
+api/node_modules
+api/.nyc_output
 
 # IDEs and editors
 /.idea
@@ -37,6 +40,7 @@ yarn-error.log
 testem.log
 /typings
 *.history
+*.wallaby.js
 
 # e2e
 /e2e/*.js
@@ -46,6 +50,7 @@ testem.log
 .DS_Store
 Thumbs.db
 version
+/test/reports/
 reports/
 .tmp/
 !.sessions/
