@@ -18,7 +18,8 @@ export class RotationComponent {
     }
 
     calculateRotation(rotateVal): number {
-        return (rotateVal % 360 + 360) % 360;
+        const circleDegrees = 360;
+        return (rotateVal % circleDegrees + circleDegrees) % circleDegrees;
     }
 
     onRotateClockwise() {

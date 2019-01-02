@@ -51,9 +51,9 @@ describe('RotationComponent', () => {
             expect(rotation).toBe(0);
         });
 
-        it('should return new rotation in 360 degrees', () => {
-            const rotationAdd = 450;
-            const rotation = component.calculateRotation(rotationAdd);
+        it('should rotation in 360 degrees', () => {
+            const rotationValue = 450;
+            const rotation = component.calculateRotation(rotationValue);
             expect(rotation).toBe(90);
         });
 
