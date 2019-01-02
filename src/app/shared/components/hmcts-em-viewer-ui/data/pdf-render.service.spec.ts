@@ -42,7 +42,7 @@ describe('PdfService', () => {
 
 
   describe('render', () => {
-    it('render should set workerSrc', inject([PdfRenderService], (service: PdfRenderService) => {
+    it('render should call underlying pdfjs library and create pdf annotate library page.', inject([PdfRenderService], (service: PdfRenderService) => {
       spyOn(mockPdfWrapper, 'getDocument').and.returnValue(
           new Promise((resolve) => {
             resolve({pdfInfo: { numPages: 65}});
@@ -57,13 +57,12 @@ describe('PdfService', () => {
         ));
       const nativeElement = document.createElement('div');
       spyOn(nativeElement, 'appendChild').and.callFake(() => {
+        const viewerElementRef = new ElementRef(nativeElement);
+        spyOn(mockPdfAnnotateWrapper, 'createPage').and.stub();
 
-      const viewerElementRef = new ElementRef(nativeElement);
-      spyOn(mockPdfAnnotateWrapper, 'createPage').and.stub();
-
-      service['viewerElementRef'] = viewerElementRef;
-      service.render(viewerElementRef);
-      expect(mockPdfAnnotateWrapper.createPage).toHaveBeenCalled();
+        service['viewerElementRef'] = viewerElementRef;
+        service.render(viewerElementRef);
+        expect(mockPdfAnnotateWrapper.createPage).toHaveBeenCalled();
       });
     }));
   });
