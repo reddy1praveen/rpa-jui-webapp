@@ -18,11 +18,7 @@ export class RotationComponent {
     }
 
     calculateRotation(rotateVal): number {
-        if (rotateVal >= 0) {
-            return (rotateVal >= 360) ? rotateVal - 360 : rotateVal;
-        } else {
-            return 360 - Math.abs(rotateVal);
-        }
+        return (rotateVal % 360 + 360) % 360;
     }
 
     onRotateClockwise() {
