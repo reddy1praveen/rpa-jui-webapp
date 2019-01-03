@@ -30,13 +30,13 @@ export async function postOauthToken(code, host) {
     return response.data
 }
 
-async function getHealth() {
+export async function getHealth() {
     const response = await http.get(`${url}/health`)
 
     return response.data
 }
 
-async function getInfo() {
+export async function getInfo() {
     const response = await http.get(`${url}/info`)
 
     return response.data

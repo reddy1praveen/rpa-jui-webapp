@@ -18,14 +18,14 @@ export async function getCCDEventToken(userId, jurisdiction, caseType, caseId, e
     return response.data
 }
 
-async function getEventTokenAndCase(userId, jurisdiction, caseType, caseId, eventId) {
+export async function getEventTokenAndCase(userId, jurisdiction, caseType, caseId, eventId) {
     const response = await http.get(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${
         caseType}/cases/${caseId}/event-triggers/${eventId}/token`)
 
     return { token: response.data.token, caseDetails: response.data.case_details }
 }
 
-async function getCCDEventTokenWithoutCase(userId, jurisdiction, caseType, eventId, options) {
+export async function getCCDEventTokenWithoutCase(userId, jurisdiction, caseType, eventId, options) {
     const response = await http.get(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${
         caseType}/event-triggers/${eventId}/token`)
 
@@ -62,14 +62,14 @@ export async function getCCDEvents(userId, jurisdiction, caseType, caseId) {
     return response.data
 }
 
-async function getCCDCases(userId, jurisdiction, caseType, filter) {
+export async function getCCDCases(userId, jurisdiction, caseType, filter) {
     const response = await http.get(`${url}/caseworkers/${userId}/jurisdictions/${
         jurisdiction}/case-types/${caseType}/cases?sortDirection=DESC${filter}`)
 
     return response.data
 }
 
-async function postCCDCase(userId, jurisdiction, caseType, body) {
+export async function postCCDCase(userId, jurisdiction, caseType, body) {
     const response = await http.post(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${
         caseType}/cases`, body)
 
@@ -93,7 +93,7 @@ export async function getMutiJudCCDCases(userId: string, jurisdictions: any[]) {
 
 }
 
-function createCase(userId, jurisdiction, caseType, eventId, description, summary, data, options) {
+export async function createCase(userId, jurisdiction, caseType, eventId, description, summary, data, options) {
     return getCCDEventTokenWithoutCase(userId, jurisdiction, caseType, eventId, options)
         .then(eventToken => {
             return {
@@ -114,7 +114,7 @@ function createCase(userId, jurisdiction, caseType, eventId, description, summar
         .then(body => postCCDCase(userId, jurisdiction, caseType, body))
 }
 
-function updateCase(userId, jurisdiction, caseType, caseId, eventId, description, summary, data, options) {
+export async function updateCase(userId, jurisdiction, caseType, caseId, eventId, description, summary, data, options) {
     return getCCDEventToken(userId, jurisdiction, caseType, caseId, eventId)
         .then(eventToken => {
             return {
