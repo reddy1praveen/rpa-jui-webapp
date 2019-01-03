@@ -94,9 +94,12 @@ function reduceCohEvents(events) {
     })
 }
 
-function getCohEvents(userId, caseId, options) {
-    return getHearingIdOrCreateHearing(caseId, userId, options).then(hearingId =>
-        getOnlineHearingConversation(hearingId, options)
+export async function getCohEvents(userId, caseId) {
+    const hearingId =  getHearingIdOrCreateHearing(caseId, userId)
+    
+    getOnlineHearingConversation(hearingId)
+
+        getOnlineHearingConversation(hearingId)
             .then(mergeCohEvents)
             .then(reduceCohEvents)
     )
@@ -114,7 +117,7 @@ function sortEvents(events) {
     return events.sort((result1, result2) => moment.duration(moment(result2.dateUtc).diff(moment(result1.dateUtc))).asMilliseconds())
 }
 
-function getEvents(userId, jurisdiction, caseType, caseId, options) {
+export async function getEvents(userId, jurisdiction, caseType, caseId) {
     const promiseArray = []
     promiseArray.push(getCcdEvents(userId, jurisdiction, caseType, caseId, options))
     if (hasCOR(jurisdiction, caseType)) {

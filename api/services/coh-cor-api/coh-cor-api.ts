@@ -3,7 +3,6 @@ import {config} from '../../../config'
 import { http } from '../../lib/http'
 
 const generateRequest = require('../../lib/request/request')
-const headerUtilities = require('../../lib/utilities/headerUtilities')
 
 const url = config.services.coh_cor_api
 

@@ -7,6 +7,8 @@ const { getDocuments } = require('../../services/dm-store-api/dm-store-api')
 const { getAllQuestionsByCase } = require('../questions/index')
 
 const { getHearingByCase } = require('../../services/coh-cor-api/coh-cor-api')
+
+import { getEvents } from '../events/index'
 import * as headerUtilities from '../../lib/utilities/headerUtilities'
 import { getCCDCase } from '../../services/ccd-store-api/ccd-store'
 
