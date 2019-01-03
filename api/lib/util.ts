@@ -4,7 +4,7 @@ import { Logger } from 'log4js'
 export function asyncReturnOrError(
     promise: any,
     message: string,
-    res: express.Response,
+    res: express.Response | null,
     logger: Logger,
     setResponse: boolean  = true): any {
     return promise

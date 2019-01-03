@@ -1,35 +1,36 @@
 import * as express from 'express'
 import {config} from '../../../config'
+import { http } from '../../lib/http'
+
 const generateRequest = require('../../lib/request/request')
 const headerUtilities = require('../../lib/utilities/headerUtilities')
 
 const url = config.services.coh_cor_api
 
 // Hearings
-function getHearing(hearingId, options) {
-    return generateRequest('GET', `${url}/continuous-online-hearings/${hearingId}`, options)
+async function getHearing(hearingId) {
+    const response = await http.get(`${url}/continuous-online-hearings/${hearingId}`)
+    return response.data
 }
 
 // TODO: this need to know it if getting mutiple or single cases lists
-function getHearingByCase(caseId, options) {
-    return generateRequest('GET', `${url}/continuous-online-hearings?case_id=${caseId}`, options)
-}
-
-function postHearing(options) {
-    return generateRequest('POST', `${url}/continuous-online-hearings`, options)
+async function getHearingByCase(caseId) {
+    const response = http.get(`${url}/continuous-online-hearings?case_id=${caseId}`)
 }
 
 // Questions
-function getQuestions(hearingId, options) {
-    return generateRequest('GET', `${url}/continuous-online-hearings/${hearingId}/questions`, options)
+async function getQuestions(hearingId, options) {
+    const response = await http.get(`${url}/continuous-online-hearings/${hearingId}/questions`)
+    return response.data
 }
 
 function postQuestion(hearingId, options) {
     return generateRequest('POST', `${url}/continuous-online-hearings/${hearingId}/questions`, options)
 }
 
-function getQuestion(hearingId, questionId, options) {
-    return generateRequest('GET', `${url}/continuous-online-hearings/${hearingId}/questions/${questionId}`, options)
+async function getQuestion(hearingId, questionId, options) {
+    const response = await http.get( `${url}/continuous-online-hearings/${hearingId}/questions/${questionId}`, options)
+    return response.data
 }
 
 function putQuestion(hearingId, questionId, options) {
@@ -41,8 +42,9 @@ function deleteQuestion(hearingId, questionId, options) {
 }
 
 // Answer
-function getAnswers(hearingId, questionId, options) {
-    return generateRequest('GET', `${url}/continuous-online-hearings/${hearingId}/questions/${questionId}/answers`, options)
+async function getAnswers(hearingId, questionId) {
+    const response = await http.get( `${url}/continuous-online-hearings/${hearingId}/questions/${questionId}/answers`)
+    return response.data
 }
 
 function postAnswer(hearingId, questionId, options) {
@@ -58,21 +60,24 @@ function putAnswer(hearingId, questionId, answerId, options) {
 }
 
 // ROUNDS
-function getAllRounds(hearingId, options) {
-    return generateRequest('GET', `${url}/continuous-online-hearings/${hearingId}/questionrounds/`, options)
+async function getAllRounds(hearingId) {
+    const response = await http.get(`${url}/continuous-online-hearings/${hearingId}/questionrounds/`)
+    return response.data
 }
 
-function getRound(hearingId, roundId, options) {
-    return generateRequest('GET', `${url}/continuous-online-hearings/${hearingId}/questionrounds/${roundId}`, options)
+async function getRound(hearingId, roundId) {
+    const response = await  http.get( `${url}/continuous-online-hearings/${hearingId}/questionrounds/${roundId}`)
+    return response.data
 }
 
 function putRound(hearingId, roundId, options) {
-    return generateRequest('PUT', `${url}/continuous-online-hearings/${hearingId}/questionrounds/${roundId}`, options)
+    return generateRequest('PUT', `${url}/continuous-online-hearings/${hearingId}/questionrounds/${roundId}`)
 }
 
 // Converation (COH Events)
-function getOnlineHearingConversation(onlineHearingId, options) {
-    return generateRequest('GET', `${url}/continuous-online-hearings/${onlineHearingId}/conversations`, options)
+async function getOnlineHearingConversation(onlineHearingId) {
+    const response = await http.get(`${url}/continuous-online-hearings/${onlineHearingId}/conversations`)
+    return response.data
 }
 
 // Decision
@@ -80,41 +85,42 @@ function postDecision(hearingId, options, body) {
     return generateRequest('POST', `${url}/continuous-online-hearings/${hearingId}/decisions`, { options, body })
 }
 
-function putDecision(hearingId, options, body) {
-    return generateRequest('PUT', `${config.services.coh_cor_api}/continuous-online-hearings/${hearingId}/decisions`, { options, body })
+async function putDecision(hearingId, body) {
+    const response = await http.put(`${config.services.coh_cor_api}/continuous-online-hearings/${hearingId}/decisions`,  body )
+    return response.data
 }
 
-function getDecision(hearingId, options) {
-    return generateRequest('GET', `${url}/continuous-online-hearings/${hearingId}/decisions`, { options })
+async function getDecision(hearingId, options) {
+    const response = await http.get( `${url}/continuous-online-hearings/${hearingId}/decisions`)
+    return response.data
 }
 
 // Special ones (may not need to be here could be high up business logic)
-function createHearing(caseId, userId, options, jurisdictionId = 'SSCS') {
-    options.body = {
+async function createHearing(caseId, userId, jurisdictionId = 'SSCS') {
+    const body = {
         case_id: caseId,
         jurisdiction: jurisdictionId,
         panel: [{ identity_token: 'string', name: userId }],
-        start_date: (new Date()).toISOString()
+        start_date: (new Date()).toISOString(),
     }
 
-    return postHearing(options).then(hearing => hearing.online_hearing_id)
+    const response = await http.post(`${url}/continuous-online-hearings`)
+    return response.data.online_hearing_id
 }
 
-function getHearingIdOrCreateHearing(caseId, userId, options) {
-    return getHearingByCase(caseId, options)
-        .then(h => h.online_hearings[0] ? h.online_hearings[0].online_hearing_id : createHearing(caseId, userId, options))
+export async function getHearingIdOrCreateHearing(caseId, userId) {
+    const hearing: any = await getHearingByCase(caseId)
+    return  hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : createHearing(caseId, userId)
 }
 
-function getHealth(options) {
-    return generateRequest('GET', `${url}/health`, options)
+export async function getHealth() {
+    const response = await http.get( `${url}/health`)
+    return response.data
 }
 
-function getInfo(options) {
-    return generateRequest('GET', `${url}/info`, options)
-}
-
-function getOptions(req) {
-    return headerUtilities.getAuthHeaders(req)
+export async function getInfo() {
+    const response = await http.get( `${url}/info`)
+    return response.data
 }
 
 module.exports = app => {
@@ -122,63 +128,12 @@ module.exports = app => {
     app.use('/coh-cor', router)
 
     router.get('/health', (req, res, next) => {
-        getHealth(getOptions(req)).pipe(res)
+        res.status(200)
+        res.send(getHealth())
     })
 
     router.get('/info', (req, res, next) => {
-        getInfo(getOptions(req)).pipe(res)
+        res.status(200)
+        res.send(getInfo())
     })
 }
-
-module.exports.getInfo = getInfo
-
-module.exports.getHealth = getHealth
-
-// Hearings
-module.exports.getHearing = getHearing
-
-module.exports.getHearingByCase = getHearingByCase
-
-module.exports.postHearing = postHearing
-
-// Questions
-module.exports.getQuestions = getQuestions
-
-module.exports.getQuestion = getQuestion
-
-module.exports.postQuestion = postQuestion
-
-module.exports.putQuestion = putQuestion
-
-module.exports.deleteQuestion = deleteQuestion
-
-// Answers
-module.exports.getAnswers = getAnswers
-
-module.exports.postAnswer = postAnswer
-
-module.exports.getAnswer = getAnswer
-
-module.exports.putAnswer = putAnswer
-
-// ROUNDS
-module.exports.getAllRounds = getAllRounds
-
-module.exports.getRound = getRound
-
-module.exports.putRound = putRound
-
-// Converation (COH Events)
-module.exports.getOnlineHearingConversation = getOnlineHearingConversation
-
-// Decision
-module.exports.getDecision = getDecision
-
-module.exports.postDecision = postDecision
-
-module.exports.putDecision = putDecision
-
-// Special ones
-module.exports.createHearing = createHearing
-
-module.exports.getHearingIdOrCreateHearing = getHearingIdOrCreateHearing

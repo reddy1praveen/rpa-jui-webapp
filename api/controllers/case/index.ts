@@ -5,23 +5,24 @@ const { processCaseState } = require('../../lib/processors/case-state-model')
 const { getEvents } = require('../events/index')
 const { getDocuments } = require('../../services/dm-store-api/dm-store-api')
 const { getAllQuestionsByCase } = require('../questions/index')
-const { getCCDCase } = require('../../services/ccd-store-api/ccd-store')
+
 const { getHearingByCase } = require('../../services/coh-cor-api/coh-cor-api')
 import * as headerUtilities from '../../lib/utilities/headerUtilities'
+import { getCCDCase } from '../../services/ccd-store-api/ccd-store'
 
 function hasCOR(jurisdiction, caseType) {
     return jurisdiction === 'SSCS'
 }
 
-function getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId, options) {
+function getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId) {
     const promiseArray = [
-        getCCDCase(userId, jurisdiction, caseType, caseId, options),
-        getEvents(userId, jurisdiction, caseType, caseId, options)
+        getCCDCase(userId, jurisdiction, caseType, caseId),
+        getEvents(userId, jurisdiction, caseType, caseId)
     ]
 
     if (hasCOR(jurisdiction, caseType)) {
-        promiseArray.push(getHearingByCase(caseId, options))
-        promiseArray.push(getAllQuestionsByCase(caseId, userId, options, jurisdiction))
+        promiseArray.push(getHearingByCase(caseId))
+        promiseArray.push(getAllQuestionsByCase(caseId, userId, jurisdiction))
     }
 
     return Promise.all(promiseArray)
@@ -81,23 +82,23 @@ function applySchema(caseData) {
     schema.sections.forEach(section => replaceSectionValues(section, caseData))
 
     schema = {
-        id: caseData.id,
         case_jurisdiction: caseData.jurisdiction,
         case_type_id: caseData.case_type_id,
-        ...schema
+        id: caseData.id,
+        ...schema,
     }
 
     return { caseData, schema }
 }
 
-function getCaseData(userId, jurisdiction, caseType, caseId, options) {
-    return getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId, options).then(
+function getCaseData(userId, jurisdiction, caseType, caseId) {
+    return getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId).then(
         ([caseData, events, hearings, questions]) => appendCollectedData([caseData, events, hearings, questions])
     )
 }
 
 function getCaseTransformed(userId, jurisdiction, caseType, caseId, req) {
-    return getCaseData(userId, jurisdiction, caseType, caseId, getOptions(req))
+    return getCaseData(userId, jurisdiction, caseType, caseId)
         .then(processCaseState)
         .then(applySchema)
         .then(({ caseData, schema }) => appendDocuments(caseData, schema, getOptionsDoc(req)))
@@ -105,13 +106,9 @@ function getCaseTransformed(userId, jurisdiction, caseType, caseId, req) {
 }
 
 function getCaseRaw(userId, jurisdiction, caseType, caseId, req) {
-    return getCaseData(userId, jurisdiction, caseType, caseId, getOptions(req))
+    return getCaseData(userId, jurisdiction, caseType, caseId)
         .then(caseData => appendDocuments(caseData, {}, getOptionsDoc(req)))
         .then(({ caseData, schema }) => caseData)
-}
-
-function getOptions(req) {
-    return headerUtilities.getAuthHeaders(req)
 }
 
 function getOptionsDoc(req) {

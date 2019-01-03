@@ -64,15 +64,15 @@ function getDocumentVersionThumbnail(documentId, versionId, options) {
  */
 
 // Creates a list of Stored Documents by uploading a list of binary/text files.
-function postDocument(file, classification, options) {
+export function postDocument(file, classification, options) {
     options.formData = {
+        classification: getClassification(classification),
         files: [
             {
+                options: { filename: file.name, contentType: file.type },
                 value: fs.createReadStream(file.path),
-                options: { filename: file.name, contentType: file.type }
-            }
+            },
         ],
-        classification: getClassification(classification)
     }
 
     return generateRequest('POST', `${url}/documents`, options)

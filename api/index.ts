@@ -1,6 +1,7 @@
 import * as express from 'express'
 import * as config from '../config'
 import { auth } from './controllers/auth'
+import ccdStoreApiRoutes from './services/ccd-store-api/ccd-store'
 
 const router = express.Router()
 
@@ -19,7 +20,7 @@ const caseCreationRoute = require('./controllers/case-creation')
 
 const barApiRoutes = require('./services/bar-api/bar-api')
 const ccdDefApiRoutes = require('./services/ccd-def-api/ccd-def-api')
-const ccdStoreApiRoutes = require('./services/ccd-store-api/ccd-store')
+
 const cohCorApiRoutes = require('./services/coh-cor-api/coh-cor-api')
 const dmStoreApiRoutes = require('./services/dm-store-api/dm-store-api')
 const draftStoreApiRoutes = require('./services/draft-store-api/draft-store-api')

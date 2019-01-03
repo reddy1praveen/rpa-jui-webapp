@@ -203,6 +203,7 @@ function appendQuestionsRound(caseLists, userId, options) {
 
 // This should be refined as used in both case and caselist
 function processCaseListsState(caseLists) {
+console.log('test')
     return caseLists.map(caseList => caseList.map(processCaseState))
 }
 
