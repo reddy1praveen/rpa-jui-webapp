@@ -1,5 +1,7 @@
 import * as express from 'express'
 import {config} from '../../../config'
+import { http } from '../../lib/http'
+
 const generateRequest = require('../../lib/request/request')
 const headerUtilities = require('../../lib/utilities/headerUtilities')
 
@@ -9,59 +11,53 @@ const idamClient = config.idam_client
 const idamProtocol = config.protocol
 const oauthCallbackUrl = config.oauth_callback_url
 
-export function getDetails(options) {
-    return generateRequest('GET', `${url}/details`, options)
+export async function getDetails() {
+    const response = await http.get(`${url}/details`)
+    return response.data
 }
 
-export function postOauthToken(code, host) {
+export async function postOauthToken(code, host) {
     const redirectUri = `${idamProtocol}://${host}/${oauthCallbackUrl}`
     const urlX = `${url}/oauth2/token?grant_type=authorization_code&code=${code}&redirect_uri=${redirectUri}`
 
-    const options = {
+    const response = await http.post(`${urlX}`, {}, {
         headers: {
             Authorization: `Basic ${Buffer.from(`${idamClient}:${idamSecret}`).toString('base64')}`,
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
-    }
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+    })
 
-    return generateRequest('POST', `${urlX}`, options)
+    return response.data
 }
 
-function getHealth(options) {
-    return generateRequest('GET', `${url}/health`, options)
+async function getHealth() {
+    const response = await http.get(`${url}/health`)
+
+    return response.data
 }
 
-function getInfo(options) {
-    return generateRequest('GET', `${url}/info`, options)
+async function getInfo() {
+    const response = await http.get(`${url}/info`)
+
+    return response.data
 }
 
-function getOptions(req) {
-    return headerUtilities.getAuthHeaders(req)
-}
-
-module.exports = app => {
+export default app => {
     const router = express.Router({ mergeParams: true })
     app.use('/idam', router)
 
-    router.get('/health', (req, res, next) => {
-        getHealth(getOptions(req)).pipe(res)
+    router.get('/health', async (req, res, next) => {
+        res.status(200)
+        res.send(await getHealth())
     })
 
-    router.get('/info', (req, res, next) => {
-        getInfo(getOptions(req)).pipe(res)
+    router.get('/info', async (req, res, next) => {
+        res.status(200)
+        res.send(await getInfo())
     })
 
-    router.get('/details', (req, res, next) => {
-        getDetails(getOptions(req)).pipe(res)
+    router.get('/details', async (req, res, next) => {
+        res.status(200)
+        res.send(await getDetails())
     })
 }
-
-module.exports.getInfo = getInfo
-
-module.exports.getHealth = getHealth
-
-module.exports.getOptions = getOptions
-
-module.exports.getDetails = getDetails
-
-module.exports.postOauthToken = postOauthToken

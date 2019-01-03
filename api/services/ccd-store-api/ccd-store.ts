@@ -12,22 +12,22 @@ logger.level = config.logging || 'off'
 const url = config.services.ccd_data_api
 
 export async function getCCDEventToken(userId, jurisdiction, caseType, caseId, eventId) {
-    const response = await http.get(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/
-    ${caseType}/cases/${caseId}/event-triggers/${eventId}/token`)
+    const response = await http.get(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${
+        caseType}/cases/${caseId}/event-triggers/${eventId}/token`)
 
     return response.data
 }
 
 async function getEventTokenAndCase(userId, jurisdiction, caseType, caseId, eventId) {
-    const response = await http.get(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/
-    ${caseType}/cases/${caseId}/event-triggers/${eventId}/token`)
+    const response = await http.get(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${
+        caseType}/cases/${caseId}/event-triggers/${eventId}/token`)
 
     return { token: response.data.token, caseDetails: response.data.case_details }
 }
 
 async function getCCDEventTokenWithoutCase(userId, jurisdiction, caseType, eventId, options) {
-    const response = await http.get(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/
-    ${caseType}/event-triggers/${eventId}/token`)
+    const response = await http.get(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${
+        caseType}/event-triggers/${eventId}/token`)
 
     return response.data
 
@@ -35,29 +35,29 @@ async function getCCDEventTokenWithoutCase(userId, jurisdiction, caseType, event
 
 // async version of postCCDEvent
 export async function postCaseWithEventToken(userId, jurisdiction, caseTypeId, caseId, body) {
-    const response = await http.post(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/
-    ${caseTypeId}/cases/${caseId}/events`, body)
+    const response = await http.post(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${
+        caseTypeId}/cases/${caseId}/events`, body)
 
     return response.data
 }
 
 export async function postCCDEvent(userId, jurisdiction, caseType, caseId, body) {
-    const response = await http.get(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/
-    ${caseType}/cases/${caseId}/events`)
+    const response = await http.get(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${
+        caseType}/cases/${caseId}/events`)
 
     return response.data
 }
 
 export async function getCCDCase(userId, jurisdiction, caseType, caseId) {
-    const response = await http.get(`${url}/caseworkers/${userId}/jurisdictions/
-    ${jurisdiction}/case-types/${caseType}/cases/${caseId}`)
+    const response = await http.get(`${url}/caseworkers/${userId}/jurisdictions/${
+        jurisdiction}/case-types/${caseType}/cases/${caseId}`)
 
     return response.data
 }
 
 export async function getCCDEvents(userId, jurisdiction, caseType, caseId) {
-    const response = await http.get(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/
-    ${caseType}/cases/${caseId}/events`)
+    const response = await http.get(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${
+        caseType}/cases/${caseId}/events`)
 
     return response.data
 }
@@ -70,8 +70,8 @@ async function getCCDCases(userId, jurisdiction, caseType, filter) {
 }
 
 async function postCCDCase(userId, jurisdiction, caseType, body) {
-    const response = await http.post(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/
-    ${caseType}/cases`, body)
+    const response = await http.post(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${
+        caseType}/cases`, body)
 
     return response.data
 }
@@ -80,8 +80,8 @@ async function postCCDCase(userId, jurisdiction, caseType, body) {
 // jurisdictions is [{jur,caseType,filter},...]
 export async function getMutiJudCCDCases(userId: string, jurisdictions: any[]) {
 
-    const cases = await map(jurisdictions, (jurisdiction: any) => {
-        asyncReturnOrError(
+    const cases = await map(jurisdictions, async (jurisdiction: any) => {
+        return await asyncReturnOrError(
             getCCDCases(userId, jurisdiction.jur, jurisdiction.caseType, jurisdiction.filter),
             `Error getting cases for ${jurisdiction.jur}`,
             null,

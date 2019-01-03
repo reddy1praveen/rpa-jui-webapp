@@ -14,64 +14,69 @@ async function getHearing(hearingId) {
 }
 
 // TODO: this need to know it if getting mutiple or single cases lists
-async function getHearingByCase(caseId) {
-    const response = http.get(`${url}/continuous-online-hearings?case_id=${caseId}`)
+export async function getHearingByCase(caseId) {
+    const response = await http.get(`${url}/continuous-online-hearings?case_id=${caseId}`)
+    return response.data
+
 }
 
 // Questions
-async function getQuestions(hearingId, options) {
+export async function getQuestions(hearingId) {
     const response = await http.get(`${url}/continuous-online-hearings/${hearingId}/questions`)
     return response.data
 }
 
-function postQuestion(hearingId, options) {
+export async function postQuestion(hearingId, options) {
     return generateRequest('POST', `${url}/continuous-online-hearings/${hearingId}/questions`, options)
 }
 
-async function getQuestion(hearingId, questionId, options) {
+export async function getQuestion(hearingId, questionId, options) {
     const response = await http.get( `${url}/continuous-online-hearings/${hearingId}/questions/${questionId}`, options)
     return response.data
 }
 
-function putQuestion(hearingId, questionId, options) {
+export function putQuestion(hearingId, questionId, options) {
     return generateRequest('PUT', `${url}/continuous-online-hearings/${hearingId}/questions/${questionId}`, options)
 }
 
-function deleteQuestion(hearingId, questionId, options) {
-    return generateRequest('DELETE', `${url}/continuous-online-hearings/${hearingId}/questions/${questionId}`, options)
+export async function deleteQuestion(hearingId, questionId) {
+    const response = await http.delete(`${url}/continuous-online-hearings/${hearingId}/questions/${questionId}`)
+    return response.data
 }
 
 // Answer
-async function getAnswers(hearingId, questionId) {
+export async function getAnswers(hearingId, questionId) {
     const response = await http.get( `${url}/continuous-online-hearings/${hearingId}/questions/${questionId}/answers`)
     return response.data
 }
 
-function postAnswer(hearingId, questionId, options) {
+export function postAnswer(hearingId, questionId, options) {
     return generateRequest('POST', `${url}/continuous-online-hearings/${hearingId}/questions/${questionId}/answers`, options)
 }
 
-function getAnswer(hearingId, questionId, answerId, options) {
+export function getAnswer(hearingId, questionId, answerId, options) {
     return generateRequest('POST', `${url}/continuous-online-hearings/${hearingId}/questions/${questionId}/answers${answerId}`, options)
 }
 
-function putAnswer(hearingId, questionId, answerId, options) {
+export function putAnswer(hearingId, questionId, answerId, options) {
     return generateRequest('PUT', `${url}/continuous-online-hearings/${hearingId}/questions/${questionId}/answers${answerId}`, options)
 }
 
 // ROUNDS
-async function getAllRounds(hearingId) {
+export async function getAllRounds(hearingId) {
     const response = await http.get(`${url}/continuous-online-hearings/${hearingId}/questionrounds/`)
     return response.data
 }
 
-async function getRound(hearingId, roundId) {
+export async function getRound(hearingId, roundId) {
     const response = await  http.get( `${url}/continuous-online-hearings/${hearingId}/questionrounds/${roundId}`)
     return response.data
 }
 
-function putRound(hearingId, roundId, options) {
-    return generateRequest('PUT', `${url}/continuous-online-hearings/${hearingId}/questionrounds/${roundId}`)
+export async function putRound(hearingId, roundId, body) {
+    const response = await http.put(`${url}/continuous-online-hearings/${hearingId}/questionrounds/${roundId}`, body)
+
+    return response.data
 }
 
 // Converation (COH Events)
@@ -96,7 +101,7 @@ async function getDecision(hearingId, options) {
 }
 
 // Special ones (may not need to be here could be high up business logic)
-async function createHearing(caseId, userId, jurisdictionId = 'SSCS') {
+export async function createHearing(caseId, userId, jurisdictionId = 'SSCS') {
     const body = {
         case_id: caseId,
         jurisdiction: jurisdictionId,
@@ -113,6 +118,12 @@ export async function getHearingIdOrCreateHearing(caseId, userId) {
     return  hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : createHearing(caseId, userId)
 }
 
+
+export async function postHearing(body) {
+    const response = await http.post(`${url}/continuous-online-hearings`, body)
+    return response.data
+}
+
 export async function getHealth() {
     const response = await http.get( `${url}/health`)
     return response.data
@@ -123,7 +134,7 @@ export async function getInfo() {
     return response.data
 }
 
-module.exports = app => {
+export default app => {
     const router = express.Router({ mergeParams: true })
     app.use('/coh-cor', router)
 
