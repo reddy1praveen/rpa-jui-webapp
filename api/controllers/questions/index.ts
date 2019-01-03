@@ -188,8 +188,7 @@ module.exports = app => {
     route.post('/:case_id/questions', (req: any, res, next) => {
         const caseId = req.params.case_id
         const userId = req.auth.userId
-        const optionsWithBody = getOptions(req)
-
+        
         return cohCor
             .getHearingByCase(caseId)
             .then(hearing =>
@@ -214,14 +213,11 @@ module.exports = app => {
         const caseId = req.params.case_id
         const questionId = req.params.question_id
         const userId = req.auth.userId
-        const options = getOptions(req)
-        const optionsWithBody = getOptions(req)
-        optionsWithBody.body = formatQuestion(req.body, userId)
 
         return cohCor
             .getHearingByCase(caseId)
             .then(hearing => hearing.online_hearings[0].online_hearing_id)
-            .then(hearingId => cohCor.putQuestion(hearingId, questionId, optionsWithBody))
+            .then(hearingId => cohCor.putQuestion(hearingId, questionId, formatQuestion(req.body, userId)))
             .then(response => {
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.status(200).send(JSON.stringify(response))
@@ -236,7 +232,7 @@ module.exports = app => {
     route.delete('/:case_id/questions/:question_id', (req, res, next) => {
         const caseId = req.params.case_id
         const questionId = req.params.question_id
-      
+
         return cohCor
             .getHearingByCase(caseId)
             .then(hearing => hearing.online_hearings[0].online_hearing_id)
