@@ -2,7 +2,7 @@ const express = require('express')
 const getCaseTemplate = require('./templates/index')
 const valueProcessor = require('../../lib/processors/value-processor')
 const { processCaseState } = require('../../lib/processors/case-state-model')
-const { getEvents } = require('../events/index')
+
 const { getDocuments } = require('../../services/dm-store-api/dm-store-api')
 const { getAllQuestionsByCase } = require('../questions/index')
 

@@ -54,8 +54,8 @@ function reduceCcdEvents(jurisdiction, caseType, caseId, events) {
     })
 }
 
-function getCcdEvents(userId, jurisdiction, caseType, caseId, options) {
-    return getCCDEvents(userId, jurisdiction, caseType, caseId, options).then(events =>
+function getCcdEvents(userId, jurisdiction, caseType, caseId) {
+    return getCCDEvents(userId, jurisdiction, caseType, caseId).then(events =>
         reduceCcdEvents(jurisdiction, caseType, caseId, events)
     )
 }
@@ -96,13 +96,11 @@ function reduceCohEvents(events) {
 
 export async function getCohEvents(userId, caseId) {
     const hearingId =  getHearingIdOrCreateHearing(caseId, userId)
-    
-    getOnlineHearingConversation(hearingId)
 
-        getOnlineHearingConversation(hearingId)
-            .then(mergeCohEvents)
-            .then(reduceCohEvents)
-    )
+    getOnlineHearingConversation(hearingId)
+        .then(mergeCohEvents)
+        .then(reduceCohEvents)
+
 }
 
 /// ///////////////////////
@@ -119,17 +117,13 @@ function sortEvents(events) {
 
 export async function getEvents(userId, jurisdiction, caseType, caseId) {
     const promiseArray = []
-    promiseArray.push(getCcdEvents(userId, jurisdiction, caseType, caseId, options))
+    promiseArray.push(getCcdEvents(userId, jurisdiction, caseType, caseId))
     if (hasCOR(jurisdiction, caseType)) {
-        promiseArray.push(getCohEvents(userId, caseId, options))
+        promiseArray.push(getCohEvents(userId, caseId))
     }
     return Promise.all(promiseArray)
         .then(combineLists)
         .then(sortEvents)
-}
-
-function getOptions(req) {
-    return headerUtilities.getAuthHeaders(req)
 }
 
 module.exports = app => {
@@ -142,7 +136,7 @@ module.exports = app => {
         const jurisdiction = req.params.jur
         const caseType = req.params.casetype
 
-        getEvents(userId, jurisdiction, caseType, caseId, getOptions(req)).then(results => {
+        getEvents(userId, jurisdiction, caseType, caseId).then(results => {
             res.setHeader('Access-Control-Allow-Origin', '*')
             res.setHeader('content-type', 'application/json')
             res.status(200).send(JSON.stringify(results))
@@ -155,7 +149,7 @@ module.exports = app => {
         const jurisdiction = req.params.jur
         const caseType = req.params.casetype
 
-        getCCDEvents(userId, jurisdiction, caseType, caseId, getOptions(req)).then(results => {
+        getCCDEvents(userId, jurisdiction, caseType, caseId).then(results => {
             res.setHeader('Access-Control-Allow-Origin', '*')
             res.setHeader('content-type', 'application/json')
             res.status(200).send(JSON.stringify(results))
