@@ -9,8 +9,8 @@ const idamClient = config.idam_client
 const idamProtocol = config.protocol
 const oauthCallbackUrl = config.oauth_callback_url
 
-export function getDetails() {
-    return generateRequest('GET', `${url}/details`)
+export function getDetails(options) {
+    return generateRequest('GET', `${url}/details`, options)
 }
 
 export function postOauthToken(code, host) {
@@ -52,7 +52,7 @@ module.exports = app => {
     })
 
     router.get('/details', (req, res, next) => {
-        getDetails().pipe(res)
+        getDetails(getOptions(req)).pipe(res)
     })
 }
 

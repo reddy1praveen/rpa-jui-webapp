@@ -305,6 +305,8 @@ function getMutiJudCaseRawCoh(userId, details) {
     )
 }
 
+
+
 module.exports = app => {
     const router = express.Router({ mergeParams: true })
     app.use('/cases', router)
@@ -312,7 +314,7 @@ module.exports = app => {
     router.get('/', (req: any, res, next) => {
         const userId = req.auth.userId
 
-        getDetails().then(details => {
+        getDetails(getOptions(req)).then(details => {
             getMutiJudCaseTransformed(userId, details, getOptions(req))
                 .then(results => {
                     res.setHeader('Access-Control-Allow-Origin', '*')
@@ -329,7 +331,7 @@ module.exports = app => {
     router.get('/unassign/all', (req: any, res, next) => {
         const userId = req.auth.userId
 
-        getDetails().then(details => {
+        getDetails(getOptions(req)).then(details => {
             const userJurisdictions = getJurisdictions(details)
 
             getMutiJudCCDCases(userId, userJurisdictions)
