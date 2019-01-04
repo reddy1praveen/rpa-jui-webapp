@@ -35,7 +35,7 @@ describe('idam-api spec', () => {
             '../../lib/http': httpRequest
         })
 
-        route.default(app)
+        route(app)
 
         request = supertest(app)
     })
