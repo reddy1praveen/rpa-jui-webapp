@@ -12,13 +12,11 @@ import { ApiHttpService } from '../../data/api-http.service';
 import { Utils } from '../../data/utils';
 import { PdfAnnotateWrapper } from '../../data/js-wrapper/pdf-annotate-wrapper';
 import { CommentsComponent } from './comments/comments.component';
+import { EmLoggerService } from '../../logging/em-logger.service';
 
 class MockPdfAnnotateWrapper {
   setStoreAdapter() {}
-  getStoreAdapter() {
-    const getAnnotation = function() {};
-    const getAnnotations = function() {};
-  }
+  getStoreAdapter() {}
 }
 
 class MockPdfService {
@@ -93,6 +91,7 @@ describe('AnnotationPdfViewerComponent', () => {
       declarations: [ AnnotationPdfViewerComponent, CommentsComponent ],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
+        EmLoggerService,
         { provide: Utils, useFactory: () => mockUtils },
         { provide: PdfService, useFactory: () => mockPdfService },
         { provide: AnnotationStoreService, useFactory: () => mockAnnotationStoreService },

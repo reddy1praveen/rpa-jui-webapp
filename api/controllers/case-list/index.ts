@@ -220,7 +220,8 @@ function rawCasesReducer(cases, columns) {
                 row[column.case_field_id] = valueProcessor(column.value, caseRow)
                 return row
             }, {}),
-            assignedToJudge: caseRow.case_data.assignedToJudge ? caseRow.case_data.assignedToJudge : undefined // Don't think this is needed but keep as might useful
+            assignedToJudge: caseRow.case_data.assignedToJudge ? caseRow.case_data.assignedToJudge : undefined, // Don't think this is needed but keep as might useful
+            assignedToJudgeReason: caseRow.case_data.assignedToJudgeReason ? caseRow.case_data.assignedToJudgeReason : undefined
         }
     })
 }
@@ -307,7 +308,6 @@ module.exports = app => {
     router.get('/', (req: any, res, next) => {
         const userId = req.auth.userId
         const options = getOptions(req)
-
         getDetails(options).then(details => {
             getMutiJudCaseTransformed(userId, details, options)
                 .then(results => {
